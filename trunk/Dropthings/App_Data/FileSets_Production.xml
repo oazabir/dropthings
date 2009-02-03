@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sets>	
+	<set name="initial">
+		<url name="a">http://s.dropthings.com/WebResource.axd?d=N3i9v2oeXXSnYxLxYj3ncg2&amp;amp;t=633524693988273750</url>
+		
+		<url name="b">http://s.dropthings.com/Widgets/FastFlickrWidget.js</url>
+		<url name="c">http://s.dropthings.com/Widgets/FastRssWidget.js</url>
+
+		<url name="d">http://s.dropthings.com/ScriptResource.axd?d=8vZ3Ye8KO6X5X6p-aK2RZVYgBJdSAqO0O054q-T0mvnwzoJJUgit7s6UEXYxj26E6YN7_PMZKjV-OZMPqp7c2g9oH4Yhr6sJLT9kMruVMbo1&amp;amp;t=ffffffffa4576607</url>
+		<url name="e">http://s.dropthings.com/ScriptResource.axd?d=8vZ3Ye8KO6X5X6p-aK2RZVYgBJdSAqO0O054q-T0mvnwzoJJUgit7s6UEXYxj26EQ2xUSztrSy5kX5Ed4jev16EO3oy2j4eBroFVnvQFV-E1&amp;amp;t=ffffffffa4576607</url>
+
+		<url name="f">http://s.dropthings.com/Myframework.js</url>
+		
+		<!-- Firefox -->
+		<url name="g">http://s.dropthings.com/ScriptResource.axd?d=Sqj5kQArU-07XSeGTAEWmLSXWNASu_nJY4MxZBCs_61edy-ccOZnYDenc4CFutJanV4Z1ZjSwEjHBnNADyFjuNMB-6EzWIJysGcYWHjbm1M1&amp;amp;t=ffffffffa4576607</url>
+		<url name="h">http://s.dropthings.com/ScriptResource.axd?d=Sqj5kQArU-07XSeGTAEWmLSXWNASu_nJY4MxZBCs_61edy-ccOZnYDenc4CFutJa0ghdKgtQX_MHQ9zUF-vL920zADorknTj-nvdJ1ubPlw1&amp;amp;t=ffffffffa4576607</url>
+	</set>
+	<set name="post" >
+		<!-- IE -->
+		<url name="A">http://s.dropthings.com/ScriptResource.axd?d=8vZ3Ye8KO6X5X6p-aK2RZVYgBJdSAqO0O054q-T0mvnwzoJJUgit7s6UEXYxj26EjlmG7rTPyaiomAPvaLTfNNtXaTbSF5na_qiZlqCp1ac1&amp;amp;t=ffffffffa4576607</url>
+		<url name="B">http://s.dropthings.com/ScriptResource.axd?d=8mEYkBewjpMs6oBG3jgMmJZ2ewsvLRl7qM67-1n9hyW_4tiJtd81rCMRJaY--g6Un6kg6GiYpmKKldPXQdGqtw2&amp;amp;t=40ccd8d8</url>
+		<url name="C">http://s.dropthings.com/ScriptResource.axd?d=8mEYkBewjpMs6oBG3jgMmJZ2ewsvLRl7qM67-1n9hyX6DWq-9OTrVNSK1OH_k7v3L2npZSMX2WvHcYXd4SWwew2&amp;amp;t=40ccd8d8</url>
+		<url name="D">http://s.dropthings.com/ScriptResource.axd?d=8mEYkBewjpMs6oBG3jgMmJZ2ewsvLRl7qM67-1n9hyUCphWx4NKsNUW7G0DIudpoGs16gAQ4u1diVYywZiaCo6qKODFE6JSQ9g6U-399QSk1&amp;amp;t=40ccd8d8</url>
+		<url name="E">http://s.dropthings.com/ScriptResource.axd?d=8mEYkBewjpMs6oBG3jgMmJZ2ewsvLRl7qM67-1n9hyVwDAFdFF24gEOirc1yPGJUwjzsq7JUl6qHjzGOSPTNR8rS7jcxGH_j8jZ00EHxGh01&amp;amp;t=40ccd8d8</url>
+		<url name="F">http://s.dropthings.com/ScriptResource.axd?d=8mEYkBewjpMs6oBG3jgMmJZ2ewsvLRl7qM67-1n9hyW2TmmyShc6x58pCt3_UDVsVEFCLj91irtPMtt1bGq2_bUe9oWgKJfhDU7oQjuVhEs1&amp;amp;t=40ccd8d8</url>
+		<url name="G">http://s.dropthings.com/ScriptResource.axd?d=O_8DHhtSGCQiN0UuLad8FI3FmAVUw_ZyTiJdfpW2_2Y_4CnfXVYBg-R7gPt1H8dPWBdF6YHt2ZfAZVr2SEIeGw2&amp;amp;t=473822f</url>
+		<url name="H">http://s.dropthings.com/ScriptResource.axd?d=O_8DHhtSGCQiN0UuLad8FI3FmAVUw_ZyTiJdfpW2_2ZmLyKr6lBF_Ho57C0Gs85XLZlFC13XiN2voh6_9FR4AQ2&amp;amp;t=473822f</url>
+
+		
+		<!-- Firefox -->
+		<url name="I">http://s.dropthings.com/ScriptResource.axd?d=Sqj5kQArU-07XSeGTAEWmLSXWNASu_nJY4MxZBCs_61edy-ccOZnYDenc4CFutJaRohH4uV6BeMlRE5TZxdGpM_clNO0I86sXbue872S4Vo1&amp;amp;t=ffffffffa4576607</url>
+		<url name="J">http://s.dropthings.com/ScriptResource.axd?d=Pn9XEoJF4_qtzqF0oSFDo5voF9WXB3wl_h-HPXuMRBaYm-5gEdiMnKPjN6fkNYN1yYQw-JEIhT9BcT-yMeKu5A2&amp;amp;t=40ccd8d8</url>
+		<url name="K">http://s.dropthings.com/ScriptResource.axd?d=Pn9XEoJF4_qtzqF0oSFDo5voF9WXB3wl_h-HPXuMRBYmafoLHEm2L2TgY8Zcip1cTIgGoaSDEFx_lLVilzPwMQ2&amp;amp;t=40ccd8d8</url>
+		<url name="L">http://s.dropthings.com/ScriptResource.axd?d=Pn9XEoJF4_qtzqF0oSFDo5voF9WXB3wl_h-HPXuMRBYzz_wliwulZFBsX4RJGZ8Hk9BW6stEZPB5JN7rFs4xF12KJI7qvjFaVTXxjRiEtCs1&amp;amp;t=40ccd8d8</url>
+		<url name="M">http://s.dropthings.com/ScriptResource.axd?d=Pn9XEoJF4_qtzqF0oSFDo5voF9WXB3wl_h-HPXuMRBYR-M7tUoHgCInzqcFjhTS34gNeE-g-ckC1N3TH7FTS-8U2-DkhO37-PsDy9i0hgSY1&amp;amp;t=40ccd8d8</url>
+		<url name="N">http://s.dropthings.com/ScriptResource.axd?d=Pn9XEoJF4_qtzqF0oSFDo5voF9WXB3wl_h-HPXuMRBYCxYvHCdNwXUP0RAHbzp_qVbswwWUyyOyGF0o4D_RQe_kWixA8FEAgWEAlOkszlvU1&amp;amp;t=40ccd8d8</url>
+		<url name="P">http://s.dropthings.com/ScriptResource.axd?d=fP4VbHG-CBFVQmUdHNZJzgAbRcU6J5KgHaWH3vTXHj-RC1el4uSGqx6LwsLJG4b0qDWpncdT-BUwgzCWEii2Yw2&amp;amp;t=473822f</url>
+		<url name="Q">http://s.dropthings.com/ScriptResource.axd?d=fP4VbHG-CBFVQmUdHNZJzgAbRcU6J5KgHaWH3vTXHj-jr9iiiYKpmLXLjQtqbOesOwyze_Kcoax2ubB3jLeYGA2&amp;amp;t=473822f</url>
+
+
+	</set>
+</sets>
+
+

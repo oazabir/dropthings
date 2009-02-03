@@ -1,0 +1,4 @@
+﻿<SequentialWorkflowActivity x:Class="Dropthings.Business.Workflows.WidgetWorkflows.LoadWidgetInstancesInZoneWorkflow" x:Name="LoadWidgetInstancesInZoneWorkflow" xmlns:ns0="clr-namespace:Dropthings.Business.Activities" xmlns:ns1="clr-namespace:Dropthings.Business.Activities.WidgetActivities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/workflow">
+	<ns0:EnsureOwnerActivity WidgetInstanceId="0" UserName="{ActivityBind LoadWidgetInstancesInZoneWorkflow,Path=Request.UserName}" WidgetZoneId="{ActivityBind LoadWidgetInstancesInZoneWorkflow,Path=Request.WidgetZoneId}" x:Name="EnsureZoneOwner" PageId="0" />
+	<ns1:GetWidgetInstancesInZoneActivity WidgetInstances="{ActivityBind LoadWidgetInstancesInZoneWorkflow,Path=Response.WidgetInstances}" x:Name="GetWidgetInstancesInZone" WidgetZoneId="{ActivityBind LoadWidgetInstancesInZoneWorkflow,Path=Request.WidgetZoneId}" />
+</SequentialWorkflowActivity>

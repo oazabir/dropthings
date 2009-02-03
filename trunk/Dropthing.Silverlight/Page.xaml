@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Dropthing.Silverlight.Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="Auto" Height="Auto">
+    <Grid Style="{StaticResource TopGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Style="{StaticResource Header}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource TitleBorder}">
+                <TextBlock Text="DIGG SEARCH" Style="{StaticResource TitleText}" Padding="0,0,10,0" />
+            </Border>
+
+            <TextBox x:Name="txtSearchTopic" Grid.Column="1" Padding="1,3,1,1"/>
+
+            <Button x:Name="btnSearch" 
+                    Content="Search" 
+                    Click="SearchBtn_Click" 
+                    Style="{StaticResource SearchButton}" />
+
+        </Grid>
+        <TextBlock Grid.Row="1" x:Name="NoResultFoundTextBlock" Visibility="Collapsed" HorizontalAlignment="Center" FontWeight="bold" FontSize="16">No result found. Try another query.</TextBlock>
+        <ListBox Grid.Row="1" x:Name="StoriesList" SelectionChanged="StoriesList_SelectionChanged"   Style="{StaticResource StoriesList}">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Loaded="Grid_Loaded" Background="Transparent" MouseLeftButtonDown="Grid_MouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+
+                            <!-- Yellow Digg Panel with NumDiggs-->
+                            <StackPanel Style="{StaticResource DiggPanel}" >
+
+                                <TextBlock Text="{Binding NumDiggs}" Style="{StaticResource NumDigsBlock}" />
+                                <TextBlock Text="diggs" Style="{StaticResource NumDigsSubBlock}" />
+
+                            </StackPanel>
+
+                            <!-- Story Thumbnail Preview -->
+                            <Image Source="{Binding ThumbNail}" Style="{StaticResource ThumbNailPreview}" />
+
+                            <!-- Story Title-->
+                            <TextBlock Text="{Binding Title}" Margin="5" Style="{StaticResource TitleBlock}"/>
+
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+
+
+        <TextBlock Grid.Row="1" x:Name="LoadingTextBlock" HorizontalAlignment="Center" FontWeight="bold" Margin="0,40,0,40" FontSize="16" Foreground="Blue" >Loading Digg Stories...</TextBlock>
+
+    </Grid>
+</UserControl>
