@@ -1,0 +1,17 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="WidgetServiceSoap" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://localhost:8000/WidgetService.asmx"
+                binding="basicHttpBinding" bindingConfiguration="WidgetServiceSoap"
+                contract="DropthingsWebService.WidgetServiceSoap" name="WidgetServiceSoap" />
+        </client>
+    </system.serviceModel>
+</configuration>

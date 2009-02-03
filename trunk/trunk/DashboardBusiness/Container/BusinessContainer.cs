@@ -1,0 +1,139 @@
+﻿namespace Dropthings.Business.Container
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Workflow.Runtime;
+
+    using Dropthings.Business.Workflows;
+    using Dropthings.Business.Workflows.EntryPointWorkflows;
+
+    using Microsoft.Practices.Unity;
+
+    public class ObjectContainer
+    {
+        #region Fields
+
+        private static readonly IUnityContainer _container = new UnityContainer();
+
+        #endregion Fields
+
+        #region Methods
+
+        public static void Dispose()
+        {
+            if (null != _container)
+            {
+                _container.Dispose();
+            }
+        }
+
+        public static void RegisterInstanceExternalLifetime<TInterface>(TInterface instance)
+        {
+            _container.RegisterInstance<TInterface>(instance, new ExternallyControlledLifetimeManager());
+        }
+
+        public static void RegisterInstanceExternalLifetime<TInterface>(string name, TInterface instance)
+        {
+            _container.RegisterInstance<TInterface>(name, instance, new ExternallyControlledLifetimeManager());
+        }
+
+        public static void RegisterInstancePerThread<TInterface>(TInterface instance)
+        {
+            _container.RegisterInstance<TInterface>(instance, new PerThreadLifetimeManager());
+        }
+
+        public static void RegisterInstancePerThread<TInterface>(string name, TInterface instance)
+        {
+            _container.RegisterInstance<TInterface>(name, instance, new PerThreadLifetimeManager());
+        }
+
+        public static void RegisterType<T>(params InjectionMember[] injectionMembers)
+        {
+            _container.RegisterType<T>(injectionMembers);
+        }
+
+        public static void RegisterType<TFrom, TTo>(params InjectionMember[] injectionMembers)
+            where TTo : TFrom
+        {
+            _container.RegisterType<TFrom,TTo>(injectionMembers);
+        }
+
+        public static void RegisterType<TFrom, TTo>(string name, params InjectionMember[] injectionMembers)
+            where TTo : TFrom
+        {
+            _container.RegisterType<TFrom, TTo>(name, injectionMembers);
+        }
+
+        public static void RegisterType<T>(string name, params InjectionMember[] injectionMembers)
+        {
+            _container.RegisterType<T>(name, injectionMembers);
+        }
+
+        public static void RegisterTypePerThread<T>(params InjectionMember[] injectionMembers)
+        {
+            _container.RegisterType<T>(new PerThreadLifetimeManager(), injectionMembers);
+        }
+
+        public static void RegisterTypePerThread<TFrom, TTo>(params InjectionMember[] injectionMembers)
+            where TTo : TFrom
+        {
+            _container.RegisterType<TFrom, TTo>(new PerThreadLifetimeManager(), injectionMembers);
+        }
+
+        public static void RegisterTypePerThread<TFrom, TTo>(string name, params InjectionMember[] injectionMembers)
+            where TTo : TFrom
+        {
+            _container.RegisterType<TFrom, TTo>(name, new PerThreadLifetimeManager(), injectionMembers);
+        }
+
+        public static void RegisterTypePerThread<T>(string name, params InjectionMember[] injectionMembers)
+        {
+            _container.RegisterType<T>(name, new PerThreadLifetimeManager(), injectionMembers);
+        }
+
+        public static T Resolve<T>()
+        {
+            return _container.Resolve<T>();
+        }
+
+        public static T Resolve<T>(string name)
+        {
+            return _container.Resolve<T>(name);
+        }
+
+        public static object Resolve(Type t)
+        {
+            return _container.Resolve(t);
+        }
+
+        public static object Resolve(Type t, string name)
+        {
+            return _container.Resolve(t, name);
+        }
+
+        public static IEnumerable<T> ResolveAll<T>()
+        {
+            return _container.ResolveAll<T>();
+        }
+
+        public static IEnumerable<object> ResolveAll(Type t)
+        {
+            return _container.ResolveAll(t);
+        }
+
+        public static void SetupDefaults(WorkflowRuntime runtime)
+        {
+            RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
+            RegisterType<IWorkflowHelper, WorkflowHelper>();
+        }
+
+        public static void Teardown(object o)
+        {
+            _container.Teardown(o);
+        }
+
+        #endregion Methods
+    }
+}
