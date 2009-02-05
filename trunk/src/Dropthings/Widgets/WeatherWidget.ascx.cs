@@ -26,7 +26,7 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
 	
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!this._Host.IsFirstLoad) this.LoadContentView(sender, e);        
+        if (Page.IsPostBack) this.LoadContentView(sender, e);        
     }
 
     protected void LoadContentView(object sender, EventArgs e)
@@ -34,7 +34,7 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
         this.Multiview.ActiveViewIndex = 1;
         this.MultiviewTimer.Enabled = false;
 
-        if (this.Host.IsFirstLoad)
+        if (!Page.IsPostBack)
         {
             if (this.Host.GetState().Trim().Length == 0)
             {

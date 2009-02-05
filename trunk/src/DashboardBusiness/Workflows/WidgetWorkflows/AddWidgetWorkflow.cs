@@ -21,6 +21,7 @@ namespace Dropthings.Business
     using System.Workflow.Runtime;
 
     using Dropthings.Business.Workflows.WidgetWorkflows;
+    using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
 
     public sealed partial class AddWidgetWorkflow : SequentialWorkflowActivity
     {

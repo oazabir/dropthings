@@ -20,6 +20,7 @@ using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.WidgetWorkflows;
 using System.Workflow.Runtime;
 using System.Globalization;
+using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
 
 public partial class WidgetListControl : System.Web.UI.UserControl
 {

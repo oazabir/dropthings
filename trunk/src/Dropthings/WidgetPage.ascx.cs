@@ -22,9 +22,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
     public Dropthings.DataAccess.Page CurrentPage { get; set; }
     public List<WidgetInstance> WidgetInstances { get; set; }
 
-    public void LoadWidgets(Dropthings.DataAccess.Page page, 
-        Func<WidgetInstance, bool> isWidgetFirstLoad,
-        string widgetContainerPath)
+    public void LoadWidgets(Dropthings.DataAccess.Page page, string widgetContainerPath)
     {
         this.CurrentPage = page;
     //    this.WidgetInstances = widgetInstances;
@@ -32,7 +30,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
     //    this.WidgetPanelsLayout.SetLayout(this.CurrentPage.LayoutType);
     //    this.SetupWidgets(isWidgetFirstLoad);
 
-        this.SetupWidgetZones(isWidgetFirstLoad, widgetContainerPath);
+        this.SetupWidgetZones(widgetContainerPath);
     }
 
     private int[] GetColumnWidths()
@@ -50,9 +48,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
         return panels;
     }
 
-    private void SetupWidgetZones(
-        Func<WidgetInstance, bool> isWidgetFirstLoad,
-        string widgetContainerPath)    
+    private void SetupWidgetZones(string widgetContainerPath)    
     {
         this.Controls.Clear();
 
@@ -88,7 +84,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
             this.Controls.Add(panel);
             panel.Controls.Add(widgetZone);           
  
-            widgetZone.LoadWidgets(isWidgetFirstLoad);
+            widgetZone.LoadWidgets();
         });
     }
     

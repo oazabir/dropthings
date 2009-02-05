@@ -42,7 +42,6 @@ namespace Dropthings.Widget.Framework
         void Maximize();
         void Restore();
         void Close();
-        bool IsFirstLoad { get; set; }
         WidgetInstance WidgetInstance { get; set; }
         event Action<WidgetInstance, IWidgetHost> Deleted;
         void ShowSettings();

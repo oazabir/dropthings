@@ -41,15 +41,9 @@ namespace Dropthings.Web.Framework
             //var newPage = new DashboardFacade(Profile.UserName).AddNewPage(newLayout);
             //return newPage.TabName();
 
-            var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        AddNewTabWorkflow,
-                        AddNewTabWorkflowRequest,
-                        AddNewTabWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
-                            new AddNewTabWorkflowRequest { LayoutType = newLayout, UserName = Profile.UserName }
-                        );
+            var response = RunWorkflow.Run<AddNewTabWorkflow, AddNewTabWorkflowRequest, AddNewTabWorkflowResponse>(
+                new AddNewTabWorkflowRequest { LayoutType = newLayout, UserName = Profile.UserName }
+            );
 
             return response.NewPage.TabName();
         }
@@ -60,15 +54,9 @@ namespace Dropthings.Web.Framework
         {
             //new Dropthings.Business.DashboardFacade(Profile.UserName).ChangeCurrentTab(pageId);
 
-            ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        ChangeTabWorkflow,
-                        ChangeTabWorkflowRequest,
-                        ChangeTabWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
-                            new ChangeTabWorkflowRequest { PageID = pageId, UserName = Profile.UserName }
-                        );
+            RunWorkflow.Run<ChangeTabWorkflow, ChangeTabWorkflowRequest, ChangeTabWorkflowResponse>(
+                new ChangeTabWorkflowRequest { PageID = pageId, UserName = Profile.UserName }
+            );
         }
 
 
@@ -76,15 +64,9 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public string DeletePage(int PageID)
         {
-            var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        DeletePageWorkflow,
-                        DeleteTabWorkflowRequest,
-                        DeleteTabWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
-                            new DeleteTabWorkflowRequest { PageID = PageID, UserName = Profile.UserName }
-                        );
+            var response = RunWorkflow.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
+                new DeleteTabWorkflowRequest { PageID = PageID, UserName = Profile.UserName }
+            );
 
             Context.Cache.Remove(Profile.UserName);
             return response.NewCurrentPage.TabName();
@@ -140,10 +122,6 @@ namespace Dropthings.Web.Framework
 
             //new DashboardFacade(Profile.UserName).ModifyPageLayout(setup.CurrentPage.ID, newLayout);
         }
-
-
-
-
     }
 
 }

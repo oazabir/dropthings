@@ -107,6 +107,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>D:\soft\NArrange\bin\narrange-console.exe $(SolutionPath)</PreBuildEvent>
+    <PreBuildEvent>$(SolutionDir)..\ThirdParty\NArrange\narrange-console.exe $(SolutionPath)</PreBuildEvent>
   </PropertyGroup>
 </Project>

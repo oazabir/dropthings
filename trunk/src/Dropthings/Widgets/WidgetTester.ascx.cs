@@ -27,7 +27,7 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
 	
     protected void Page_Load(object sender, EventArgs e)
     {
-        if( this.Host.IsFirstLoad )
+        if( !Page.IsPostBack )
         {
             Message.Text += "First Load. ";
             Data.Text = this.Host.GetState();

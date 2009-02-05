@@ -21,6 +21,7 @@ namespace Dropthings.Business
     using System.Workflow.Runtime;
 
     using Dropthings.Business.Workflows.WidgetWorkflows;
+    using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
     using Dropthings.DataAccess;
 
     public sealed partial class DeleteWidgetInstanceWorkflow : SequentialWorkflowActivity

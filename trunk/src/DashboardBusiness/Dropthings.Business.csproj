@@ -418,6 +418,7 @@
     <Compile Include="Workflows\EntryPointWorkflows\UserVisitWorkflowRequest.cs" />
     <Compile Include="Workflows\EntryPointWorkflows\UserVisitWorkflowResponse.cs" />
     <Compile Include="Workflows\EntryPointWorkflows\IUserVisitWorkflowRequest.cs" />
+    <Compile Include="Workflows\GenericWorkflowResponeBase.cs" />
     <Compile Include="Workflows\IUserWorkflowRequest.cs" />
     <Compile Include="Workflows\IUserWorkflowResponse.cs" />
     <Compile Include="Workflows\IWorkflowHelper.cs" />
@@ -521,6 +522,8 @@
     </Compile>
     <Compile Include="Workflows\WidgetWorkflows\WorkflowArgs\AssignWidgetPermissionWorkflowRequest.cs" />
     <Compile Include="Workflows\WidgetWorkflows\WorkflowArgs\AssignWidgetPermissionWorkflowResponse.cs" />
+    <Compile Include="Workflows\WidgetWorkflows\WorkflowArgs\ChangeWidgetInstanceTitleWorkflowRequest.cs" />
+    <Compile Include="Workflows\WidgetWorkflows\WorkflowArgs\ChangeWidgetInstanceTitleWorkflowResponse.cs" />
     <Compile Include="Workflows\WidgetWorkflows\WorkflowArgs\GetWidgetInstanceStateRequest.cs" />
     <Compile Include="Workflows\WidgetWorkflows\WorkflowArgs\GetWidgetInstanceStateResponse.cs" />
     <Compile Include="Workflows\WidgetWorkflows\GetWidgetInstanceStateWorkflow.cs">

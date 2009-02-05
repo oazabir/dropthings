@@ -19,6 +19,7 @@ using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.WidgetWorkflows;
 using System.Workflow.Runtime;
+using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
 
 public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 {
@@ -409,18 +410,6 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     string IWidgetHost.GetState()
     {
         return this.WidgetInstance.State;
-    }
-
-    bool IWidgetHost.IsFirstLoad
-    {
-        get
-        {
-            return this.IsFirstLoad;
-        }
-        set
-        {
-            this.IsFirstLoad = value;
-        }
     }
 
     void IWidgetHost.ShowSettings()

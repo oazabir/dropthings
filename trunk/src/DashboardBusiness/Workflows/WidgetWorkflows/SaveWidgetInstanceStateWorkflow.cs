@@ -14,6 +14,8 @@
     using System.Workflow.ComponentModel.Serialization;
     using System.Workflow.Runtime;
 
+    using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
+
     public sealed partial class SaveWidgetInstanceStateWorkflow : SequentialWorkflowActivity
     {
         #region Fields

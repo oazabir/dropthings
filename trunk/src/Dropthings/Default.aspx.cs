@@ -77,15 +77,6 @@ public partial class _Default : BasePage
             // Limit number of postbacks
             if( !ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Postback) ) Response.End();
         }
-        // OMAR 1/13/2009: Turning it off because new users are not getting the "Add Stuff" and "Change Settings" links
-        //if (Roles.Enabled)
-        //{
-        //    if (!Roles.IsUserInRole("AddRemovePageWidgets"))
-        //        this.ShowAddContentPanel.Visible = false;
-
-        //    if (!Roles.IsUserInRole("ChangePageSettings"))
-        //        this.ChangePageTitleLinkButton.Visible = false;
-        //}
     }
 
     protected override void CreateChildControls()
@@ -95,9 +86,7 @@ public partial class _Default : BasePage
         this.LoadAddStuff();
         this.UserTabPage.LoadTabs(_Setup.UserPages, _Setup.CurrentPage);
 
-        //this.WidgetPage.OnReloadPage += new EventHandler(this.OnReloadPage);
-        this.WidgetPage.LoadWidgets(_Setup.CurrentPage, wi => !ScriptManager.GetCurrent(Page).IsInAsyncPostBack, WIDGET_CONTAINER_CONTROL);
-        //this.WidgetPage.LoadWidgets(_Setup.CurrentPage, _Setup.WidgetInstances, wi => !ScriptManager.GetCurrent(Page).IsInAsyncPostBack, WIDGET_CONTAINER_CONTROL);
+        this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);        
     }
 
 
@@ -114,43 +103,21 @@ public partial class _Default : BasePage
                 Profile.IsFirstVisit = false;
                 Profile.Save();
 
-                _Setup = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        FirstVisitWorkflow,
-                        UserVisitWorkflowRequest,
-                        UserVisitWorkflowResponse
-                    >(
-                        ObjectContainer.Resolve<WorkflowRuntime>(),
+                _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
                         new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName }
                     );
 
-                //_Setup = new DashboardFacade(Profile.UserName).NewUserVisit();
             }
             else
             {
-                //_Setup = new DashboardFacade(Profile.UserName).LoadUserSetup(pageTitle);
-                _Setup = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        UserVisitWorkflow,
-                        UserVisitWorkflowRequest,
-                        UserVisitWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+                _Setup = RunWorkflow.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
                             new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = true }
                         );
             }
         }
         else
         {
-            //_Setup = new DashboardFacade(Profile.UserName).LoadUserSetup(pageTitle);
-
-            _Setup = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        UserVisitWorkflow,
-                        UserVisitWorkflowRequest,
-                        UserVisitWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+            _Setup = RunWorkflow.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
                             new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = false }
                         );
 
@@ -158,13 +125,7 @@ public partial class _Default : BasePage
             // to recrate the pages
             if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
             {
-                _Setup = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        FirstVisitWorkflow,
-                        UserVisitWorkflowRequest,
-                        UserVisitWorkflowResponse
-                    >(
-                        ObjectContainer.Resolve<WorkflowRuntime>(),
+                _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
                         new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName, IsAnonymous = false }
                     );
             }
@@ -178,22 +139,15 @@ public partial class _Default : BasePage
         Response.Redirect('?' + page.TabName());
     }
 
-    //void addNewTabLinkButton_Click(object sender, EventArgs e)
-    //{
-    //    var page = new DashboardFacade(Profile.UserName).AddNewPage("1");
-    //    RedirectToTab(page);
-    //}
-    
     private void OnReloadPage(object sender, EventArgs e)
     {
-        this.ReloadCurrentPage(wi => false);
+        this.ReloadCurrentPage();
     }
-    private void ReloadCurrentPage(Func<WidgetInstance, bool> isWidgetFirstLoad)
+    private void ReloadCurrentPage()
     {
         this.LoadUserPageSetup(false);
         //this.SetupTabs();
-
-        this.WidgetPage.LoadWidgets(_Setup.CurrentPage, isWidgetFirstLoad, WIDGET_CONTAINER_CONTROL);
+        this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
     }
 
     protected void ShowAddContentPanel_Click(object sender, EventArgs e)
@@ -212,58 +166,14 @@ public partial class _Default : BasePage
         this.ShowAddContentPanel.Visible = true;
     }
 
-    //private List<Widget> WidgetList
-    //{
-    //    get
-    //    {
-    //        List<Widget> widgets = Cache["Widgets"] as List<Widget>;
-    //        if( null == widgets )
-    //        {
-    //            widgets = new DashboardFacade(Profile.UserName).GetWidgetList();
-    //            Cache["Widgets"] = widgets;
-    //        }
-        
-    //        return widgets;
-    //    }
-    //}
-
     private void LoadAddStuff()
     {
         this.WidgetListControlAdd.LoadWidgetList(newWidget =>
         {
-            this.ReloadCurrentPage(wi => wi.Id == newWidget.Id);
+            this.ReloadCurrentPage();
             this.WidgetPage.RefreshZone(newWidget.WidgetZoneId);
         });
-    }
-
-    //void WidgetDataList_ItemCommand(object source, DataListCommandEventArgs e)
-    //{
-    //    if( !ActionValidator.IsValid(ActionValidator.ActionTypeEnum.AddNewWidget) ) return;
-
-    //    int widgetId = int.Parse( e.CommandArgument.ToString() );
-
-    //    DashboardFacade facade = new DashboardFacade(Profile.UserName);
-    //    WidgetInstance newWidget = facade.AddWidget( widgetId, 0, 0, 0 );
-
-    //    /// User added a new widget. The new widget is loaded for the first time. So, it's not 
-    //    /// a postback experience for the widget. But for rest of the widgets, it is a postback experience.
-    //    this.ReloadCurrentPage(wi => wi.Id == newWidget.Id);
-    //}
-
-    //void WidgetDataList_ItemDataBound(object sender, DataListItemEventArgs e)
-    //{
-    //    if( e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem )
-    //    {
-    //        Widget widget = e.Item.DataItem as Widget;
-
-    //        LinkButton link = e.Item.Controls.OfType<LinkButton>().Single();
-
-    //        link.Text = widget.Name;
-
-    //        link.CommandName = "AddWidget";
-    //        link.CommandArgument = widget.ID.ToString();
-    //    }
-    //}
+    }   
 
     protected void ChangeTabSettingsLinkButton_Clicked(object sender, EventArgs e)
     {
@@ -279,17 +189,10 @@ public partial class _Default : BasePage
 
         if (newTitle != _Setup.CurrentPage.Title)
         {
-            var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        ChangePageNameWorkflow,
-                        ChangeTabNameWorkflowRequest,
-                        ChangeTabNameWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+            var response = RunWorkflow.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
                             new ChangeTabNameWorkflowRequest { PageName = newTitle, UserName = Profile.UserName }
                         );
-            //new DashboardFacade(Profile.UserName).ChangePageName(newTitle);
-
+            
             this.LoadUserPageSetup(false);
 
             RedirectToTab(_Setup.CurrentPage);
@@ -299,15 +202,7 @@ public partial class _Default : BasePage
 
     protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
     {
-        //var currentPage = new DashboardFacade(Profile.UserName).DeleteCurrentPage(_Setup.CurrentPage.ID);
-
-        var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        DeletePageWorkflow,
-                        DeleteTabWorkflowRequest,
-                        DeleteTabWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+        var response = RunWorkflow.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
                             new DeleteTabWorkflowRequest { PageID = _Setup.CurrentPage.ID, UserName = Profile.UserName }
                         );
 
@@ -331,6 +226,6 @@ public partial class _Default : BasePage
     private void HideChangeSettingsPanel()
     {
         this.ChangePageSettingsPanel.Visible = false;
-        this.ChangePageTitleLinkButton.Text = "Change Settings �";
+        this.ChangePageTitleLinkButton.Text = "Change Settings";
     }
 }

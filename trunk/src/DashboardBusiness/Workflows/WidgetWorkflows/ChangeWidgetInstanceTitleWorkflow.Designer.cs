@@ -37,9 +37,9 @@ namespace Dropthings.Business.Workflows.WidgetWorkflows
             // 
             this.ChangeTitle.Name = "ChangeTitle";
             activitybind1.Name = "ChangeWidgetInstanceTitleWorkflow";
-            activitybind1.Path = "NewTitle";
+            activitybind1.Path = "Request.NewTitle";
             activitybind2.Name = "ChangeWidgetInstanceTitleWorkflow";
-            activitybind2.Path = "WidgetInstanceId";
+            activitybind2.Path = "Request.WidgetInstanceId";
             this.ChangeTitle.SetBinding(Dropthings.Business.Activities.WidgetActivities.ChangeWidgetInstanceTitle.NewTitleProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind1)));
             this.ChangeTitle.SetBinding(Dropthings.Business.Activities.WidgetActivities.ChangeWidgetInstanceTitle.WidgetInstanceIdProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind2)));
             // 
@@ -48,9 +48,10 @@ namespace Dropthings.Business.Workflows.WidgetWorkflows
             this.EnsureWidgetOwner.Name = "EnsureWidgetOwner";
             this.EnsureWidgetOwner.PageId = 0;
             activitybind3.Name = "ChangeWidgetInstanceTitleWorkflow";
-            activitybind3.Path = "UserName";
+            activitybind3.Path = "Request.UserName";
             activitybind4.Name = "ChangeWidgetInstanceTitleWorkflow";
-            activitybind4.Path = "WidgetInstanceId";
+            activitybind4.Path = "Request.WidgetInstanceId";
+            this.EnsureWidgetOwner.WidgetZoneId = 0;
             this.EnsureWidgetOwner.SetBinding(System.Workflow.ComponentModel.DependencyProperty.FromName("WidgetInstanceId", typeof(Dropthings.Business.Activities.EnsureOwnerActivity)), ((System.Workflow.ComponentModel.ActivityBind)(activitybind4)));
             this.EnsureWidgetOwner.SetBinding(System.Workflow.ComponentModel.DependencyProperty.FromName("UserName", typeof(Dropthings.Business.Activities.EnsureOwnerActivity)), ((System.Workflow.ComponentModel.ActivityBind)(activitybind3)));
             // 
@@ -67,6 +68,10 @@ namespace Dropthings.Business.Workflows.WidgetWorkflows
 
         private Dropthings.Business.Activities.WidgetActivities.ChangeWidgetInstanceTitle ChangeTitle;
         private Dropthings.Business.Activities.EnsureOwnerActivity EnsureWidgetOwner;
+
+
+
+
 
 
 

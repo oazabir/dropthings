@@ -32,31 +32,25 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
 
     protected override void OnPreRender(EventArgs e)
     {
-        this.WidgetPanel.CssClass = this.WidgetZoneClass;
+        this.WidgetHolderPanel.CssClass = this.WidgetZoneClass;
 
         //ScriptManager.RegisterStartupScript(this, typeof(WidgetInstanceZone), this.ClientID + "_InitWidgets",
         //        "$(document).ready(function() {" + "DropthingsUI.initWidgetActions('{0}', '{1}'); DropthingsUI.initDragDrop('{0}', '{1}', '{2}', '{3}', '{4}'); DropthingsUI.initAddStuff('{4}', '{2}');"
         //        .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass) + "});", true);
 
-        ScriptManager.RegisterStartupScript(this, typeof(WidgetInstanceZone), this.ClientID + "_InitWidgets",
+        ScriptManager.RegisterStartupScript(this.WidgetHolderPanel, typeof(Panel), this.WidgetHolderPanel.ClientID + "_InitWidgets",
                 "$(document).ready(function() {" + "DropthingsUI.initWidgetActions('{0}', '{1}'); DropthingsUI.initDragDrop('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');"
-                .FormatWith(this.WidgetPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass, WidgetHolderPanelTrigger.ClientID) + "});", true);
+                .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass, WidgetHolderPanelTrigger.ClientID) + "});", true);
 
         base.OnPreRender(e);
     }
 
-    public void LoadWidgets(Func<WidgetInstance, bool> isWidgetFirstLoad)
+    public void LoadWidgets()
     {
-        this.WidgetPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
-        this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
+        this.WidgetHolderPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
+        //this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
 
-        var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        LoadWidgetInstancesInZoneWorkflow,
-                        LoadWidgetInstancesInZoneRequest,
-                        LoadWidgetInstancesInZoneResponse
-                    >(
-                        ObjectContainer.Resolve<WorkflowRuntime>(), 
+        var response = RunWorkflow.Run<LoadWidgetInstancesInZoneWorkflow, LoadWidgetInstancesInZoneRequest, LoadWidgetInstancesInZoneResponse>(
                         new LoadWidgetInstancesInZoneRequest { WidgetZoneId = this.WidgetZoneId, UserName = this.UserName }
                     );
 
@@ -73,7 +67,6 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
             var widget = LoadControl(this.WidgetContainerPath) as Control;
             widget.ID = "WidgetContainer" + instance.Id.ToString();
             var widgetHost = widget as IWidgetHost;
-            widgetHost.IsFirstLoad = isWidgetFirstLoad(instance);
             widgetHost.WidgetInstance = instance;
 
             widgetHost.Deleted += new Action<WidgetInstance, IWidgetHost>(Widget_Deleted);

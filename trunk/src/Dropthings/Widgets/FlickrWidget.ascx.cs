@@ -88,7 +88,7 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!this._Host.IsFirstLoad || ProxyAsync.IsUrlInCache(Cache, this.GetPhotoUrl()))
+        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(Cache, this.GetPhotoUrl()))
             this.LoadPhotoView(this, e);
     }
 
@@ -96,7 +96,7 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
     {
         base.OnPreRender(e);
 
-        if (!this._Host.IsFirstLoad)
+        if (Page.IsPostBack)
             this.ShowPictures(this.PageIndex);
     }
 
