@@ -12,7 +12,8 @@ var DropthingsUI = {
         MAXIMIZED: "_Maximized",
         WIDTH: "_Width",
         HEIGHT: "_Height",
-        ZONE_ID: "_zoneid"
+        ZONE_ID: "_zoneid",
+        WIDGET_ZONE_DUMMY_LINK: "widget_holder_panel_post_link"
     },
     getWidgetDivId: function(instanceId) {
         return "#WidgetPage_WidgetPanelsLayout_WidgetContainer" + instanceId + "_Widget";
@@ -29,7 +30,7 @@ var DropthingsUI = {
     setActionOnWidget: function(widgetId) {
         var nohref = "javascript:void(0);";
         var widget = $('#' + widgetId)
-
+        var widgetInstanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
         //var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
 
         //Widget Title
@@ -47,13 +48,25 @@ var DropthingsUI = {
                 widgetTitle.hide();
                 widgetInput
                     .show()
-                    .attr('value', widgetTitle.text());
+                    .attr('value', widgetTitle.text())
+                    .unbind('keypress')
+                    .bind('keypress', function(e) {
+                        if (e.which == 13) {
+                            widgetSubmit.click();
+                            return false;
+                        }
+                    });
+
                 widgetSubmit
                     .show()
+                    .unbind('click')
                     .bind('click', function() {
+                        var newTitle = widgetInput.attr('value');
                         widgetSubmit.hide()
-                        widgetTitle.text(widgetInput.attr('value')).show();
+                        widgetTitle.text(newTitle).show();
                         widgetInput.hide();
+
+                        Dropthings.Web.Framework.WidgetService.ChangeWidgetTitle(widgetInstanceId, newTitle);
                         return false;
                     });
 
@@ -80,6 +93,8 @@ var DropthingsUI = {
             .unbind('click')
             .bind('click', function() {
                 widget.hide('slow');
+                eval(widgetCloseButton.attr("href"));
+                return false;
             });
 
         widgetExpand
@@ -88,8 +103,9 @@ var DropthingsUI = {
                 widgetResizeFrame.show();
                 widgetExpand.hide();
                 widgetCollaspe.show();
+                eval(widgetExpand.attr("href"));
                 // Asynchronously notify server that widget expanded
-                DropthingsUI.Actions.expandWidget(widgetId, $(this).attr('href'));
+                //DropthingsUI.Actions.expandWidget(widgetId, $(this).attr('href'));
                 return false;
             });
         //.attr('href', nohref);
@@ -101,8 +117,9 @@ var DropthingsUI = {
                 widgetResizeFrame.hide();
                 widgetExpand.show();
                 widgetCollaspe.hide();
+                eval(widgetCollaspe.attr("href"));
                 // Asynchronously notify server that widget collapsed
-                DropthingsUI.Actions.collaspeWidget(widgetId, $(this).attr('href'));
+                //DropthingsUI.Actions.collaspeWidget(widgetId, $(this).attr('href'));
                 return false;
             });
 
@@ -127,9 +144,9 @@ var DropthingsUI = {
             .bind('click', function() {
                 widgetMaximize.hide();
                 widgetRestore.show();
-
+                eval(widgetMaximize.attr("href"));
                 // Asynchronously notify server that widget maximized
-                DropthingsUI.Actions.maximizeWidget(widgetId);
+                //DropthingsUI.Actions.maximizeWidget(widgetId);
                 return false;
             });
 
@@ -138,9 +155,9 @@ var DropthingsUI = {
             .bind('click', function() {
                 widgetMaximize.show();
                 widgetRestore.hide();
-
+                eval(widgetRestore.attr("href"));
                 // Asynchronously notify server that widget restored
-                DropthingsUI.Actions.restoreWidget(widgetId);
+                //DropthingsUI.Actions.restoreWidget(widgetId);
                 return false;
             });
 
@@ -182,6 +199,8 @@ var DropthingsUI = {
             start: function(e, ui) {
                 ui.helper.css("width", ui.item.parent().outerWidth());
                 ui.placeholder.height(ui.item.height());
+
+                DropthingsUI.suspendPendingWidgetZoneUpdate();
             },
             change: function(e, ui) {
                 if (ui.element) {
@@ -203,12 +222,12 @@ var DropthingsUI = {
                                     .children()
                                     .index(ui.item);
 
-                var containerId = parseInt(ui.item.parents('.' + zoneClass + ':first').attr(DropthingsUI.Attributes.ZONE_ID));
+                var widgetZone = ui.item.parents('.' + zoneClass + ':first');
+                var containerId = parseInt(widgetZone.attr(DropthingsUI.Attributes.ZONE_ID));
 
                 if (ui.item.hasClass(newWidgetClass)) {
                     //new item has been dropped into the sortable list
                     var widgetId = ui.item.attr('id').match(/\d+/);
-                    var postbackUrlLinkScript = $('#' + zonePostbackTrigger).attr("href");
 
                     // OMAR: Create a summy widget placeholder while the real widget loads
                     var templateData = { title: $(ui.item).text() };
@@ -216,12 +235,17 @@ var DropthingsUI = {
                     widgetTemplateNode.drink(templateData);
                     widgetTemplateNode.insertBefore(ui.item);
 
-                    DropthingsUI.Actions.onWidgetAdd(widgetId[0], containerId, position, function() { eval(postbackUrlLinkScript); });
+                    DropthingsUI.Actions.onWidgetAdd(widgetId[0], containerId, position,
+                        function() {
+                            DropthingsUI.updateWidgetZone(widgetZone);
+                        });
                 }
                 else {
                     ui.item.css({ 'width': 'auto' });
                     var instanceId = parseInt(ui.item.attr(DropthingsUI.Attributes.INSTANCE_ID));
-                    DropthingsUI.Actions.onDrop(containerId, instanceId, position);
+                    DropthingsUI.Actions.onDrop(containerId, instanceId, position, function() {
+                        DropthingsUI.updateWidgetZone(widgetZone);
+                    });
                 }
             }
         })
@@ -271,6 +295,43 @@ var DropthingsUI = {
                 }
             });
         });
+    },
+    updateWidgetZone: function(widgetZone) {
+        // OMAR: update the widget zone after three seconds because user might drag & drop another widget
+        // in the meantime.
+        if ((DropthingsUI.__updateWidgetZoneTimerId || 0) == 0) {
+            var zoneList = DropthingsUI.__widgetZonesToUpdate || new Array;
+            zoneList.push(widgetZone);
+            DropthingsUI.__widgetZonesToUpdate = zoneList;
+            widgetZone.attr("__pendingUpdate", "1");
+            DropthingsUI.__updateWidgetZoneTimerId = window.setTimeout(function() {
+                $(DropthingsUI.__widgetZonesToUpdate).each(function(index, zone) {
+                    if (zone.attr("__pendingUpdate") == "1") {
+                        zone.attr("__pendingUpdate", "0");
+                        var f = function() { return Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack(); }
+                        Utility.untilFalse(f, function() {
+                            DropthingsUI.asyncPostbackWidgetZone(zone);
+                        });
+                    }
+                });
+                DropthingsUI.__updateWidgetZoneTimerId = 0;
+            }, 3000);
+        }
+        else {
+            // Restart the timer when another update is queued
+            DropthingsUI.suspendPendingWidgetZoneUpdate();
+            DropthingsUI.updateWidgetZone(widgetZone);
+        }
+    },
+    suspendPendingWidgetZoneUpdate: function() {
+        if (DropthingsUI.__updateWidgetZoneTimerId > 0) {
+            window.clearTimeout(DropthingsUI.__updateWidgetZoneTimerId);
+            DropthingsUI.__updateWidgetZoneTimerId = 0;
+        }
+    },
+    asyncPostbackWidgetZone: function(widgetZone) {
+        var postBackLink = widgetZone.parent().find("." + DropthingsUI.Attributes.WIDGET_ZONE_DUMMY_LINK);
+        eval(postBackLink.attr('href'));
     },
     Actions: {
         deleteWidget: function(instanceId) {
@@ -406,8 +467,8 @@ var DropthingsUI = {
             __doPostBack('UpdatePanelTabAndLayout', '');
         },
 
-        onDrop: function(columnNo, instanceId, row) {
-            Dropthings.Web.Framework.WidgetService.MoveWidgetInstance(instanceId, columnNo, row);
+        onDrop: function(columnNo, instanceId, row, callback) {
+            Dropthings.Web.Framework.WidgetService.MoveWidgetInstance(instanceId, columnNo, row, callback);
         },
 
         onWidgetAdd: function(widgetId, columnNo, row, callback) {
@@ -443,146 +504,131 @@ var DropthingsUI = {
     }
 };
 
-var Utility = 
+var Utility =
 {
     // change to display:none
-    nodisplay : function(e) 
-    { 
-        if( typeof e == "object") e.style.display = "none"; else if( $get(e) != null ) $get(e).style.display = "none"; 
+    nodisplay: function(e) {
+        if (typeof e == "object") e.style.display = "none"; else if ($get(e) != null) $get(e).style.display = "none";
     },
     // change to display:block
-    display : function (e,inline) 
-    { 
-        if( typeof e == "object") e.style.display = (inline?"inline":"block"); else if( $get(e) != null ) $get(e).style.display = (inline?"inline":"block"); 
+    display: function(e, inline) {
+        if (typeof e == "object") e.style.display = (inline ? "inline" : "block"); else if ($get(e) != null) $get(e).style.display = (inline ? "inline" : "block");
     },
-    
-    getContentHeight : function()
-    {
-        if ((document.body) && (document.body.offsetHeight))
-        {
+
+    getContentHeight: function() {
+        if ((document.body) && (document.body.offsetHeight)) {
             return document.body.offsetHeight;
         }
 
         return 0;
     },
-    
-    getViewPortWidth : function()
-    {
+
+    getViewPortWidth: function() {
         var width = 0;
 
-        if ((document.documentElement) && (document.documentElement.clientWidth))
-        {
+        if ((document.documentElement) && (document.documentElement.clientWidth)) {
             width = document.documentElement.clientWidth;
         }
-        else if ((document.body) && (document.body.clientWidth))
-        {
+        else if ((document.body) && (document.body.clientWidth)) {
             width = document.body.clientWidth;
         }
-        else if (window.innerWidth)
-        {
+        else if (window.innerWidth) {
             width = window.innerWidth;
         }
 
         return width;
     },
 
-    getViewPortHeight : function()
-    {
+    getViewPortHeight: function() {
         var height = 0;
 
-        if (window.innerHeight)
-        {
+        if (window.innerHeight) {
             height = window.innerHeight - 18;
         }
-        else if ((document.documentElement) && (document.documentElement.clientHeight))
-        {
+        else if ((document.documentElement) && (document.documentElement.clientHeight)) {
             height = document.documentElement.clientHeight;
         }
 
         return height;
-    },    
+    },
 
-    getViewPortScrollX : function()
-    {
+    getViewPortScrollX: function() {
         var scrollX = 0;
 
-        if ((document.documentElement) && (document.documentElement.scrollLeft))
-        {
+        if ((document.documentElement) && (document.documentElement.scrollLeft)) {
             scrollX = document.documentElement.scrollLeft;
         }
-        else if ((document.body) && (document.body.scrollLeft))
-        {
+        else if ((document.body) && (document.body.scrollLeft)) {
             scrollX = document.body.scrollLeft;
         }
-        else if (window.pageXOffset)
-        {
+        else if (window.pageXOffset) {
             scrollX = window.pageXOffset;
         }
-        else if (window.scrollX)
-        {
+        else if (window.scrollX) {
             scrollX = window.scrollX;
         }
 
         return scrollX;
     },
 
-    getViewPortScrollY : function()
-    {
+    getViewPortScrollY: function() {
         var scrollY = 0;
 
-        if ((document.documentElement) && (document.documentElement.scrollTop))
-        {
+        if ((document.documentElement) && (document.documentElement.scrollTop)) {
             scrollY = document.documentElement.scrollTop;
         }
-        else if ((document.body) && (document.body.scrollTop))
-        {
+        else if ((document.body) && (document.body.scrollTop)) {
             scrollY = document.body.scrollTop;
         }
-        else if (window.pageYOffset)
-        {
+        else if (window.pageYOffset) {
             scrollY = window.pageYOffset;
         }
-        else if (window.scrollY)
-        {
+        else if (window.scrollY) {
             scrollY = window.scrollY;
         }
 
         return scrollY;
     },
 
-    centralize : function(e)
-    {
-        var x = (($U.getViewPortWidth() - e.offsetWidth) /2);
-        var y = (($U.getViewPortHeight() - e.offsetHeight) /2) + Utility.getViewPortScrollY();
+    centralize: function(e) {
+        var x = (($U.getViewPortWidth() - e.offsetWidth) / 2);
+        var y = (($U.getViewPortHeight() - e.offsetHeight) / 2) + Utility.getViewPortScrollY();
 
         Sys.UI.DomElement.setLocation(e, x, y);
     },
-    
-    getAbsolutePosition : function(element, positionType) 
-    {
+
+    getAbsolutePosition: function(element, positionType) {
         var position = 0;
-        while (element != null)
-        {
+        while (element != null) {
             position += element["offset" + positionType];
             element = element.offsetParent;
         }
-        
+
         return position;
     },
 
 
-    blockUI : function()
-    {
+    blockUI: function() {
         Utility.display('blockUI');
         var blockUI = $get('blockUI');
-    
-        if( blockUI != null ) // it will be null if called from CompactFramework
-        blockUI.style.height = Math.max( Utility.getContentHeight(), 1000) + "px";    
+
+        if (blockUI != null) // it will be null if called from CompactFramework
+            blockUI.style.height = Math.max(Utility.getContentHeight(), 1000) + "px";
     },
 
-    unblockUI : function()
-    {
+    unblockUI: function() {
         Utility.nodisplay('blockUI');
+    },
+
+    untilTrue: function(test, callback) {
+        if (test() === true)
+            callback();
+        else
+            window.setTimeout(function() { Utility.untilTrue(test, callback); }, 200);
+    },
+    
+    untilFalse: function(test, callback) {
+        Utility.untilTrue(function(){ return test() === false }, callback);
     }
 };
 

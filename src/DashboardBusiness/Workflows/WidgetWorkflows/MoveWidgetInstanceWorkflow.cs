@@ -20,6 +20,8 @@ namespace Dropthings.Business.Workflows.WidgetWorkflows
     using System.Workflow.ComponentModel.Serialization;
     using System.Workflow.Runtime;
 
+    using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
+
     public sealed partial class MoveWidgetInstanceWorkflow : SequentialWorkflowActivity
     {
         #region Fields

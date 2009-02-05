@@ -30,7 +30,7 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
     {
         // If we already have the URL in cache, then we can directly render it instead of fetching the content
         // after a async postback
-        if (!this._Host.IsFirstLoad || ProxyAsync.IsUrlInCache(Cache, this.Url) ) 
+        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(Cache, this.Url) ) 
             this.LoadRSSView(sender, e);
     }
 

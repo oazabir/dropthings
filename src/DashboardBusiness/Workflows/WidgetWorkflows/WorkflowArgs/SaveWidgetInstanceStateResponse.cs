@@ -1,4 +1,4 @@
-﻿namespace Dropthings.Business.Workflows.WidgetWorkflows
+﻿namespace Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs
 {
     using System;
     using System.Collections.Generic;

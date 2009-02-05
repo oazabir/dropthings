@@ -52,19 +52,6 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (this._Host.IsFirstLoad)
-        {
-            ScriptManager.RegisterClientScriptInclude(this,
-                typeof(Widgets_FastRssWidget),
-                "FastRssWidget",
-                this.ResolveClientUrl(this.AppRelativeTemplateSourceDirectory + "FastRssWidget.js"));
-
-            var cachedJSON = GetCachedJSON();
-
-            ScriptManager.RegisterStartupScript(this, typeof(Widgets_FastRssWidget), "LoadRSS",
-                string.Format("var rssLoader{0} = new FastRssWidget( '{1}', '{2}', {3}, {4} ); rssLoader{0}.load();",
-                    this._Host.ID, this.Url, this.RssContainer.ClientID, this.Count, cachedJSON ?? "null"), true);
-        }
     }
 
     private string GetCachedJSON()
@@ -128,11 +115,17 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
     protected override void OnPreRender(EventArgs e)
     {
         base.OnPreRender(e);
+        
+        ScriptManager.RegisterClientScriptInclude(this,
+                        typeof(Widgets_FastRssWidget),
+                        "FastRssWidget",
+                        this.ResolveClientUrl(this.AppRelativeTemplateSourceDirectory + "FastRssWidget.js"));
 
-        if (!this._Host.IsFirstLoad)
-        ScriptManager.RegisterStartupScript(this, typeof(Widgets_FastRssWidget), "LoadRSS",
-                string.Format("rssLoader{0}.url = '{1}'; rssLoader{0}.count = {2}; rssLoader{0}.load();",
-                    this._Host.ID, this.Url, this.Count), true);
+        var cachedJSON = GetCachedJSON();
+
+        ScriptManager.RegisterStartupScript(this, typeof(Widgets_FastRssWidget), "LoadRSS" + this.ClientID,
+            string.Format("window.rssLoader{0} = new FastRssWidget( '{1}', '{2}', {3}, {4} ); window.rssLoader{0}.load();",
+                this._Host.ID, this.Url, this.RssContainer.ClientID, this.Count, cachedJSON ?? "null"), true);
     }
     
 }

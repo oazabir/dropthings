@@ -33,7 +33,7 @@ public partial class Widgets_HoroscopeWidget : System.Web.UI.UserControl, IWidge
         {
             lblHoroscope.Text=GetHoroscope();
         }*/
-        if (!this._Host.IsFirstLoad) this.LoadContentView(sender, e);
+        if (Page.IsPostBack) this.LoadContentView(sender, e);
     }
 
     protected void LoadContentView(object sender, EventArgs e)
@@ -46,7 +46,7 @@ public partial class Widgets_HoroscopeWidget : System.Web.UI.UserControl, IWidge
     {
         base.OnPreRender(e);
 
-        if( !this._Host.IsFirstLoad)  lblHoroscope.Text = GetHoroscope();
+        if(Page.IsPostBack)  lblHoroscope.Text = GetHoroscope();
     }
 
     void IWidget.Init(IWidgetHost host)

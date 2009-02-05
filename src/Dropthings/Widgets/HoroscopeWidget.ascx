@@ -32,4 +32,4 @@
 
 </asp:MultiView>
 
-<asp:Timer ID="MultiviewTimer" Interval="100" OnTick="LoadContentView" runat="server" /> 
+<asp:Timer ID="MultiviewTimer" Interval="1000" OnTick="LoadContentView" runat="server" /> 
