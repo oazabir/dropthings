@@ -264,10 +264,14 @@ namespace Dropthings.Web.Framework
             /*FieldInfo maxAge = HttpContext.Current.Response.Cache.GetType().GetField("_maxAge", BindingFlags.Instance | BindingFlags.NonPublic);
             maxAge.SetValue(HttpContext.Current.Response.Cache, duration);*/
 
-            context.Response.Cache.SetCacheability(HttpCacheability.Public);
-            context.Response.Cache.SetExpires(DateTime.Now.Add(duration));
-            context.Response.Cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
-            context.Response.Cache.SetMaxAge(duration);
+            if (context.Request.Url.AbsolutePath.EndsWith(".asmx"))
+            {
+                HttpCachePolicy cache = context.Response.Cache;
+                cache.SetCacheability(HttpCacheability.Public);
+                cache.SetExpires(DateTime.Now.Add(duration));
+                cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
+                cache.SetMaxAge(duration);
+            }
         }
 
         private HttpWebRequest CreateHttpWebRequest(string url)

@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" Theme="GreenBlue" EnableSessionState="False" ValidateRequest="false"   %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" Theme="GreenBlue" EnableSessionState="False" ValidateRequest="false" Trace="False" TraceMode="SortByCategory" %>
 <%@ OutputCache Location="None" NoStore="true" %>
 
 <%@ Register Src="~/Header.ascx" TagName="Header" TagPrefix="uc1" %>
@@ -148,7 +148,7 @@
     
     <!-- Template for a new widget placeholder -->
     <!-- Begin template -->
-    <div class"nodisplay>
+    <div class="nodisplay">
         <div ID="new_widget_template" class="widget">
             <div class="widget_header">
                 <table class="widget_header_table" cellspacing="0" cellpadding="0">
