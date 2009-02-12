@@ -1,11 +1,5 @@
 ﻿body,td,a,p,.h,h1,h2,h3,div,form{font-family:tahoma, arial,sans-serif; padding:0px; margin:0px;}
 body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 20px; text-align: center; font-size: 8pt }
-a { text-decoration: none }
-a:link, a:visited, a:active { color: green; }
-a:hover { color:Red; text-decoration: underline }
-.hidden{display:none;}
-.clear{clear:both;height:0;overflow:hidden;line-height:0;font-size:0;}
-.table_fixed {table-layout:fixed; clear:both; margin-top:10px;}
 
 #container { margin: 0pt auto; text-align: left; max-width: 1200px }
 

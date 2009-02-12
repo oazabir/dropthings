@@ -18,6 +18,7 @@ namespace Dropthings.Web.Util
 {
     public static class ActionValidator
     {
+        private static readonly bool DOS_CHECK_DISABLED = bool.Parse(ConfigurationManager.AppSettings["DisableDOSCheck"]);
         private const int DURATION = 10; // 10 min period
      
         /*
@@ -43,6 +44,9 @@ namespace Dropthings.Web.Util
 
         public static bool IsValid( ActionTypeEnum actionType )
         {
+            if (DOS_CHECK_DISABLED) 
+                return true;
+
             HttpContext context = HttpContext.Current;
             
             // We want crawler to index Dropthings

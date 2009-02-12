@@ -146,10 +146,15 @@ namespace Dropthings.Web.Framework
             /*FieldInfo maxAge = HttpContext.Current.Response.Cache.GetType().GetField("_maxAge", BindingFlags.Instance | BindingFlags.NonPublic);
             maxAge.SetValue(HttpContext.Current.Response.Cache, duration);*/
 
-            HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.Public);
-            HttpContext.Current.Response.Cache.SetExpires(DateTime.Now.Add(duration));
-            HttpContext.Current.Response.Cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
-            HttpContext.Current.Response.Cache.SetMaxAge(duration);
+            // Only when this method is being used from a webservice call.
+            if (HttpContext.Current.Request.Url.AbsolutePath.EndsWith(".asmx"))
+            {
+                HttpCachePolicy cache = HttpContext.Current.Response.Cache;
+                cache.SetCacheability(HttpCacheability.Public);
+                cache.SetExpires(DateTime.Now.Add(duration));
+                cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
+                cache.SetMaxAge(duration);
+            }
         }
 
     }
