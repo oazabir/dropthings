@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Text;
 
     using Dropthings.Test.Rules;
@@ -28,6 +29,20 @@
 
             int stepNo = (int)e.WebTest.Context[STEP_NO_KEY];
             e.WebTest.Context[STEP_NO_KEY] = stepNo + 1;
+
+            // When cookies are issues domain wide like .static.dropthings.com, it does not get
+            // added to the Cookie container properly so that the cookie is sent out on static.dropthings.com
+            // visit
+            foreach (Cookie cookie in e.Response.Cookies)
+            {
+                if (cookie.Domain.StartsWith("."))
+                {
+                    CookieContainer container = e.WebTest.Context.CookieContainer;
+                    cookie.Domain = cookie.Domain.TrimStart('.');
+                    //container.Add(new Uri(e.Response.ResponseUri.GetLeftPart(UriPartial.Authority)), cookie);
+                    container.Add(cookie);
+                }
+            }
         }
 
         public override void PreRequest(object sender, PreRequestEventArgs e)
@@ -56,14 +71,24 @@
                         extractionRule.Extract(sender, e);
                     });
 
+                    // Extract all INPUT/SELECT elements so that they can be posted in (async)postback
+                    RuleHelper.NotAlreadyExtracted<ExtractFormElements>(e.Request.ExtractionRuleReferences, () =>
+                        {
+                            new ExtractFormElements().Extract(sender, e);
+                        });
+
+                    // Extract all __doPostBack(...) so that the ID of the control can be used to make async
+                    // postbacks
                     RuleHelper.NotAlreadyExtracted<ExtractPostbackNames>(e.Request.ExtractionRuleReferences, () =>
-                    {
-                        ExtractPostbackNames.ExtractPostBackNames(e.Response.BodyString, e.WebTest.Context);
-                    });
+                        {
+                            new ExtractPostbackNames().Extract(sender, e);
+                        });
+
+                    // Extract all updatepanels so that during async postback, the updatepanel name can be derived
                     RuleHelper.NotAlreadyExtracted<ExtractUpdatePanels>(e.Request.ExtractionRuleReferences, () =>
-                    {
-                        ExtractUpdatePanels.ExtractUpdatePanelNames(e.Response.BodyString, e.WebTest.Context);
-                    });
+                        {
+                            new ExtractUpdatePanels().Extract(sender, e);
+                        });
                 });
         }
 

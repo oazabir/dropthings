@@ -43,20 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plugin\AjaxRequestPlugin.cs" />
     <Compile Include="Plugin\ASPNETWebTestPlugin.cs" />
     <Compile Include="Plugin\AsyncPostbackRequestPlugin.cs" />
+    <Compile Include="Plugin\FormPostPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CacheHeaderValidation.cs" />
     <Compile Include="Rules\CookieContentValidationRule.cs" />
     <Compile Include="Rules\CookieNotInRequest.cs" />
     <Compile Include="Rules\CookieSetToExpire.cs" />
     <Compile Include="Rules\CookieValidationRule.cs" />
-    <Compile Include="Rules\ExtractInputs.cs" />
+    <Compile Include="Rules\ExtractFormElements.cs" />
+    <Compile Include="Rules\ExtractJSON.cs" />
     <Compile Include="Rules\ExtractPostbackNames.cs" />
+    <Compile Include="Rules\ExtractRegEx.cs" />
     <Compile Include="Rules\ExtractUpdatePanelForControl.cs" />
     <Compile Include="Rules\ExtractUpdatePanels.cs" />
     <Compile Include="Rules\RuleCheck.cs" />
     <Compile Include="Rules\RuleHelper.cs" />
+    <Compile Include="Util\JSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\TestParameters.xml" />

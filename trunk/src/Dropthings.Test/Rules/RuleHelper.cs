@@ -106,6 +106,20 @@ namespace Dropthings.Test.Rules
             }));
         }
 
+        public static void SetParameter(FormPostParameterCollection postParams, string name, string value, bool encode)
+        {
+            foreach (FormPostParameter postParam in postParams)
+            {
+                if (postParam.Name == name)
+                {
+                    postParam.Value = value;
+                    return;
+                }
+            }
+
+            postParams.Add(name, value, encode);
+        }
+
         public static void WhenAspNetResponse(WebTestResponse response, Action callback)
         {
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

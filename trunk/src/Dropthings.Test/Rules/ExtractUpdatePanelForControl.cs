@@ -46,7 +46,7 @@
                 throw new ApplicationException("Cannot find in html: " + lookingFor);
 
             // Find the nearest UpdatePanel
-            ExtractUpdatePanels.ExtractUpdatePanelNames(e.Response.BodyString, e.WebTest.Context);
+            ExtractUpdatePanels.ExtractUpdatePanelNamesFromHtml(e.Response.BodyString, e.WebTest.Context);
             int updatePanelCount = (int)e.WebTest.Context[ExtractUpdatePanels.UPDATE_PANEL_COUNT_KEY];
             int minDistance = int.MaxValue;
             string closestUpdatePanel = string.Empty;
