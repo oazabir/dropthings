@@ -14,6 +14,7 @@
     {
         #region Fields
 
+        public const string FORM_ELEMENT_KEYS = "$FORM_ELEMENTS";
         public const string INPUT_PREFIX = "$INPUT.";
         public const string SELECT_PREFIX = "$SELECT.";
         public const string VALUE_SUFFIX = ".VALUE";
@@ -43,6 +44,7 @@
         {
             string body = e.Response.BodyString;
 
+            List<string> formElements = new List<string>();
             var processMatches = new Action<MatchCollection, string>((matches, prefix) =>
                 {
                     foreach (Match match in matches)
@@ -53,11 +55,17 @@
                         string lastPartOfName = name.Substring(name.LastIndexOf('$') + 1);
                         string keyName = RuleHelper.PlaceUniqueItem(e.WebTest.Context, prefix + lastPartOfName, name);
                         e.WebTest.Context[keyName + VALUE_SUFFIX] = value;
+
+                        // Create a name value pair in context as it is using the form element's name
+                        e.WebTest.Context[name] = value;
+                        formElements.Add(name);
                     }
                 });
 
             processMatches(_FindInputTags.Matches(body), INPUT_PREFIX);
             processMatches(_FindSelectTags.Matches(body), SELECT_PREFIX);
+
+            e.WebTest.Context[FORM_ELEMENT_KEYS] = formElements.ToArray();
         }
 
         #endregion Methods

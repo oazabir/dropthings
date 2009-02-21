@@ -64,32 +64,6 @@
           </RuleParameters>
         </ValidationRule>
       </ValidationRules>
-      <ExtractionRules>
-        <ExtractionRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ExtractHiddenFields, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" VariableName="" DisplayName="Extract Hidden Fields" Description="Extract all hidden fields from the response and place them into the test context.">
-          <RuleParameters>
-            <RuleParameter Name="ContextParameterName" Value="" />
-            <RuleParameter Name="Required" Value="True" />
-            <RuleParameter Name="HtmlDecode" Value="True" />
-          </RuleParameters>
-        </ExtractionRule>
-        <ExtractionRule Classname="Dropthings.Test.Rules.ExtractPostbackNames, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="" DisplayName="Extract PostBack Names" Description="">
-          <RuleParameters>
-            <RuleParameter Name="ContextParameterName" Value="" />
-          </RuleParameters>
-        </ExtractionRule>
-        <ExtractionRule Classname="Dropthings.Test.Rules.ExtractUpdatePanels, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="" DisplayName="ExtractUpdatePanels" Description="">
-          <RuleParameters>
-            <RuleParameter Name="ContextParameterName" Value="" />
-          </RuleParameters>
-        </ExtractionRule>
-        <ExtractionRule Classname="Dropthings.Test.Rules.ExtractUpdatePanelForControl, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="$UPDATEPANEL-ShowAddContentPanel" DisplayName="Extract UpdatePanel for Control" Description="">
-          <RuleParameters>
-            <RuleParameter Name="ControlID" Value="ShowAddContentPanel" />
-            <RuleParameter Name="ContextParameterName" Value="" />
-            <RuleParameter Name="Required" Value="True" />
-          </RuleParameters>
-        </ExtractionRule>
-      </ExtractionRules>
     </Request>
     <TransactionTimer Name="Show Hide Widget List">
       <Items>
@@ -109,7 +83,7 @@
             <RequestPlugin Classname="Dropthings.Test.Plugin.AsyncPostbackRequestPlugin, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="AsyncPostbackRequestPlugin" Description="">
               <RuleParameters>
                 <RuleParameter Name="ControlName" Value="ShowAddContentPanel" />
-                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL-ShowAddContentPanel}}" />
+                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.OnPageMenuUpdatePanel.1}}" />
               </RuleParameters>
             </RequestPlugin>
           </RequestPlugins>
@@ -236,7 +210,7 @@
             <RequestPlugin Classname="Dropthings.Test.Plugin.AsyncPostbackRequestPlugin, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="AsyncPostbackRequestPlugin" Description="">
               <RuleParameters>
                 <RuleParameter Name="ControlName" Value="ShowAddContentPanel" />
-                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL-ShowAddContentPanel}}" />
+                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.OnPageMenuUpdatePanel.1}}" />
               </RuleParameters>
             </RequestPlugin>
           </RequestPlugins>
@@ -257,7 +231,7 @@
             <RequestPlugin Classname="Dropthings.Test.Plugin.AsyncPostbackRequestPlugin, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="AsyncPostbackRequestPlugin" Description="">
               <RuleParameters>
                 <RuleParameter Name="ControlName" Value="{{$POSTBACK.AddWidget.1}}" />
-                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL-ShowAddContentPanel}}" />
+                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.OnPageMenuUpdatePanel.1}}" />
               </RuleParameters>
             </RequestPlugin>
           </RequestPlugins>

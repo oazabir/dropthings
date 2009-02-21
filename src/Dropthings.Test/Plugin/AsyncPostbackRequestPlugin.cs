@@ -49,12 +49,22 @@
             string controlName = RuleHelper.ResolveContextValue(e.WebTest.Context, this.ControlName);
             string updatePanelName = RuleHelper.ResolveContextValue(e.WebTest.Context, this.UpdatePanelName);
 
-            formBody.FormPostParameters.Add("__ASYNCPOST", "true", true);
-            formBody.FormPostParameters.Add("__EVENTARGUMENT", e.WebTest.Context["$HIDDEN1.__EVENTARGUMENT"] as string, true);
-            formBody.FormPostParameters.Add("__VIEWSTATE", e.WebTest.Context["$HIDDEN1.__VIEWSTATE"] as string, true);
-            formBody.FormPostParameters.Add("__EVENTVALIDATION", e.WebTest.Context["$HIDDEN1.__EVENTVALIDATION"] as string, true);
-            formBody.FormPostParameters.Add("ScriptManager1", updatePanelName + "|" + controlName, true);
-            formBody.FormPostParameters.Add("__EVENTTARGET", controlName, true);
+            // Post all input hidden fields
+            string[] hiddenFieldKeyNames = e.WebTest.Context["$HIDDEN1"] as string[];
+            if (null != hiddenFieldKeyNames)
+            {
+                foreach (string hiddenFieldKeyName in hiddenFieldKeyNames)
+                    formBody.FormPostParameters.Add(hiddenFieldKeyName, e.WebTest.Context["$HIDDEN1." + hiddenFieldKeyName] as string);
+
+                //formBody.FormPostParameters.Add("__EVENTARGUMENT", e.WebTest.Context["$HIDDEN1.__EVENTARGUMENT"] as string, true);
+                //formBody.FormPostParameters.Add("__VIEWSTATE", e.WebTest.Context["$HIDDEN1.__VIEWSTATE"] as string, true);
+                //formBody.FormPostParameters.Add("__EVENTVALIDATION", e.WebTest.Context["$HIDDEN1.__EVENTVALIDATION"] as string, true);
+
+                // TODO: Find an easier way to update FormPostParameter
+                RuleHelper.SetParameter(formBody.FormPostParameters, "ScriptManager1", updatePanelName + "|" + controlName, true);
+                RuleHelper.SetParameter(formBody.FormPostParameters, "__EVENTTARGET", controlName, true);
+                RuleHelper.SetParameter(formBody.FormPostParameters, "__ASYNCPOST", "true", true);
+            }
         }
 
         #endregion Methods

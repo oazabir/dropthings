@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     using Microsoft.VisualStudio.TestTools.WebTesting;
 
@@ -22,18 +23,28 @@
     {
         #region Fields
 
+        public const string UPDATEPANEL_EXTRACTED_KEY = "$UPDATEPANEL.EXTRACTED";
         public const string UPDATE_PANEL_COUNT_KEY = UPDATE_PANEL_PREFIX + ".COUNT";
         public const string UPDATE_PANEL_DECLARATION = "Sys.WebForms.PageRequestManager.getInstance()._updateControls([";
+        public const string UPDATE_PANEL_KEY = "$UPDATEPANEL";
         public const string UPDATE_PANEL_POS_KEY = ".$POS";
-        public const string UPDATE_PANEL_PREFIX = "$UPDATEPANEL.";
+        public const string UPDATE_PANEL_PREFIX = UPDATE_PANEL_KEY + ".";
+
+        private static Regex _FindUpdatePanelRegex = new Regex(
+            @"\|updatePanel\|(?<name>(.*?))\|",
+            RegexOptions.IgnoreCase
+            | RegexOptions.Multiline
+            | RegexOptions.IgnorePatternWhitespace
+            | RegexOptions.Compiled
+            );
 
         #endregion Fields
 
         #region Methods
 
-        public static void ExtractUpdatePanelNames(string body, WebTestContext context)
+        public static void ExtractUpdatePanelNamesFromHtml(string body, WebTestContext context)
         {
-            RuleHelper.NotAlreadyDone(context, "$UPDATEPANEL.EXTRACTED", () =>
+            RuleHelper.NotAlreadyDone(context, UPDATEPANEL_EXTRACTED_KEY, () =>
                 {
                     // Do not extract update panel names twice
                     int pos = body.IndexOf(UPDATE_PANEL_DECLARATION);
@@ -76,7 +87,34 @@
         public override void Extract(object sender, ExtractionEventArgs e)
         {
             string body = e.Response.BodyString;
-            ExtractUpdatePanelNames(body, e.WebTest.Context);
+            if (e.Response.ContentType.Contains("text/html"))
+                ExtractUpdatePanelNamesFromHtml(body, e.WebTest.Context);
+            else // if (e.Response.ContentType.Contains("text/plain"))
+                ExtractUpdatePanelNamesFromAsyncPostback(body, e.WebTest.Context);
+        }
+
+        private void ExtractUpdatePanelNamesFromAsyncPostback(string body, WebTestContext context)
+        {
+            RuleHelper.NotAlreadyDone(context, "$UPDATEPANEL.EXTRACTED", () =>
+                {
+                    int newUpdatePanelsAdded = 0;
+                    foreach (Match match in _FindUpdatePanelRegex.Matches(body))
+                    {
+                        string updatePanelDivID = match.Groups["name"].Value;
+                        string updatePanelFullId = updatePanelDivID.Replace('_', '$');
+                        string updatePanelIdLastPart = updatePanelFullId.Substring(updatePanelFullId.LastIndexOf('$') + 1);
+
+                        string contextKeyName = UPDATE_PANEL_PREFIX + updatePanelIdLastPart;
+                        string keyName = RuleHelper.PlaceUniqueItem(context, contextKeyName, updatePanelFullId);
+
+                        int countOfKeys = context.Count;
+                        RuleHelper.PlaceUniqueItem(context, UPDATE_PANEL_KEY, updatePanelFullId);
+                        if (context.Count > countOfKeys)
+                            newUpdatePanelsAdded++;
+                    }
+
+                    context[UPDATE_PANEL_COUNT_KEY] = ((int)context[UPDATE_PANEL_COUNT_KEY]) + newUpdatePanelsAdded;
+                });
         }
 
         #endregion Methods
