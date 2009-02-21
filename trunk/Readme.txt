@@ -57,3 +57,12 @@ GO
 
 
 The End.
+
+
+
+Hosting Dropthings on IIS
+=========================
+* Open Dropthings.Silverlight project and change the path of the webservice in: ServiceReferences.ClientConfig to match your IIS host location. Currently it is set to "http://localhost:8000/WidgetService.asmx"
+* Copy the Website to IIS root website. Do NOT copy to a Virtual Directory. It does not work well inside a virtual directory.
+* Update the web.config and change all http://localhost:8000/ to your IIS host.
+* Update the web.config
