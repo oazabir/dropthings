@@ -21,7 +21,6 @@
 
         // Setup default Dependencies for regular execution where all dependencies are real
         Dropthings.Business.Container.ObjectContainer.SetupDefaults(runtime);
-        SetupDefaultSetting();
     }
 
     void Application_End(object sender, EventArgs e)
@@ -75,22 +74,6 @@
         }
     }
 
-    private static void SetupDefaultSetting()
-    {
-        //setup default roles, template user and role template      
-        RunWorkflow.Run<SetupDefaultRolesWorkflow, SetupDefaultRolesWorkflowRequest, SetupDefaultRolesWorkflowResponse>(
-            new SetupDefaultRolesWorkflowRequest { }
-        );
-
-        Dropthings.Business.UserSettingTemplateSettingsSection settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);
-
-        foreach (UserSettingTemplateElement setting in settings.UserSettingTemplates)
-        {
-            RunWorkflow.Run<CreateTemplateUserWorkflow, CreateTemplateUserWorkflowRequest, CreateTemplateUserWorkflowResponse>(
-                new CreateTemplateUserWorkflowRequest { Email = setting.UserName, IsActivationRequired = false, Password = setting.Password, RequestedUsername = setting.UserName, RoleName = setting.RoleNames, TemplateRoleName = setting.TemplateRoleName }
-            );
-
-        }
-    }
+    
 </script>
 

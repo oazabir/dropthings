@@ -1,4 +1,4 @@
-namespace PageflakesLoadTest.Plugins
+namespace Dropthings.Test.Plugins
 {
     using System;
     using System.Collections;

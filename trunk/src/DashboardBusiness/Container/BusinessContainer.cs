@@ -126,7 +126,7 @@
         public static void SetupDefaults(WorkflowRuntime runtime)
         {
             RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
-            RegisterType<IWorkflowHelper, WorkflowHelper>();
+            RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
         }
 
         public static void Teardown(object o)

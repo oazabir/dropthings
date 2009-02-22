@@ -59,34 +59,40 @@ public partial class _Default : BasePage
     {
         base.OnInit(e);
 
-        // Check if revisit is valid or not
-        if( !base.IsPostBack ) 
-        {
-            // Block cookie less visit attempts
-            if( Profile.IsFirstVisit )
+        TrapDatabaseException(() =>
             {
-                if( !ActionValidator.IsValid(ActionValidator.ActionTypeEnum.FirstVisit))  Response.End();
-            }
-            else
-            {
-                if( !ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Revisit) )  Response.End();
-            }
-        }
-        else
-        {
-            // Limit number of postbacks
-            if( !ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Postback) ) Response.End();
-        }
+                // Check if revisit is valid or not
+                if (!base.IsPostBack)
+                {
+                    // Block cookie less visit attempts
+                    if (Profile.IsFirstVisit)
+                    {
+                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.FirstVisit)) Response.End();
+                    }
+                    else
+                    {
+                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Revisit)) Response.End();
+                    }
+                }
+                else
+                {
+                    // Limit number of postbacks
+                    if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Postback)) Response.End();
+                }
+            });
     }
 
     protected override void CreateChildControls()
     {
-        base.CreateChildControls();
-        this.LoadUserPageSetup(false);
-        this.LoadAddStuff();
-        this.UserTabPage.LoadTabs(_Setup.UserPages, _Setup.CurrentPage);
+        TrapDatabaseException(() =>
+            {
+                base.CreateChildControls();
+                this.LoadUserPageSetup(false);
+                this.LoadAddStuff();
+                this.UserTabPage.LoadTabs(_Setup.UserPages, _Setup.CurrentPage);
 
-        this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);        
+                this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
+            });
     }
 
 
@@ -95,41 +101,40 @@ public partial class _Default : BasePage
         // If URL has the page title, load that page by default
         string pageTitle = (Request.Url.Query ?? string.Empty).TrimStart('?');
 
-        if( Profile.IsAnonymous )
+        TrapDatabaseException(() =>
         {
-            if( Profile.IsFirstVisit )
+            if (Profile.IsAnonymous)
             {
-                // First visit
-                Profile.IsFirstVisit = false;
-                Profile.Save();
+                if (Profile.IsFirstVisit)
+                {
+                    // First visit
+                    Profile.IsFirstVisit = false;
+                    Profile.Save();
 
-                _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                        new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName }
-                    );
+                    _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                        new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName });
 
+                }
+                else
+                {
+                    _Setup = RunWorkflow.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                        new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = true });
+                }
             }
             else
             {
                 _Setup = RunWorkflow.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                            new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = true }
-                        );
-            }
-        }
-        else
-        {
-            _Setup = RunWorkflow.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                            new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = false }
-                        );
+                    new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = false });
 
-            // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
-            // to recrate the pages
-            if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
-            {
-                _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                        new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName, IsAnonymous = false }
-                    );
+                // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
+                // to recrate the pages
+                if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
+                {
+                    _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                        new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName, IsAnonymous = false });
+                }
             }
-        }
+        });
     }
 
     
@@ -157,6 +162,9 @@ public partial class _Default : BasePage
         this.ShowAddContentPanel.Visible = false;
 
         this.LoadAddStuff();
+
+        ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel"+DateTime.Now.Ticks.ToString(),
+            "DropthingsUI.showWidgetGallery();", true);
     }
     
     protected void HideAddContentPanel_Click(object sender, EventArgs e)
@@ -227,5 +235,22 @@ public partial class _Default : BasePage
     {
         this.ChangePageSettingsPanel.Visible = false;
         this.ChangePageTitleLinkButton.Text = "Change Settings";
+    }
+
+    private void TrapDatabaseException(Action work)
+    { 
+        try
+        {
+            work();
+        }
+        catch (Exception x)
+        {
+            Response.Write("<html>");
+            Response.Write("<h1>Error occured loading the page. Please ensure you have run the <a href='Setup.aspx'>Setup page</a>.</h1>");
+            Response.Write("<pre>");
+            Response.Write(x.ToString());
+            Response.Write("</pre>");
+            Response.Write("</html>");
+        }
     }
 }

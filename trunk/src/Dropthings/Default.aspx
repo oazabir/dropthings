@@ -57,7 +57,7 @@
 
                         <div id="onpage_menu_bar" onmouseover="this.className='onpage_menu_bar_hover'" onmouseout="this.className=''">
                             <asp:LinkButton CssClass="onpage_menu_action" ID="ShowAddContentPanel" runat="server" Text="Add stuff »" OnClick="ShowAddContentPanel_Click"/>
-                            <asp:LinkButton CssClass="onpage_menu_action" ID="HideAddContentPanel" runat="server" Text="Hide Stuff »" OnClick="HideAddContentPanel_Click" Visible="false" />
+                            <asp:LinkButton CssClass="onpage_menu_action" ID="HideAddContentPanel" runat="server" Text="Hide Stuff »" OnClick="HideAddContentPanel_Click" Visible="false" OnClientClick="DropthingsUI.hideWidgetGallery();" />
                             
                             <asp:LinkButton ID="ChangePageTitleLinkButton" CssClass="onpage_menu_action" Text="Change Settings »" runat="server" OnClick="ChangeTabSettingsLinkButton_Clicked" />
                         </div>
@@ -90,10 +90,13 @@
                                     
                                 </div>
                             </asp:Panel>
-                            
-                            <asp:Panel ID="AddContentPanel" runat="Server" CssClass="onpage_menu_panel widget_showcase" Visible="false">
-                                <widgets:WidgetListControl ID="WidgetListControlAdd" runat="server" />                    
-                            </asp:Panel>            
+                            <div id="Widget_Gallery" style="display:none">
+                                <asp:Panel ID="AddContentPanel" runat="Server" CssClass="onpage_menu_panel widget_showcase" Visible="false">                                
+                                    <widgets:WidgetListControl ID="WidgetListControlAdd" runat="server" />                    
+                                    
+                                    <div class="clear"></div>
+                                </asp:Panel>            
+                            </div>
                         </div>    
                             
                         
@@ -101,7 +104,7 @@
                 </asp:UpdatePanel>
             </div>
         </div>
-        <div style="clear:both"></div>
+        <div class="clear"></div>
         <div id="contents">
             <div id="contents_wrapper">
                 <div id="widget_area">

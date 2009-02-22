@@ -45,13 +45,7 @@ public partial class LoginPage : System.Web.UI.Page
         try
         {
             bool activationRequired = Convert.ToBoolean(ConfigurationManager.AppSettings["ActivationRequired"]);
-            var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        UserRegistrationWorkflow,
-                        UserRegistrationWorkflowRequest,
-                        UserRegistrationWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+            var response = RunWorkflow.Run<UserRegistrationWorkflow,UserRegistrationWorkflowRequest,UserRegistrationWorkflowResponse>(
                             new UserRegistrationWorkflowRequest { Email = Email.Text, RequestedUsername = Email.Text, Password = Password.Text, IsActivationRequired = activationRequired, UserName = Profile.UserName }
                         );
 

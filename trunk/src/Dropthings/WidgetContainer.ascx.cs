@@ -345,13 +345,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Close()
     {
-        ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        DeleteWidgetInstanceWorkflow,
-                        DeleteWidgetInstanceWorkflowRequest,
-                        DeleteWidgetInstanceWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+        RunWorkflow.Run<DeleteWidgetInstanceWorkflow,DeleteWidgetInstanceWorkflowRequest,DeleteWidgetInstanceWorkflowResponse>(
                             new DeleteWidgetInstanceWorkflowRequest { WidgetInstanceId = this.WidgetInstance.Id, UserName = Profile.UserName }
                         );
 
@@ -373,13 +367,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.SaveState(string state)
     {
-        ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        SaveWidgetInstanceStateWorkflow,
-                        SaveWidgetInstanceStateRequest,
-                        SaveWidgetInstanceStateResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+        RunWorkflow.Run<SaveWidgetInstanceStateWorkflow,SaveWidgetInstanceStateRequest,SaveWidgetInstanceStateResponse>(
                             new SaveWidgetInstanceStateRequest { WidgetInstanceId = this._WidgetInstance.Id, State = state, UserName = Profile.UserName }
                         );
 
