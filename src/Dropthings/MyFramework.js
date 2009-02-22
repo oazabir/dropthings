@@ -333,6 +333,12 @@ var DropthingsUI = {
         var postBackLink = widgetZone.parent().find("." + DropthingsUI.Attributes.WIDGET_ZONE_DUMMY_LINK);
         eval(postBackLink.attr('href'));
     },
+    showWidgetGallery: function() {
+        $('#Widget_Gallery').show("slow");
+    },
+    hideWidgetGallery: function() {
+        $('#Widget_Gallery').hide("slow");
+    },
     Actions: {
         deleteWidget: function(instanceId) {
             Dropthings.Web.Framework.WidgetService.DeleteWidgetInstance(instanceId);
@@ -501,7 +507,7 @@ var DropthingsUI = {
             request.set_executor(executor);
             executor.executeRequest();
         }
-    }
+    }    
 };
 
 var Utility =

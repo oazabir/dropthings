@@ -46,7 +46,6 @@
     <Compile Include="Plugin\AjaxRequestPlugin.cs" />
     <Compile Include="Plugin\ASPNETWebTestPlugin.cs" />
     <Compile Include="Plugin\AsyncPostbackRequestPlugin.cs" />
-    <Compile Include="Plugin\FormPostPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CacheHeaderValidation.cs" />
     <Compile Include="Rules\CookieContentValidationRule.cs" />

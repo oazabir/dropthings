@@ -98,13 +98,7 @@ public partial class WidgetListControl : System.Web.UI.UserControl
         
         //User added a new widget. The new widget is loaded for the first time. So, it's not 
         //a postback experience for the widget. But for rest of the widgets, it is a postback experience.
-        var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                   .ExecuteWorkflow<
-                       AddWidgetWorkflow,
-                       AddWidgetRequest,
-                       AddWidgetResponse
-                       >(
-                           ObjectContainer.Resolve<WorkflowRuntime>(),
+        var response = RunWorkflow.Run<AddWidgetWorkflow,AddWidgetRequest,AddWidgetResponse>(
                            new AddWidgetRequest { WidgetId = widgetId, RowNo = 0, ColumnNo = 0, ZoneId = 0, UserName = Profile.UserName }
                        );
 

@@ -64,13 +64,7 @@ public partial class ManageAccountPage : System.Web.UI.Page
         {
             //new DashboardFacade(Profile.UserName).UpdateAccount(EmailTextbox.Text.Trim());
 
-            ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        UpdateAccountWorkflow,
-                        UpdateAccountWorkflowRequest,
-                        UpdateAccountWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
+            RunWorkflow.Run<UpdateAccountWorkflow,UpdateAccountWorkflowRequest,UpdateAccountWorkflowResponse>(
                             new UpdateAccountWorkflowRequest { Email = EmailTextbox.Text.Trim(), UserName = Profile.UserName }
                         );
 

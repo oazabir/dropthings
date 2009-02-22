@@ -58,9 +58,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
         maxBackground.Style.Add("display", "none");
         this.Controls.Add(maxBackground);
 
-        var columns = ObjectContainer.Resolve<IWorkflowHelper>()
-            .ExecuteWorkflow<GetColumnsInPageWorkflow, GetColumnsInPageWorkflowRequest, GetColumnsInPageWorkflowResponse>(
-                ObjectContainer.Resolve<WorkflowRuntime>(),
+        var columns = RunWorkflow.Run<GetColumnsInPageWorkflow, GetColumnsInPageWorkflowRequest, GetColumnsInPageWorkflowResponse>(
                 new GetColumnsInPageWorkflowRequest { PageId = this.CurrentPage.ID, UserName = Profile.UserName }
             ).Columns;
             
