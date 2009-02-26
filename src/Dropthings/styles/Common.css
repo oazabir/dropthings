@@ -13,3 +13,4 @@ a:hover { color:Red; text-decoration: underline }
 .nodisplay {display:none}
 .display_block {display:block}
 .display_inline {display:inline}
+.hidden {visibility:hidden}
