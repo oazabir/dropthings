@@ -161,10 +161,16 @@ public partial class _Default : BasePage
         this.HideAddContentPanel.Visible = true;
         this.ShowAddContentPanel.Visible = false;
 
-        this.LoadAddStuff();
+        this.LoadAddStuff();        
+    }
 
-        ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel"+DateTime.Now.Ticks.ToString(),
-            "DropthingsUI.showWidgetGallery();", true);
+    protected override void OnPreRender(EventArgs e)
+    {
+        base.OnPreRender(e);
+
+        if (this.AddContentPanel.Visible)
+            ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel" + DateTime.Now.Ticks.ToString(),
+                "DropthingsUI.showWidgetGallery();", true);
     }
     
     protected void HideAddContentPanel_Click(object sender, EventArgs e)
