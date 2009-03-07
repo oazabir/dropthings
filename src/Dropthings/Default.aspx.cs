@@ -29,6 +29,7 @@ using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
 using System.Workflow.Runtime;
 using Dropthings.Business.Workflows.WidgetWorkflows;
+using Dropthings.Web.Framework;
 
 public partial class _Default : BasePage
 {
@@ -141,7 +142,7 @@ public partial class _Default : BasePage
     
     private void RedirectToTab(Page page)
     {
-        Response.Redirect('?' + page.TabName());
+        Response.Redirect('?' + page.TabName);
     }
 
     private void OnReloadPage(object sender, EventArgs e)

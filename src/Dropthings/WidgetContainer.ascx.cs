@@ -20,6 +20,7 @@ using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.WidgetWorkflows;
 using System.Workflow.Runtime;
 using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
+using Dropthings.Web.Framework;
 
 public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 {

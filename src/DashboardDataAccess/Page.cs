@@ -15,6 +15,18 @@ namespace Dropthings.DataAccess
 
     public partial class Page
     {
+        #region Properties
+
+        public string TabName
+        {
+            get
+            {
+                return this.Title.Replace(' ', '_');
+            }
+        }
+
+        #endregion Properties
+
         #region Methods
 
         public void Detach()

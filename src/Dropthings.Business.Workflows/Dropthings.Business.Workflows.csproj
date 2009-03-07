@@ -304,6 +304,9 @@
     <EmbeddedResource Include="EntryPointWorkflows\UserVisitWorkflow.rules">
       <DependentUpon>UserVisitWorkflow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TabWorkflows\ModifyPageLayoutWorkflow.rules">
+      <DependentUpon>ModifyPageLayoutWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserAccountWorkflow\CreateTemplateUserWorkflow.rules">
       <DependentUpon>CreateTemplateUserWorkflow.cs</DependentUpon>
     </EmbeddedResource>

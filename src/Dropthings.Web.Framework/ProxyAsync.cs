@@ -1,31 +1,35 @@
+#region Header
+
 // Copyright (c) Omar AL Zabir. All rights reserved.
 // For continued development and updates, visit http://msmvps.com/omar
 
-using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Web;
-using System.Web.Caching;
-using System.Collections;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.Web.Script.Services;
-
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml;
-using System.Net;
-using System.IO;
-using System.IO.Compression;
-using System.Net.Sockets;
-
-using AJAXASMXHandler;
-using System.Text;
-using System.Text.RegularExpressions;
-using Dropthings.Widget.Widgets.RSS;
+#endregion Header
 
 namespace Dropthings.Web.Framework
 {
+    using System;
+    using System.Collections;
+    using System.Diagnostics;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Reflection;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Web;
+    using System.Web.Caching;
+    using System.Web.Script.Services;
+    using System.Web.Services;
+    using System.Web.Services.Protocols;
+    using System.Xml;
+    using System.Xml.Linq;
+
+    using AJAXASMXHandler;
+
+    using Dropthings.Widget.Framework;
+
     /// <summary>
     /// Summary description for Proxy
     /// </summary>
@@ -34,18 +38,30 @@ namespace Dropthings.Web.Framework
     [ScriptService]
     public class ProxyAsync : System.Web.Services.WebService
     {
+        #region Fields
+
         private const string CACHE_KEY = "ProxyAsync.";
+
+        private static Regex _StripTagEx = new Regex("</?[^>]+>", RegexOptions.Compiled);
+
+        #endregion Fields
+
+        #region Constructors
 
         public ProxyAsync()
         {
         }
 
-        private class GetStringState : AsyncWebMethodState
+        #endregion Constructors
+
+        #region Methods
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true)]
+        public static bool IsUrlInCache(Cache cache, string url)
         {
-            public HttpWebRequest Request;
-            public string Url;
-            public int CacheDuration;
-            public GetStringState(object state) : base(state) { }
+            var data = cache[CACHE_KEY + url];
+            return (null != data);
         }
 
         [ScriptMethod]
@@ -69,6 +85,12 @@ namespace Dropthings.Web.Framework
             myState.CacheDuration = cacheDuration;
 
             return request.BeginGetResponse(cb, myState);
+        }
+
+        [ScriptMethod]
+        public IAsyncResult BeginGetXml(string url, int cacheDuration, AsyncCallback cb, object state)
+        {
+            return BeginGetString(url, cacheDuration, cb, state);
         }
 
         [ScriptMethod]
@@ -138,49 +160,10 @@ namespace Dropthings.Web.Framework
             }
         }
 
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = true)]
-        public string GetString(string url, int cacheDuration)
-        {
-            var cachedContent = Context.Cache[CACHE_KEY + url] as string;
-            if (null != cachedContent) return cachedContent;
-
-            using (WebClient client = new WebClient())
-            {
-                var content = client.DownloadString(url);
-                Context.Cache.Insert(CACHE_KEY + url, content, null,
-                        Cache.NoAbsoluteExpiration,
-                        TimeSpan.FromMinutes(cacheDuration),
-                        CacheItemPriority.Normal, null);
-                return content;
-            }
-        }
-
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Xml)]
-        public string GetXml(string url, int cacheDuration)
-        {
-            return GetString(url, cacheDuration);
-        }
-
-        [ScriptMethod]
-        public IAsyncResult BeginGetXml(string url, int cacheDuration, AsyncCallback cb, object state)
-        {
-            return BeginGetString(url, cacheDuration, cb, state);
-        }
-
         [ScriptMethod]
         public string EndGetXml(IAsyncResult result)
         {
             return EndGetString(result);
-        }
-        
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = true)]        
-        public static bool IsUrlInCache(Cache cache, string url)
-        {
-            var data = cache[CACHE_KEY + url];
-            return (null != data);
         }
 
         [WebMethod]
@@ -213,7 +196,7 @@ namespace Dropthings.Web.Framework
                 catch(Exception x)
                 {
                     Debug.WriteLine(x.ToString());
-                    // Let's remember that we failed to load this RSS feed and we will not try to load it again 
+                    // Let's remember that we failed to load this RSS feed and we will not try to load it again
                     // in next 15 mins
                     Context.Cache.Insert(CACHE_KEY + url, string.Empty, null, DateTime.MaxValue, TimeSpan.FromMinutes(15));
                     return null;
@@ -256,6 +239,31 @@ namespace Dropthings.Web.Framework
             }
         }
 
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true)]
+        public string GetString(string url, int cacheDuration)
+        {
+            var cachedContent = Context.Cache[CACHE_KEY + url] as string;
+            if (null != cachedContent) return cachedContent;
+
+            using (WebClient client = new WebClient())
+            {
+                var content = client.DownloadString(url);
+                Context.Cache.Insert(CACHE_KEY + url, content, null,
+                        Cache.NoAbsoluteExpiration,
+                        TimeSpan.FromMinutes(cacheDuration),
+                        CacheItemPriority.Normal, null);
+                return content;
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Xml)]
+        public string GetXml(string url, int cacheDuration)
+        {
+            return GetString(url, cacheDuration);
+        }
+
         private void CacheResponse(HttpContext context, int durationInMinutes)
         {
             TimeSpan duration = TimeSpan.FromMinutes(durationInMinutes);
@@ -287,12 +295,36 @@ namespace Dropthings.Web.Framework
             return request;
         }
 
-        private static Regex _StripTagEx = new Regex("</?[^>]+>", RegexOptions.Compiled);
         private string StripTags(string html, int trimAt)
         {
             string plainText = _StripTagEx.Replace(html, string.Empty);
             return plainText.Substring(0, Math.Min(plainText.Length, trimAt));
         }
-    }
 
+        #endregion Methods
+
+        #region Nested Types
+
+        private class GetStringState : AsyncWebMethodState
+        {
+            #region Fields
+
+            public int CacheDuration;
+            public HttpWebRequest Request;
+            public string Url;
+
+            #endregion Fields
+
+            #region Constructors
+
+            public GetStringState(object state)
+                : base(state)
+            {
+            }
+
+            #endregion Constructors
+        }
+
+        #endregion Nested Types
+    }
 }

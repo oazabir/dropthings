@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{91B72026-1980-46AD-89D0-C33DD411D66A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dropthings.Web.Framework</RootNamespace>
+    <AssemblyName>Dropthings.Web.Framework</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Workflow.Activities">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.ComponentModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.Runtime">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PageService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProxyAsync.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RunWorkflow.cs" />
+    <Compile Include="UserProfile.cs" />
+    <Compile Include="WebServiceBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AjaxAsmxHandler\AJAXASMXHandler.csproj">
+      <Project>{42190D98-86BA-44B5-8CFF-F62754029C61}</Project>
+      <Name>AJAXASMXHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">
+      <Project>{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}</Project>
+      <Name>Dropthings.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DashboardDataAccess\Dropthings.DataAccess.csproj">
+      <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
+      <Name>Dropthings.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Activities\Dropthings.Business.Activities.csproj">
+      <Project>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</Project>
+      <Name>Dropthings.Business.Activities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Facade\Dropthings.Business.Facade.csproj">
+      <Project>{514B9055-2EEF-4111-9CAC-F763120BB35D}</Project>
+      <Name>Dropthings.Business.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj">
+      <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
+      <Name>Dropthings.Business.Workflows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Widget.Framework\Dropthings.Widget.Framework.csproj">
+      <Project>{A5F19582-1F00-406F-A130-5BB7AC598FF7}</Project>
+      <Name>Dropthings.Widget.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

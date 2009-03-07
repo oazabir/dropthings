@@ -1,29 +1,35 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.IO;
-
-/// <summary>
+﻿/// <summary>
 /// Summary description for CombineScripts
 /// </summary>
 namespace Dropthings.Web.Util
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data;
+    using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Web;
+    using System.Web.Security;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
+    using System.Web.UI.WebControls;
+    using System.Web.UI.WebControls.WebParts;
+    using System.Xml;
+    using System.Xml.Linq;
+
     public class CombineScripts
     {
-        private static Regex _FindScriptTags = new Regex(@"<script\s*src\s*=\s*""(?<url>.[^""]+)"".[^>]*>\s*</script>", RegexOptions.Compiled);
+        #region Fields
+
         private static readonly string SCRIPT_VERSION_NO = ConfigurationManager.AppSettings["ScriptVersionNo"];
-         
+
+        private static Regex _FindScriptTags = new Regex(@"<script\s*src\s*=\s*""(?<url>.[^""]+)"".[^>]*>\s*</script>", RegexOptions.Compiled);
+
+        #endregion Fields
+
+        #region Methods
 
         /// <summary>
         /// Combine script references using file sets defined in a configuration file.
@@ -55,7 +61,7 @@ namespace Dropthings.Web.Util
                         // Remember the first script tag that matched in this UrlMapSet because
                         // this is where the combined script tag will be inserted
                         if (setStartPos < 0) setStartPos = match.Index;
-                        
+
                         names.Add(urlMatch.Name);
                         return string.Empty;
                     }
@@ -81,7 +87,7 @@ namespace Dropthings.Web.Util
                         names.Sort();
                         setName = string.Join(",", names.ToArray());
                     }
-                    
+
                     string urlPrefix = HttpContext.Current.Request.Path.Substring(0, HttpContext.Current.Request.Path.LastIndexOf('/') + 1);
                     string newScriptTag = "<script type=\"text/javascript\" src=\"Scripts.ashx?" + HttpUtility.UrlEncode(mapSet.Name) + "=" + HttpUtility.UrlEncode(setName) + "&" + HttpUtility.UrlEncode(urlPrefix) + "&" + HttpUtility.UrlEncode(SCRIPT_VERSION_NO) + "\"></script>";
 
@@ -108,7 +114,7 @@ namespace Dropthings.Web.Util
 
                         UrlMapSet mapSet = new UrlMapSet();
                         mapSet.Name = setName;
-                        if (isIncludeAll == "true") 
+                        if (isIncludeAll == "true")
                             mapSet.IsIncludeAll = true;
 
                         while (reader.Read())
@@ -130,24 +136,38 @@ namespace Dropthings.Web.Util
 
             return sets;
         }
-    }
 
-    public class UrlMapSet
-    {
-        public string Name;
-        public bool IsIncludeAll;
-        public List<UrlMap> Urls = new List<UrlMap>();
+        #endregion Methods
     }
 
     public class UrlMap
     {
+        #region Fields
+
         public string Name;
         public string Url;
+
+        #endregion Fields
+
+        #region Constructors
 
         public UrlMap(string name, string url)
         {
             this.Name = name;
             this.Url = url;
         }
+
+        #endregion Constructors
+    }
+
+    public class UrlMapSet
+    {
+        #region Fields
+
+        public bool IsIncludeAll;
+        public string Name;
+        public List<UrlMap> Urls = new List<UrlMap>();
+
+        #endregion Fields
     }
 }
