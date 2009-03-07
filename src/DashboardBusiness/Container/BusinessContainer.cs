@@ -6,9 +6,6 @@
     using System.Text;
     using System.Workflow.Runtime;
 
-    using Dropthings.Business.Workflows;
-    using Dropthings.Business.Workflows.EntryPointWorkflows;
-
     using Microsoft.Practices.Unity;
 
     public class ObjectContainer
@@ -121,12 +118,6 @@
         public static IEnumerable<object> ResolveAll(Type t)
         {
             return _container.ResolveAll(t);
-        }
-
-        public static void SetupDefaults(WorkflowRuntime runtime)
-        {
-            RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
-            RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
         }
 
         public static void Teardown(object o)

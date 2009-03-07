@@ -14,7 +14,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\",
 		SccLocalPath = ""
 		SccProvider = ""
 		TargetFramework = "3.5"
-		ProjectReferences = "{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}|Dropthings.Business.dll;{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}|Dropthings.DataAccess.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;"
+		ProjectReferences = "{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}|Dropthings.Business.dll;{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}|Dropthings.DataAccess.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;{63C65FF9-E003-4074-9451-70D4EC3D7906}|Dropthings.Business.Workflows.dll;{514B9055-2EEF-4111-9CAC-F763120BB35D}|Dropthings.Business.Facade.dll;{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}|Dropthings.Business.Activities.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Dropthings"
 		Debug.AspNetCompiler.PhysicalPath = "Dropthings\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Dropthings\"
@@ -44,6 +44,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dropthings.vsmdi = Dropthings.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Workflows", "Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj", "{63C65FF9-E003-4074-9451-70D4EC3D7906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Activities", "Dropthings.Business.Activities\Dropthings.Business.Activities.csproj", "{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade", "Dropthings.Business.Facade\Dropthings.Business.Facade.csproj", "{514B9055-2EEF-4111-9CAC-F763120BB35D}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -118,6 +124,36 @@ Global
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|.NET.ActiveCfg = Release|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|.NET.ActiveCfg = Release|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Release|.NET.ActiveCfg = Release|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

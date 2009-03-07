@@ -9,12 +9,7 @@
     {
         #region Properties
 
-        public string LayoutType
-        {
-            get; set;
-        }
-
-        public int PageID
+        public int LayoutType
         {
             get; set;
         }

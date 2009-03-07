@@ -434,8 +434,7 @@ var DropthingsUI = {
         },
 
         _onDeletePageComplete: function(currentPageName) {
-            document.location.href = '?' + encodeURI(currentPageName);
-            //__doPostBack('UpdatePanelTabAndLayout','');
+            document.location.href = '?' + encodeURI(currentPageName);            
         },
 
         changePageLayout: function(newLayout) {

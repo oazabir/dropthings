@@ -417,8 +417,10 @@ namespace Dropthings.DataAccess
         {
             var context = new DropthingsDataContext(GetConnectionString(subsystem));
             context.Log = new DebugStreamWriter();
-
             context.DeferredLoadingEnabled = false;
+
+            context.Connection.Open();
+            context.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;");
             return context;
         }
 

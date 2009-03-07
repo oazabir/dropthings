@@ -11,7 +11,7 @@ namespace Dropthings.Business.Exceptions
     using System.Collections.Generic;
     using System.Text;
 
-    class WorkflowException : ApplicationException
+    public class WorkflowException : ApplicationException
     {
         #region Constructors
 

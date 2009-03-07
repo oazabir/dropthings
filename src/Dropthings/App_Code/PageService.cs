@@ -76,8 +76,9 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void RenamePage(string newName)
         {
-            new DashboardFacade(Profile.UserName).ChangePageName(newName);
-
+            RunWorkflow.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
+                new ChangeTabNameWorkflowRequest { IsAnonymous = Profile.IsAnonymous, PageName = newName, UserName = Profile.UserName }
+            );
         }
 
         [WebMethod]
