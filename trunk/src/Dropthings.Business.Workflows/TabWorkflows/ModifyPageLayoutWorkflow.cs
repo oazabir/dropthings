@@ -28,6 +28,9 @@
         public static readonly DependencyProperty ResponseProperty = 
             DependencyProperty.Register("Response", typeof(ModifyTabLayoutWorkflowResponse), typeof(ModifyPageLayoutWorkflow));
 
+        public Dropthings.DataAccess.Page CurrentPage = new Dropthings.DataAccess.Page();
+        public int[] NewColumns = default(System.Int32[]);
+
         #endregion Fields
 
         #region Constructors
@@ -54,5 +57,13 @@
         }
 
         #endregion Properties
+
+        #region Methods
+
+        private void LoadPage_ExecuteCode(object sender, EventArgs e)
+        {
+        }
+
+        #endregion Methods
     }
 }

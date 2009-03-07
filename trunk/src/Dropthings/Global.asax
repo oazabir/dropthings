@@ -20,7 +20,8 @@
         Application[APPLICATION_WORKFLOW_RUNTIME_KEY] = runtime;
 
         // Setup default Dependencies for regular execution where all dependencies are real
-        Dropthings.Business.Container.ObjectContainer.SetupDefaults(runtime);
+        ObjectContainer.RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
+        ObjectContainer.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
     }
 
     void Application_End(object sender, EventArgs e)

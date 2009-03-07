@@ -17,6 +17,7 @@ using System.Workflow.Runtime;
 using Dropthings.Business.Workflows;
 using System.Collections.Specialized;
 using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
+using Dropthings.Business.Workflows.TabWorkflows;
 
 namespace Dropthings.Web.Framework
 {
@@ -166,6 +167,15 @@ namespace Dropthings.Web.Framework
         {
             RunWorkflow.Run<ChangeWidgetInstanceTitleWorkflow, ChangeWidgetInstanceTitleWorkflowRequest, ChangeWidgetInstanceTitleWorkflowResponse>(
                 new ChangeWidgetInstanceTitleWorkflowRequest { WidgetInstanceId = widgetId, UserName = Profile.UserName, NewTitle = newTitle }
+            );
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
+        public void ChangePageLayout(int newLayout)
+        {
+            RunWorkflow.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
+                new ModifyTabLayoutWorkflowRequest{ LayoutType = newLayout, UserName = Profile.UserName }
             );
         }
 
