@@ -28,8 +28,13 @@
         public static readonly DependencyProperty ResponseProperty = 
             DependencyProperty.Register("Response", typeof(ModifyTabLayoutWorkflowResponse), typeof(ModifyPageLayoutWorkflow));
 
+        public static DependencyProperty ZoneToRemoveProperty = DependencyProperty.Register("ZoneToRemove", typeof(Dropthings.DataAccess.WidgetZone), typeof(Dropthings.Business.ModifyPageLayoutWorkflow));
+
+        public int ColumnCounter = 0;
         public Dropthings.DataAccess.Page CurrentPage = new Dropthings.DataAccess.Page();
-        public int[] NewColumns = default(System.Int32[]);
+        public System.Collections.Generic.List<Dropthings.DataAccess.Column> ExistingColumns = new System.Collections.Generic.List<Dropthings.DataAccess.Column>();
+        public int[] NewColumnDefs = default(System.Int32[]);
+        public int NewColumnNo = 0;
 
         #endregion Fields
 
@@ -56,12 +61,33 @@
             set { SetValue(ResponseProperty, value); }
         }
 
+        [System.ComponentModel.DesignerSerializationVisibilityAttribute(DesignerSerializationVisibility.Visible)]
+        [System.ComponentModel.BrowsableAttribute(true)]
+        [System.ComponentModel.CategoryAttribute("Misc")]
+        public Dropthings.DataAccess.WidgetZone ZoneToRemove
+        {
+            get
+            {
+                return ((Dropthings.DataAccess.WidgetZone)(base.GetValue(Dropthings.Business.ModifyPageLayoutWorkflow.ZoneToRemoveProperty)));
+            }
+            set
+            {
+                base.SetValue(Dropthings.Business.ModifyPageLayoutWorkflow.ZoneToRemoveProperty, value);
+            }
+        }
+
         #endregion Properties
 
         #region Methods
 
         private void LoadPage_ExecuteCode(object sender, EventArgs e)
         {
+        }
+
+        private void SetCounters_ExecuteCode(object sender, EventArgs e)
+        {
+            this.ColumnCounter = this.ExistingColumns.Count - 1;
+            this.NewColumnNo = this.NewColumnDefs.Length - 1;
         }
 
         #endregion Methods

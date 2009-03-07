@@ -12,6 +12,7 @@ using Dropthings.Business.Container;
 using Dropthings.Business.Workflows.TabWorkflows;
 using System.Workflow.Runtime;
 using System.Web.Security;
+using Dropthings.Web.Framework;
 
 public partial class TabPage : System.Web.UI.UserControl
 {
@@ -55,7 +56,7 @@ public partial class TabPage : System.Web.UI.UserControl
             }
             else
             {
-                var tabLink = new HyperLink { Text = page.Title, NavigateUrl = "/?" + page.TabName() };
+                var tabLink = new HyperLink { Text = page.Title, NavigateUrl = "/?" + page.TabName };
                 liWrapper.Controls.Add(tabLink);
             }
             tabList.Controls.Add(li);
@@ -82,7 +83,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
     public void RedirectToTab(Dropthings.DataAccess.Page page)
     {
-        Response.Redirect('?' + page.TabName());
+        Response.Redirect('?' + page.TabName);
     }
 
     protected void addNewTabLinkButton_Click(object sender, EventArgs e)

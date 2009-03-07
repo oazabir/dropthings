@@ -1,37 +1,34 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Text;
-using System.IO;
-
-namespace Dropthings.Web.Util
+﻿namespace Dropthings.Web.Util
 {
+    using System;
+    using System.Configuration;
+    using System.Data;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Web;
+    using System.Web.Security;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
+    using System.Web.UI.WebControls;
+    using System.Web.UI.WebControls.WebParts;
+    using System.Xml.Linq;
+
     public class StaticContentFilter : Stream
     {
+        #region Fields
 
-        private readonly static char[] IMG_TAG = "img".ToCharArray();
-        private readonly static char[] SCRIPT_TAG = "script".ToCharArray();
-        private readonly static char[] LINK_TAG = "link".ToCharArray();
-        private readonly static char[] SRC_ATTRIBUTE = "src".ToCharArray();
-        private readonly static char[] HREF_ATTRIBUTE = "href".ToCharArray();
-        private readonly static char[] HTTP_PREFIX = "http://".ToCharArray();            
+        private static readonly char[] HREF_ATTRIBUTE = "href".ToCharArray();
+        private static readonly char[] HTTP_PREFIX = "http://".ToCharArray();
+        private static readonly char[] IMG_TAG = "img".ToCharArray();
+        private static readonly char[] LINK_TAG = "link".ToCharArray();
+        private static readonly char[] SCRIPT_TAG = "script".ToCharArray();
+        private static readonly char[] SRC_ATTRIBUTE = "src".ToCharArray();
 
+        private byte[] _CssPrefix;
+        Encoding _Encoding;
         private byte[] _ImagePrefix;
         private byte[] _JavascriptPrefix;
-        private byte[] _CssPrefix;
-
-        Stream _ResponseStream;
-        long _Position;
-
-        Encoding _Encoding;
 
         /// <summary>
         /// Holds characters from last Write(...) call where the start tag did not
@@ -39,8 +36,13 @@ namespace Dropthings.Web.Util
         /// that a complete tag can be parsed
         /// </summary>
         char[] _PendingBuffer = null;
-
+        long _Position;
+        Stream _ResponseStream;
         StringBuilder debug = new StringBuilder();
+
+        #endregion Fields
+
+        #region Constructors
 
         public StaticContentFilter(HttpResponse response, string imagePrefix, string javascriptPrefix, string cssPrefix)
         {
@@ -52,7 +54,10 @@ namespace Dropthings.Web.Util
             this._CssPrefix = _Encoding.GetBytes(cssPrefix);
         }
 
-        #region Filter overrides
+        #endregion Constructors
+
+        #region Properties
+
         public override bool CanRead
         {
             get { return false; }
@@ -68,28 +73,6 @@ namespace Dropthings.Web.Util
             get { return true; }
         }
 
-        public override void Close()
-        {
-            this.FlushPendingBuffer();
-            _ResponseStream.Close();
-        }
-
-        private void FlushPendingBuffer()
-        {
-            /// Some characters were left in the buffer 
-            if (null != this._PendingBuffer)
-            {
-                this.WriteOutput(this._PendingBuffer, 0, this._PendingBuffer.Length);
-                this._PendingBuffer = null;
-            }
-        }
-
-        public override void Flush()
-        {
-            this.FlushPendingBuffer();
-            _ResponseStream.Flush();
-        }
-
         public override long Length
         {
             get { return 0; }
@@ -101,6 +84,27 @@ namespace Dropthings.Web.Util
             set { _Position = value; }
         }
 
+        #endregion Properties
+
+        #region Methods
+
+        public override void Close()
+        {
+            this.FlushPendingBuffer();
+            _ResponseStream.Close();
+        }
+
+        public override void Flush()
+        {
+            this.FlushPendingBuffer();
+            _ResponseStream.Flush();
+        }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            return _ResponseStream.Read(buffer, offset, count);
+        }
+
         public override long Seek(long offset, SeekOrigin origin)
         {
             return _ResponseStream.Seek(offset, origin);
@@ -110,12 +114,6 @@ namespace Dropthings.Web.Util
         {
             _ResponseStream.SetLength(length);
         }
-
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            return _ResponseStream.Read(buffer, offset, count);
-        }
-        #endregion
 
         public override void Write(byte[] buffer, int offset, int count)
         {
@@ -144,11 +142,11 @@ namespace Dropthings.Web.Util
                 if ('<' == c)
                 {
                     pos++;
-                    /* Make sure there are enough characters available in the buffer to finish 
+                    /* Make sure there are enough characters available in the buffer to finish
                      * tag start. This will happen when a tag partially starts but does not end
-                     * For example, a partial img tag like <img                    
+                     * For example, a partial img tag like <img
                      * We need a complete tag upto the > character.
-                    */                    
+                    */
                     if (HasTagEnd(content, pos))
                     {
                         if ('/' == content[pos])
@@ -186,7 +184,7 @@ namespace Dropthings.Web.Util
                         this._PendingBuffer = new char[content.Length - pos];
                         Array.Copy(content, pos, this._PendingBuffer, 0, content.Length - pos);
 
-                        // Write from last write position upto pos. the rest is now in pending buffer 
+                        // Write from last write position upto pos. the rest is now in pending buffer
                         // will be processed later
                         this.WriteOutput(content, lastPosWritten, pos - lastPosWritten);
 
@@ -211,8 +209,8 @@ namespace Dropthings.Web.Util
                     pos = i + attributeName.Length;
 
                     // find the position of the double quote from where value is started
-                    // We won't allow value without double quote, not even single quote. 
-                    // The content must be XHTML valid for now. 
+                    // We won't allow value without double quote, not even single quote.
+                    // The content must be XHTML valid for now.
                     while ('"' != content[pos++]);
 
                     return pos;
@@ -220,6 +218,56 @@ namespace Dropthings.Web.Util
             }
 
             return -1;
+        }
+
+        private void FlushPendingBuffer()
+        {
+            /// Some characters were left in the buffer
+            if (null != this._PendingBuffer)
+            {
+                this.WriteOutput(this._PendingBuffer, 0, this._PendingBuffer.Length);
+                this._PendingBuffer = null;
+            }
+        }
+
+        private bool HasMatch(char[] content, int pos, char[] match)
+        {
+            for (int i = 0; i < match.Length; i++)
+                if (content[pos + i] != match[i]
+                    && content[pos + i] != char.ToUpper(match[i]))
+                    return false;
+
+            return true;
+        }
+
+        private bool HasTagEnd(char[] content, int pos)
+        {
+            for (; pos < content.Length; pos++)
+                if ('>' == content[pos])
+                    return true;
+
+            return false;
+        }
+
+        private void WriteBytes(byte[] bytes, int pos, int length)
+        {
+            this._ResponseStream.Write(bytes, 0, bytes.Length);
+        }
+
+        private void WriteOutput(char[] content, int pos, int length)
+        {
+            if (length == 0) return;
+
+            debug.Append(content, pos, length);
+            byte[] buffer = this._Encoding.GetBytes(content, pos, length);
+            this.WriteBytes(buffer, 0, buffer.Length);
+        }
+
+        private void WriteOutput(string content)
+        {
+            debug.Append(content);
+            byte[] buffer = this._Encoding.GetBytes(content);
+            this.WriteBytes(buffer, 0, buffer.Length);
         }
 
         /// <summary>
@@ -257,13 +305,13 @@ namespace Dropthings.Web.Util
                     // First, write content upto this position
                     this.WriteOutput(content, lastWritePos, attributeValuePos - lastWritePos);
 
-                    // Now write the prefix 
+                    // Now write the prefix
                     this.WriteBytes(prefix, 0, prefix.Length);
 
                     // Ensure the attribute value does not start with a leading slash because the prefix
                     // is supposed to have a trailing slash. If value does start with a leading slash,
                     // skip it
-                    if ('/' == content[attributeValuePos]) attributeValuePos++;                    
+                    if ('/' == content[attributeValuePos]) attributeValuePos++;
 
                     return attributeValuePos;
                 }
@@ -274,42 +322,6 @@ namespace Dropthings.Web.Util
             }
         }
 
-        private bool HasMatch(char[] content, int pos, char[] match)
-        {
-            for (int i = 0; i < match.Length; i++)
-                if (content[pos + i] != match[i]
-                    && content[pos + i] != char.ToUpper(match[i]))
-                    return false;
-
-            return true;
-        }
-        
-        private bool HasTagEnd(char[] content, int pos)
-        {
-            for (; pos < content.Length; pos++)
-                if ('>' == content[pos])
-                    return true;
-
-            return false;
-        }
-
-        private void WriteOutput(char[] content, int pos, int length)
-        {
-            if (length == 0) return;
-
-            debug.Append(content, pos, length);
-            byte[] buffer = this._Encoding.GetBytes(content, pos, length);
-            this.WriteBytes(buffer, 0, buffer.Length);
-        }
-        private void WriteOutput(string content)
-        {
-            debug.Append(content);
-            byte[] buffer = this._Encoding.GetBytes(content);
-            this.WriteBytes(buffer, 0, buffer.Length);
-        }
-        private void WriteBytes(byte[] bytes, int pos, int length)
-        {
-            this._ResponseStream.Write(bytes, 0, bytes.Length);
-        }
+        #endregion Methods
     }
 }

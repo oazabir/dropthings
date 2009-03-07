@@ -1,74 +1,46 @@
+#region Header
+
 // Copyright (c) Omar AL Zabir. All rights reserved.
 // For continued development and updates, visit http://msmvps.com/omar
 
-using System;
-using System.Reflection;
-using System.Web;
-using System.Web.Caching;
-using System.Collections;
-using System.Web.Services;
-using System.Web.Services.Protocols;
-using System.Web.Script.Services;
-
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml;
-using System.Net;
-using System.IO;
-using System.Net.Sockets;
-using Dropthings.Widget.Widgets.RSS;
+#endregion Header
 
 /// <summary>
 /// Summary description for Proxy
 /// </summary>
-
 namespace Dropthings.Web.Framework
 {
+    using System;
+    using System.Collections;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Reflection;
+    using System.Web;
+    using System.Web.Caching;
+    using System.Web.Script.Services;
+    using System.Web.Services;
+    using System.Web.Services.Protocols;
+    using System.Xml;
+    using System.Xml.Linq;
+
+    using Dropthings.Widget.Framework;
+
     [WebService(Namespace = "http://www.dropthings.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
     public class Proxy : System.Web.Services.WebService
     {
+        #region Constructors
 
         public Proxy()
         {
         }
 
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = true)]
-        public string GetString(string url, int cacheDuration)
-        {
-            // See if the response from the URL is already cached on server
-            string cachedContent = Context.Cache[url] as string;
-            if (!string.IsNullOrEmpty(cachedContent))
-            {
-                this.CacheResponse(cacheDuration);
-                return cachedContent;
-            }
-            else
-            {
-                using (WebClient client = new WebClient())
-                {
-                    string response = client.DownloadString(url);
-                    Context.Cache.Insert(url, response, null,
-                        Cache.NoAbsoluteExpiration,
-                        TimeSpan.FromMinutes(cacheDuration),
-                        CacheItemPriority.Normal, null);
+        #endregion Constructors
 
-                    // produce cache headers for response caching
-                    this.CacheResponse(cacheDuration);
-
-                    return response;
-                }
-            }
-        }
-
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Xml)]
-        public string GetXml(string url, int cacheDuration)
-        {
-            return GetString(url, cacheDuration);
-        }
+        #region Methods
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true)]
@@ -138,6 +110,42 @@ namespace Dropthings.Web.Framework
             }
         }
 
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true)]
+        public string GetString(string url, int cacheDuration)
+        {
+            // See if the response from the URL is already cached on server
+            string cachedContent = Context.Cache[url] as string;
+            if (!string.IsNullOrEmpty(cachedContent))
+            {
+                this.CacheResponse(cacheDuration);
+                return cachedContent;
+            }
+            else
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string response = client.DownloadString(url);
+                    Context.Cache.Insert(url, response, null,
+                        Cache.NoAbsoluteExpiration,
+                        TimeSpan.FromMinutes(cacheDuration),
+                        CacheItemPriority.Normal, null);
+
+                    // produce cache headers for response caching
+                    this.CacheResponse(cacheDuration);
+
+                    return response;
+                }
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Xml)]
+        public string GetXml(string url, int cacheDuration)
+        {
+            return GetString(url, cacheDuration);
+        }
+
         private void CacheResponse(int durationInMinutes)
         {
             TimeSpan duration = TimeSpan.FromMinutes(durationInMinutes);
@@ -157,6 +165,6 @@ namespace Dropthings.Web.Framework
             }
         }
 
+        #endregion Methods
     }
-
 }

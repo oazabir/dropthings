@@ -149,6 +149,12 @@
     <Compile Include="PageActivities\GetWidgetInstancesOnPageActivity.Designer.cs">
       <DependentUpon>GetWidgetInstancesOnPageActivity.cs</DependentUpon>
     </Compile>
+    <Compile Include="PageActivities\MoveWidgetFromOnColumnToAnother.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\MoveWidgetFromOnColumnToAnother.Designer.cs">
+      <DependentUpon>MoveWidgetFromOnColumnToAnother.cs</DependentUpon>
+    </Compile>
     <Compile Include="PageActivities\SetCurrentPageActivity.cs">
       <SubType>Component</SubType>
     </Compile>

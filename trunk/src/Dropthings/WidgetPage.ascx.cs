@@ -11,6 +11,7 @@ using Dropthings.Business.Container;
 using Dropthings.Business.Workflows.TabWorkflows;
 using System.Workflow.Runtime;
 using System.Web.UI.HtmlControls;
+using Dropthings.Web.Framework;
 
 public partial class WidgetPage : System.Web.UI.UserControl
 {

@@ -18,7 +18,6 @@ using System.Xml;
 using System.Net;
 using System.IO;
 using System.Net.Sockets;
-using Dropthings.Widget.Widgets.RSS;
 using Dropthings.Widget.Framework;
 using Dropthings.Web.Framework;
 

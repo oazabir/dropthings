@@ -31,18 +31,44 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.LoadTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Workflow.Activities">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.ComponentModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.Runtime">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\Workflow.cs" />
     <Compile Include="Plugin\AjaxRequestPlugin.cs" />
     <Compile Include="Plugin\ASPNETWebTestPlugin.cs" />
     <Compile Include="Plugin\AsyncPostbackRequestPlugin.cs" />
@@ -60,6 +86,7 @@
     <Compile Include="Rules\ExtractUpdatePanels.cs" />
     <Compile Include="Rules\RuleCheck.cs" />
     <Compile Include="Rules\RuleHelper.cs" />
+    <Compile Include="IntegrationTests\TestPageColumnChange.cs" />
     <Compile Include="Util\JSON.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +99,49 @@
     <None Include="FirstAnonymousVisit.webtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AjaxAsmxHandler\AJAXASMXHandler.csproj">
+      <Project>{42190D98-86BA-44B5-8CFF-F62754029C61}</Project>
+      <Name>AJAXASMXHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">
+      <Project>{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}</Project>
+      <Name>Dropthings.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DashboardDataAccess\Dropthings.DataAccess.csproj">
+      <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
+      <Name>Dropthings.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Activities\Dropthings.Business.Activities.csproj">
+      <Project>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</Project>
+      <Name>Dropthings.Business.Activities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Facade\Dropthings.Business.Facade.csproj">
+      <Project>{514B9055-2EEF-4111-9CAC-F763120BB35D}</Project>
+      <Name>Dropthings.Business.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj">
+      <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
+      <Name>Dropthings.Business.Workflows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
+      <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
+      <Name>Dropthings.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Web.Framework\Dropthings.Web.Framework.csproj">
+      <Project>{91B72026-1980-46AD-89D0-C33DD411D66A}</Project>
+      <Name>Dropthings.Web.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Web.Util\Dropthings.Web.Util.csproj">
+      <Project>{3A35E4B6-4CCB-4159-9E39-24438490F757}</Project>
+      <Name>Dropthings.Web.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Widget.Framework\Dropthings.Widget.Framework.csproj">
+      <Project>{A5F19582-1F00-406F-A130-5BB7AC598FF7}</Project>
+      <Name>Dropthings.Widget.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
