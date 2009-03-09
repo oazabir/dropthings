@@ -15,7 +15,7 @@ using System.Workflow.Runtime;
 using System.Workflow.Activities;
 using System.Workflow.Activities.Rules;
 
-namespace Dropthings.Business
+namespace Dropthings.Business.Workflows.TabWorkflows
 {
     partial class AddNewTabWorkflow
     {

@@ -71,7 +71,7 @@ namespace Dropthings.Business.Activities
             wi.Maximized = this.IsMaximize;
 
             DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                wi, null);
+                wi, null, null);
 
             return ActivityExecutionStatus.Closed;
         }

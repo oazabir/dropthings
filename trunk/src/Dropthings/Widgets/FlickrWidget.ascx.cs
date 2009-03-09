@@ -301,4 +301,14 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
         this.PhotoTag = this.CustomTagTextBox.Text;
         this.SaveState();
     }
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

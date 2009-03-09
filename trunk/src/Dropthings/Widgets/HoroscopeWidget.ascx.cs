@@ -113,4 +113,14 @@ public partial class Widgets_HoroscopeWidget : System.Web.UI.UserControl, IWidge
     {
         lblHoroscope.Text = GetHoroscope();
     }
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

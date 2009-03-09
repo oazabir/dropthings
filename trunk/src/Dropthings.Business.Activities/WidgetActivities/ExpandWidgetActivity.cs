@@ -72,7 +72,7 @@ namespace Dropthings.Business.Activities
             wi.Expanded = this.IsExpand;
 
             DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                wi, null);
+                wi, null, null);
 
             return ActivityExecutionStatus.Closed;
         }

@@ -22,7 +22,7 @@ namespace Dropthings.DataAccess
 	using System;
 	
 	
-	[System.Data.Linq.Mapping.DatabaseAttribute(Name="dropthings")]
+	[System.Data.Linq.Mapping.DatabaseAttribute(Name="Dropthings")]
 	public partial class DropthingsDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,9 +30,6 @@ namespace Dropthings.DataAccess
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void Insertaspnet_User(aspnet_User instance);
-    partial void Updateaspnet_User(aspnet_User instance);
-    partial void Deleteaspnet_User(aspnet_User instance);
     partial void InsertPage(Page instance);
     partial void UpdatePage(Page instance);
     partial void DeletePage(Page instance);
@@ -48,9 +45,6 @@ namespace Dropthings.DataAccess
     partial void InsertWidgetInstance(WidgetInstance instance);
     partial void UpdateWidgetInstance(WidgetInstance instance);
     partial void DeleteWidgetInstance(WidgetInstance instance);
-    partial void InsertColumn(Column instance);
-    partial void UpdateColumn(Column instance);
-    partial void DeleteColumn(Column instance);
     partial void InsertWidget(Widget instance);
     partial void UpdateWidget(Widget instance);
     partial void DeleteWidget(Widget instance);
@@ -60,16 +54,22 @@ namespace Dropthings.DataAccess
     partial void Insertaspnet_UsersInRole(aspnet_UsersInRole instance);
     partial void Updateaspnet_UsersInRole(aspnet_UsersInRole instance);
     partial void Deleteaspnet_UsersInRole(aspnet_UsersInRole instance);
-    partial void InsertWidgetsInRole(WidgetsInRole instance);
-    partial void UpdateWidgetsInRole(WidgetsInRole instance);
-    partial void DeleteWidgetsInRole(WidgetsInRole instance);
     partial void InsertRoleTemplate(RoleTemplate instance);
     partial void UpdateRoleTemplate(RoleTemplate instance);
     partial void DeleteRoleTemplate(RoleTemplate instance);
+    partial void InsertColumn(Column instance);
+    partial void UpdateColumn(Column instance);
+    partial void DeleteColumn(Column instance);
+    partial void InsertWidgetsInRole(WidgetsInRole instance);
+    partial void UpdateWidgetsInRole(WidgetsInRole instance);
+    partial void DeleteWidgetsInRole(WidgetsInRole instance);
+    partial void Insertaspnet_User(aspnet_User instance);
+    partial void Updateaspnet_User(aspnet_User instance);
+    partial void Deleteaspnet_User(aspnet_User instance);
     #endregion
 		
 		public DropthingsDataContext() : 
-				base(global::Dropthings.DataAccess.Properties.Settings.Default.dropthingsConnectionString3, mappingSource)
+				base(global::Dropthings.DataAccess.Properties.Settings.Default.DropthingsConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}
@@ -96,14 +96,6 @@ namespace Dropthings.DataAccess
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<aspnet_User> aspnet_Users
-		{
-			get
-			{
-				return this.GetTable<aspnet_User>();
-			}
 		}
 		
 		public System.Data.Linq.Table<Page> Pages
@@ -146,14 +138,6 @@ namespace Dropthings.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<Column> Columns
-		{
-			get
-			{
-				return this.GetTable<Column>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Widget> Widgets
 		{
 			get
@@ -178,6 +162,22 @@ namespace Dropthings.DataAccess
 			}
 		}
 		
+		public System.Data.Linq.Table<RoleTemplate> RoleTemplates
+		{
+			get
+			{
+				return this.GetTable<RoleTemplate>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Column> Columns
+		{
+			get
+			{
+				return this.GetTable<Column>();
+			}
+		}
+		
 		public System.Data.Linq.Table<WidgetsInRole> WidgetsInRoles
 		{
 			get
@@ -186,362 +186,12 @@ namespace Dropthings.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<RoleTemplate> RoleTemplates
+		public System.Data.Linq.Table<aspnet_User> aspnet_Users
 		{
 			get
 			{
-				return this.GetTable<RoleTemplate>();
+				return this.GetTable<aspnet_User>();
 			}
-		}
-	}
-	
-	[Table(Name="dbo.aspnet_Users")]
-	public partial class aspnet_User : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _ApplicationId;
-		
-		private System.Guid _UserId;
-		
-		private string _UserName;
-		
-		private string _LoweredUserName;
-		
-		private string _MobileAlias;
-		
-		private bool _IsAnonymous;
-		
-		private System.DateTime _LastActivityDate;
-		
-		private EntitySet<Page> _Pages;
-		
-		private EntityRef<UserSetting> _UserSetting;
-		
-		private EntitySet<Token> _Tokens;
-		
-		private EntitySet<aspnet_UsersInRole> _aspnet_UsersInRoles;
-		
-		private EntitySet<RoleTemplate> _RoleTemplates;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnApplicationIdChanging(System.Guid value);
-    partial void OnApplicationIdChanged();
-    partial void OnUserIdChanging(System.Guid value);
-    partial void OnUserIdChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnLoweredUserNameChanging(string value);
-    partial void OnLoweredUserNameChanged();
-    partial void OnMobileAliasChanging(string value);
-    partial void OnMobileAliasChanged();
-    partial void OnIsAnonymousChanging(bool value);
-    partial void OnIsAnonymousChanged();
-    partial void OnLastActivityDateChanging(System.DateTime value);
-    partial void OnLastActivityDateChanged();
-    #endregion
-		
-		public aspnet_User()
-		{
-			this._Pages = new EntitySet<Page>(new Action<Page>(this.attach_Pages), new Action<Page>(this.detach_Pages));
-			this._UserSetting = default(EntityRef<UserSetting>);
-			this._Tokens = new EntitySet<Token>(new Action<Token>(this.attach_Tokens), new Action<Token>(this.detach_Tokens));
-			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
-			this._RoleTemplates = new EntitySet<RoleTemplate>(new Action<RoleTemplate>(this.attach_RoleTemplates), new Action<RoleTemplate>(this.detach_RoleTemplates));
-			OnCreated();
-		}
-		
-		[Column(Storage="_ApplicationId", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ApplicationId
-		{
-			get
-			{
-				return this._ApplicationId;
-			}
-			set
-			{
-				if ((this._ApplicationId != value))
-				{
-					this.OnApplicationIdChanging(value);
-					this.SendPropertyChanging();
-					this._ApplicationId = value;
-					this.SendPropertyChanged("ApplicationId");
-					this.OnApplicationIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_UserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this.OnUserNameChanging(value);
-					this.SendPropertyChanging();
-					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_LoweredUserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
-		public string LoweredUserName
-		{
-			get
-			{
-				return this._LoweredUserName;
-			}
-			set
-			{
-				if ((this._LoweredUserName != value))
-				{
-					this.OnLoweredUserNameChanging(value);
-					this.SendPropertyChanging();
-					this._LoweredUserName = value;
-					this.SendPropertyChanged("LoweredUserName");
-					this.OnLoweredUserNameChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_MobileAlias", DbType="NVarChar(16)")]
-		public string MobileAlias
-		{
-			get
-			{
-				return this._MobileAlias;
-			}
-			set
-			{
-				if ((this._MobileAlias != value))
-				{
-					this.OnMobileAliasChanging(value);
-					this.SendPropertyChanging();
-					this._MobileAlias = value;
-					this.SendPropertyChanged("MobileAlias");
-					this.OnMobileAliasChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_IsAnonymous", DbType="Bit NOT NULL")]
-		public bool IsAnonymous
-		{
-			get
-			{
-				return this._IsAnonymous;
-			}
-			set
-			{
-				if ((this._IsAnonymous != value))
-				{
-					this.OnIsAnonymousChanging(value);
-					this.SendPropertyChanging();
-					this._IsAnonymous = value;
-					this.SendPropertyChanged("IsAnonymous");
-					this.OnIsAnonymousChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_LastActivityDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LastActivityDate
-		{
-			get
-			{
-				return this._LastActivityDate;
-			}
-			set
-			{
-				if ((this._LastActivityDate != value))
-				{
-					this.OnLastActivityDateChanging(value);
-					this.SendPropertyChanging();
-					this._LastActivityDate = value;
-					this.SendPropertyChanged("LastActivityDate");
-					this.OnLastActivityDateChanged();
-				}
-			}
-		}
-		
-		[Association(Name="aspnet_User_Page", Storage="_Pages", ThisKey="UserId", OtherKey="UserId")]
-		public EntitySet<Page> Pages
-		{
-			get
-			{
-				return this._Pages;
-			}
-			set
-			{
-				this._Pages.Assign(value);
-			}
-		}
-		
-		[Association(Name="aspnet_User_UserSetting", Storage="_UserSetting", ThisKey="UserId", OtherKey="UserId", IsUnique=true, IsForeignKey=false)]
-		public UserSetting UserSetting
-		{
-			get
-			{
-				return this._UserSetting.Entity;
-			}
-			set
-			{
-				UserSetting previousValue = this._UserSetting.Entity;
-				if (((previousValue != value) 
-							|| (this._UserSetting.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserSetting.Entity = null;
-						previousValue.aspnet_User = null;
-					}
-					this._UserSetting.Entity = value;
-					if ((value != null))
-					{
-						value.aspnet_User = this;
-					}
-					this.SendPropertyChanged("UserSetting");
-				}
-			}
-		}
-		
-		[Association(Name="aspnet_User_Token", Storage="_Tokens", ThisKey="UserId", OtherKey="UserId")]
-		public EntitySet<Token> Tokens
-		{
-			get
-			{
-				return this._Tokens;
-			}
-			set
-			{
-				this._Tokens.Assign(value);
-			}
-		}
-		
-		[Association(Name="aspnet_User_aspnet_UsersInRole", Storage="_aspnet_UsersInRoles", ThisKey="UserId", OtherKey="UserId")]
-		public EntitySet<aspnet_UsersInRole> aspnet_UsersInRoles
-		{
-			get
-			{
-				return this._aspnet_UsersInRoles;
-			}
-			set
-			{
-				this._aspnet_UsersInRoles.Assign(value);
-			}
-		}
-		
-		[Association(Name="aspnet_User_RoleTemplate", Storage="_RoleTemplates", ThisKey="UserId", OtherKey="TemplateUserId")]
-		public EntitySet<RoleTemplate> RoleTemplates
-		{
-			get
-			{
-				return this._RoleTemplates;
-			}
-			set
-			{
-				this._RoleTemplates.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Pages(Page entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = this;
-		}
-		
-		private void detach_Pages(Page entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = null;
-		}
-		
-		private void attach_Tokens(Token entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = this;
-		}
-		
-		private void detach_Tokens(Token entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = null;
-		}
-		
-		private void attach_aspnet_UsersInRoles(aspnet_UsersInRole entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = this;
-		}
-		
-		private void detach_aspnet_UsersInRoles(aspnet_UsersInRole entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = null;
-		}
-		
-		private void attach_RoleTemplates(RoleTemplate entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = this;
-		}
-		
-		private void detach_RoleTemplates(RoleTemplate entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = null;
 		}
 	}
 	
@@ -1888,246 +1538,6 @@ namespace Dropthings.DataAccess
 		}
 	}
 	
-	[Table(Name="dbo.[Column]")]
-	public partial class Column : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private int _PageId;
-		
-		private int _WidgetZoneId;
-		
-		private int _ColumnNo;
-		
-		private int _ColumnWidth;
-		
-		private EntityRef<Page> _Page;
-		
-		private EntityRef<WidgetZone> _WidgetZone;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnPageIdChanging(int value);
-    partial void OnPageIdChanged();
-    partial void OnWidgetZoneIdChanging(int value);
-    partial void OnWidgetZoneIdChanged();
-    partial void OnColumnNoChanging(int value);
-    partial void OnColumnNoChanged();
-    partial void OnColumnWidthChanging(int value);
-    partial void OnColumnWidthChanged();
-    #endregion
-		
-		public Column()
-		{
-			this._Page = default(EntityRef<Page>);
-			this._WidgetZone = default(EntityRef<WidgetZone>);
-			OnCreated();
-		}
-		
-		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_PageId", DbType="Int NOT NULL")]
-		public int PageId
-		{
-			get
-			{
-				return this._PageId;
-			}
-			set
-			{
-				if ((this._PageId != value))
-				{
-					if (this._Page.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPageIdChanging(value);
-					this.SendPropertyChanging();
-					this._PageId = value;
-					this.SendPropertyChanged("PageId");
-					this.OnPageIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_WidgetZoneId", DbType="Int NOT NULL")]
-		public int WidgetZoneId
-		{
-			get
-			{
-				return this._WidgetZoneId;
-			}
-			set
-			{
-				if ((this._WidgetZoneId != value))
-				{
-					if (this._WidgetZone.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnWidgetZoneIdChanging(value);
-					this.SendPropertyChanging();
-					this._WidgetZoneId = value;
-					this.SendPropertyChanged("WidgetZoneId");
-					this.OnWidgetZoneIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_ColumnNo", DbType="Int NOT NULL")]
-		public int ColumnNo
-		{
-			get
-			{
-				return this._ColumnNo;
-			}
-			set
-			{
-				if ((this._ColumnNo != value))
-				{
-					this.OnColumnNoChanging(value);
-					this.SendPropertyChanging();
-					this._ColumnNo = value;
-					this.SendPropertyChanged("ColumnNo");
-					this.OnColumnNoChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_ColumnWidth", DbType="Int NOT NULL")]
-		public int ColumnWidth
-		{
-			get
-			{
-				return this._ColumnWidth;
-			}
-			set
-			{
-				if ((this._ColumnWidth != value))
-				{
-					this.OnColumnWidthChanging(value);
-					this.SendPropertyChanging();
-					this._ColumnWidth = value;
-					this.SendPropertyChanged("ColumnWidth");
-					this.OnColumnWidthChanged();
-				}
-			}
-		}
-		
-		[Association(Name="Page_Column", Storage="_Page", ThisKey="PageId", OtherKey="ID", IsForeignKey=true)]
-		public Page Page
-		{
-			get
-			{
-				return this._Page.Entity;
-			}
-			set
-			{
-				Page previousValue = this._Page.Entity;
-				if (((previousValue != value) 
-							|| (this._Page.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Page.Entity = null;
-						previousValue.Columns.Remove(this);
-					}
-					this._Page.Entity = value;
-					if ((value != null))
-					{
-						value.Columns.Add(this);
-						this._PageId = value.ID;
-					}
-					else
-					{
-						this._PageId = default(int);
-					}
-					this.SendPropertyChanged("Page");
-				}
-			}
-		}
-		
-		[Association(Name="WidgetZone_Column", Storage="_WidgetZone", ThisKey="WidgetZoneId", OtherKey="ID", IsForeignKey=true)]
-		public WidgetZone WidgetZone
-		{
-			get
-			{
-				return this._WidgetZone.Entity;
-			}
-			set
-			{
-				WidgetZone previousValue = this._WidgetZone.Entity;
-				if (((previousValue != value) 
-							|| (this._WidgetZone.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._WidgetZone.Entity = null;
-						previousValue.Columns.Remove(this);
-					}
-					this._WidgetZone.Entity = value;
-					if ((value != null))
-					{
-						value.Columns.Add(this);
-						this._WidgetZoneId = value.ID;
-					}
-					else
-					{
-						this._WidgetZoneId = default(int);
-					}
-					this.SendPropertyChanged("WidgetZone");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[Table(Name="dbo.Widget")]
 	public partial class Widget : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2576,9 +1986,9 @@ namespace Dropthings.DataAccess
 		
 		private EntitySet<aspnet_UsersInRole> _aspnet_UsersInRoles;
 		
-		private EntitySet<WidgetsInRole> _WidgetsInRoles;
-		
 		private EntitySet<RoleTemplate> _RoleTemplates;
+		
+		private EntitySet<WidgetsInRole> _WidgetsInRoles;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2599,8 +2009,8 @@ namespace Dropthings.DataAccess
 		public aspnet_Role()
 		{
 			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
-			this._WidgetsInRoles = new EntitySet<WidgetsInRole>(new Action<WidgetsInRole>(this.attach_WidgetsInRoles), new Action<WidgetsInRole>(this.detach_WidgetsInRoles));
 			this._RoleTemplates = new EntitySet<RoleTemplate>(new Action<RoleTemplate>(this.attach_RoleTemplates), new Action<RoleTemplate>(this.detach_RoleTemplates));
+			this._WidgetsInRoles = new EntitySet<WidgetsInRole>(new Action<WidgetsInRole>(this.attach_WidgetsInRoles), new Action<WidgetsInRole>(this.detach_WidgetsInRoles));
 			OnCreated();
 		}
 		
@@ -2717,19 +2127,6 @@ namespace Dropthings.DataAccess
 			}
 		}
 		
-		[Association(Name="aspnet_Role_WidgetsInRole", Storage="_WidgetsInRoles", ThisKey="RoleId", OtherKey="RoleId")]
-		public EntitySet<WidgetsInRole> WidgetsInRoles
-		{
-			get
-			{
-				return this._WidgetsInRoles;
-			}
-			set
-			{
-				this._WidgetsInRoles.Assign(value);
-			}
-		}
-		
 		[Association(Name="aspnet_Role_RoleTemplate", Storage="_RoleTemplates", ThisKey="RoleId", OtherKey="RoleId")]
 		public EntitySet<RoleTemplate> RoleTemplates
 		{
@@ -2740,6 +2137,19 @@ namespace Dropthings.DataAccess
 			set
 			{
 				this._RoleTemplates.Assign(value);
+			}
+		}
+		
+		[Association(Name="aspnet_Role_WidgetsInRole", Storage="_WidgetsInRoles", ThisKey="RoleId", OtherKey="RoleId")]
+		public EntitySet<WidgetsInRole> WidgetsInRoles
+		{
+			get
+			{
+				return this._WidgetsInRoles;
+			}
+			set
+			{
+				this._WidgetsInRoles.Assign(value);
 			}
 		}
 		
@@ -2775,18 +2185,6 @@ namespace Dropthings.DataAccess
 			entity.aspnet_Role = null;
 		}
 		
-		private void attach_WidgetsInRoles(WidgetsInRole entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_Role = this;
-		}
-		
-		private void detach_WidgetsInRoles(WidgetsInRole entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_Role = null;
-		}
-		
 		private void attach_RoleTemplates(RoleTemplate entity)
 		{
 			this.SendPropertyChanging();
@@ -2794,6 +2192,18 @@ namespace Dropthings.DataAccess
 		}
 		
 		private void detach_RoleTemplates(RoleTemplate entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_Role = null;
+		}
+		
+		private void attach_WidgetsInRoles(WidgetsInRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_Role = this;
+		}
+		
+		private void detach_WidgetsInRoles(WidgetsInRole entity)
 		{
 			this.SendPropertyChanging();
 			entity.aspnet_Role = null;
@@ -2943,198 +2353,6 @@ namespace Dropthings.DataAccess
 						this._UserId = default(System.Guid);
 					}
 					this.SendPropertyChanged("aspnet_User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[Table(Name="dbo.WidgetsInRoles")]
-	public partial class WidgetsInRole : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _WidgetId;
-		
-		private System.Guid _RoleId;
-		
-		private EntityRef<aspnet_Role> _aspnet_Role;
-		
-		private EntityRef<Widget> _Widget;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnWidgetIdChanging(int value);
-    partial void OnWidgetIdChanged();
-    partial void OnRoleIdChanging(System.Guid value);
-    partial void OnRoleIdChanged();
-    #endregion
-		
-		public WidgetsInRole()
-		{
-			this._aspnet_Role = default(EntityRef<aspnet_Role>);
-			this._Widget = default(EntityRef<Widget>);
-			OnCreated();
-		}
-		
-		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_WidgetId", DbType="Int NOT NULL")]
-		public int WidgetId
-		{
-			get
-			{
-				return this._WidgetId;
-			}
-			set
-			{
-				if ((this._WidgetId != value))
-				{
-					if (this._Widget.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnWidgetIdChanging(value);
-					this.SendPropertyChanging();
-					this._WidgetId = value;
-					this.SendPropertyChanged("WidgetId");
-					this.OnWidgetIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid RoleId
-		{
-			get
-			{
-				return this._RoleId;
-			}
-			set
-			{
-				if ((this._RoleId != value))
-				{
-					if (this._aspnet_Role.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnRoleIdChanging(value);
-					this.SendPropertyChanging();
-					this._RoleId = value;
-					this.SendPropertyChanged("RoleId");
-					this.OnRoleIdChanged();
-				}
-			}
-		}
-		
-		[Association(Name="aspnet_Role_WidgetsInRole", Storage="_aspnet_Role", ThisKey="RoleId", OtherKey="RoleId", IsForeignKey=true)]
-		public aspnet_Role aspnet_Role
-		{
-			get
-			{
-				return this._aspnet_Role.Entity;
-			}
-			set
-			{
-				aspnet_Role previousValue = this._aspnet_Role.Entity;
-				if (((previousValue != value) 
-							|| (this._aspnet_Role.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._aspnet_Role.Entity = null;
-						previousValue.WidgetsInRoles.Remove(this);
-					}
-					this._aspnet_Role.Entity = value;
-					if ((value != null))
-					{
-						value.WidgetsInRoles.Add(this);
-						this._RoleId = value.RoleId;
-					}
-					else
-					{
-						this._RoleId = default(System.Guid);
-					}
-					this.SendPropertyChanged("aspnet_Role");
-				}
-			}
-		}
-		
-		[Association(Name="Widget_WidgetsInRole", Storage="_Widget", ThisKey="WidgetId", OtherKey="ID", IsForeignKey=true)]
-		public Widget Widget
-		{
-			get
-			{
-				return this._Widget.Entity;
-			}
-			set
-			{
-				Widget previousValue = this._Widget.Entity;
-				if (((previousValue != value) 
-							|| (this._Widget.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Widget.Entity = null;
-						previousValue.WidgetsInRoles.Remove(this);
-					}
-					this._Widget.Entity = value;
-					if ((value != null))
-					{
-						value.WidgetsInRoles.Add(this);
-						this._WidgetId = value.ID;
-					}
-					else
-					{
-						this._WidgetId = default(int);
-					}
-					this.SendPropertyChanged("Widget");
 				}
 			}
 		}
@@ -3373,6 +2591,812 @@ namespace Dropthings.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[Table(Name="dbo.[Column]")]
+	public partial class Column : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _PageId;
+		
+		private int _WidgetZoneId;
+		
+		private int _ColumnNo;
+		
+		private int _ColumnWidth;
+		
+		private System.Data.Linq.Binary _LastUpdated;
+		
+		private EntityRef<Page> _Page;
+		
+		private EntityRef<WidgetZone> _WidgetZone;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnPageIdChanging(int value);
+    partial void OnPageIdChanged();
+    partial void OnWidgetZoneIdChanging(int value);
+    partial void OnWidgetZoneIdChanged();
+    partial void OnColumnNoChanging(int value);
+    partial void OnColumnNoChanged();
+    partial void OnColumnWidthChanging(int value);
+    partial void OnColumnWidthChanged();
+    partial void OnLastUpdatedChanging(System.Data.Linq.Binary value);
+    partial void OnLastUpdatedChanged();
+    #endregion
+		
+		public Column()
+		{
+			this._Page = default(EntityRef<Page>);
+			this._WidgetZone = default(EntityRef<WidgetZone>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true, UpdateCheck=UpdateCheck.Never)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_PageId", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int PageId
+		{
+			get
+			{
+				return this._PageId;
+			}
+			set
+			{
+				if ((this._PageId != value))
+				{
+					if (this._Page.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPageIdChanging(value);
+					this.SendPropertyChanging();
+					this._PageId = value;
+					this.SendPropertyChanged("PageId");
+					this.OnPageIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_WidgetZoneId", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int WidgetZoneId
+		{
+			get
+			{
+				return this._WidgetZoneId;
+			}
+			set
+			{
+				if ((this._WidgetZoneId != value))
+				{
+					if (this._WidgetZone.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnWidgetZoneIdChanging(value);
+					this.SendPropertyChanging();
+					this._WidgetZoneId = value;
+					this.SendPropertyChanged("WidgetZoneId");
+					this.OnWidgetZoneIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ColumnNo", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int ColumnNo
+		{
+			get
+			{
+				return this._ColumnNo;
+			}
+			set
+			{
+				if ((this._ColumnNo != value))
+				{
+					this.OnColumnNoChanging(value);
+					this.SendPropertyChanging();
+					this._ColumnNo = value;
+					this.SendPropertyChanged("ColumnNo");
+					this.OnColumnNoChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ColumnWidth", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public int ColumnWidth
+		{
+			get
+			{
+				return this._ColumnWidth;
+			}
+			set
+			{
+				if ((this._ColumnWidth != value))
+				{
+					this.OnColumnWidthChanging(value);
+					this.SendPropertyChanging();
+					this._ColumnWidth = value;
+					this.SendPropertyChanged("ColumnWidth");
+					this.OnColumnWidthChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_LastUpdated", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary LastUpdated
+		{
+			get
+			{
+				return this._LastUpdated;
+			}
+			set
+			{
+				if ((this._LastUpdated != value))
+				{
+					this.OnLastUpdatedChanging(value);
+					this.SendPropertyChanging();
+					this._LastUpdated = value;
+					this.SendPropertyChanged("LastUpdated");
+					this.OnLastUpdatedChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Page_Column", Storage="_Page", ThisKey="PageId", OtherKey="ID", IsForeignKey=true)]
+		public Page Page
+		{
+			get
+			{
+				return this._Page.Entity;
+			}
+			set
+			{
+				Page previousValue = this._Page.Entity;
+				if (((previousValue != value) 
+							|| (this._Page.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Page.Entity = null;
+						previousValue.Columns.Remove(this);
+					}
+					this._Page.Entity = value;
+					if ((value != null))
+					{
+						value.Columns.Add(this);
+						this._PageId = value.ID;
+					}
+					else
+					{
+						this._PageId = default(int);
+					}
+					this.SendPropertyChanged("Page");
+				}
+			}
+		}
+		
+		[Association(Name="WidgetZone_Column", Storage="_WidgetZone", ThisKey="WidgetZoneId", OtherKey="ID", IsForeignKey=true)]
+		public WidgetZone WidgetZone
+		{
+			get
+			{
+				return this._WidgetZone.Entity;
+			}
+			set
+			{
+				WidgetZone previousValue = this._WidgetZone.Entity;
+				if (((previousValue != value) 
+							|| (this._WidgetZone.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._WidgetZone.Entity = null;
+						previousValue.Columns.Remove(this);
+					}
+					this._WidgetZone.Entity = value;
+					if ((value != null))
+					{
+						value.Columns.Add(this);
+						this._WidgetZoneId = value.ID;
+					}
+					else
+					{
+						this._WidgetZoneId = default(int);
+					}
+					this.SendPropertyChanged("WidgetZone");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[Table(Name="dbo.WidgetsInRoles")]
+	public partial class WidgetsInRole : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _WidgetId;
+		
+		private System.Guid _RoleId;
+		
+		private EntityRef<aspnet_Role> _aspnet_Role;
+		
+		private EntityRef<Widget> _Widget;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnWidgetIdChanging(int value);
+    partial void OnWidgetIdChanged();
+    partial void OnRoleIdChanging(System.Guid value);
+    partial void OnRoleIdChanged();
+    #endregion
+		
+		public WidgetsInRole()
+		{
+			this._aspnet_Role = default(EntityRef<aspnet_Role>);
+			this._Widget = default(EntityRef<Widget>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_WidgetId", DbType="Int NOT NULL")]
+		public int WidgetId
+		{
+			get
+			{
+				return this._WidgetId;
+			}
+			set
+			{
+				if ((this._WidgetId != value))
+				{
+					if (this._Widget.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnWidgetIdChanging(value);
+					this.SendPropertyChanging();
+					this._WidgetId = value;
+					this.SendPropertyChanged("WidgetId");
+					this.OnWidgetIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					if (this._aspnet_Role.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
+				}
+			}
+		}
+		
+		[Association(Name="aspnet_Role_WidgetsInRole", Storage="_aspnet_Role", ThisKey="RoleId", OtherKey="RoleId", IsForeignKey=true)]
+		public aspnet_Role aspnet_Role
+		{
+			get
+			{
+				return this._aspnet_Role.Entity;
+			}
+			set
+			{
+				aspnet_Role previousValue = this._aspnet_Role.Entity;
+				if (((previousValue != value) 
+							|| (this._aspnet_Role.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._aspnet_Role.Entity = null;
+						previousValue.WidgetsInRoles.Remove(this);
+					}
+					this._aspnet_Role.Entity = value;
+					if ((value != null))
+					{
+						value.WidgetsInRoles.Add(this);
+						this._RoleId = value.RoleId;
+					}
+					else
+					{
+						this._RoleId = default(System.Guid);
+					}
+					this.SendPropertyChanged("aspnet_Role");
+				}
+			}
+		}
+		
+		[Association(Name="Widget_WidgetsInRole", Storage="_Widget", ThisKey="WidgetId", OtherKey="ID", IsForeignKey=true)]
+		public Widget Widget
+		{
+			get
+			{
+				return this._Widget.Entity;
+			}
+			set
+			{
+				Widget previousValue = this._Widget.Entity;
+				if (((previousValue != value) 
+							|| (this._Widget.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Widget.Entity = null;
+						previousValue.WidgetsInRoles.Remove(this);
+					}
+					this._Widget.Entity = value;
+					if ((value != null))
+					{
+						value.WidgetsInRoles.Add(this);
+						this._WidgetId = value.ID;
+					}
+					else
+					{
+						this._WidgetId = default(int);
+					}
+					this.SendPropertyChanged("Widget");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[Table(Name="dbo.aspnet_Users")]
+	public partial class aspnet_User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _ApplicationId;
+		
+		private System.Guid _UserId;
+		
+		private string _UserName;
+		
+		private string _LoweredUserName;
+		
+		private string _MobileAlias;
+		
+		private bool _IsAnonymous;
+		
+		private System.DateTime _LastActivityDate;
+		
+		private EntitySet<Page> _Pages;
+		
+		private EntityRef<UserSetting> _UserSetting;
+		
+		private EntitySet<Token> _Tokens;
+		
+		private EntitySet<aspnet_UsersInRole> _aspnet_UsersInRoles;
+		
+		private EntitySet<RoleTemplate> _RoleTemplates;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnApplicationIdChanging(System.Guid value);
+    partial void OnApplicationIdChanged();
+    partial void OnUserIdChanging(System.Guid value);
+    partial void OnUserIdChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnLoweredUserNameChanging(string value);
+    partial void OnLoweredUserNameChanged();
+    partial void OnMobileAliasChanging(string value);
+    partial void OnMobileAliasChanged();
+    partial void OnIsAnonymousChanging(bool value);
+    partial void OnIsAnonymousChanged();
+    partial void OnLastActivityDateChanging(System.DateTime value);
+    partial void OnLastActivityDateChanged();
+    #endregion
+		
+		public aspnet_User()
+		{
+			this._Pages = new EntitySet<Page>(new Action<Page>(this.attach_Pages), new Action<Page>(this.detach_Pages));
+			this._UserSetting = default(EntityRef<UserSetting>);
+			this._Tokens = new EntitySet<Token>(new Action<Token>(this.attach_Tokens), new Action<Token>(this.detach_Tokens));
+			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
+			this._RoleTemplates = new EntitySet<RoleTemplate>(new Action<RoleTemplate>(this.attach_RoleTemplates), new Action<RoleTemplate>(this.detach_RoleTemplates));
+			OnCreated();
+		}
+		
+		[Column(Storage="_ApplicationId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ApplicationId
+		{
+			get
+			{
+				return this._ApplicationId;
+			}
+			set
+			{
+				if ((this._ApplicationId != value))
+				{
+					this.OnApplicationIdChanging(value);
+					this.SendPropertyChanging();
+					this._ApplicationId = value;
+					this.SendPropertyChanged("ApplicationId");
+					this.OnApplicationIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_UserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_LoweredUserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		public string LoweredUserName
+		{
+			get
+			{
+				return this._LoweredUserName;
+			}
+			set
+			{
+				if ((this._LoweredUserName != value))
+				{
+					this.OnLoweredUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._LoweredUserName = value;
+					this.SendPropertyChanged("LoweredUserName");
+					this.OnLoweredUserNameChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_MobileAlias", DbType="NVarChar(16)")]
+		public string MobileAlias
+		{
+			get
+			{
+				return this._MobileAlias;
+			}
+			set
+			{
+				if ((this._MobileAlias != value))
+				{
+					this.OnMobileAliasChanging(value);
+					this.SendPropertyChanging();
+					this._MobileAlias = value;
+					this.SendPropertyChanged("MobileAlias");
+					this.OnMobileAliasChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_IsAnonymous", DbType="Bit NOT NULL")]
+		public bool IsAnonymous
+		{
+			get
+			{
+				return this._IsAnonymous;
+			}
+			set
+			{
+				if ((this._IsAnonymous != value))
+				{
+					this.OnIsAnonymousChanging(value);
+					this.SendPropertyChanging();
+					this._IsAnonymous = value;
+					this.SendPropertyChanged("IsAnonymous");
+					this.OnIsAnonymousChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_LastActivityDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastActivityDate
+		{
+			get
+			{
+				return this._LastActivityDate;
+			}
+			set
+			{
+				if ((this._LastActivityDate != value))
+				{
+					this.OnLastActivityDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastActivityDate = value;
+					this.SendPropertyChanged("LastActivityDate");
+					this.OnLastActivityDateChanged();
+				}
+			}
+		}
+		
+		[Association(Name="aspnet_User_Page", Storage="_Pages", ThisKey="UserId", OtherKey="UserId")]
+		public EntitySet<Page> Pages
+		{
+			get
+			{
+				return this._Pages;
+			}
+			set
+			{
+				this._Pages.Assign(value);
+			}
+		}
+		
+		[Association(Name="aspnet_User_UserSetting", Storage="_UserSetting", ThisKey="UserId", OtherKey="UserId", IsUnique=true, IsForeignKey=false)]
+		public UserSetting UserSetting
+		{
+			get
+			{
+				return this._UserSetting.Entity;
+			}
+			set
+			{
+				UserSetting previousValue = this._UserSetting.Entity;
+				if (((previousValue != value) 
+							|| (this._UserSetting.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserSetting.Entity = null;
+						previousValue.aspnet_User = null;
+					}
+					this._UserSetting.Entity = value;
+					if ((value != null))
+					{
+						value.aspnet_User = this;
+					}
+					this.SendPropertyChanged("UserSetting");
+				}
+			}
+		}
+		
+		[Association(Name="aspnet_User_Token", Storage="_Tokens", ThisKey="UserId", OtherKey="UserId")]
+		public EntitySet<Token> Tokens
+		{
+			get
+			{
+				return this._Tokens;
+			}
+			set
+			{
+				this._Tokens.Assign(value);
+			}
+		}
+		
+		[Association(Name="aspnet_User_aspnet_UsersInRole", Storage="_aspnet_UsersInRoles", ThisKey="UserId", OtherKey="UserId")]
+		public EntitySet<aspnet_UsersInRole> aspnet_UsersInRoles
+		{
+			get
+			{
+				return this._aspnet_UsersInRoles;
+			}
+			set
+			{
+				this._aspnet_UsersInRoles.Assign(value);
+			}
+		}
+		
+		[Association(Name="aspnet_User_RoleTemplate", Storage="_RoleTemplates", ThisKey="UserId", OtherKey="TemplateUserId")]
+		public EntitySet<RoleTemplate> RoleTemplates
+		{
+			get
+			{
+				return this._RoleTemplates;
+			}
+			set
+			{
+				this._RoleTemplates.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Pages(Page entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_Pages(Page entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
+		}
+		
+		private void attach_Tokens(Token entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_Tokens(Token entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
+		}
+		
+		private void attach_aspnet_UsersInRoles(aspnet_UsersInRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_aspnet_UsersInRoles(aspnet_UsersInRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
+		}
+		
+		private void attach_RoleTemplates(RoleTemplate entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_RoleTemplates(RoleTemplate entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
 		}
 	}
 }

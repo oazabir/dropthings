@@ -225,4 +225,14 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
         this.PhotoTag = this.CustomTagTextBox.Text;
         this.SaveState();
     }
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

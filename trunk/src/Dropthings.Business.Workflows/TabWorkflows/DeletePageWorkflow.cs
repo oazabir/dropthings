@@ -1,4 +1,4 @@
-﻿namespace Dropthings.Business
+﻿namespace Dropthings.Business.Workflows.TabWorkflows
 {
     using System;
     using System.Collections;
@@ -28,9 +28,9 @@
         public static readonly DependencyProperty ResponseProperty = 
             DependencyProperty.Register("Response", typeof(DeleteTabWorkflowResponse), typeof(DeletePageWorkflow));
 
-        public static DependencyProperty ColumnsProperty = DependencyProperty.Register("Columns", typeof(System.Collections.Generic.List<Dropthings.DataAccess.Column>), typeof(Dropthings.Business.DeletePageWorkflow));
-        public static DependencyProperty CurrentPageIdProperty = DependencyProperty.Register("CurrentPageId", typeof(System.Int32), typeof(Dropthings.Business.DeletePageWorkflow));
-        public static DependencyProperty WidgetInstancesProperty = DependencyProperty.Register("WidgetInstances", typeof(System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance>), typeof(Dropthings.Business.DeletePageWorkflow));
+        public static DependencyProperty ColumnsProperty = DependencyProperty.Register("Columns", typeof(System.Collections.Generic.List<Dropthings.DataAccess.Column>), typeof(DeletePageWorkflow));
+        public static DependencyProperty CurrentPageIdProperty = DependencyProperty.Register("CurrentPageId", typeof(System.Int32), typeof(DeletePageWorkflow));
+        public static DependencyProperty WidgetInstancesProperty = DependencyProperty.Register("WidgetInstances", typeof(System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance>), typeof(DeletePageWorkflow));
 
         #endregion Fields
 
@@ -52,11 +52,11 @@
         {
             get
             {
-                return ((System.Collections.Generic.List<Dropthings.DataAccess.Column>)(base.GetValue(Dropthings.Business.DeletePageWorkflow.ColumnsProperty)));
+                return ((System.Collections.Generic.List<Dropthings.DataAccess.Column>)(base.GetValue(DeletePageWorkflow.ColumnsProperty)));
             }
             set
             {
-                base.SetValue(Dropthings.Business.DeletePageWorkflow.ColumnsProperty, value);
+                base.SetValue(DeletePageWorkflow.ColumnsProperty, value);
             }
         }
 
@@ -67,11 +67,11 @@
         {
             get
             {
-                return ((int)(base.GetValue(Dropthings.Business.DeletePageWorkflow.CurrentPageIdProperty)));
+                return ((int)(base.GetValue(DeletePageWorkflow.CurrentPageIdProperty)));
             }
             set
             {
-                base.SetValue(Dropthings.Business.DeletePageWorkflow.CurrentPageIdProperty, value);
+                base.SetValue(DeletePageWorkflow.CurrentPageIdProperty, value);
             }
         }
 
@@ -94,11 +94,11 @@
         {
             get
             {
-                return ((System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance>)(base.GetValue(Dropthings.Business.DeletePageWorkflow.WidgetInstancesProperty)));
+                return ((System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance>)(base.GetValue(DeletePageWorkflow.WidgetInstancesProperty)));
             }
             set
             {
-                base.SetValue(Dropthings.Business.DeletePageWorkflow.WidgetInstancesProperty, value);
+                base.SetValue(DeletePageWorkflow.WidgetInstancesProperty, value);
             }
         }
 

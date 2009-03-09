@@ -352,7 +352,9 @@ namespace Dropthings.DataAccess
             });
         }
 
-        public static void UpdateList<TEntity>(SubsystemEnum subsystem, IList<TEntity> list, Action<TEntity> postAttachUpdate)
+        public static void UpdateList<TEntity>(SubsystemEnum subsystem, IList<TEntity> list,
+            Action<TEntity> detach,
+            Action<TEntity> postAttachUpdate)
             where TEntity : class
         {
             InDataContext(subsystem, (data) =>
@@ -360,6 +362,8 @@ namespace Dropthings.DataAccess
                 Table<TEntity> table = data.GetTable<TEntity>();
                 foreach (TEntity entity in list)
                 {
+                    if (null != detach)
+                        detach(entity);
                     table.Attach(entity, true);
                     if (null != postAttachUpdate)
                         postAttachUpdate(entity);
@@ -368,11 +372,15 @@ namespace Dropthings.DataAccess
             });
         }
 
-        public static void UpdateObject<TEntity>(SubsystemEnum subsystem, TEntity obj, Action<TEntity> postAttachUpdate)
+        public static void UpdateObject<TEntity>(SubsystemEnum subsystem, TEntity obj, 
+            Action<TEntity> detach,
+            Action<TEntity> postAttachUpdate)
             where TEntity : class
         {
             InDataContext(subsystem, (data) =>
             {
+                if (null != detach)
+                    detach(obj);
                 data.GetTable<TEntity>().Attach(obj, true);
                 if( null != postAttachUpdate)
                     postAttachUpdate(obj);
@@ -380,13 +388,14 @@ namespace Dropthings.DataAccess
             });
         }
 
-        public static void UpdateObject<TEntity, TArg0>(SubsystemEnum subsystem, TArg0 arg0, Func<DropthingsDataContext, TArg0, IQueryable<TEntity>> func, Action<TEntity> postAttachUpdate)
+        public static void UpdateObject<TEntity, TArg0>(SubsystemEnum subsystem, TArg0 arg0, Func<DropthingsDataContext, TArg0, IQueryable<TEntity>> func, 
+            Action<TEntity> postAttachUpdate)
             where TEntity : class
         {
             InDataContext(subsystem, (data) =>
             {
                 TEntity obj = GetSingle<TEntity, TArg0>(subsystem, arg0, func);
-                UpdateObject<TEntity>(subsystem, obj, postAttachUpdate);
+                UpdateObject<TEntity>(subsystem, obj, (o) => {}, postAttachUpdate);
             });
         }
 
@@ -438,6 +447,8 @@ namespace Dropthings.DataAccess
                         string tableName = (attributes[0] as TableAttribute).Name;
                         if (tableName.StartsWith("dbo."))
                             tableName = tableName.Substring("dbo.".Length);
+                        tableName = tableName.TrimStart('[').TrimEnd(']');
+
                         string pkFieldName = "ID";
 
                         // Find the property which is the primary key so that we can find the

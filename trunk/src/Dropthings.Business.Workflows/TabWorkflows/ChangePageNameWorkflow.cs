@@ -5,7 +5,7 @@
 
 #endregion Header
 
-namespace Dropthings.Business
+namespace Dropthings.Business.Workflows.TabWorkflows
 {
     using System;
     using System.Collections;

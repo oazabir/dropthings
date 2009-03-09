@@ -100,5 +100,15 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
         
         this.Host.SaveState( Data.Text );
     }
-    
+
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

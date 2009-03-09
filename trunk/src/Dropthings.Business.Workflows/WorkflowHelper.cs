@@ -41,6 +41,7 @@ namespace Dropthings.Business.Workflows
         public static void TerminateDefaultRuntime(WorkflowRuntime workflowRuntime)
         {
             workflowRuntime.StopRuntime();
+            workflowRuntime.Dispose();
         }
 
         public TResponse ExecuteWorkflow<TWorkflow, TRequest, TResponse>(WorkflowRuntime workflowRuntime, TRequest request)
@@ -64,7 +65,7 @@ namespace Dropthings.Business.Workflows
             EventHandler<WorkflowCompletedEventArgs> completedHandler = null;
             completedHandler = delegate(object o, WorkflowCompletedEventArgs e)
             {
-                if (e.WorkflowInstance.InstanceId ==instance.InstanceId)
+                if (e.WorkflowInstance.InstanceId == instance.InstanceId)
                 {
                     workflowRuntime.WorkflowCompleted -= completedHandler;
 
@@ -101,6 +102,7 @@ namespace Dropthings.Business.Workflows
 
             if (null != x)
                 throw new WorkflowException(x);
+            
         }
 
         #endregion Methods

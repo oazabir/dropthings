@@ -420,4 +420,21 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         this.WidgetHeaderUpdatePanel.Update();
     }
 
+
+    #region IWidgetHost Members
+
+
+    void IWidgetHost.Refresh(IWidget widget)
+    {
+        this.WidgetHeaderUpdatePanel.Update();
+        this.WidgetBodyUpdatePanel.Update();
+    }
+
+    EventBrokerService IWidgetHost.EventBroker
+    {
+        get;
+        set;
+    }
+
+    #endregion
 }

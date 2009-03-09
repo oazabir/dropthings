@@ -182,4 +182,14 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
         var xml = this.State.Xml();
         this._Host.SaveState(xml);
     }
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

@@ -51,4 +51,14 @@ public partial class Widgets_TemplateWidget : System.Web.UI.UserControl, IWidget
     void IWidget.Closed()
     {
     }
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

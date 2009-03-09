@@ -90,4 +90,14 @@ public partial class Widgets_DiggWidget : System.Web.UI.UserControl, IWidget
         diggXaml.InitParameters = "WidgetId={0}".FormatWith(this._Host.ID)
             + ",State={0}".FormatWith(this.State.Xml());
     }
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

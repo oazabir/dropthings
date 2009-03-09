@@ -68,7 +68,8 @@
                     page.UserId = this.UserNewGuid;
                 }
 
-                DatabaseHelper.UpdateList<Page>(DatabaseHelper.SubsystemEnum.Page, pages, null);
+                DatabaseHelper.UpdateList<Page>(DatabaseHelper.SubsystemEnum.Page, pages,
+                    null, null);
 
                 // Delete setting for the anonymous user and create new setting for the new user
                 UserSetting setting = DatabaseHelper.GetSingle<UserSetting, Guid>(DatabaseHelper.SubsystemEnum.User,

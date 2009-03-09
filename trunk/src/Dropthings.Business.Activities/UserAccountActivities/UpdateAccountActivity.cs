@@ -79,7 +79,7 @@
                 }
 
                 DatabaseHelper.UpdateObject<aspnet_User>(DatabaseHelper.SubsystemEnum.User,
-                    user, null);
+                    user, null, null);
 
                 ts.Complete();
             }

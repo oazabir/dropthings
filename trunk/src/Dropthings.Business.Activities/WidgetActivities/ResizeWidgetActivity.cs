@@ -83,7 +83,7 @@ namespace Dropthings.Business.Activities
             wi.Resized = true;
 
             DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                wi, null);
+                wi, null, null);
 
             return ActivityExecutionStatus.Closed;
         }

@@ -27,6 +27,21 @@ namespace Dropthings.DataAccess
 
         #endregion Properties
 
+        public static int[] GetColumnWidths(int layoutType)
+        {
+            int[] columnWidths;
+            if (layoutType == 2)
+                columnWidths = new int[] { 25, 75 };
+            else if (layoutType == 3)
+                columnWidths = new int[] { 75, 25 };
+            else if (layoutType == 4)
+                columnWidths = new int[] { 100 };
+            else
+                columnWidths = new int[] { 33, 33, 33 };
+
+            return columnWidths;
+        }
+
         #region Methods
 
         public void Detach()
