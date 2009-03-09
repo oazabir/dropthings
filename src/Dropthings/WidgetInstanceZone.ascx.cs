@@ -46,7 +46,7 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         base.OnPreRender(e);
     }
 
-    public void LoadWidgets()
+    public List<IWidgetHost> LoadWidgets(EventBrokerService eventBroker)
     {
         this.WidgetHolderPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
         //this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
@@ -63,18 +63,23 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
                 controlsToDelete.Add(control);
         controlsToDelete.ForEach((c) => this.WidgetZoneUpdatePanel.ContentTemplateContainer.Controls.Remove(c));
 
+        List<IWidgetHost> widgetHosts = new List<IWidgetHost>();
         foreach (WidgetInstance instance in this.WidgetInstances)
         {
             var widget = LoadControl(this.WidgetContainerPath) as Control;
             widget.ID = "WidgetContainer" + instance.Id.ToString();
             var widgetHost = widget as IWidgetHost;
             widgetHost.WidgetInstance = instance;
+            widgetHost.EventBroker = eventBroker;
 
             widgetHost.Deleted += new Action<WidgetInstance, IWidgetHost>(Widget_Deleted);
 
             this.WidgetHolderPanel.Controls.Add(widget);
+
+            widgetHosts.Add(widgetHost);
         }
 
+        return widgetHosts;
     }
 
     private void Widget_Deleted(WidgetInstance wi, IWidgetHost host)

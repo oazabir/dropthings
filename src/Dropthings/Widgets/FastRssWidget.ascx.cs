@@ -127,5 +127,15 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
             string.Format("window.rssLoader{0} = new FastRssWidget( '{1}', '{2}', {3}, {4} ); window.rssLoader{0}.load();",
                 this._Host.ID, this.Url, this.RssContainer.ClientID, this.Count, cachedJSON ?? "null"), true);
     }
-    
+
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

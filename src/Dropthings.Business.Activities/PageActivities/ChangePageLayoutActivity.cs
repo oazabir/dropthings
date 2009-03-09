@@ -61,7 +61,10 @@
         {
             DatabaseHelper.UpdateObject<Page, int>(DatabaseHelper.SubsystemEnum.Page,
                 this.PageId, LinqQueries.CompiledQuery_GetPageById,
-                (page) => page.LayoutType = LayoutType);
+                (page) => {
+                    page.LayoutType = this.LayoutType;
+                    page.ColumnCount = Page.GetColumnWidths(this.LayoutType).Length;
+                });
 
             return ActivityExecutionStatus.Closed;
         }

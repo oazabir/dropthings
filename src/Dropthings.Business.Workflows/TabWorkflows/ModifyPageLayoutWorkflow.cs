@@ -1,4 +1,4 @@
-﻿namespace Dropthings.Business
+﻿namespace Dropthings.Business.Workflows.TabWorkflows
 {
     using System;
     using System.Collections;
@@ -13,22 +13,22 @@
     using System.Workflow.ComponentModel.Design;
     using System.Workflow.ComponentModel.Serialization;
     using System.Workflow.Runtime;
-
-    using Dropthings.Business.Workflows.TabWorkflows;
+    using Dropthings.Business.Activities;
+    using Dropthings.DataAccess;
 
     public sealed partial class ModifyPageLayoutWorkflow : SequentialWorkflowActivity
     {
         #region Fields
 
         // Using a DependencyProperty as the backing store for Request.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RequestProperty = 
+        public static readonly DependencyProperty RequestProperty =
             DependencyProperty.Register("Request", typeof(ModifyTabLayoutWorkflowRequest), typeof(ModifyPageLayoutWorkflow));
 
         // Using a DependencyProperty as the backing store for Response.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ResponseProperty = 
+        public static readonly DependencyProperty ResponseProperty =
             DependencyProperty.Register("Response", typeof(ModifyTabLayoutWorkflowResponse), typeof(ModifyPageLayoutWorkflow));
 
-        public static DependencyProperty ZoneToRemoveProperty = DependencyProperty.Register("ZoneToRemove", typeof(Dropthings.DataAccess.WidgetZone), typeof(Dropthings.Business.ModifyPageLayoutWorkflow));
+        public static DependencyProperty ZoneToRemoveProperty = DependencyProperty.Register("ZoneToRemove", typeof(Dropthings.DataAccess.WidgetZone), typeof(ModifyPageLayoutWorkflow));
 
         public int ColumnCounter = 0;
         public Dropthings.DataAccess.Page CurrentPage = new Dropthings.DataAccess.Page();
@@ -68,11 +68,11 @@
         {
             get
             {
-                return ((Dropthings.DataAccess.WidgetZone)(base.GetValue(Dropthings.Business.ModifyPageLayoutWorkflow.ZoneToRemoveProperty)));
+                return ((Dropthings.DataAccess.WidgetZone)(base.GetValue(ModifyPageLayoutWorkflow.ZoneToRemoveProperty)));
             }
             set
             {
-                base.SetValue(Dropthings.Business.ModifyPageLayoutWorkflow.ZoneToRemoveProperty, value);
+                base.SetValue(ModifyPageLayoutWorkflow.ZoneToRemoveProperty, value);
             }
         }
 
@@ -91,5 +91,35 @@
         }
 
         #endregion Methods
+
+        public Dropthings.DataAccess.WidgetZone OldWidgetZone = new Dropthings.DataAccess.WidgetZone();
+
+        private void DecreaseColumnCounter_ExecuteCode(object sender, EventArgs e)
+        {
+            this.ColumnCounter--;
+        }
+
+        public Dropthings.DataAccess.WidgetZone NewWidgetZone = new Dropthings.DataAccess.WidgetZone();
+        public System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance> WidgetInstancesToMove = new System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance>();
+
+        private void ForEachWidgetInstance_Iterating(object sender, EventArgs e)
+        {
+            ForEachActivity.ForEach forEachActivity = sender as ForEachActivity.ForEach;
+            ChangeWidgetInstancePositionActivity changePositionActivity = forEachActivity.DynamicActivity as ChangeWidgetInstancePositionActivity;
+            WidgetInstance widgetInstance = forEachActivity.Enumerator.Current as WidgetInstance;
+            changePositionActivity.WidgetInstanceId = widgetInstance.Id;
+
+        }
+
+        private void IncreaseColumnCounter_ExecuteCode(object sender, EventArgs e)
+        {
+            this.ColumnCounter++;
+        }
+
+        public int NewColumnWidth = 0;
+        private void SetWidthForColumn_ExecuteCode(object sender, EventArgs e)
+        {
+            this.NewColumnWidth = this.NewColumnDefs[this.ColumnCounter];
+        }
     }
 }

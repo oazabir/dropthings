@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="aspnet_User.cs" />
+    <Compile Include="Column.cs" />
     <Compile Include="DropthingsDataContext.cs">
       <DependentUpon>DropthingsDataContext.dbml</DependentUpon>
     </Compile>
@@ -111,6 +113,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)..\ThirdParty\NArrange\narrange-console.exe $(SolutionPath)</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -12,6 +12,7 @@ using Dropthings.Business.Workflows.TabWorkflows;
 using System.Workflow.Runtime;
 using System.Web.UI.HtmlControls;
 using Dropthings.Web.Framework;
+using Dropthings.Widget.Framework;
 
 public partial class WidgetPage : System.Web.UI.UserControl
 {
@@ -22,31 +23,13 @@ public partial class WidgetPage : System.Web.UI.UserControl
 
     public Dropthings.DataAccess.Page CurrentPage { get; set; }
     public List<WidgetInstance> WidgetInstances { get; set; }
+    private EventBrokerService _EventBroker = new EventBrokerService();    
 
     public void LoadWidgets(Dropthings.DataAccess.Page page, string widgetContainerPath)
     {
         this.CurrentPage = page;
-    //    this.WidgetInstances = widgetInstances;
-
-    //    this.WidgetPanelsLayout.SetLayout(this.CurrentPage.LayoutType);
-    //    this.SetupWidgets(isWidgetFirstLoad);
-
+    
         this.SetupWidgetZones(widgetContainerPath);
-    }
-
-    private int[] GetColumnWidths()
-    {
-        int[] panels;
-        if (this.CurrentPage.LayoutType == 2)
-            panels = new int[] { 25, 75 };
-        else if (this.CurrentPage.LayoutType == 3)
-            panels = new int[] { 75, 25 };
-        else if (this.CurrentPage.LayoutType == 4)
-            panels = new int[] { 100 };
-        else
-            panels = new int[] { 33, 33, 33 };
-
-        return panels;
     }
 
     private void SetupWidgetZones(string widgetContainerPath)    
@@ -83,7 +66,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
             this.Controls.Add(panel);
             panel.Controls.Add(widgetZone);           
  
-            widgetZone.LoadWidgets();
+            widgetZone.LoadWidgets(this._EventBroker);
         });
     }
     

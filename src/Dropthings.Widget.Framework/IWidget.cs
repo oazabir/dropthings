@@ -9,7 +9,7 @@ using Dropthings.DataAccess;
 /// </summary>
 namespace Dropthings.Widget.Framework
 {
-    public interface IWidget
+    public interface IWidget : IEventListener
     {
         void Init(IWidgetHost host);
         void ShowSettings();
@@ -18,23 +18,6 @@ namespace Dropthings.Widget.Framework
         void Collasped();
         void Maximized();
         void Restored();
-        void Closed();
-    }
-
-
-    public interface IWidgetHost
-    {
-        int ID { get; }
-        void SaveState(string state);
-        string GetState();
-        void Expand();
-        void Collaspe();
-        void Maximize();
-        void Restore();
-        void Close();
-        WidgetInstance WidgetInstance { get; set; }
-        event Action<WidgetInstance, IWidgetHost> Deleted;
-        void ShowSettings();
-        void HideSettings();
+        void Closed();        
     }
 }

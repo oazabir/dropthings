@@ -72,7 +72,7 @@ namespace Dropthings.Business.Activities
             wi.State = this.State;
 
             DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                wi, null);
+                wi, null, null);
 
             return ActivityExecutionStatus.Closed;
         }

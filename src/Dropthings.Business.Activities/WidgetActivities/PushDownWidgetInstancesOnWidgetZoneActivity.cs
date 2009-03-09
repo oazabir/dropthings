@@ -116,7 +116,7 @@ namespace Dropthings.Business.Activities
                 wi.OrderNo = ++orderNo;
             }
 
-            DatabaseHelper.UpdateList<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance, list, null);
+            DatabaseHelper.UpdateList<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance, list, null, null);
 
             return ActivityExecutionStatus.Closed;
         }

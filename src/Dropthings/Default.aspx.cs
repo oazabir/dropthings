@@ -30,6 +30,7 @@ using Dropthings.Business.Workflows;
 using System.Workflow.Runtime;
 using Dropthings.Business.Workflows.WidgetWorkflows;
 using Dropthings.Web.Framework;
+using Dropthings.Widget.Framework;
 
 public partial class _Default : BasePage
 {

@@ -23,6 +23,20 @@ namespace Dropthings.DataAccess
                 select column
             );
 
+        public static readonly Func<DropthingsDataContext, int, IQueryable<Column>> CompiledQuery_GetColumnById =
+            CompiledQuery.Compile<DropthingsDataContext, int, IQueryable<Column>>((dc, columnId) =>
+                from column in dc.Columns
+                where column.ID == columnId
+                select column
+            );        
+
+        public static readonly Func<DropthingsDataContext, int, int, IQueryable<Column>> CompiledQuery_GetColumnByPageId_ColumnNo =
+            CompiledQuery.Compile<DropthingsDataContext, int, int, IQueryable<Column>>((dc, pageId, columnNo) =>
+                from column in dc.Columns
+                where column.PageId == pageId && column.ColumnNo == columnNo
+                select column
+            );
+
         public static readonly Func<DropthingsDataContext, Enumerations.WidgetTypeEnum, IQueryable<Widget>> CompiledQuery_GetAllWidgets =
             CompiledQuery.Compile<DropthingsDataContext, Enumerations.WidgetTypeEnum, IQueryable<Widget>>((dc, widgetType) =>
                 from widget in dc.Widgets
@@ -30,6 +44,8 @@ namespace Dropthings.DataAccess
                 orderby widget.OrderNo
                 select widget
             );
+
+
 
         public static readonly Func<DropthingsDataContext, string, Enumerations.WidgetTypeEnum, IQueryable<Widget>> CompiledQuery_GetWidgetsByRole =
                 CompiledQuery.Compile<DropthingsDataContext, string, Enumerations.WidgetTypeEnum, IQueryable<Widget>>((dc, username, widgetType) =>

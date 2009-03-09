@@ -130,5 +130,11 @@
         }
 
         #endregion Methods
+
+        protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
+        {
+            base.Execute(executionContext);
+            return ActivityExecutionStatus.Closed;
+        }
     }
 }

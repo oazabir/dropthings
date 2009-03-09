@@ -77,6 +77,18 @@
     </Compile>
     <Compile Include="ForEachActivity\ForEachDesigner.cs" />
     <Compile Include="ForEachActivity\ForEachValidator.cs" />
+    <Compile Include="PageActivities\AddColumnActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\AddColumnActivity.Designer.cs">
+      <DependentUpon>AddColumnActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\ApplyColumnWidthsActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\ApplyColumnWidthsActivity.Designer.cs">
+      <DependentUpon>ApplyColumnWidthsActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="PageActivities\ChangePageLayoutActivity.cs">
       <SubType>Component</SubType>
     </Compile>

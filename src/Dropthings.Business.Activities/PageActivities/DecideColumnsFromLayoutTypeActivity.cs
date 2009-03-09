@@ -13,6 +13,7 @@
     using System.Workflow.ComponentModel.Design;
     using System.Workflow.ComponentModel.Serialization;
     using System.Workflow.Runtime;
+    using Dropthings.DataAccess;
 
     public partial class DecideColumnsFromLayoutTypeActivity : Activity
     {
@@ -56,18 +57,8 @@
         #region Methods
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
-        {
-            int[] panels;
-            if (this.LayoutType == 2)
-                panels = new int[] { 25, 75 };
-            else if (this.LayoutType == 3)
-                panels = new int[] { 75, 25 };
-            else if (this.LayoutType == 4)
-                panels = new int[] { 100 };
-            else
-                panels = new int[] { 33, 33, 33 };
-
-            this.Columns = panels;
+        {   
+            this.Columns = Page.GetColumnWidths(this.LayoutType);
 
             return ActivityExecutionStatus.Closed;
         }

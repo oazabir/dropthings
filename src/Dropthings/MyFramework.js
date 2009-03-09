@@ -434,7 +434,7 @@ var DropthingsUI = {
         },
 
         _onDeletePageComplete: function(currentPageName) {
-            document.location.href = '?' + encodeURI(currentPageName);            
+            document.location.href = '?' + encodeURI(currentPageName);
         },
 
         changePageLayout: function(newLayout) {
@@ -442,7 +442,8 @@ var DropthingsUI = {
         },
 
         _onChangePageLayoutComplete: function(arg) {
-            document.location.reload();
+            document.location = document.location.href;
+            //document.location.reload();
         },
 
         newPage: function(newLayout) {
@@ -506,7 +507,7 @@ var DropthingsUI = {
             request.set_executor(executor);
             executor.executeRequest();
         }
-    }    
+    }
 };
 
 var Utility =

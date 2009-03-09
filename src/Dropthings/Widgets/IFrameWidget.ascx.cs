@@ -113,4 +113,14 @@ public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
         this.SaveState();
     }
 
+
+    #region IWidget Members
+
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
 }

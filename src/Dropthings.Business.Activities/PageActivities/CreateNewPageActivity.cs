@@ -23,6 +23,7 @@ namespace Dropthings.Business.Activities
     using System.Workflow.Runtime;
 
     using Dropthings.DataAccess;
+    using Dropthings.Business.Activities.PageActivities;
 
     public partial class CreateNewPageActivity : Activity
     {
@@ -102,21 +103,15 @@ namespace Dropthings.Business.Activities
             var page = DatabaseHelper.GetSingle<Page, int>(DatabaseHelper.SubsystemEnum.Page, insertedPage.ID,
                 LinqQueries.CompiledQuery_GetPageById);
 
+            AddColumnActivity addColumnActivity = new AddColumnActivity();
             for (int i = 0; i < insertedPage.ColumnCount; i++)
             {
-                var insertedWidgetZone = DatabaseHelper.Insert<WidgetZone>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    (newWidgetZone) =>
-                    {
-                        string title = "Column " + (i+1);
-                        ObjectBuilder.BuildDefaultWidgetZone(newWidgetZone, title, title, 0);
-                    });
-                var insertedColumn = DatabaseHelper.Insert<Column>(DatabaseHelper.SubsystemEnum.Page, (newColumn) =>
-                    {
-                        newColumn.ColumnNo = i;
-                        newColumn.ColumnWidth = 100 / insertedPage.ColumnCount;
-                        newColumn.WidgetZoneId = insertedWidgetZone.ID;
-                        newColumn.PageId = insertedPage.ID;
-                    });
+                addColumnActivity.PageId = insertedPage.ID;
+                addColumnActivity.ColumnNo = i;
+                addColumnActivity.Width = 100 / insertedPage.ColumnCount;
+
+                executionContext.ExecuteActivity(addColumnActivity);
+                executionContext.CloseActivity();
             }
 
             NewPageId = page.ID;

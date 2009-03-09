@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventBrokerService.cs" />
+    <Compile Include="IEventListener.cs" />
     <Compile Include="IWidget.cs" />
+    <Compile Include="IWidgetHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RssItem.cs" />
   </ItemGroup>
