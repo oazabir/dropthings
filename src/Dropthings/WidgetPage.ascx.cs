@@ -16,7 +16,7 @@ using Dropthings.Widget.Framework;
 
 public partial class WidgetPage : System.Web.UI.UserControl
 {
-    public event EventHandler OnReloadPage;
+    //public event EventHandler OnReloadPage;
 
     private const string WIDGET_CONTAINER = "WidgetContainer.ascx";
     private string[] updatePanelIDs = new string[] { "LeftUpdatePanel", "MiddleUpdatePanel", "RightUpdatePanel" };

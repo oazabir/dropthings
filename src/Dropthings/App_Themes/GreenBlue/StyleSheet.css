@@ -110,7 +110,7 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 					.onpage_menu_panel_column p { padding: 5px; font-size: 10pt; }
 
 .widget_zone_container { padding: 10px; }
-	.widget_zone { min-height: 400px; height:auto !important; height: 400px; }
+	.widget_zone { min-height: 400px; height:auto !important; height: 400px; padding-bottom: 10px; }
 		.widget_holder_panel_post_link {display:none}
 
 		.widget {overflow:hidden; /*position: relative; left: 0px; top: 0px; */ margin-bottom:20px;background-color:white; border: solid 1px #EFEFEF; padding: 0px }
