@@ -19,14 +19,12 @@
 </head>
 <body>
 <form id="default_form" runat="server">
-<!-- A dummy panel to download Ajax Control Toolkit library for drap and drop that CustomDragDrop extender uses -->
-<asp:Panel ID="DummyPanel" runat="server" ></asp:Panel>
 
-<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Release">
+<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Debug">
     <Services>
-        <asp:ServiceReference InlineScript="true" Path="PageService.asmx" />  
-        <asp:ServiceReference InlineScript="true" Path="ProxyAsync.asmx" />                
-        <asp:ServiceReference InlineScript="true" Path="WidgetService.asmx" />                
+        <asp:ServiceReference InlineScript="true" Path="PageService.asmx" />
+        <asp:ServiceReference InlineScript="true" Path="ProxyAsync.asmx" />
+        <asp:ServiceReference InlineScript="true" Path="WidgetService.asmx" />
     </Services>
     <Scripts>
         <asp:ScriptReference Path="~/Scripts/jquery-1.2.6.min.js" />
@@ -37,9 +35,8 @@
         <asp:ScriptReference Path="~/Scripts/ui.resizable.js" />
         <asp:ScriptReference Path="~/Scripts/ui.sortable.js" />
         <asp:ScriptReference Path="~/Scripts/tabscroll.js" />
-    </Scripts>
+    </Scripts>    
 </asp:ScriptManager>
-
 
 <script src="Myframework.js" type="text/javascript"></script> 
 <script type="text/javascript">if( typeof Proxy == "undefined" ) window.Proxy = Dropthings.Web.Framework.ProxyAsync;</script>

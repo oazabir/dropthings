@@ -17,23 +17,21 @@
 	-->
   <set name="initial">
 
-    <url name="a">http://s.dropthings.com/WebResource.axd?d=Xfpt4UU1x7aLbmWQBiVU-g2&amp;amp;t=633560210089190240</url>
-    <url name="b">http://s.dropthings.com/Widgets/FastFlickrWidget.js</url>
-    <url name="c">http://s.dropthings.com/Widgets/FastRssWidget.js</url>
-    <url name="d">http://s.dropthings.com/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7RCzywGIKBIwftSE-sCYp0Ha6egWGyrOQzVemKgttVKk1&amp;amp;t=ffffffffd7199832</url>
-    <url name="e">http://s.dropthings.com/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7uQApkyqDFVLuaIsTQoO2h2Kml5Yn5oCaI8OkyGdkvBM1&amp;amp;t=ffffffffd7199832</url>
-    <url name="f">http://s.dropthings.com/Scripts/jquery-1.2.6.js</url>
-    <url name="g">http://s.dropthings.com/Scripts/jquery.microtemplate.js</url>    
-    <url name="h">http://s.dropthings.com/Scripts/ui.core.js</url>
-    <url name="i">http://s.dropthings.com/Scripts/ui.draggable.js</url>    
-    <url name="j">http://s.dropthings.com/Scripts/ui.droppable.js</url>
-    <url name="k">http://s.dropthings.com/Scripts/ui.resizable.js</url>
-    <url name="l">http://s.dropthings.com/Scripts/ui.sortable.js</url>
-    <url name="m">http://s.dropthings.com/Scripts/tabscroll.js</url>
-    <url name="o">http://s.dropthings.com/ScriptResource.axd?d=sqj-X3iY_L4T0NdBZBmzN9NoYRu5q-CqxVWlMa5ah6YVAILa36zLfhbCSUIsUyNM0&amp;amp;t=1f1ca10</url>
-    <url name="p">http://s.dropthings.com/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7LfF1KkDF5JbCIlGQX8XzyZC23_M37g4ZfubrMkSjiPo1&amp;amp;t=ffffffffd7199832</url>
-    <url name="q">http://s.dropthings.com/Myframework.js</url>
+    <url name="a">http://localhost:8000/WebResource.axd?d=iNjHL-oY7_VtNSLRYxGQww2&amp;amp;t=633566121606650000</url>
+    <url name="b">http://localhost:8000/Widgets/FastFlickrWidget.js</url>
+    <url name="c">http://localhost:8000/Widgets/FastRssWidget.js</url>
+    <url name="d">http://localhost:8000/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7RCzywGIKBIwftSE-sCYp0Ha6egWGyrOQzVemKgttVKk1&amp;amp;t=ffffffffd7199832</url>
+    <url name="e">http://localhost:8000/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7uQApkyqDFVLuaIsTQoO2h2Kml5Yn5oCaI8OkyGdkvBM1&amp;amp;t=ffffffffd7199832</url>
+    <url name="f">http://localhost:8000/Scripts/jquery-1.2.6.min.js</url>
+    <url name="g">http://localhost:8000/Scripts/jquery.micro_template.js</url>    
+    <url name="h">http://localhost:8000/Scripts/ui.core.js</url>
+    <url name="i">http://localhost:8000/Scripts/ui.draggable.js</url>    
+    <url name="j">http://localhost:8000/Scripts/ui.droppable.js</url>
+    <url name="k">http://localhost:8000/Scripts/ui.resizable.js</url>
+    <url name="l">http://localhost:8000/Scripts/ui.sortable.js</url>
+    <url name="m">http://localhost:8000/Scripts/tabscroll.js</url>
+    <url name="o">http://localhost:8000/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1nR1UNOHw8GJSktucJuJcq0BP0yFRpDRwbHz0sCLAmxDQ1&amp;amp;t=ffffffffa15eea6c</url>
+    <url name="p">http://localhost:8000/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1n_4fGIf7GeCbPAfOlWVufHZDofpw_8c7qo_JFEMoLSfc1&amp;amp;t=ffffffffa15eea6c</url>
+    <url name="q">http://localhost:8000/Myframework.js</url>
   </set>
 </sets>
-
-

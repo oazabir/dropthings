@@ -426,7 +426,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Refresh(IWidget widget)
     {
-        this.WidgetHeaderUpdatePanel.Update();
+        //this.WidgetHeaderUpdatePanel.Update();
         this.WidgetBodyUpdatePanel.Update();
     }
 
