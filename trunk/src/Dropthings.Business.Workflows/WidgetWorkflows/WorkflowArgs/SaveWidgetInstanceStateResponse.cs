@@ -7,7 +7,7 @@
 
     using Dropthings.DataAccess;
 
-    public class SaveWidgetInstanceStateResponse : UserWorkflowResponseBase
+    public class SaveWidgetInstanceStateResponse : WidgetInstanceResponseBase
     {
     }
 }

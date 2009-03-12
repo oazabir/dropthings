@@ -1,23 +1,39 @@
+#region Header
+
 // Copyright (c) Omar AL Zabir. All rights reserved.
 // For continued development and updates, visit http://msmvps.com/omar
 
-using System;
-using Dropthings.DataAccess;
+#endregion Header
 
 /// <summary>
 /// Summary description for IWidget
 /// </summary>
 namespace Dropthings.Widget.Framework
 {
+    using System;
+
+    using Dropthings.DataAccess;
+
     public interface IWidget : IEventListener
     {
-        void Init(IWidgetHost host);
-        void ShowSettings();
-        void HideSettings();
-        void Expanded();
+        #region Methods
+
+        void Closed();
+
         void Collasped();
+
+        void Expanded();
+
+        void HideSettings();
+
+        void Init(IWidgetHost host);
+
         void Maximized();
+
         void Restored();
-        void Closed();        
+
+        void ShowSettings();
+
+        #endregion Methods
     }
 }

@@ -2,36 +2,73 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Dropthings.DataAccess;
-using Dropthings.Business;
-using System.Web.UI.HtmlControls;
-using Dropthings.Business.Workflows;
-using Dropthings.Business.Container;
-using Dropthings.Business.Workflows.TabWorkflows;
-using System.Workflow.Runtime;
 using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Workflow.Runtime;
+
+using Dropthings.Business;
+using Dropthings.Business.Container;
+using Dropthings.Business.Workflows;
+using Dropthings.Business.Workflows.TabWorkflows;
+using Dropthings.DataAccess;
 using Dropthings.Web.Framework;
 
 public partial class TabPage : System.Web.UI.UserControl
 {
+    #region Fields
+
     private const string WIDGET_CONTAINER = "WidgetContainer.ascx";
+
     private string[] updatePanelIDs = new string[] { "LeftUpdatePanel", "MiddleUpdatePanel", "RightUpdatePanel" };
 
-    public Dropthings.DataAccess.Page CurrentPage { get; set; }
-    public List<Dropthings.DataAccess.Page> Pages { get; set; }
-    
-    protected override void CreateChildControls()
+    #endregion Fields
+
+    #region Properties
+
+    public Dropthings.DataAccess.Page CurrentPage
     {
-        base.CreateChildControls();       
+        get; set;
     }
+
+    public List<Dropthings.DataAccess.Page> Pages
+    {
+        get; set;
+    }
+
+    #endregion Properties
+
+    #region Methods
 
     public void LoadTabs(List<Dropthings.DataAccess.Page> pages, Dropthings.DataAccess.Page page)
     {
         this.CurrentPage = page;
         this.Pages = pages;
         this.SetupTabs();
+    }
+
+    public void RedirectToTab(Dropthings.DataAccess.Page page)
+    {
+        Response.Redirect('?' + page.TabName);
+    }
+
+    protected override void CreateChildControls()
+    {
+        base.CreateChildControls();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+    }
+
+    protected void addNewTabLinkButton_Click(object sender, EventArgs e)
+    {
+        var response = RunWorkflow.Run<AddNewTabWorkflow,AddNewTabWorkflowRequest,AddNewTabWorkflowResponse>(
+                            new AddNewTabWorkflowRequest { LayoutType = "1", UserName = Profile.UserName }
+                        );
+
+        RedirectToTab(response.NewPage);
     }
 
     private void SetupTabs()
@@ -81,23 +118,5 @@ public partial class TabPage : System.Web.UI.UserControl
         //}
     }
 
-    public void RedirectToTab(Dropthings.DataAccess.Page page)
-    {
-        Response.Redirect('?' + page.TabName);
-    }
-
-    protected void addNewTabLinkButton_Click(object sender, EventArgs e)
-    {
-        var response = RunWorkflow.Run<AddNewTabWorkflow,AddNewTabWorkflowRequest,AddNewTabWorkflowResponse>(
-                            new AddNewTabWorkflowRequest { LayoutType = "1", UserName = Profile.UserName }
-                        );
-
-        RedirectToTab(response.NewPage);
-    }
-    
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
-
+    #endregion Methods
 }

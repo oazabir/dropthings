@@ -17,7 +17,7 @@ namespace Dropthings.Widget.Framework
         void Restore();
         void Close();
         WidgetInstance WidgetInstance { get; set; }
-        event Action<WidgetInstance, IWidgetHost> Deleted;
+        event Action<WidgetInstance,IWidgetHost> Deleted;
         void ShowSettings();
         void HideSettings();
         void Refresh(IWidget widget);

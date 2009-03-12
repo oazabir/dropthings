@@ -27,6 +27,8 @@ namespace Dropthings.DataAccess
 
         #endregion Properties
 
+        #region Methods
+
         public static int[] GetColumnWidths(int layoutType)
         {
             int[] columnWidths;
@@ -41,8 +43,6 @@ namespace Dropthings.DataAccess
 
             return columnWidths;
         }
-
-        #region Methods
 
         public void Detach()
         {

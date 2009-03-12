@@ -1,26 +1,31 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-
-/// <summary>
+﻿/// <summary>
 /// Summary description for ImageButtonWithLayout
 /// </summary>
 namespace Dropthings.Web.UI
 {
+    using System;
+    using System.Configuration;
+    using System.Data;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Security;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
+    using System.Web.UI.WebControls;
+    using System.Web.UI.WebControls.WebParts;
+    using System.Xml.Linq;
+
     public class ImageButtonWithLayout : ImageButton
     {
+        #region Constructors
+
         public ImageButtonWithLayout()
         {
-
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         protected override void Render(System.Web.UI.HtmlTextWriter writer)
         {
@@ -29,21 +34,23 @@ namespace Dropthings.Web.UI
                   "1"
                );
             Page.ClientScript.RegisterForEventValidation(
-          this.UniqueID,
-          "2"
-       );
+              this.UniqueID,
+              "2"
+               );
 
             Page.ClientScript.RegisterForEventValidation(
-          this.UniqueID,
-          "3"
-       );
+              this.UniqueID,
+              "3"
+               );
 
             Page.ClientScript.RegisterForEventValidation(
-          this.UniqueID,
-          "4"
-       );
+              this.UniqueID,
+              "4"
+               );
 
             base.Render(writer);
         }
+
+        #endregion Methods
     }
 }

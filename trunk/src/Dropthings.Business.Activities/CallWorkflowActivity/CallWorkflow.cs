@@ -1,5 +1,6 @@
 // This activity is taken from:
 // http://www.masteringbiztalk.com/blogs/jon/PermaLink,guid,7be9fb53-0ddf-4633-b358-01c3e9999088.aspx
+// Some memory leak issue has been fixed
 namespace Dropthings.Business.Activities
 {
     using System;
@@ -319,31 +320,36 @@ namespace Dropthings.Business.Activities
             WorkflowRuntime wr = this.Runtime;
             WorkflowInstance wi = wr.CreateWorkflow(workflowType,inparms);
             wi.Start();
-            ManualWorkflowSchedulerService ss = wr.GetService<ManualWorkflowSchedulerService>();
-            if (ss != null)
-                ss.RunWorkflow(wi.InstanceId);
+
+            var instanceId = wi.InstanceId;
             EventHandler<WorkflowCompletedEventArgs> d  = null;
             d = delegate(object o, WorkflowCompletedEventArgs e)
             {
-                if (e.WorkflowInstance.InstanceId ==wi.InstanceId)
+                if (e.WorkflowInstance.InstanceId == instanceId)
                 {
                     wr.WorkflowCompleted -= d;
                     WorkflowInstance c = wr.GetWorkflow(caller);
                     c.EnqueueItem(qn, e.OutputParameters, null, null);
                 }
             };
+
             EventHandler<WorkflowTerminatedEventArgs> te = null;
             te = delegate(object o, WorkflowTerminatedEventArgs e)
             {
-                if (e.WorkflowInstance.InstanceId == wi.InstanceId)
+                if (e.WorkflowInstance.InstanceId == instanceId)
                 {
                     wr.WorkflowTerminated -= te;
                     WorkflowInstance c = wr.GetWorkflow(caller);
                     c.EnqueueItem(qn, new Exception("Called Workflow Terminated", e.Exception), null, null);
                 }
             };
+
             wr.WorkflowCompleted += d;
             wr.WorkflowTerminated += te;
+
+            ManualWorkflowSchedulerService ss = wr.GetService<ManualWorkflowSchedulerService>();
+            if (ss != null)
+                ss.RunWorkflow(wi.InstanceId);
         }
 
         #endregion Methods

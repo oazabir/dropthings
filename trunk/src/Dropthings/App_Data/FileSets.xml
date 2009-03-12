@@ -32,6 +32,6 @@
     <url name="m">http://localhost:8000/Scripts/tabscroll.js</url>
     <url name="o">http://localhost:8000/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1nR1UNOHw8GJSktucJuJcq0BP0yFRpDRwbHz0sCLAmxDQ1&amp;amp;t=ffffffffa15eea6c</url>
     <url name="p">http://localhost:8000/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1n_4fGIf7GeCbPAfOlWVufHZDofpw_8c7qo_JFEMoLSfc1&amp;amp;t=ffffffffa15eea6c</url>
-    <url name="q">http://localhost:8000/Myframework.js</url>
+    <!--<url name="q">http://localhost:8000/Myframework.js</url>-->
   </set>
 </sets>

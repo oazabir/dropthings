@@ -20,6 +20,10 @@
     {
         #region Fields
 
+        // Using a DependencyProperty as the backing store for ModifiedWidgetInstance.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ModifiedWidgetInstanceProperty = 
+            DependencyProperty.Register("ModifiedWidgetInstance", typeof(WidgetInstance), typeof(ChangeWidgetInstanceTitle));
+
         // Using a DependencyProperty as the backing store for NewTitle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NewTitleProperty = 
             DependencyProperty.Register("NewTitle", typeof(string), typeof(ChangeWidgetInstanceTitle));
@@ -40,6 +44,12 @@
         #endregion Constructors
 
         #region Properties
+
+        public WidgetInstance ModifiedWidgetInstance
+        {
+            get { return (WidgetInstance)GetValue(ModifiedWidgetInstanceProperty); }
+            set { SetValue(ModifiedWidgetInstanceProperty, value); }
+        }
 
         public string NewTitle
         {
@@ -64,6 +74,7 @@
                 (wi) =>
                 {
                     wi.Title = this.NewTitle;
+                    this.ModifiedWidgetInstance = wi;
                 });
 
             return ActivityExecutionStatus.Closed;

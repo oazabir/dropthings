@@ -31,8 +31,25 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     public const string ATTR_MAXIMIZED = "_Maximized";
     public const string ATTR_WIDTH = "_Width";
     public const string ATTR_HEIGHT = "_Height";
+    private const string ATTR_ZONE_ID = "_zoneid";
 
-    public event Action<WidgetInstance, IWidgetHost> Deleted;
+    public event Action<WidgetInstance,IWidgetHost> Deleted;
+
+    public override string UniqueID
+    {
+        get
+        {
+            return "Widget" + this.WidgetInstance.Id.ToString();
+        }
+    }
+
+    public override string ClientID
+    {
+        get
+        {
+            return "Widget" + this.WidgetInstance.Id.ToString();
+        }
+    }    
 
     public bool SettingsOpen
     {
@@ -70,33 +87,38 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
         if (this.WidgetInstance.Resized)
         {
-            //writer.AddAttribute(HtmlTextWriterAttribute.Style, "overflow: hidden; height: " + this.WidgetInstance.Height + "px");
             this.WidgetResizeFrame.Style.Add(HtmlTextWriterStyle.Overflow, "hidden");
             this.WidgetResizeFrame.Style.Add(HtmlTextWriterStyle.Height, this.WidgetInstance.Height + "px");
         }
-        /*
-        if (this.WidgetInstance.Maximized)
-        {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), this.ID + "maximizeWidget",
-            "DropthingsUI.Actions.maximizeWidget('" + this.WidgetInstance.Id + "', '" + this.WidgetInstance.Expanded + "');", true);
-        }
-        */
 
         if (this.WidgetInstance.Expanded)
         {
-            //this.WidgetResizeFrame.Visible = true;
-            //if( ScriptManager.GetCurrent(Page).IsInAsyncPostBack )
-                //ScriptManager.RegisterClientScriptBlock(this.WidgetResizeFrame, this.WidgetResizeFrame.GetType(), this.ID + "_initResizer_" + DateTime.Now.Ticks.ToString(),
-                                //"DropthingsUI.initResizer('" + this.WidgetResizeFrame.ClientID + "');",true);
-            //else
-                ScriptManager.RegisterStartupScript(this.WidgetResizeFrame, this.WidgetResizeFrame.GetType(), this.ID + "_initResizer",
-                    "DropthingsUI.initResizer('" + this.WidgetResizeFrame.ClientID + "');",true);
+            ScriptManager.RegisterStartupScript(this.WidgetResizeFrame, this.WidgetResizeFrame.GetType(), this.ID + "_initResizer",
+                "DropthingsUI.initResizer('" + this.WidgetResizeFrame.ClientID + "');", true);
         }
         else
         {
             this.WidgetResizeFrame.Style.Add("display", "none");
             //this.WidgetResizeFrame.Visible = false;
         }
+
+        //writer.AddAttribute(ATTR_RESIZED, this.WidgetInstance.Resized.ToString());
+        //writer.AddAttribute(ATTR_EXPANDED, this.WidgetInstance.Expanded.ToString());
+        //writer.AddAttribute(ATTR_MAXIMIZED, this.WidgetInstance.Maximized.ToString());
+        //writer.AddAttribute(ATTR_WIDTH, this.WidgetInstance.Width.ToString());
+        //writer.AddAttribute(ATTR_HEIGHT, this.WidgetInstance.Height.ToString());
+        ScriptManager.RegisterStartupScript(this.WidgetHeaderUpdatePanel, typeof(UpdatePanel), DateTime.Now.Ticks.ToString(), 
+            "DropthingsUI.setWidgetDef(/*id*/ '{0}', /*expanded*/ {1}, /*maximized*/ {2}, /*resized*/ {3}, /*width*/ {4}, /*height*/ {5}, /*zoneId*/ {6});"
+                .FormatWith(
+                    this.WidgetInstance.Id,
+                    this.WidgetInstance.Expanded.ToString().ToLower(),
+                    this.WidgetInstance.Maximized.ToString().ToLower(),
+                    this.WidgetInstance.Resized.ToString().ToLower(),
+                    this.WidgetInstance.Width,
+                    this.WidgetInstance.Height,
+                    this.WidgetInstance.WidgetZoneId) + 
+            "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');",
+            true);        
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -106,22 +128,6 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         this.SetMaximizeRestoreButtons();
         WidgetTitleTextBox.Style.Add("display", "none");
         SaveWidgetTitle.Style.Add("display", "none");
-        
-        //this.CloseWidget.OnClientClick = "DeleteWarning.show( function() { __doPostBack('" + this.CloseWidget.UniqueID+ "','') }, Function.emptyFunction ); return false; ";
-        //this.CloseWidget.OnClientClick = "DeleteWarning.show( function() { DropthingsUI.Actions.deleteWidget('" + this.WidgetInstance.Id + "')}, Function.emptyFunction ); return false; ";
-        //this.CollapseWidget.OnClientClick = "DropthingsUI.Actions.minimizeWidget('" + this.WidgetInstance.Id + "')";
-        //this.ExpandWidget.OnClientClick = "DropthingsUI.Actions.expandWidget('" + this.WidgetInstance.Id + "')";
-        //this.MaximizeWidget.OnClientClick = "DropthingsUI.Actions.maximizeWidget('" + this.WidgetInstance.Id + "', 'true');";
-        //this.RestoreWidget.OnClientClick = "DropthingsUI.Actions.restoreWidget('" + this.WidgetInstance.Id + "');";
-
-        // ILIAS 1/13/2009: Turning it off because new users are not getting the "Delete Widget" icon
-        //if (Roles.Enabled)
-        //{
-        //    if (!Roles.IsUserInRole("AddRemovePageWidgets"))
-        //    {
-        //        this.CloseWidget.Visible = false;
-        //    }
-        //}
 
         if (WidgetInstance.Widget.IsLocked || this.WidgetInstance.Maximized)
         {
@@ -144,10 +150,22 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         var widget = LoadControl(this.WidgetInstance.Widget.Url);
         widget.ID = "Widget" + this.WidgetInstance.Id.ToString();
 
-        //WidgetBodyUpdatePanel.ContentTemplateContainer.Controls.Add(widget);
         WidgetBodyPanel.Controls.Add(widget);
         this._WidgetRef = widget as IWidget;
         this._WidgetRef.Init(this);
+
+        // Since viewstate is disabled for all control, we need to do things manually            
+        if (this.SettingsOpen)
+        {
+            // Since viewstate is disabled for all control, we need to do things manually
+            EditWidget.Visible = false;
+            CancelEditWidget.Visible = true;
+        }
+        else
+        {
+            EditWidget.Visible = true;
+            CancelEditWidget.Visible = false;
+        }
     }
 
     private void SetExpandCollapseButtons()
@@ -156,7 +174,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         {
             ExpandWidget.Style.Add("display", "block");
             CollapseWidget.Style.Add("display", "none"); ;
-            WidgetResizeFrame.Style.Add("display", "none");// .Visible = false;            
+            WidgetResizeFrame.Style.Add("display", "none");
         }
         else
         {
@@ -225,17 +243,6 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         WidgetTitleTextBox.Visible = SaveWidgetTitle.Visible = false;
         WidgetTitle.Visible = true;
         WidgetTitle.Text = WidgetTitleTextBox.Text;
-
-        /*
-        DetachAssociation(new Action(delegate()
-        {
-            DatabaseHelper.Update<WidgetInstance>(this.WidgetInstance, delegate(WidgetInstance wi)
-            {
-                wi.Title = WidgetTitleTextBox.Text;
-            });
-        }));
-        */
-
     }
 
     protected void WidgetTitle_Click(object sender, EventArgs e)
@@ -246,10 +253,6 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         WidgetTitle.Visible = false;
     }
 
-    protected void CancelEditWidget_Click(object sender, EventArgs e)
-    {
-
-    }
 
     int IWidgetHost.ID
     {
@@ -263,15 +266,9 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     {
         (this as IWidgetHost).Expand();
 
-        //DetachAssociation(new Action(delegate()
-        //{
-        //    DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-        //        this.WidgetInstance, (wi) =>
-        //        {
-        //            wi.Maximized = true;
-        //        });
-        //}));
-
+        this.ReloadWidgetInstanceAfter(() => 
+            RunWorkflow.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
+                new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsMaximize = true }));
 
         this.SetMaximizeRestoreButtons();
         this._WidgetRef.Maximized();
@@ -279,60 +276,40 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         //WidgetBodyUpdatePanel.Update();
         WidgetHeaderUpdatePanel.Update();
 
-        ScriptManager.RegisterClientScriptBlock(this.WidgetResizeFrame, this.WidgetResizeFrame.GetType(), this.ID + "_maximizeWidget_" + DateTime.Now.Ticks.ToString(),
-                                "DropthingsUI.Actions.maximizeWidget('" + this.WidgetInstance.Id + "', 'true');", true);
+        //ScriptManager.RegisterClientScriptBlock(this.WidgetResizeFrame, this.WidgetResizeFrame.GetType(), this.ID + "_maximizeWidget_" + DateTime.Now.Ticks.ToString(),
+        //                        "DropthingsUI.Actions.maximizeWidget('" + this.WidgetInstance.Id + "', 'true');", true);
     }
 
     void IWidgetHost.Restore()
     {
-        //DetachAssociation(new Action(delegate()
-        //{
-        //    DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-        //        this.WidgetInstance, (wi) =>
-        //        {
-        //            wi.Maximized = false;
-        //        });
-        //}));
+        this.ReloadWidgetInstanceAfter(() => 
+            RunWorkflow.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
+                new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsMaximize = false }));
 
         this.SetMaximizeRestoreButtons();
         this._WidgetRef.Restored();
 
-        //WidgetBodyUpdatePanel.Update();
         WidgetHeaderUpdatePanel.Update();
     }
 
     void IWidgetHost.Expand()
     {
-        //DetachAssociation(new Action(delegate()
-        //{
-        //    DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-        //        this.WidgetInstance, (wi) =>
-        //        {
-        //            wi.Expanded = true;
-        //        });
-        //}));
-
+        this.ReloadWidgetInstanceAfter(() => 
+            RunWorkflow.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
+                new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsExpand = true }));
 
         this.SetExpandCollapseButtons();
         this._WidgetRef.Expanded();
 
         WidgetBodyUpdatePanel.Update();
-        WidgetHeaderUpdatePanel.Update();
-
-        ScriptManager.RegisterClientScriptBlock(this.ExpandWidget, this.ExpandWidget.GetType(), this.ID + "_expandWidget_" + DateTime.Now.Ticks.ToString(),
-                                "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');", true);
+        WidgetHeaderUpdatePanel.Update();        
     }
 
     void IWidgetHost.Collaspe()
     {
-        //DetachAssociation(new Action(delegate()
-        //{
-        //    DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-        //        this.WidgetInstance, (wi) =>
-        //        {
-        //            wi.Expanded = false;
-        //        });
-        //}));
+        this.ReloadWidgetInstanceAfter(() => 
+            RunWorkflow.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
+                new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsExpand = false }));
 
         this.SetExpandCollapseButtons();
         this._WidgetRef.Collasped();
@@ -340,40 +317,36 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         WidgetBodyUpdatePanel.Update();
         WidgetHeaderUpdatePanel.Update();
 
-        ScriptManager.RegisterClientScriptBlock(this.CollapseWidget, this.CollapseWidget.GetType(), this.ID + "_collaspeWidget_" + DateTime.Now.Ticks.ToString(),
-                                "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');", true);
     }
 
     void IWidgetHost.Close()
     {
-        RunWorkflow.Run<DeleteWidgetInstanceWorkflow,DeleteWidgetInstanceWorkflowRequest,DeleteWidgetInstanceWorkflowResponse>(
+        RunWorkflow.Run<DeleteWidgetInstanceWorkflow, DeleteWidgetInstanceWorkflowRequest, DeleteWidgetInstanceWorkflowResponse>(
                             new DeleteWidgetInstanceWorkflowRequest { WidgetInstanceId = this.WidgetInstance.Id, UserName = Profile.UserName }
                         );
 
-        //new DashboardFacade(Profile.UserName).DeleteWidgetInstance(this.WidgetInstance.Id);
-        Deleted(this.WidgetInstance, this);        
+        Deleted(this.WidgetInstance, this);
     }
 
     public override void RenderControl(HtmlTextWriter writer)
     {
         writer.AddAttribute(ATTR_INSTANCE_ID, this.WidgetInstance.Id.ToString());
-        writer.AddAttribute(ATTR_RESIZED, this.WidgetInstance.Resized.ToString());
-        writer.AddAttribute(ATTR_EXPANDED, this.WidgetInstance.Expanded.ToString());
-        writer.AddAttribute(ATTR_MAXIMIZED, this.WidgetInstance.Maximized.ToString());
-        writer.AddAttribute(ATTR_WIDTH, this.WidgetInstance.Width.ToString());
-        writer.AddAttribute(ATTR_HEIGHT, this.WidgetInstance.Height.ToString());
+        writer.AddAttribute(ATTR_ZONE_ID, this.WidgetInstance.WidgetZoneId.ToString());
+        //writer.AddAttribute(ATTR_RESIZED, this.WidgetInstance.Resized.ToString());
+        //writer.AddAttribute(ATTR_EXPANDED, this.WidgetInstance.Expanded.ToString());
+        //writer.AddAttribute(ATTR_MAXIMIZED, this.WidgetInstance.Maximized.ToString());
+        //writer.AddAttribute(ATTR_WIDTH, this.WidgetInstance.Width.ToString());
+        //writer.AddAttribute(ATTR_HEIGHT, this.WidgetInstance.Height.ToString());
 
         base.RenderControl(writer);
     }
 
     void IWidgetHost.SaveState(string state)
     {
-        RunWorkflow.Run<SaveWidgetInstanceStateWorkflow,SaveWidgetInstanceStateRequest,SaveWidgetInstanceStateResponse>(
-                            new SaveWidgetInstanceStateRequest { WidgetInstanceId = this._WidgetInstance.Id, State = state, UserName = Profile.UserName }
-                        );
-
-        // Invalidate cache because widget's state is stored in cache
-        Cache.Remove(Profile.UserName);
+        this.ReloadWidgetInstanceAfter(() => 
+            RunWorkflow.Run<SaveWidgetInstanceStateWorkflow, SaveWidgetInstanceStateRequest, SaveWidgetInstanceStateResponse>(
+                new SaveWidgetInstanceStateRequest { WidgetInstanceId = this._WidgetInstance.Id, State = state, UserName = Profile.UserName }));
+                        
     }
 
     /// <summary>
@@ -409,6 +382,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         EditWidget.Visible = false;
         CancelEditWidget.Visible = true;
         this.WidgetHeaderUpdatePanel.Update();
+        this.WidgetBodyUpdatePanel.Update();
     }
 
     void IWidgetHost.HideSettings()
@@ -418,6 +392,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         EditWidget.Visible = true;
         CancelEditWidget.Visible = false;
         this.WidgetHeaderUpdatePanel.Update();
+        this.WidgetBodyUpdatePanel.Update();
     }
 
 
@@ -426,7 +401,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Refresh(IWidget widget)
     {
-        //this.WidgetHeaderUpdatePanel.Update();
+        this.WidgetHeaderUpdatePanel.Update();
         this.WidgetBodyUpdatePanel.Update();
     }
 
@@ -437,4 +412,14 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     }
 
     #endregion
+
+    protected void Refresh_Clicked(object sender, EventArgs e)
+    {
+        (this as IWidgetHost).Refresh(_WidgetRef);
+    }
+
+    protected void ReloadWidgetInstanceAfter(Func<WidgetInstanceResponseBase> doSomething)
+    {
+        this.WidgetInstance = doSomething().WidgetInstanceAffected;        
+    }
 }

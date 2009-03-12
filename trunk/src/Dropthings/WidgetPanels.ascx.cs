@@ -13,38 +13,47 @@ using System.Xml.Linq;
 
 public partial class WidgetPanels : System.Web.UI.UserControl
 {
+    #region Fields
+
     private double leftPanelSize;
     private double middlePanelSize;
-    private double rightPanelSize;
-
-    private string rightPanelVisible;
     private string middlePanelVisible;
     private int padding = 1;
-    protected void Page_Load(object sender, EventArgs e)
-    {
+    private double rightPanelSize;
+    private string rightPanelVisible;
 
-    }
-    public string MiddlePanelSize
-    {
-        get { return (this.middlePanelSize - padding).ToString() + "%"; }
-    }
-    public string RightPanelSize
-    {
-        get { return (this.rightPanelSize - padding).ToString() + "%"; }
-    }
+    #endregion Fields
+
+    #region Properties
+
     public string LeftPanelSize
     {
         get { return (this.leftPanelSize - padding).ToString() + "%"; }
     }
-    public string RightPanelVisible
+
+    public string MiddlePanelSize
     {
-        get { return this.rightPanelVisible; }
+        get { return (this.middlePanelSize - padding).ToString() + "%"; }
     }
 
     public string MiddlePanelVisible
     {
         get { return this.middlePanelVisible; }
     }
+
+    public string RightPanelSize
+    {
+        get { return (this.rightPanelSize - padding).ToString() + "%"; }
+    }
+
+    public string RightPanelVisible
+    {
+        get { return this.rightPanelVisible; }
+    }
+
+    #endregion Properties
+
+    #region Methods
 
     public void SetLayout(int layoutID)
     {
@@ -87,4 +96,10 @@ public partial class WidgetPanels : System.Web.UI.UserControl
                 break;
         }
     }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+    }
+
+    #endregion Methods
 }

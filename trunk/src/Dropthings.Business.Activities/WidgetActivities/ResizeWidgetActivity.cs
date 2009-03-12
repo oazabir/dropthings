@@ -28,6 +28,10 @@ namespace Dropthings.Business.Activities
     {
         #region Fields
 
+        // Using a DependencyProperty as the backing store for ModifiedWidgetInstance.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ModifiedWidgetInstanceProperty = 
+            DependencyProperty.Register("ModifiedWidgetInstance", typeof(WidgetInstance), typeof(ResizeWidgetActivity));
+
         private static DependencyProperty HeightProperty = DependencyProperty.Register("Height", typeof(int), typeof(ResizeWidgetActivity));
         private static DependencyProperty WidgetInstanceIdProperty = DependencyProperty.Register("WidgetInstanceId", typeof(int), typeof(ResizeWidgetActivity));
         private static DependencyProperty WidthProperty = DependencyProperty.Register("Width", typeof(int), typeof(ResizeWidgetActivity));
@@ -53,6 +57,12 @@ namespace Dropthings.Business.Activities
             set { base.SetValue(HeightProperty, value); }
         }
 
+        public WidgetInstance ModifiedWidgetInstance
+        {
+            get { return (WidgetInstance)GetValue(ModifiedWidgetInstanceProperty); }
+            set { SetValue(ModifiedWidgetInstanceProperty, value); }
+        }
+
         [ValidationOptionAttribute(ValidationOption.Required)]
         [Browsable(true)]
         public int WidgetInstanceId
@@ -75,15 +85,16 @@ namespace Dropthings.Business.Activities
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
         {
-            var wi = DatabaseHelper.GetSingle<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceById);
+            DatabaseHelper.UpdateObject<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceById,
+                (wi) =>
+                {
+                    wi.Width = this.Width;
+                    wi.Height = this.Height;
+                    wi.Resized = true;
+                    this.ModifiedWidgetInstance = wi;
 
-            wi.Width = this.Width;
-            wi.Height = this.Height;
-            wi.Resized = true;
-
-            DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                wi, null, null);
+                });
 
             return ActivityExecutionStatus.Closed;
         }

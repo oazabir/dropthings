@@ -1,33 +1,34 @@
+#region Header
+
 // Copyright (c) Omar AL Zabir. All rights reserved.
 // For continued development and updates, visit http://msmvps.com/omar
 
+#endregion Header
+
 using System;
-using System.Diagnostics;
-using System.Data;
-using System.Configuration;
 using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Diagnostics;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
+using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.Web.Util;
 using Dropthings.Business.Container;
+using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.UserAccountWorkflow;
 using Dropthings.Business.Workflows.UserAccountWorkflows;
-using Dropthings.Business.Workflows;
-using System.Workflow.Runtime;
 using Dropthings.Web.Framework;
+using Dropthings.Web.Util;
 
 public partial class LoginPage : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
+    #region Methods
 
     protected void LoginButton_Click( object sender, EventArgs e)
     {
@@ -39,6 +40,10 @@ public partial class LoginPage : System.Web.UI.Page
         {
             InvalidLoginLabel.Visible = true;
         }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
     }
 
     protected void RegisterButton_Click( object sender, EventArgs e)
@@ -101,5 +106,7 @@ public partial class LoginPage : System.Web.UI.Page
             InvalidLoginLabel.Visible = true;
             InvalidLoginLabel.Text = x.Message;
         }
-    }   
+    }
+
+    #endregion Methods
 }

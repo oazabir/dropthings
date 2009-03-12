@@ -7,7 +7,7 @@
 
     using Dropthings.DataAccess;
 
-    public class DeleteWidgetInstanceWorkflowResponse : UserWorkflowResponseBase
+    public class DeleteWidgetInstanceWorkflowResponse : WidgetInstanceResponseBase
     {
     }
 }

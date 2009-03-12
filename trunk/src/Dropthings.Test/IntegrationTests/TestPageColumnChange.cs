@@ -9,11 +9,11 @@
 
     using Dropthings.Business.Workflows.EntryPointWorkflows;
     using Dropthings.Business.Workflows.TabWorkflows;
+    using Dropthings.DataAccess;
     using Dropthings.Test.Helper;
     using Dropthings.Web.Framework;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Dropthings.DataAccess;
 
     /// <summary>
     /// Summary description for TestPageColumnChange
@@ -66,72 +66,66 @@
             const int ColumnsBeforeChange = 3;
             const int ColumnsAfterChange = 2;
             const int LayoutType = 2;
-            
-            UserProfile profile = DefaultProfile.Create(Guid.NewGuid().ToString(), false) as UserProfile;
-            profile.IsFirstVisit = false;
-            profile.Save();
 
             WorkflowTest.UsingWorkflowRuntime(() =>
-            {
-                // Create default page setup which is expected to populate all three columns with widgets
-                var setup = WorkflowTest.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                    new UserVisitWorkflowRequest { IsAnonymous = true, PageName = "", UserName = profile.UserName }
-                    );
-                Assert.IsNotNull(setup.CurrentPage, "First time visit did not create pages");
-                int originalLayoutType = setup.CurrentPage.LayoutType;
+                MembershipHelper.UsingNewAnonUser((profile) =>
+                    SetupHelper.UsingNewAnonSetup(profile.UserName, (setup) =>
+                    {
+                        int originalLayoutType = setup.CurrentPage.LayoutType;
 
-                // Ensure there's widgets on the last column
-                WidgetZone lastZone = DatabaseHelper.GetSingle<WidgetZone, int, int>(DatabaseHelper.SubsystemEnum.WidgetZone,
-                    setup.CurrentPage.ID, ColumnsBeforeChange-1,
-                    LinqQueries.CompiledQuery_GetWidgetZoneByPageId_ColumnNo);
-                List<WidgetInstance> widgetsOnLastZone = DatabaseHelper.GetList<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    lastZone.ID,
-                    LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId);
-                Assert.AreNotEqual(0, widgetsOnLastZone.Count, "No widget found on last column to move");
+                        // Ensure there's widgets on the last column
+                        WidgetZone lastZone = DatabaseHelper.GetSingle<WidgetZone, int, int>(DatabaseHelper.SubsystemEnum.WidgetZone,
+                            setup.CurrentPage.ID, ColumnsBeforeChange-1,
+                            LinqQueries.CompiledQuery_GetWidgetZoneByPageId_ColumnNo);
+                        List<WidgetInstance> widgetsOnLastZone = DatabaseHelper.GetList<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                            lastZone.ID,
+                            LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId);
+                        Assert.AreNotEqual(0, widgetsOnLastZone.Count, "No widget found on last column to move");
 
-                // Change to 25%, 75% two column layout
-                WorkflowTest.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
-                    new ModifyTabLayoutWorkflowRequest { UserName = profile.UserName, LayoutType = LayoutType }
-                    );
+                        // Change to 25%, 75% two column layout
+                        WorkflowTest.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
+                            new ModifyTabLayoutWorkflowRequest { UserName = profile.UserName, LayoutType = LayoutType }
+                            );
 
-                // Get the page setup again to ensure the number of columns are changed
-                var newSetup = WorkflowTest.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                    new UserVisitWorkflowRequest { IsAnonymous = true, PageName = "", UserName = profile.UserName }
-                    );
-                Assert.AreEqual(ColumnsAfterChange, newSetup.CurrentPage.ColumnCount, "Number of columns did not change");
+                        // Get the page setup again to ensure the number of columns are changed
+                        var newSetup = WorkflowTest.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                            new UserVisitWorkflowRequest { IsAnonymous = true, PageName = "", UserName = profile.UserName }
+                            );
+                        Assert.AreEqual(ColumnsAfterChange, newSetup.CurrentPage.ColumnCount, "Number of columns did not change");
 
-                // Get the columns to verify the column number are same and each column has the expected width set
-                List<Column> columns = DatabaseHelper.GetList<Column, int>(DatabaseHelper.SubsystemEnum.Column,
-                    newSetup.CurrentPage.ID,
-                    LinqQueries.CompiledQuery_GetColumnsByPageId);
-                Assert.AreEqual(ColumnsAfterChange, columns.Count, "There are still more columns in database");
+                        // Get the columns to verify the column number are same and each column has the expected width set
+                        List<Column> columns = DatabaseHelper.GetList<Column, int>(DatabaseHelper.SubsystemEnum.Column,
+                            newSetup.CurrentPage.ID,
+                            LinqQueries.CompiledQuery_GetColumnsByPageId);
+                        Assert.AreEqual(ColumnsAfterChange, columns.Count, "There are still more columns in database");
 
-                int[] columnWidths = Page.GetColumnWidths(LayoutType);
-                foreach (Column col in columns)
-                    Assert.AreEqual(columnWidths[col.ColumnNo], col.ColumnWidth, "Column width is not as expected for Column No: " + col.ColumnNo);
+                        int[] columnWidths = Page.GetColumnWidths(LayoutType);
+                        foreach (Column col in columns)
+                            Assert.AreEqual(columnWidths[col.ColumnNo], col.ColumnWidth, "Column width is not as expected for Column No: " + col.ColumnNo);
 
-                // Ensure the last column does not have any widgets
-                List<WidgetInstance> remainingWidgetsOnLastZone = DatabaseHelper.GetList<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    lastZone.ID,
-                    LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId);
-                Assert.AreEqual(0, remainingWidgetsOnLastZone.Count, "Widgets are still in the last column. {0}".FormatWith(lastZone.ID));
+                        // Ensure the last column does not have any widgets
+                        List<WidgetInstance> remainingWidgetsOnLastZone = DatabaseHelper.GetList<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                            lastZone.ID,
+                            LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId);
+                        Assert.AreEqual(0, remainingWidgetsOnLastZone.Count, "Widgets are still in the last column. {0}".FormatWith(lastZone.ID));
 
-                
-                // Now change back to 3 column layout and ensure the last column is added
-                WorkflowTest.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
-                    new ModifyTabLayoutWorkflowRequest { UserName = profile.UserName, LayoutType = originalLayoutType }
-                    );
-                List<Column> originalColumns = DatabaseHelper.GetList<Column, int>(DatabaseHelper.SubsystemEnum.Column,
-                    setup.CurrentPage.ID,
-                    LinqQueries.CompiledQuery_GetColumnsByPageId);
-                Assert.AreEqual(ColumnsBeforeChange, originalColumns.Count, "There are still more columns in database");
+                        // Now change back to 3 column layout and ensure the last column is added
+                        WorkflowTest.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
+                            new ModifyTabLayoutWorkflowRequest { UserName = profile.UserName, LayoutType = originalLayoutType }
+                            );
+                        List<Column> originalColumns = DatabaseHelper.GetList<Column, int>(DatabaseHelper.SubsystemEnum.Column,
+                            setup.CurrentPage.ID,
+                            LinqQueries.CompiledQuery_GetColumnsByPageId);
+                        Assert.AreEqual(ColumnsBeforeChange, originalColumns.Count, "There are still more columns in database");
 
-                // and the column width distribution must have changed as well
-                int[] originalColumnWidths = Page.GetColumnWidths(originalLayoutType);
-                foreach (Column col in originalColumns)
-                    Assert.AreEqual(originalColumnWidths[col.ColumnNo], col.ColumnWidth, "Column width is not as expected for Column No: " + col.ColumnNo);
+                        // and the column width distribution must have changed as well
+                        int[] originalColumnWidths = Page.GetColumnWidths(originalLayoutType);
+                        foreach (Column col in originalColumns)
+                            Assert.AreEqual(originalColumnWidths[col.ColumnNo], col.ColumnWidth, "Column width is not as expected for Column No: " + col.ColumnNo);
 
-            });
+                    })
+                )
+            );
         }
 
         #endregion Methods

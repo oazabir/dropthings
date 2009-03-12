@@ -72,7 +72,7 @@ namespace Dropthings.Business.Activities
             {
                 userSetting.CurrentPageId = this.PageId;
 
-                DatabaseHelper.UpdateObject<UserSetting>(DatabaseHelper.SubsystemEnum.User, userSetting, 
+                DatabaseHelper.UpdateObject<UserSetting>(DatabaseHelper.SubsystemEnum.User, userSetting,
                     null, null);
             }
             else

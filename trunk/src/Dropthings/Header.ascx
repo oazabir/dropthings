@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Header.ascx.cs" Inherits="Header" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Header.ascx.cs" Inherits="Header" EnableViewState="false" %>
 
 <script type="text/javascript">
 function doSearch()
@@ -28,11 +28,10 @@ function doSearch()
                 <input value="Search" type="button" onclick="return doSearch();" />
             </div>
             
+            <!--
             <div id="live_search">
                 <img class="livesearch_logo" src="img/LiveSearch.jpg" alt="Live Search" />
 
-                <!-- Windows Live Search -->
-                <!-- Live Search -->
                 <meta name="Search.WLSearchBox" content="1.1, en-US" />
                 <div id="WLSearchBoxDiv">
                     <table cellpadding="0" cellspacing="0" style="width: 322px"><tr id="WLSearchBoxPlaceholder"><td style="width: 100%; border:solid 2px #4B7B9F;border-right-style: none;"><input id="WLSearchBoxInput" type="text" value="&#x4c;&#x6f;&#x61;&#x64;&#x69;&#x6e;&#x67;&#x2e;&#x2e;&#x2e;" disabled="disabled" style="padding:0;background-image: url(http://search.live.com//siteowner/s/siteowner/searchbox_background.png);background-position: right;background-repeat: no-repeat;height: 16px; width: 100%; border:none 0 Transparent" /></td><td style="border:solid 2px #4B7B9F;"><input id="WLSearchBoxButton" type="image" src="http://search.live.com//siteowner/s/siteowner/searchbutton_normal.png" align="absBottom" style="padding:0;border-style: none" /></td></tr></table>
@@ -58,10 +57,12 @@ function doSearch()
 		                    ]
 	                    }
 	                    </script>
-                    <!-- Moved the search script to the end of the body for defered loading" -->
+                    
                 </div>
             </div>   
+            -->
         </div>
+        
         
     </div>
 

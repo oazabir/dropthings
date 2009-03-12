@@ -7,15 +7,7 @@
 
     using Dropthings.DataAccess;
 
-    public class MaximizeWidgetInstanceResponse : UserWorkflowResponseBase
+    public class MaximizeWidgetInstanceResponse : WidgetInstanceResponseBase
     {
-        #region Properties
-
-        public List<WidgetInstance> WidgetInstances
-        {
-            get; set;
-        }
-
-        #endregion Properties
     }
 }

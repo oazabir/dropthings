@@ -19,7 +19,7 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 	#google_search { float: left; margin-right: 20px;  }
 		#google_search img { float: left; margin-right: 5px; }
 		#google_search input { float: left; margin-right: 5px }
-		#google_search input#query { width: 200px }
+		#google_search input#query { width: 500px }
 		
 	#live_search { float: left; margin-right: 20px; }
 		#live_search .livesearch_logo { float: left; margin-right: 5px }
@@ -29,7 +29,7 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 #header_message_wrapper { padding: 5px; background:url(Images/Header/message_corners.gif) no-repeat scroll bottom right; color: #115511 }
 #header_message a { color: #ddffdd }
 
-#contents { background:#FFFFFF /*url(content_corners.gif) no-repeat scroll top left*/;  }
+#contents { background:#FFFFFF /*url(content_corners.gif) no-repeat scroll top left*/; position: relative; }
 	#contents_wrapper { background:transparent /*url(content_corners.gif) no-repeat scroll top right*/;  min-height:400px; height:auto !important; height:400px; } 
 #widget_area { overflow: auto; width: 100%; }
 #widget_area_wrapper { padding-left: 15px; }

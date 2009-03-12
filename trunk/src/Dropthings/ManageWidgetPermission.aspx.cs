@@ -1,39 +1,42 @@
+#region Header
+
 // Copyright (c) Omar AL Zabir. All rights reserved.
 // For continued development and updates, visit http://msmvps.com/omar
 
+#endregion Header
+
 using System;
-using System.Diagnostics;
-using System.Data;
-using System.Configuration;
 using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Diagnostics;
+using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Linq;
+using System.Workflow.Runtime;
+
 using Dropthings.Business;
-using Dropthings.Web.Util;
 using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.UserAccountWorkflow;
 using Dropthings.Business.Workflows.UserAccountWorkflows;
-using System.Workflow.Runtime;
-using System.Collections.Generic;
 using Dropthings.DataAccess;
+using Dropthings.Web.Util;
 
 public partial class ManageWidgetPermissionPage : System.Web.UI.Page
 {
-    public static void ShowMessage(Label label, string message, bool isError)
+    #region Properties
+
+    protected string[] Roles
     {
-        label.ForeColor = System.Drawing.Color.DodgerBlue;
-        label.Text = message;
-        
-        if (isError)
+        get
         {
-            label.ForeColor = System.Drawing.Color.Red;
-            label.Font.Bold = true;
+            return System.Web.Security.Roles.GetAllRoles();
         }
     }
 
@@ -43,11 +46,19 @@ public partial class ManageWidgetPermissionPage : System.Web.UI.Page
         set;
     }
 
-    protected string[] Roles
+    #endregion Properties
+
+    #region Methods
+
+    public static void ShowMessage(Label label, string message, bool isError)
     {
-        get
+        label.ForeColor = System.Drawing.Color.DodgerBlue;
+        label.Text = message;
+
+        if (isError)
         {
-            return System.Web.Security.Roles.GetAllRoles();
+            label.ForeColor = System.Drawing.Color.Red;
+            label.Font.Bold = true;
         }
     }
 
@@ -63,4 +74,6 @@ public partial class ManageWidgetPermissionPage : System.Web.UI.Page
             this.Widgets = new DashboardFacade(Profile.UserName).GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
         }
     }
+
+    #endregion Methods
 }

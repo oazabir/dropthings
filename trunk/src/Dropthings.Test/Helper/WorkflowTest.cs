@@ -19,6 +19,16 @@
 
         #region Methods
 
+        public static void Dispose()
+        {
+            if (null != _Runtime)
+            {
+                _Runtime.StopRuntime();
+                _Runtime.Dispose();
+                _Runtime = null;
+            }
+        }
+
         public static void Init()
         {
             if (null == _Runtime)
@@ -37,16 +47,6 @@
             return ObjectContainer.Resolve<IWorkflowHelper>().ExecuteWorkflow<TWorkflow, TRequest, TResponse>(
                 ObjectContainer.Resolve<WorkflowRuntime>(),
                 request);
-        }
-
-        public static void Dispose()
-        {
-            if (null != _Runtime)
-            {
-                _Runtime.StopRuntime();
-                _Runtime.Dispose();
-                _Runtime = null;
-            }
         }
 
         public static void UsingWorkflowRuntime(Action callback)

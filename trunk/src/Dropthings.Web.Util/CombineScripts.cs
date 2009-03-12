@@ -100,38 +100,45 @@ namespace Dropthings.Web.Util
 
         public static List<UrlMapSet> LoadSets()
         {
-            List<UrlMapSet> sets = new List<UrlMapSet>();
+            const string CACHE_KEY = "CombineScript.SetDefinition";
 
-            using (XmlReader reader = new XmlTextReader(new StreamReader(HttpContext.Current.Server.MapPath("~/App_Data/FileSets.xml"))))
+            List<UrlMapSet> sets = HttpContext.Current.Cache[CACHE_KEY] as List<UrlMapSet> ?? new List<UrlMapSet>();
+
+            if (sets.Count == 0)
             {
-                reader.MoveToContent();
-                while (reader.Read())
+                using (XmlReader reader = new XmlTextReader(new StreamReader(HttpContext.Current.Server.MapPath("~/App_Data/FileSets.xml"))))
                 {
-                    if ("set" == reader.Name)
+                    reader.MoveToContent();
+                    while (reader.Read())
                     {
-                        string setName = reader.GetAttribute("name");
-                        string isIncludeAll = reader.GetAttribute("includeAll");
-
-                        UrlMapSet mapSet = new UrlMapSet();
-                        mapSet.Name = setName;
-                        if (isIncludeAll == "true")
-                            mapSet.IsIncludeAll = true;
-
-                        while (reader.Read())
+                        if ("set" == reader.Name)
                         {
-                            if ("url" == reader.Name)
-                            {
-                                string urlName = reader.GetAttribute("name");
-                                string url = reader.ReadElementContentAsString();
-                                mapSet.Urls.Add(new UrlMap(urlName, url));
-                            }
-                            else if ("set" == reader.Name)
-                                break;
-                        }
+                            string setName = reader.GetAttribute("name");
+                            string isIncludeAll = reader.GetAttribute("includeAll");
 
-                        sets.Add(mapSet);
+                            UrlMapSet mapSet = new UrlMapSet();
+                            mapSet.Name = setName;
+                            if (isIncludeAll == "true")
+                                mapSet.IsIncludeAll = true;
+
+                            while (reader.Read())
+                            {
+                                if ("url" == reader.Name)
+                                {
+                                    string urlName = reader.GetAttribute("name");
+                                    string url = reader.ReadElementContentAsString();
+                                    mapSet.Urls.Add(new UrlMap(urlName, url));
+                                }
+                                else if ("set" == reader.Name)
+                                    break;
+                            }
+
+                            sets.Add(mapSet);
+                        }
                     }
                 }
+
+                HttpContext.Current.Cache[CACHE_KEY] = sets;
             }
 
             return sets;

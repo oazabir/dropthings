@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="WidgetContainer.ascx.cs" Inherits="WidgetContainer" %>
 <asp:Panel ID="Widget" CssClass="widget" runat="server" onmouseover="this.className='widget widget_hover'" onmouseout="this.className='widget'">
     <asp:Panel id="WidgetHeader" CssClass="widget_header" runat="server">
-        <asp:UpdatePanel ID="WidgetHeaderUpdatePanel" runat="server" UpdateMode="Conditional" >
+        <asp:UpdatePanel ID="WidgetHeaderUpdatePanel" runat="server" UpdateMode="Conditional" EnableViewState="false" >
             <ContentTemplate><table class="widget_header_table" cellspacing="0" cellpadding="0">
             <tbody>
                 <tr>
@@ -13,6 +13,7 @@
                 </tr>
             </tbody>
             </table>
+            <asp:LinkButton ID="Refresh" CssClass="dummy_postback nodisplay" runat="server" OnClick="Refresh_Clicked" />
             </ContentTemplate>        
         </asp:UpdatePanel>    
     </asp:Panel>
@@ -23,7 +24,7 @@
         <ContentTemplate>
         <asp:Panel ID="WidgetResizeFrame" CssClass="widget_resize_frame" runat="server">
             <asp:Panel ID="WidgetBodyPanel" runat="Server" CssClass="widget_body"></asp:Panel>
-        </asp:Panel>    
+        </asp:Panel>            
         </ContentTemplate>        
     </asp:UpdatePanel>  
 </asp:Panel>

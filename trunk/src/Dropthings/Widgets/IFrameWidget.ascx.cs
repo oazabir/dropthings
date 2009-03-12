@@ -10,24 +10,25 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using Dropthings.Widget.Widgets;
+
 using Dropthings.Widget.Framework;
+using Dropthings.Widget.Widgets;
 
 public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
 {
-    private IWidgetHost _Host;
+    #region Fields
 
+    private IWidgetHost _Host;
     private XElement _State;
-    private XElement State
+
+    #endregion Fields
+
+    #region Properties
+
+    public string Height
     {
-        get
-        {
-            string state = this._Host.GetState();
-            if (string.IsNullOrEmpty(state))
-                state = "<state><url>http://www.labpixies.com/campaigns/notes/notes.html</url><width>300</width><height>200</height><scroll>false</scroll></state>";
-            if (_State == null) _State = XElement.Parse(state);
-            return _State;
-        }
+        get { return (State.Element("height") ?? new XElement("height", "200")).Value; }
+        set { State.Element("height").Value = value; }
     }
 
     public bool Scrollbar
@@ -36,7 +37,7 @@ public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
         set
         {
             if (State.Element("scroll") != null) State.Element("scroll").Value = value.ToString();
-            else State.Add(new XElement("scroll", value.ToString())); 
+            else State.Add(new XElement("scroll", value.ToString()));
         }
     }
 
@@ -52,20 +53,55 @@ public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
         set { State.Element("width").Value = value; }
     }
 
-    public string Height
+    private XElement State
     {
-        get { return (State.Element("height") ?? new XElement("height", "200")).Value; }
-        set { State.Element("height").Value = value; }
+        get
+        {
+            string state = this._Host.GetState();
+            if (string.IsNullOrEmpty(state))
+                state = "<state><url>http://www.labpixies.com/campaigns/notes/notes.html</url><width>300</width><height>200</height><scroll>false</scroll></state>";
+            if (_State == null) _State = XElement.Parse(state);
+            return _State;
+        }
     }
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
+    #endregion Properties
 
+    #region Methods
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    void IWidget.Closed()
+    {
+    }
+
+    void IWidget.Collasped()
+    {
+    }
+
+    void IWidget.Expanded()
+    {
+    }
+
+    void IWidget.HideSettings()
+    {
+        SettingsPanel.Visible = false;
     }
 
     void IWidget.Init(IWidgetHost host)
     {
         this._Host = host;
+    }
+
+    void IWidget.Maximized()
+    {
+    }
+
+    void IWidget.Restored()
+    {
     }
 
     void IWidget.ShowSettings()
@@ -77,30 +113,9 @@ public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
 
         SettingsPanel.Visible = true;
     }
-    void IWidget.HideSettings()
-    {
-        SettingsPanel.Visible = false;
-    }
-    void IWidget.Expanded()
-    {
-    }
-    void IWidget.Collasped()
-    {
-    }
-    void IWidget.Restored()
-    {
-    }
-    void IWidget.Maximized()
-    {
-    }
-    void IWidget.Closed()
-    {
-    }
 
-    private void SaveState()
+    protected void Page_Load(object sender, EventArgs e)
     {
-        var xml = this.State.Xml();
-        this._Host.SaveState(xml);
     }
 
     protected void SaveSettings_Clicked(object sender, EventArgs e)
@@ -113,14 +128,11 @@ public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
         this.SaveState();
     }
 
-
-    #region IWidget Members
-
-
-    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    private void SaveState()
     {
-        throw new NotImplementedException();
+        var xml = this.State.Xml();
+        this._Host.SaveState(xml);
     }
 
-    #endregion
+    #endregion Methods
 }

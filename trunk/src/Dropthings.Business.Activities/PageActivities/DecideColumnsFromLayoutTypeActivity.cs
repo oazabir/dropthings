@@ -13,6 +13,7 @@
     using System.Workflow.ComponentModel.Design;
     using System.Workflow.ComponentModel.Serialization;
     using System.Workflow.Runtime;
+
     using Dropthings.DataAccess;
 
     public partial class DecideColumnsFromLayoutTypeActivity : Activity
@@ -57,7 +58,7 @@
         #region Methods
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
-        {   
+        {
             this.Columns = Page.GetColumnWidths(this.LayoutType);
 
             return ActivityExecutionStatus.Closed;

@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Footer.ascx.cs" Inherits="Footer" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Footer.ascx.cs" Inherits="Footer" EnableViewState="false" %>
 <div id="footer">
     <div id="footer_wrapper">
 
@@ -23,5 +23,7 @@
 </div>
 
 <% if( !Request.IsLocal ) { %>
+<!--
 <script defer="defer" type="text/javascript" charset="utf-8" src="http://search.live.com/bootstrap.js?market=en-US&ServId=SearchBox&ServId=SearchBoxWeb&Callback=WLSearchBoxScriptReady"></script>
+-->
 <% } %>

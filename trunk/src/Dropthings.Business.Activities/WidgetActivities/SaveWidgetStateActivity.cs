@@ -28,6 +28,10 @@ namespace Dropthings.Business.Activities
     {
         #region Fields
 
+        // Using a DependencyProperty as the backing store for ModifiedWidgetInstance.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ModifiedWidgetInstanceProperty = 
+            DependencyProperty.Register("ModifiedWidgetInstance", typeof(WidgetInstance), typeof(SaveWidgetStateActivity));
+
         private static DependencyProperty StateProperty = DependencyProperty.Register("State", typeof(string), typeof(SaveWidgetStateActivity));
         private static DependencyProperty WidgetInstanceIdProperty = DependencyProperty.Register("WidgetInstanceId", typeof(int), typeof(SaveWidgetStateActivity));
 
@@ -43,6 +47,12 @@ namespace Dropthings.Business.Activities
         #endregion Constructors
 
         #region Properties
+
+        public WidgetInstance ModifiedWidgetInstance
+        {
+            get { return (WidgetInstance)GetValue(ModifiedWidgetInstanceProperty); }
+            set { SetValue(ModifiedWidgetInstanceProperty, value); }
+        }
 
         [ValidationOptionAttribute(ValidationOption.Required)]
         [Browsable(true)]
@@ -66,13 +76,13 @@ namespace Dropthings.Business.Activities
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
         {
-            var wi = DatabaseHelper.GetSingle<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceById);
-
-            wi.State = this.State;
-
-            DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                wi, null, null);
+            DatabaseHelper.UpdateObject<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceById,
+                (wi) =>
+                {
+                    wi.State = this.State;
+                    this.ModifiedWidgetInstance = wi;
+                });
 
             return ActivityExecutionStatus.Closed;
         }

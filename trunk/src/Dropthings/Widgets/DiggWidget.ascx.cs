@@ -10,14 +10,27 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using Dropthings.Widget.Widgets;
+
 using Dropthings.Widget.Framework;
+using Dropthings.Widget.Widgets;
 
 public partial class Widgets_DiggWidget : System.Web.UI.UserControl, IWidget
 {
-    private IWidgetHost _Host;
+    #region Fields
 
+    private IWidgetHost _Host;
     private XElement _State;
+
+    #endregion Fields
+
+    #region Properties
+
+    public string Topic
+    {
+        get { return (State.Element("topic") ?? new XElement("topic", "")).Value; }
+        set { State.Element("topic").Value = value; }
+    }
+
     private XElement State
     {
         get
@@ -30,60 +43,9 @@ public partial class Widgets_DiggWidget : System.Web.UI.UserControl, IWidget
         }
     }
 
-    public string Topic
-    {
-        get { return (State.Element("topic") ?? new XElement("topic", "")).Value; }
-        set { State.Element("topic").Value = value; }
-    }
+    #endregion Properties
 
-    protected override void OnPreRender(EventArgs e)
-    {
-        base.OnPreRender(e);
-    }
-
-    private void BindList()
-    { 
-    
-    }
-
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        BindDiggData();
-    }
-
-    void IWidget.Init(IWidgetHost host)
-    {
-        this._Host = host;
-    }
-
-    void IWidget.ShowSettings()
-    {
-        SettingsPanel.Visible = true;
-    }
-    void IWidget.HideSettings()
-    {
-        SettingsPanel.Visible = false;
-    }
-    void IWidget.Expanded()
-    {
-    }
-    void IWidget.Collasped()
-    {
-    }
-    void IWidget.Restored()
-    {
-    }
-    void IWidget.Maximized()
-    {
-    }
-    void IWidget.Closed()
-    {
-    }
-
-    private void SaveState()
-    {
-        
-    }
+    #region Methods
 
     public void BindDiggData()
     {
@@ -91,13 +53,63 @@ public partial class Widgets_DiggWidget : System.Web.UI.UserControl, IWidget
             + ",State={0}".FormatWith(this.State.Xml());
     }
 
-    #region IWidget Members
-
-
     void IEventListener.AcceptEvent(object sender, EventArgs e)
     {
         throw new NotImplementedException();
     }
 
-    #endregion
+    void IWidget.Closed()
+    {
+    }
+
+    void IWidget.Collasped()
+    {
+    }
+
+    void IWidget.Expanded()
+    {
+    }
+
+    void IWidget.HideSettings()
+    {
+        SettingsPanel.Visible = false;
+    }
+
+    void IWidget.Init(IWidgetHost host)
+    {
+        this._Host = host;
+    }
+
+    void IWidget.Maximized()
+    {
+    }
+
+    void IWidget.Restored()
+    {
+    }
+
+    void IWidget.ShowSettings()
+    {
+        SettingsPanel.Visible = true;
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        base.OnPreRender(e);
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        BindDiggData();
+    }
+
+    private void BindList()
+    {
+    }
+
+    private void SaveState()
+    {
+    }
+
+    #endregion Methods
 }

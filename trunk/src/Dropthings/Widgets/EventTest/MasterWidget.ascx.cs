@@ -4,62 +4,18 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
 using Dropthings.Widget.Framework;
 
 public partial class Widgets_EventTest_Publisher : System.Web.UI.UserControl, IWidget
 {
+    #region Fields
+
     private IWidgetHost _Host;
-    protected void Page_Load(object sender, EventArgs e)
-    {
 
-    }
+    #endregion Fields
 
-    #region IWidget Members
-
-    void IWidget.Init(IWidgetHost host)
-    {
-        _Host = host;
-        host.EventBroker.AddListener(this);
-    }
-
-    void IWidget.ShowSettings()
-    {
-        
-    }
-
-    void IWidget.HideSettings()
-    {
-        
-    }
-
-    void IWidget.Expanded()
-    {
-        
-    }
-
-    void IWidget.Collasped()
-    {
-        
-    }
-
-    void IWidget.Maximized()
-    {
-        
-    }
-
-    void IWidget.Restored()
-    {
-        
-    }
-
-    void IWidget.Closed()
-    {
-        
-    }
-
-    #endregion
-
-    #region IEventListener Members
+    #region Methods
 
     public void AcceptEvent(object sender, EventArgs e)
     {
@@ -71,11 +27,49 @@ public partial class Widgets_EventTest_Publisher : System.Web.UI.UserControl, IW
         }
     }
 
-    #endregion
+    void IWidget.Closed()
+    {
+    }
+
+    void IWidget.Collasped()
+    {
+    }
+
+    void IWidget.Expanded()
+    {
+    }
+
+    void IWidget.HideSettings()
+    {
+    }
+
+    void IWidget.Init(IWidgetHost host)
+    {
+        _Host = host;
+        host.EventBroker.AddListener(this);
+    }
+
+    void IWidget.Maximized()
+    {
+    }
+
+    void IWidget.Restored()
+    {
+    }
+
+    void IWidget.ShowSettings()
+    {
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+    }
 
     protected void Raise_Clicked(object sender, EventArgs e)
     {
         MasterChildEventArgs args = new MasterChildEventArgs("Master " + _Host.WidgetInstance.Id, this.Message.Text);
         _Host.EventBroker.RaiseEvent(this, args);
     }
+
+    #endregion Methods
 }

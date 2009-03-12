@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class ChangeWidgetInstanceTitleWorkflowResponse : GenericWorkflowResponeBase<string>
+    public class ChangeWidgetInstanceTitleWorkflowResponse : WidgetInstanceResponseBase
     {
     }
 }
