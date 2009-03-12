@@ -74,9 +74,9 @@ public class Scripts : IHttpHandler {
                                 buffer.Append(responseContent);
                                 buffer.Append(Environment.NewLine);
                                 buffer.Append(@"
-                            if(typeof(Sys)!=='undefined') Array.add(Sys._ScriptLoader._getLoadedScripts(), '" + mapUrlForJS + @"'); 
+                            if(typeof(Sys)!=='undefined') Array.add(Sys._ScriptLoader._getLoadedScripts(), '" + fullUrl + @"'); 
                             if( !window._combinedScripts ) { window._combinedScripts = []; } 
-                            window._combinedScripts.push('" + mapUrlForJS + @"');");
+                            window._combinedScripts.push('" + fullUrl + @"');");
                                 buffer.Append(Environment.NewLine);
                             }
                         }
@@ -92,27 +92,7 @@ public class Scripts : IHttpHandler {
                     buffer.Append("alert(\"Cannot load script from:" + mapUrlForJS + ". Please correct mapping for '" + map.Name + "' in App_Data\\\\FileSets.xml\");");
                     buffer.Append(Environment.NewLine);
                 }
-            }
-
-            buffer.Append(@"
-                if(typeof(Sys)!=='undefined')             
-                {                
-                    if(typeof(Sys._ScriptLoader) !== 'undefined')
-                    {                                    
-                        Sys._ScriptLoader.isScriptLoaded = function Sys$_ScriptLoader$isScriptLoaded(scriptSrc) 
-                        {                                                    
-                            var dummyScript = document.createElement('script');
-                            dummyScript.src = scriptSrc;
-                            var result = Array.contains(Sys._ScriptLoader._getLoadedScripts(), scriptSrc);
-                            if( result === true ) return true;
-                            result = Array.contains( window._combinedScripts, scriptSrc );
-                            if( result === true ) return true;                            
-                            var scriptTags = document.getElementsByTagName('script');
-                            for(var i = 0; i < scriptTags.length; i ++ ) if( scriptTags[i].src == dummyScript.src ) return true;
-                            return false;
-                        }
-                    }                    
-                }");
+            }            
 
             string responseString = buffer.ToString();
             encodedBytes = context.Request.ContentEncoding.GetBytes(responseString);

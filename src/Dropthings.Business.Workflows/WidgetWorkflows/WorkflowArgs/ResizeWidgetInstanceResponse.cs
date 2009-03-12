@@ -7,7 +7,7 @@
 
     using Dropthings.DataAccess;
 
-    public class ResizeWidgetInstanceResponse : UserWorkflowResponseBase
+    public class ResizeWidgetInstanceResponse : WidgetInstanceResponseBase
     {
     }
 }

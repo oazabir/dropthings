@@ -8,12 +8,27 @@ using System.Web;
 /// </summary>
 public class MasterChildEventArgs : EventArgs
 {
-    public string Who { get; set; }
-    public string Message { get; set; }
+    #region Constructors
 
     public MasterChildEventArgs(string who, string message)
     {
         this.Who = who;
         this.Message = message;
     }
+
+    #endregion Constructors
+
+    #region Properties
+
+    public string Message
+    {
+        get; set;
+    }
+
+    public string Who
+    {
+        get; set;
+    }
+
+    #endregion Properties
 }

@@ -1,89 +1,39 @@
 using System;
-using System.Data;
-using System.Configuration;
 using System.Collections;
+using System.Configuration;
+using System.Data;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using System.Xml;
-using Dropthings.Widget.Widgets;
+
 using Dropthings.Widget.Framework;
+using Dropthings.Widget.Widgets;
 
 public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
 {
+    #region Fields
+
+    private IWidgetHost _Host;
     private string weatherLocation = "http://xml.weather.yahoo.com/forecastrss?p=";
     private string zipCode = "22202";
-    private IWidgetHost _Host;
+
+    #endregion Fields
+
+    #region Properties
 
     public IWidgetHost Host
     {
         get { return _Host; }
         set { _Host = value; }
     }
-	
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        if (Page.IsPostBack) this.LoadContentView(sender, e);        
-    }
 
-    protected void LoadContentView(object sender, EventArgs e)
-    {
-        this.Multiview.ActiveViewIndex = 1;
-        this.MultiviewTimer.Enabled = false;
+    #endregion Properties
 
-        if (!Page.IsPostBack)
-        {
-            if (this.Host.GetState().Trim().Length == 0)
-            {
-                //lblWeather.Text = GetWeatherData();
-            }
-            else
-            {
-                //lblWeather.Text = this.Host.GetState();
-                zipCode = this.Host.GetState();
-            }
-        }
-    }
-
-
-    protected override void OnPreRender(EventArgs e)
-    {
-        base.OnPreRender(e);
-
-        lblWeather.Text = GetWeatherData();
-    }
-
-    void IWidget.Init(IWidgetHost host)
-    {
-        this.Host = host;
-    }
-
-    void IWidget.ShowSettings()
-    {
-        pnlSettings.Visible = true;
-    }
-    void IWidget.HideSettings()
-    {
-        pnlSettings.Visible = false;
-    }
-    void IWidget.Expanded()
-    {
-    }
-    void IWidget.Collasped()
-    {
-    }
-    void IWidget.Restored()
-    {
-    }
-    void IWidget.Maximized()
-    {
-    }
-    void IWidget.Closed()
-    {
-    }
+    #region Methods
 
     public string GetWeatherData()
     {
@@ -110,6 +60,78 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
         }
         return data;
     }
+
+    void IEventListener.AcceptEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    void IWidget.Closed()
+    {
+    }
+
+    void IWidget.Collasped()
+    {
+    }
+
+    void IWidget.Expanded()
+    {
+    }
+
+    void IWidget.HideSettings()
+    {
+        pnlSettings.Visible = false;
+    }
+
+    void IWidget.Init(IWidgetHost host)
+    {
+        this.Host = host;
+    }
+
+    void IWidget.Maximized()
+    {
+    }
+
+    void IWidget.Restored()
+    {
+    }
+
+    void IWidget.ShowSettings()
+    {
+        pnlSettings.Visible = true;
+    }
+
+    protected void LoadContentView(object sender, EventArgs e)
+    {
+        this.Multiview.ActiveViewIndex = 1;
+        this.MultiviewTimer.Enabled = false;
+
+        if (!Page.IsPostBack)
+        {
+            if (this.Host.GetState().Trim().Length == 0)
+            {
+                //lblWeather.Text = GetWeatherData();
+            }
+            else
+            {
+                //lblWeather.Text = this.Host.GetState();
+                zipCode = this.Host.GetState();
+            }
+        }
+    }
+
+    protected override void OnPreRender(EventArgs e)
+    {
+        base.OnPreRender(e);
+
+        lblWeather.Text = GetWeatherData();
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Page.IsPostBack) this.LoadContentView(sender, e);
+    }
+
     protected void btnSave_Click(object sender, EventArgs e)
     {
         zipCode = txtZipCode.Text;
@@ -118,13 +140,5 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
         (this as IWidget).HideSettings();
     }
 
-    #region IWidget Members
-
-
-    void IEventListener.AcceptEvent(object sender, EventArgs e)
-    {
-        throw new NotImplementedException();
-    }
-
-    #endregion
+    #endregion Methods
 }

@@ -93,7 +93,7 @@ namespace Dropthings.Business
             // 
             this.AddWidgetOnCurrentPage.Name = "AddWidgetOnCurrentPage";
             activitybind6.Name = "AddWidgetWorkflow";
-            activitybind6.Path = "Response.NewWidget";
+            activitybind6.Path = "Response.WidgetInstanceAffected";
             activitybind7.Name = "AddWidgetWorkflow";
             activitybind7.Path = "Request.RowNo";
             activitybind8.Name = "AddWidgetWorkflow";
@@ -162,6 +162,7 @@ namespace Dropthings.Business
         private Dropthings.Business.Activities.AddWidgetOnWidgetZone AddWidgetOnCurrentPage;
         private Dropthings.Business.Activities.GetUserSettingActivity GetThePageToAddWidget;
         private Dropthings.Business.Activities.GetUserGuidActivity GetUserGuid;
+
 
 
 

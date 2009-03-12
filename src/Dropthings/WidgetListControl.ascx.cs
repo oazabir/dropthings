@@ -1,34 +1,49 @@
 ﻿using System;
-using System.Reflection;
-using System.Data;
-using System.Configuration;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.Linq;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using System.Web;
+using System.Web.Profile;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Web.Profile;
-using System.Linq;
-using System.Data.Linq;
+using System.Workflow.Runtime;
+
 using Dropthings.Business;
-using Dropthings.DataAccess;
-using Dropthings.Web.Util;
 using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.WidgetWorkflows;
-using System.Workflow.Runtime;
-using System.Globalization;
 using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
+using Dropthings.DataAccess;
 using Dropthings.Web.Framework;
+using Dropthings.Web.Util;
 
 public partial class WidgetListControl : System.Web.UI.UserControl
 {
+    #region Fields
 
-    protected void Page_Load(object sender, EventArgs e)
+    private WidgetPanelRefreshHandler widgetRefreshCallback;
+
+    #endregion Fields
+
+    #region Delegates
+
+    public delegate void WidgetPanelRefreshHandler(WidgetInstance WI);
+
+    #endregion Delegates
+
+    #region Properties
+
+    private int AddStuffPageIndex
     {
-
+        get { object val = ViewState["AddStuffPageIndex"]; if (val == null) return 0; else return (int)val; }
+        set { ViewState["AddStuffPageIndex"] = value; }
     }
 
     private List<Widget> WidgetList
@@ -58,8 +73,9 @@ public partial class WidgetListControl : System.Web.UI.UserControl
         }
     }
 
-    public delegate void WidgetPanelRefreshHandler(WidgetInstance WI);
-    private WidgetPanelRefreshHandler widgetRefreshCallback;
+    #endregion Properties
+
+    #region Methods
 
     public void LoadWidgetList(WidgetPanelRefreshHandler widgetAddedCallback)
     {
@@ -76,7 +92,25 @@ public partial class WidgetListControl : System.Web.UI.UserControl
 
         base.OnPreRender(e);
     }
-    
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+    }
+
+    protected void WidgetListNextButton_Click(object sender, EventArgs e)
+    {
+        AddStuffPageIndex++;
+        this.LoadWidgetList();
+    }
+
+    protected void WidgetListPreviousLinkButton_Click(object sender, EventArgs e)
+    {
+        if (0 == AddStuffPageIndex) return;
+        AddStuffPageIndex--;
+
+        this.LoadWidgetList();
+    }
+
     private void LoadWidgetList()
     {
         this.WidgetDataList.ItemCommand += new DataListCommandEventHandler(WidgetDataList_ItemCommand);
@@ -96,33 +130,15 @@ public partial class WidgetListControl : System.Web.UI.UserControl
         int widgetId = int.Parse(e.CommandArgument.ToString());
 
         DashboardFacade facade = new DashboardFacade(HttpContext.Current.Profile.UserName);
-        
-        //User added a new widget. The new widget is loaded for the first time. So, it's not 
+
+        //User added a new widget. The new widget is loaded for the first time. So, it's not
         //a postback experience for the widget. But for rest of the widgets, it is a postback experience.
         var response = RunWorkflow.Run<AddWidgetWorkflow,AddWidgetRequest,AddWidgetResponse>(
                            new AddWidgetRequest { WidgetId = widgetId, RowNo = 0, ColumnNo = 0, ZoneId = 0, UserName = Profile.UserName }
                        );
 
-        widgetRefreshCallback(response.NewWidget);
+        widgetRefreshCallback(response.WidgetInstanceAffected);
     }
 
-    protected void WidgetListPreviousLinkButton_Click(object sender, EventArgs e)
-    {
-        if (0 == AddStuffPageIndex) return;
-        AddStuffPageIndex--;
-
-        this.LoadWidgetList();
-    }
-    protected void WidgetListNextButton_Click(object sender, EventArgs e)
-    {
-        AddStuffPageIndex++;
-        this.LoadWidgetList();
-    }
-
-    private int AddStuffPageIndex
-    {
-        get { object val = ViewState["AddStuffPageIndex"]; if (val == null) return 0; else return (int)val; }
-        set { ViewState["AddStuffPageIndex"] = value; }
-    }
+    #endregion Methods
 }
- 

@@ -61,14 +61,13 @@ namespace Dropthings.Business.Workflows
 
             WorkflowInstance instance = workflowRuntime.CreateWorkflow(workflowType, properties);
             instance.Start();
+            var instanceId = instance.InstanceId;
 
             EventHandler<WorkflowCompletedEventArgs> completedHandler = null;
             completedHandler = delegate(object o, WorkflowCompletedEventArgs e)
             {
-                if (e.WorkflowInstance.InstanceId == instance.InstanceId)
+                if (e.WorkflowInstance.InstanceId == instanceId)
                 {
-                    workflowRuntime.WorkflowCompleted -= completedHandler;
-
                     // copy the output parameters in the specified properties dictionary
                     Dictionary<string,object>.Enumerator enumerator = e.OutputParameters.GetEnumerator();
                     while( enumerator.MoveNext() )
@@ -86,12 +85,10 @@ namespace Dropthings.Business.Workflows
             EventHandler<WorkflowTerminatedEventArgs> terminatedHandler = null;
             terminatedHandler = delegate(object o, WorkflowTerminatedEventArgs e)
             {
-                if (e.WorkflowInstance.InstanceId == instance.InstanceId)
+                if (e.WorkflowInstance.InstanceId == instanceId)
                 {
-                    workflowRuntime.WorkflowTerminated -= terminatedHandler;
-                    Debug.WriteLine( e.Exception );
-
                     x = e.Exception;
+                    Debug.WriteLine(e.Exception);
                 }
             };
 
@@ -100,9 +97,11 @@ namespace Dropthings.Business.Workflows
 
             manualScheduler.RunWorkflow(instance.InstanceId);
 
+            workflowRuntime.WorkflowTerminated -= terminatedHandler;
+            workflowRuntime.WorkflowCompleted -= completedHandler;
+
             if (null != x)
                 throw new WorkflowException(x);
-            
         }
 
         #endregion Methods

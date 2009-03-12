@@ -1,60 +1,120 @@
+#region Header
+
 // Copyright (c) Omar AL Zabir. All rights reserved.
 // For continued development and updates, visit http://msmvps.com/omar
 
+#endregion Header
+
 using System;
-using System.Reflection;
-using System.Data;
-using System.Configuration;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.Linq;
+using System.Linq;
+using System.Reflection;
 using System.Web;
+using System.Web.Profile;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Web.Profile;
-
-using System.Linq;
-using System.Data.Linq;
+using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.DataAccess;
-
-using Page = Dropthings.DataAccess.Page;
-using Dropthings.Web.Util;
-using Dropthings.Web.UI;
-using Dropthings.Business.Workflows.EntryPointWorkflows;
-using Dropthings.Business.Workflows.TabWorkflows;
 using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
-using System.Workflow.Runtime;
+using Dropthings.Business.Workflows.EntryPointWorkflows;
+using Dropthings.Business.Workflows.TabWorkflows;
 using Dropthings.Business.Workflows.WidgetWorkflows;
+using Dropthings.DataAccess;
+using Page = Dropthings.DataAccess.Page;
 using Dropthings.Web.Framework;
+using Dropthings.Web.UI;
+using Dropthings.Web.Util;
 using Dropthings.Widget.Framework;
 
 public partial class _Default : BasePage
 {
+    #region Fields
+
     private const string WIDGET_CONTAINER_CONTROL = "WidgetContainer.ascx";
+
+    #endregion Fields
+
+    #region Properties
 
     protected string GetScriptVersion
     {
         get { return ConfigurationManager.AppSettings["ScriptVersionNo"]; }
     }
-    private IUserVisitWorkflowResponse _Setup
-    {
-        get { return Context.Items[typeof(IUserVisitWorkflowResponse)] as IUserVisitWorkflowResponse; }
-        set { Context.Items[typeof(IUserVisitWorkflowResponse)] = value; }
-    }    
-    
+
     private int AddStuffPageIndex
     {
         get { object val = ViewState["AddStuffPageIndex"]; if( val == null ) return 0; else return (int)val; }
         set { ViewState["AddStuffPageIndex"] = value; }
     }
 
-    protected void Page_Load(object sender, EventArgs e)
+    private IUserVisitWorkflowResponse _Setup
     {
-        
+        get { return Context.Items[typeof(IUserVisitWorkflowResponse)] as IUserVisitWorkflowResponse; }
+        set { Context.Items[typeof(IUserVisitWorkflowResponse)] = value; }
+    }
+
+    #endregion Properties
+
+    #region Methods
+
+    public override Control FindControl(string id)
+    {
+        var control = base.FindControl(id);
+        if (control == null)
+        {
+            return this.WidgetPage.FindControl(id);
+        }
+        else
+        {
+            return control;
+        }
+    }
+
+    protected void ChangeTabSettingsLinkButton_Clicked(object sender, EventArgs e)
+    {
+        if (this.ChangePageSettingsPanel.Visible)
+            this.HideChangeSettingsPanel();
+        else
+            this.ShowChangeSettingsPanel();
+    }
+
+    protected override void CreateChildControls()
+    {
+        TrapDatabaseException(() =>
+            {
+                base.CreateChildControls();
+                this.LoadUserPageSetup(false);
+                this.LoadAddStuff();
+                this.UserTabPage.LoadTabs(_Setup.UserPages, _Setup.CurrentPage);
+
+                this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
+            });
+    }
+
+    protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
+    {
+        var response = RunWorkflow.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
+                            new DeleteTabWorkflowRequest { PageID = _Setup.CurrentPage.ID, UserName = Profile.UserName }
+                        );
+
+        Context.Cache.Remove(Profile.UserName);
+
+        RedirectToTab(response.NewCurrentPage);
+    }
+
+    protected void HideAddContentPanel_Click(object sender, EventArgs e)
+    {
+        this.AddContentPanel.Visible = false;
+        this.HideAddContentPanel.Visible = false;
+        this.ShowAddContentPanel.Visible = true;
     }
 
     protected override void OnInit(EventArgs e)
@@ -84,19 +144,80 @@ public partial class _Default : BasePage
             });
     }
 
-    protected override void CreateChildControls()
+    protected override void OnPreRender(EventArgs e)
     {
-        TrapDatabaseException(() =>
-            {
-                base.CreateChildControls();
-                this.LoadUserPageSetup(false);
-                this.LoadAddStuff();
-                this.UserTabPage.LoadTabs(_Setup.UserPages, _Setup.CurrentPage);
+        base.OnPreRender(e);
 
-                this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
-            });
+        if (this.AddContentPanel.Visible)
+            ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel" + DateTime.Now.Ticks.ToString(),
+                "DropthingsUI.showWidgetGallery();", true);
+
+        if (!Page.IsPostBack)
+            ScriptManager.RegisterStartupScript(this, typeof(Page), "OverrideIsScriptLoaded", @"
+                if(typeof(Sys)!=='undefined')             
+                {                
+                    if(typeof(Sys._ScriptLoader) !== 'undefined')
+                    {                                    
+                        Sys._ScriptLoader.isScriptLoaded = function Sys$_ScriptLoader$isScriptLoaded(scriptSrc) 
+                        {                                                    
+                            var dummyScript = document.createElement('script');
+                            dummyScript.src = scriptSrc;
+                            var fullUrl = dummyScript.src;
+                            var result = Array.contains(Sys._ScriptLoader._getLoadedScripts(), fullUrl);
+                            if (result === true) return true;
+                            result = Array.contains(window._combinedScripts, fullUrl);
+                            if (result === true) return true;                            
+                            var scriptTags = document.getElementsByTagName('script');
+                            for(var i = 0; i < scriptTags.length; i ++ ) if (scriptTags[i].src == fullUrl) return true;
+                            return false;
+                        }
+                    }                    
+                }", true);
     }
 
+    protected void Page_Load(object sender, EventArgs e)
+    {
+    }
+
+    protected void SaveNewTitleButton_Clicked(object sender, EventArgs e)
+    {
+        var newTitle = this.NewTitleTextBox.Text.Trim();
+
+        if (newTitle != _Setup.CurrentPage.Title)
+        {
+            var response = RunWorkflow.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
+                            new ChangeTabNameWorkflowRequest { PageName = newTitle, UserName = Profile.UserName }
+                        );
+
+            this.LoadUserPageSetup(false);
+
+            RedirectToTab(_Setup.CurrentPage);
+        }
+    }
+
+    protected void ShowAddContentPanel_Click(object sender, EventArgs e)
+    {
+        this.AddContentPanel.Visible = true;
+        this.HideAddContentPanel.Visible = true;
+        this.ShowAddContentPanel.Visible = false;
+
+        this.LoadAddStuff();
+    }
+
+    private void HideChangeSettingsPanel()
+    {
+        this.ChangePageSettingsPanel.Visible = false;
+        this.ChangePageTitleLinkButton.Text = "Change Settings";
+    }
+
+    private void LoadAddStuff()
+    {
+        this.WidgetListControlAdd.LoadWidgetList(newWidget =>
+        {
+            this.ReloadCurrentPage();
+            this.WidgetPage.RefreshZone(newWidget.WidgetZoneId);
+        });
+    }
 
     private void LoadUserPageSetup(bool noCache)
     {
@@ -139,92 +260,21 @@ public partial class _Default : BasePage
         });
     }
 
-    
-    
+    private void OnReloadPage(object sender, EventArgs e)
+    {
+        this.ReloadCurrentPage();
+    }
+
     private void RedirectToTab(Page page)
     {
         Response.Redirect('?' + page.TabName);
     }
 
-    private void OnReloadPage(object sender, EventArgs e)
-    {
-        this.ReloadCurrentPage();
-    }
     private void ReloadCurrentPage()
     {
         this.LoadUserPageSetup(false);
         //this.SetupTabs();
         this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
-    }
-
-    protected void ShowAddContentPanel_Click(object sender, EventArgs e)
-    {
-        this.AddContentPanel.Visible = true;
-        this.HideAddContentPanel.Visible = true;
-        this.ShowAddContentPanel.Visible = false;
-
-        this.LoadAddStuff();        
-    }
-
-    protected override void OnPreRender(EventArgs e)
-    {
-        base.OnPreRender(e);
-
-        if (this.AddContentPanel.Visible)
-            ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel" + DateTime.Now.Ticks.ToString(),
-                "DropthingsUI.showWidgetGallery();", true);
-    }
-    
-    protected void HideAddContentPanel_Click(object sender, EventArgs e)
-    {
-        this.AddContentPanel.Visible = false;
-        this.HideAddContentPanel.Visible = false;
-        this.ShowAddContentPanel.Visible = true;
-    }
-
-    private void LoadAddStuff()
-    {
-        this.WidgetListControlAdd.LoadWidgetList(newWidget =>
-        {
-            this.ReloadCurrentPage();
-            this.WidgetPage.RefreshZone(newWidget.WidgetZoneId);
-        });
-    }   
-
-    protected void ChangeTabSettingsLinkButton_Clicked(object sender, EventArgs e)
-    {
-        if (this.ChangePageSettingsPanel.Visible)
-            this.HideChangeSettingsPanel();
-        else
-            this.ShowChangeSettingsPanel();
-    }
-
-    protected void SaveNewTitleButton_Clicked(object sender, EventArgs e)
-    {
-        var newTitle = this.NewTitleTextBox.Text.Trim();
-
-        if (newTitle != _Setup.CurrentPage.Title)
-        {
-            var response = RunWorkflow.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
-                            new ChangeTabNameWorkflowRequest { PageName = newTitle, UserName = Profile.UserName }
-                        );
-            
-            this.LoadUserPageSetup(false);
-
-            RedirectToTab(_Setup.CurrentPage);
-        }
-        
-    }
-
-    protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
-    {
-        var response = RunWorkflow.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
-                            new DeleteTabWorkflowRequest { PageID = _Setup.CurrentPage.ID, UserName = Profile.UserName }
-                        );
-
-        Context.Cache.Remove(Profile.UserName);
-
-        RedirectToTab(response.NewCurrentPage);
     }
 
     private void ShowChangeSettingsPanel()
@@ -239,14 +289,8 @@ public partial class _Default : BasePage
         this.NewTitleTextBox.Text = _Setup.CurrentPage.Title;
     }
 
-    private void HideChangeSettingsPanel()
-    {
-        this.ChangePageSettingsPanel.Visible = false;
-        this.ChangePageTitleLinkButton.Text = "Change Settings";
-    }
-
     private void TrapDatabaseException(Action work)
-    { 
+    {
         try
         {
             work();
@@ -261,4 +305,6 @@ public partial class _Default : BasePage
             Response.Write("</html>");
         }
     }
+
+    #endregion Methods
 }

@@ -28,6 +28,10 @@ namespace Dropthings.Business.Activities
     {
         #region Fields
 
+        // Using a DependencyProperty as the backing store for ModifiedWidgetInstance.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ModifiedWidgetInstanceProperty = 
+            DependencyProperty.Register("ModifiedWidgetInstance", typeof(WidgetInstance), typeof(MaximizeWidgetActivity));
+
         private static DependencyProperty IsMaximizeProperty = DependencyProperty.Register("IsMaximize", typeof(Boolean), typeof(MaximizeWidgetActivity));
         private static DependencyProperty WidgetInstanceIdProperty = DependencyProperty.Register("WidgetInstanceId", typeof(int), typeof(MaximizeWidgetActivity));
 
@@ -52,6 +56,12 @@ namespace Dropthings.Business.Activities
             set { base.SetValue(IsMaximizeProperty, value); }
         }
 
+        public WidgetInstance ModifiedWidgetInstance
+        {
+            get { return (WidgetInstance)GetValue(ModifiedWidgetInstanceProperty); }
+            set { SetValue(ModifiedWidgetInstanceProperty, value); }
+        }
+
         [ValidationOptionAttribute(ValidationOption.Required)]
         [Browsable(true)]
         public int WidgetInstanceId
@@ -66,12 +76,13 @@ namespace Dropthings.Business.Activities
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
         {
-            var wi = DatabaseHelper.GetSingle<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceById);
-            wi.Maximized = this.IsMaximize;
-
-            DatabaseHelper.UpdateObject<WidgetInstance>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                wi, null, null);
+            DatabaseHelper.UpdateObject<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceById,
+                (wi) =>
+                {
+                    wi.Maximized = this.IsMaximize;
+                    this.ModifiedWidgetInstance = wi;
+                });
 
             return ActivityExecutionStatus.Closed;
         }

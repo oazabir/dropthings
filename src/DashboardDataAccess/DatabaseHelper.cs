@@ -13,6 +13,7 @@ namespace Dropthings.DataAccess
     using System.Configuration;
     using System.Data.Linq;
     using System.Data.Linq.Mapping;
+    using System.Data.SqlClient;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -60,13 +61,13 @@ namespace Dropthings.DataAccess
         public static void Delete<TSource>(SubsystemEnum subsystem, TSource entity)
             where TSource : class
         {
-            InDataContext(subsystem, (data) => Delete<TSource>(entity, data) );
+            InDataContext(subsystem, false, (data) => Delete<TSource>(entity, data) );
         }
 
         public static void DeleteByPK<TSource, TPK>(SubsystemEnum subsystem, TPK pk)
             where TSource : class
         {
-            InDataContext(subsystem, (data) => DeleteByPK<TSource, TPK>(pk, data));
+            InDataContext(subsystem, false, (data) => DeleteByPK<TSource, TPK>(pk, data));
         }
 
         public static void DeleteByPK<TSource, TPK>(TPK pk, DataContext dc)
@@ -83,13 +84,12 @@ namespace Dropthings.DataAccess
         public static void DeleteByPK<TSource, TPK>(SubsystemEnum subsystem, TPK[] pkArray)
             where TSource : class
         {
-            InDataContext(subsystem, (data) => DeleteByPK<TSource, TPK>(pkArray, data));
+            InDataContext(subsystem, false, (data) => DeleteByPK<TSource, TPK>(pkArray, data));
         }
 
         public static void DeleteByPK<TSource, TPK>(TPK[] pkArray, DataContext data)
             where TSource : class
         {
-            Table<TSource> table = data.GetTable<TSource>();
             TableDef tableDef = GetTableDef<TSource>();
 
             var buffer = new StringBuilder();
@@ -124,7 +124,7 @@ namespace Dropthings.DataAccess
         public static void DeleteList<TSource>(SubsystemEnum subsystem, List<TSource> list)
             where TSource : class
         {
-            InDataContext(subsystem, (data) => DeleteList<TSource>(list, data));
+            InDataContext(subsystem, false, (data) => DeleteList<TSource>(list, data));
         }
 
         public static List<TSource> GetList<TSource>(
@@ -182,7 +182,7 @@ namespace Dropthings.DataAccess
             Func<DropthingsDataContext, IQueryable<TSource>> func,
             Func<IQueryable<TSource>, TReturnType> returnExpected)
         {
-            return InDataContext<TReturnType>(subsystem, (data) =>
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
                 return returnExpected(func(data));
             });
@@ -194,7 +194,7 @@ namespace Dropthings.DataAccess
             Func<DropthingsDataContext, TArg0, IQueryable<TSource>> func,
             Func<IQueryable<TSource>, TReturnType> returnExpected)
         {
-            return InDataContext<TReturnType>(subsystem, (data) =>
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
                 return returnExpected(func(data, arg0));
             });
@@ -207,7 +207,7 @@ namespace Dropthings.DataAccess
             Func<IQueryable<TSource>, TReturnType> returnExpected,
             DataLoadOptions options)
         {
-            return InDataContext<TReturnType>(subsystem, (data) =>
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
                 data.LoadOptions = options;
                 return returnExpected(func(data, arg0));
@@ -220,7 +220,7 @@ namespace Dropthings.DataAccess
             Func<DropthingsDataContext, TArg0, TArg1, IQueryable<TSource>> func,
             Func<IQueryable<TSource>, TReturnType> returnExpected)
         {
-            return InDataContext<TReturnType>(subsystem, (data) =>
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
                 return returnExpected(func(data, arg0, arg1));
             });
@@ -233,7 +233,7 @@ namespace Dropthings.DataAccess
             Func<IQueryable<TSource>, TReturnType> returnExpected,
             DataLoadOptions options)
         {
-            return InDataContext<TReturnType>(subsystem, (data) =>
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
                 data.LoadOptions = options;
                 return returnExpected(func(data, arg0, arg1));
@@ -246,7 +246,7 @@ namespace Dropthings.DataAccess
             Func<DropthingsDataContext, TArg0, TArg1, TArg2, IQueryable<TSource>> func,
             Func<IQueryable<TSource>, TReturnType> returnExpected)
         {
-            return InDataContext<TReturnType>(subsystem, (data) =>
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
                 return returnExpected(func(data, arg0, arg1, arg2));
             });
@@ -259,7 +259,7 @@ namespace Dropthings.DataAccess
             Func<IQueryable<TSource>, TReturnType> returnExpected,
             DataLoadOptions options)
         {
-            return InDataContext<TReturnType>(subsystem, (data) =>
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
                 data.LoadOptions = options;
                 return returnExpected(func(data, arg0, arg1, arg2));
@@ -306,22 +306,22 @@ namespace Dropthings.DataAccess
                 (query) => query.SingleOrDefault<TSource>());
         }
 
-        public static void InDataContext(SubsystemEnum subsystem, DataContextDelegate d)
+        public static void InDataContext(SubsystemEnum subsystem, bool nolock, DataContextDelegate d)
         {
-            using (var data = GetDataContext(subsystem))
+            using (var data = GetDataContext(subsystem, nolock))
                 d(data);
         }
 
-        public static T InDataContext<T>(SubsystemEnum subsystem, Func<DropthingsDataContext, T> f)
+        public static T InDataContext<T>(SubsystemEnum subsystem, bool nolock, Func<DropthingsDataContext, T> f)
         {
-            using (var data = GetDataContext(subsystem))
+            using (var data = GetDataContext(subsystem, nolock))
                 return f(data);
         }
 
         public static TSource Insert<TSource>(SubsystemEnum subsystem, Action<TSource> populate)
             where TSource : class, new()
         {
-            return InDataContext<TSource>(subsystem, (data) =>
+            return InDataContext<TSource>(subsystem, false, (data) =>
             {
                 TSource newObject = new TSource();
 
@@ -338,7 +338,7 @@ namespace Dropthings.DataAccess
             where TEntity : class
             where TSomething : class
         {
-            InDataContext(subsystem, (data) =>
+            InDataContext(subsystem, false, (data) =>
             {
                 Table<TEntity> table = data.GetTable<TEntity>();
                 IEnumerator<TSomething> e = items.GetEnumerator();
@@ -357,7 +357,7 @@ namespace Dropthings.DataAccess
             Action<TEntity> postAttachUpdate)
             where TEntity : class
         {
-            InDataContext(subsystem, (data) =>
+            InDataContext(subsystem, false, (data) =>
             {
                 Table<TEntity> table = data.GetTable<TEntity>();
                 foreach (TEntity entity in list)
@@ -377,7 +377,7 @@ namespace Dropthings.DataAccess
             Action<TEntity> postAttachUpdate)
             where TEntity : class
         {
-            InDataContext(subsystem, (data) =>
+            InDataContext(subsystem, false, (data) =>
             {
                 if (null != detach)
                     detach(obj);
@@ -392,7 +392,7 @@ namespace Dropthings.DataAccess
             Action<TEntity> postAttachUpdate)
             where TEntity : class
         {
-            InDataContext(subsystem, (data) =>
+            InDataContext(subsystem, false, (data) =>
             {
                 TEntity obj = GetSingle<TEntity, TArg0>(subsystem, arg0, func);
                 UpdateObject<TEntity>(subsystem, obj, (o) => {}, postAttachUpdate);
@@ -422,14 +422,22 @@ namespace Dropthings.DataAccess
         /// </summary>
         /// <param name="subsystem"></param>
         /// <returns></returns>
-        internal static DropthingsDataContext GetDataContext(SubsystemEnum subsystem)
+        internal static DropthingsDataContext2 GetDataContext(SubsystemEnum subsystem, bool nolock)
         {
-            var context = new DropthingsDataContext(GetConnectionString(subsystem));
+            var context = new DropthingsDataContext2(GetConnectionString(subsystem));
             context.Log = new DebugStreamWriter();
             context.DeferredLoadingEnabled = false;
 
-            context.Connection.Open();
-            context.ExecuteCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;");
+            if (nolock)
+            {
+                context.Connection.Open();
+                using (var command = context.Connection.CreateCommand())
+                {
+                    command.CommandText = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;";
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.ExecuteNonQuery();
+                }
+            }
             return context;
         }
 

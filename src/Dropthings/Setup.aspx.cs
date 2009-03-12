@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Dropthings.Business.Workflows.SystemWorkflows;
+
 using Dropthings.Business;
-using System.Configuration;
-using Dropthings.Business.Workflows.UserAccountWorkflow;
 using Dropthings.Business.Workflows;
+using Dropthings.Business.Workflows.SystemWorkflows;
+using Dropthings.Business.Workflows.UserAccountWorkflow;
 using Dropthings.Web.Framework;
 
 public partial class Setup : System.Web.UI.Page
 {
+    #region Methods
+
     protected void Page_Load(object sender, EventArgs e)
     {
         SetupDefaultSetting();
@@ -20,9 +23,7 @@ public partial class Setup : System.Web.UI.Page
 
     private static void SetupDefaultSetting()
     {
-
-
-        //setup default roles, template user and role template      
+        //setup default roles, template user and role template
         RunWorkflow.Run<SetupDefaultRolesWorkflow, SetupDefaultRolesWorkflowRequest, SetupDefaultRolesWorkflowResponse>(
             new SetupDefaultRolesWorkflowRequest { }
         );
@@ -37,4 +38,6 @@ public partial class Setup : System.Web.UI.Page
 
         }
     }
+
+    #endregion Methods
 }

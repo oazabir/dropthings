@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TestParameters>
-  <ServerURL>http://localhost:8000</ServerURL>
+  <ServerURL>http://localhost</ServerURL>
   <AnonCookieName>.DBANON</AnonCookieName>
   <AuthCookieName>.DBAUTH12</AuthCookieName>
   <SessionCookieName>ASP.NET_SessionId</SessionCookieName>

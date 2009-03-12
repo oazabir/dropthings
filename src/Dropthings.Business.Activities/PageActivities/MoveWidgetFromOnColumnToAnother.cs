@@ -120,6 +120,12 @@
 
         #region Methods
 
+        protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
+        {
+            base.Execute(executionContext);
+            return ActivityExecutionStatus.Closed;
+        }
+
         private void ForEachWidgetInstanceToMove_Iterating(object sender, EventArgs e)
         {
             ForEachActivity.ForEach forEachActivity = (sender as ForEachActivity.ForEach);
@@ -130,11 +136,5 @@
         }
 
         #endregion Methods
-
-        protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
-        {
-            base.Execute(executionContext);
-            return ActivityExecutionStatus.Closed;
-        }
     }
 }

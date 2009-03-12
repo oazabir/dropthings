@@ -29,6 +29,18 @@ namespace Dropthings.Business.Activities
         public static readonly DependencyProperty ColumnIdProperty = 
             DependencyProperty.Register("ColumnId", typeof(int), typeof(DeleteColumnActivity));
 
+        // Using a DependencyProperty as the backing store for ColumnNo.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ColumnNoProperty = 
+            DependencyProperty.Register("ColumnNo", typeof(int), typeof(DeleteColumnActivity));
+
+        // Using a DependencyProperty as the backing store for ColumnToDelete.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ColumnToDeleteProperty = 
+            DependencyProperty.Register("ColumnToDelete", typeof(Column), typeof(DeleteColumnActivity));
+
+        // Using a DependencyProperty as the backing store for PageId.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PageIdProperty = 
+            DependencyProperty.Register("PageId", typeof(int), typeof(DeleteColumnActivity));
+
         #endregion Fields
 
         #region Constructors
@@ -48,15 +60,23 @@ namespace Dropthings.Business.Activities
             set { SetValue(ColumnIdProperty, value); }
         }
 
+        public int ColumnNo
+        {
+            get { return (int)GetValue(ColumnNoProperty); }
+            set { SetValue(ColumnNoProperty, value); }
+        }
+
         public Column ColumnToDelete
         {
             get { return (Column)GetValue(ColumnToDeleteProperty); }
             set { SetValue(ColumnToDeleteProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ColumnToDelete.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ColumnToDeleteProperty =
-            DependencyProperty.Register("ColumnToDelete", typeof(Column), typeof(DeleteColumnActivity));
+        public int PageId
+        {
+            get { return (int)GetValue(PageIdProperty); }
+            set { SetValue(PageIdProperty, value); }
+        }
 
         #endregion Properties
 
@@ -84,36 +104,9 @@ namespace Dropthings.Business.Activities
         private void DeleteColumn()
         {
             DatabaseHelper.DeleteByPK<Column, int>(DatabaseHelper.SubsystemEnum.Column, this.ColumnId);
-            DatabaseHelper.DeleteByPK<WidgetZone, int>(DatabaseHelper.SubsystemEnum.WidgetZone, this.ColumnToDelete.WidgetZoneId);            
+            DatabaseHelper.DeleteByPK<WidgetZone, int>(DatabaseHelper.SubsystemEnum.WidgetZone, this.ColumnToDelete.WidgetZoneId);
         }
 
         #endregion Methods
-
-
-
-        public int ColumnNo
-        {
-            get { return (int)GetValue(ColumnNoProperty); }
-            set { SetValue(ColumnNoProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ColumnNo.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ColumnNoProperty =
-            DependencyProperty.Register("ColumnNo", typeof(int), typeof(DeleteColumnActivity));
-
-
-
-
-        public int PageId
-        {
-            get { return (int)GetValue(PageIdProperty); }
-            set { SetValue(PageIdProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PageId.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PageIdProperty =
-            DependencyProperty.Register("PageId", typeof(int), typeof(DeleteColumnActivity));
-
-
     }
 }

@@ -1,26 +1,49 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Collections;
-using System.Drawing;
-using System.Linq;
-using System.Workflow.ComponentModel;
-using System.Workflow.ComponentModel.Design;
-using System.Workflow.ComponentModel.Compiler;
-using System.Workflow.ComponentModel.Serialization;
-using System.Workflow.Runtime;
-using System.Workflow.Activities;
-using System.Workflow.Activities.Rules;
-using Dropthings.DataAccess;
-
-namespace Dropthings.Business.Activities.PageActivities
+﻿namespace Dropthings.Business.Activities.PageActivities
 {
-	public partial class AddColumnActivity: Activity
-	{
-		public AddColumnActivity()
-		{
-			InitializeComponent();
-		}
+    using System;
+    using System.Collections;
+    using System.ComponentModel;
+    using System.ComponentModel.Design;
+    using System.Drawing;
+    using System.Linq;
+    using System.Workflow.Activities;
+    using System.Workflow.Activities.Rules;
+    using System.Workflow.ComponentModel;
+    using System.Workflow.ComponentModel.Compiler;
+    using System.Workflow.ComponentModel.Design;
+    using System.Workflow.ComponentModel.Serialization;
+    using System.Workflow.Runtime;
+
+    using Dropthings.DataAccess;
+
+    public partial class AddColumnActivity : Activity
+    {
+        #region Fields
+
+        // Using a DependencyProperty as the backing store for ColumnNo.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ColumnNoProperty = 
+            DependencyProperty.Register("ColumnNo", typeof(int), typeof(AddColumnActivity));
+
+        // Using a DependencyProperty as the backing store for PageId.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PageIdProperty = 
+            DependencyProperty.Register("PageId", typeof(int), typeof(AddColumnActivity));
+
+        // Using a DependencyProperty as the backing store for Width.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WidthProperty = 
+            DependencyProperty.Register("Width", typeof(int), typeof(AddColumnActivity));
+
+        #endregion Fields
+
+        #region Constructors
+
+        public AddColumnActivity()
+        {
+            InitializeComponent();
+        }
+
+        #endregion Constructors
+
+        #region Properties
 
         public int ColumnNo
         {
@@ -28,9 +51,11 @@ namespace Dropthings.Business.Activities.PageActivities
             set { SetValue(ColumnNoProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ColumnNo.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ColumnNoProperty =
-            DependencyProperty.Register("ColumnNo", typeof(int), typeof(AddColumnActivity));
+        public int PageId
+        {
+            get { return (int)GetValue(PageIdProperty); }
+            set { SetValue(PageIdProperty, value); }
+        }
 
         public int Width
         {
@@ -38,21 +63,9 @@ namespace Dropthings.Business.Activities.PageActivities
             set { SetValue(WidthProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Width.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty WidthProperty =
-            DependencyProperty.Register("Width", typeof(int), typeof(AddColumnActivity));
+        #endregion Properties
 
-
-        public int PageId
-        {
-            get { return (int)GetValue(PageIdProperty); }
-            set { SetValue(PageIdProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PageId.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PageIdProperty =
-            DependencyProperty.Register("PageId", typeof(int), typeof(AddColumnActivity));
-
+        #region Methods
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
         {
@@ -72,5 +85,7 @@ namespace Dropthings.Business.Activities.PageActivities
 
             return ActivityExecutionStatus.Closed;
         }
-	}
+
+        #endregion Methods
+    }
 }

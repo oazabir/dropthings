@@ -7,15 +7,7 @@
 
     using Dropthings.DataAccess;
 
-    public class ExpandWidgetInstanceResponse : UserWorkflowResponseBase
+    public class ExpandWidgetInstanceResponse : WidgetInstanceResponseBase
     {
-        #region Properties
-
-        public List<WidgetInstance> WidgetInstances
-        {
-            get; set;
-        }
-
-        #endregion Properties
     }
 }

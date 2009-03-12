@@ -199,6 +199,7 @@
     <Compile Include="UserAccountWorkflow\UserRegistrationWorkflowResponse.cs" />
     <Compile Include="UserWorkflowRequestBase.cs" />
     <Compile Include="UserWorkflowResponseBase.cs" />
+    <Compile Include="WidgetInstanceResponseBase.cs" />
     <Compile Include="WidgetWorkflows\AddWidgetWorkflow.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -234,12 +235,6 @@
     </Compile>
     <Compile Include="WidgetWorkflows\GetWidgetInstanceStateWorkflow.Designer.cs">
       <DependentUpon>GetWidgetInstanceStateWorkflow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WidgetWorkflows\GetWidgetWorkflow.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WidgetWorkflows\GetWidgetWorkflow.Designer.cs">
-      <DependentUpon>GetWidgetWorkflow.cs</DependentUpon>
     </Compile>
     <Compile Include="WidgetWorkflows\LoadWidgetInstancesInZoneRequest.cs" />
     <Compile Include="WidgetWorkflows\LoadWidgetInstancesInZoneResponse.cs" />

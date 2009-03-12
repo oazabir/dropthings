@@ -7,14 +7,10 @@ var DropthingsUI = {
     _LastMaximizedWidget: null,
     Attributes: {
         INSTANCE_ID: "_InstanceId",
-        RESIZED: "_Resized",
-        EXPANDED: "_Expanded",
-        MAXIMIZED: "_Maximized",
-        WIDTH: "_Width",
-        HEIGHT: "_Height",
         ZONE_ID: "_zoneid",
         WIDGET_ZONE_DUMMY_LINK: "widget_holder_panel_post_link"
     },
+    WidgetDefs: [],
     getWidgetDivId: function(instanceId) {
         return "#WidgetPage_WidgetPanelsLayout_WidgetContainer" + instanceId + "_Widget";
     },
@@ -27,10 +23,14 @@ var DropthingsUI = {
     initTab: function() {
         $('#tab_container').scrollable();
     },
+    setWidgetDef: function(id, expanded, maximized, resized, width, height, zoneId) {
+        DropthingsUI.WidgetDefs[id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
+    },
     setActionOnWidget: function(widgetId) {
         var nohref = "javascript:void(0);";
-        var widget = $('#' + widgetId)
+        var widget = $('#' + widgetId);
         var widgetInstanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
+        var widgetDef = DropthingsUI.WidgetDefs[widgetInstanceId];
         //var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
 
         //Widget Title
@@ -62,7 +62,7 @@ var DropthingsUI = {
                     .unbind('click')
                     .bind('click', function() {
                         var newTitle = widgetInput.attr('value');
-                        widgetSubmit.hide()
+                        widgetSubmit.hide();
                         widgetTitle.text(newTitle).show();
                         widgetInput.hide();
 
@@ -80,7 +80,8 @@ var DropthingsUI = {
         var widgetResizeFrame = widget.find('.widget_resize_frame');
         var widgetCloseButton = widget.find('.widget_close');
 
-        if (Boolean.parse(widget.attr(DropthingsUI.Attributes.EXPANDED))) {
+        //if (Boolean.parse(widget.attr(DropthingsUI.Attributes.EXPANDED))) {
+        if (widgetDef.expanded) {
             widgetCollaspe.show();
             widgetExpand.hide();
         }
@@ -127,7 +128,7 @@ var DropthingsUI = {
         var widgetRestore = widget.find('.widget_restore');
         var widgetMaximize = widget.find('.widget_max');
 
-        if (Boolean.parse(widget.attr(DropthingsUI.Attributes.MAXIMIZED))) {
+        if (widgetDef.maximized) {
             widgetRestore.show();
             widgetMaximize.hide();
 
@@ -145,8 +146,9 @@ var DropthingsUI = {
                 widgetMaximize.hide();
                 widgetRestore.show();
                 eval(widgetMaximize.attr("href"));
+
                 // Asynchronously notify server that widget maximized
-                //DropthingsUI.Actions.maximizeWidget(widgetId);
+                DropthingsUI.Actions.maximizeWidget(widgetId);
                 return false;
             });
 
@@ -157,22 +159,22 @@ var DropthingsUI = {
                 widgetRestore.hide();
                 eval(widgetRestore.attr("href"));
                 // Asynchronously notify server that widget restored
-                //DropthingsUI.Actions.restoreWidget(widgetId);
+                DropthingsUI.Actions.restoreWidget(widgetId);
                 return false;
             });
 
     },
-    initWidgetActions: function(zoneDivId, widgetClass) {
+//    initWidgetActions: function(zoneDivId, widgetClass) {
 
-        //var widgets = $('.widget', '#' + zoneDivId);
-        var widgets = $('.' + widgetClass, '#' + zoneDivId);
+//        //var widgets = $('.widget', '#' + zoneDivId);
+//        var widgets = $('.' + widgetClass, '#' + zoneDivId);
 
-        widgets.each(function() {
-            var widget = $(this);
-            var widgetId = widget.attr('id');
-            DropthingsUI.setActionOnWidget(widgetId);
-        })
-    },
+//        widgets.each(function() {
+//            var widget = $(this);
+//            var widgetId = widget.attr('id');
+//            DropthingsUI.setActionOnWidget(widgetId);
+//        });
+//    },
     //    refreshSortable: function(zoneId) {
     //        var zone = $('#' + zoneId);
     //        zone.sortable('refresh');
@@ -208,7 +210,7 @@ var DropthingsUI = {
                     ui.placeholder.width(w);
                     ui.helper.css("width", w);
 
-                    if (ui.item != undefined) {
+                    if (ui.item !== undefined) {
                         ui.placeholder.height(ui.item.height());
                     }
                     else {
@@ -244,7 +246,7 @@ var DropthingsUI = {
                     ui.item.css({ 'width': 'auto' });
                     var instanceId = parseInt(ui.item.attr(DropthingsUI.Attributes.INSTANCE_ID));
                     DropthingsUI.Actions.onDrop(containerId, instanceId, position, function() {
-                        DropthingsUI.updateWidgetZone(widgetZone);
+                        //DropthingsUI.updateWidgetZone(widgetZone);
                     });
                 }
             }
@@ -256,6 +258,11 @@ var DropthingsUI = {
             }
         });
     },
+    updateWidget: function(widgetId) {
+        var widget = $('#' + widgetId);
+        var postbackLink = widget.find('.dummy_postback');
+        eval(postbackLink.attr('href'));
+    },
     initResizer: function(divId) {
         $('#' + divId)
             .resizable(
@@ -264,7 +271,9 @@ var DropthingsUI = {
                 resize: function(e, ui) {
                     if (!ui.options.handles['w'] && !ui.options.handles['e']) {
                         var widget = ui.element.parent().parent();
-                        if (Boolean.parse(widget.attr(DropthingsUI.Attributes.MAXIMIZED))) {
+                        var widgetDef = DropthingsUI.WidgetDefs[widget.attr(DropthingsUI.Attributes.INSTANCE_ID)];
+                        widgetDef.expanded = false;
+                        if (!widgetDef.maximized) {
                             //$('#widgetMaxBackground').css({'height':$('#widgetMaxBackground').height() + (ui.element.height() - ui.originalSize.height) });
                         }
                         else {
@@ -273,8 +282,11 @@ var DropthingsUI = {
                     }
                 },
                 stop: function(e, ui) {
-                    if (!Boolean.parse(ui.element.parent().parent().attr(DropthingsUI.Attributes.MAXIMIZED))) {
-                        DropthingsUI.Actions.resizeWidget(ui.element.parent().parent(), ui.element.height());
+                    var widget = ui.element.parent().parent();
+                    var widgetDef = DropthingsUI.WidgetDefs[widget.attr(DropthingsUI.Attributes.INSTANCE_ID)];
+                    widgetDef.expanded = false;
+                    if (!widgetDef.maximized) {
+                        DropthingsUI.Actions.resizeWidget(widget, ui.element.height());
                     }
                 }
             });
@@ -299,8 +311,8 @@ var DropthingsUI = {
     updateWidgetZone: function(widgetZone) {
         // OMAR: update the widget zone after three seconds because user might drag & drop another widget
         // in the meantime.
-        if ((DropthingsUI.__updateWidgetZoneTimerId || 0) == 0) {
-            var zoneList = DropthingsUI.__widgetZonesToUpdate || new Array;
+        if ((DropthingsUI.__updateWidgetZoneTimerId || 0) === 0) {
+            var zoneList = DropthingsUI.__widgetZonesToUpdate || [];
             zoneList.push(widgetZone);
             DropthingsUI.__widgetZonesToUpdate = zoneList;
             widgetZone.attr("__pendingUpdate", "1");
@@ -308,14 +320,14 @@ var DropthingsUI = {
                 $(DropthingsUI.__widgetZonesToUpdate).each(function(index, zone) {
                     if (zone.attr("__pendingUpdate") == "1") {
                         zone.attr("__pendingUpdate", "0");
-                        var f = function() { return Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack(); }
+                        var f = function() { return Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack(); };
                         Utility.untilFalse(f, function() {
                             DropthingsUI.asyncPostbackWidgetZone(zone);
                         });
                     }
                 });
                 DropthingsUI.__updateWidgetZoneTimerId = 0;
-            }, 3000);
+            }, 1000);
         }
         else {
             // Restart the timer when another update is queued
@@ -348,13 +360,16 @@ var DropthingsUI = {
         maximizeWidget: function(widgetId) {
             //var widgetId = DropthingsUI.getWidgetDivId(instanceId);
             var widget = $('#' + widgetId);
-            widget.attr(DropthingsUI.Attributes.MAXIMIZED, 'true');
+            //widget.attr(DropthingsUI.Attributes.MAXIMIZED, 'true');
 
             //if collaspe then expand it
-            if (!Boolean.parse(widget.attr(DropthingsUI.Attributes.EXPANDED)))
+            var widgetDef = DropthingsUI.WidgetDefs[widget.attr(DropthingsUI.Attributes.INSTANCE_ID)];
+            widgetDef.maximized = true;
+            if (!widgetDef.expanded) {
                 widget.find('.widget_expand').click();
+            }
 
-            if (null != DropthingsUI._LastMaximizedWidget) {
+            if (null !== DropthingsUI._LastMaximizedWidget) {
                 DropthingsUI._LastMaximizedWidget.restorePreviouslyMaximizedWidget();
                 DropthingsUI._LastMaximizedWidget.dispose();
             }
@@ -368,7 +383,7 @@ var DropthingsUI = {
         restoreWidget: function(widgetId) {
             var widget = $('#' + widgetId);
 
-            if (null != DropthingsUI._LastMaximizedWidget) DropthingsUI._LastMaximizedWidget.dispose();
+            if (null !== DropthingsUI._LastMaximizedWidget) DropthingsUI._LastMaximizedWidget.dispose();
             DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
             DropthingsUI._LastMaximizedWidget.restore();
 
@@ -379,15 +394,15 @@ var DropthingsUI = {
 
         collaspeWidget: function(widgetId, postbackUrl) {
             var widget = $('#' + widgetId);
-            widget.attr(DropthingsUI.Attributes.EXPANDED, 'false');
+            //widget.attr(DropthingsUI.Attributes.EXPANDED, 'false');
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
+            var widgetDef = DropthingsUI.WidgetDefs[instanceId];
+            widgetDef.expanded = false;
             Dropthings.Web.Framework.WidgetService.CollaspeWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onCollaspeWidgetComplete);
 
-            var maximized = Boolean.parse(widget.attr(DropthingsUI.Attributes.MAXIMIZED));
-
-            if (maximized) {
-                if (null != DropthingsUI._LastMaximizedWidget) {
+            if (widgetDef.maximized) {
+                if (null !== DropthingsUI._LastMaximizedWidget) {
                     $('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetCollasped);
                 }
             }
@@ -399,14 +414,14 @@ var DropthingsUI = {
 
         expandWidget: function(widgetId, postbackUrl) {
             var widget = $('#' + widgetId);
-            widget.attr(DropthingsUI.Attributes.EXPANDED, 'true');
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
+            var widgetDef = DropthingsUI.WidgetDefs[instanceId];
+            widgetDef.expanded = true;
             Dropthings.Web.Framework.WidgetService.ExpandWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onExpandWidgetComplete);
 
-            var maximized = Boolean.parse(widget.attr(DropthingsUI.Attributes.MAXIMIZED));
-            if (maximized) {
-                if (null != DropthingsUI._LastMaximizedWidget) {
+            if (widgetDef.maximized) {
+                if (null !== DropthingsUI._LastMaximizedWidget) {
                     $('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetExpanded);
                 }
             }
@@ -417,12 +432,13 @@ var DropthingsUI = {
         },
 
         resizeWidget: function(widget, resizeHeight) {
-            var maximized = Boolean.parse(widget.attr(DropthingsUI.Attributes.MAXIMIZED));
             var instanceId = parseInt(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-            if (!maximized) {
+            var widgetDef = DropthingsUI.WidgetDefs[instanceId];
+
+            if (!widgetDef.maximized) {
                 Dropthings.Web.Framework.WidgetService.ResizeWidgetInstance(instanceId, 0, resizeHeight);
-                widget.attr(DropthingsUI.Attributes.RESIZED, "true");
-                widget.attr(DropthingsUI.Attributes.HEIGHT, resizeHeight);
+                widgetDef.resized = true;
+                widgetDef.height = resizeHeight;
             }
 
             return false;
@@ -514,11 +530,11 @@ var Utility =
 {
     // change to display:none
     nodisplay: function(e) {
-        if (typeof e == "object") e.style.display = "none"; else if ($get(e) != null) $get(e).style.display = "none";
+        if (typeof e == "object") e.style.display = "none"; else if ($get(e) !== null) $get(e).style.display = "none";
     },
     // change to display:block
     display: function(e, inline) {
-        if (typeof e == "object") e.style.display = (inline ? "inline" : "block"); else if ($get(e) != null) $get(e).style.display = (inline ? "inline" : "block");
+        if (typeof e == "object") e.style.display = (inline ? "inline" : "block"); else if ($get(e) !== null) $get(e).style.display = (inline ? "inline" : "block");
     },
 
     getContentHeight: function() {
@@ -605,7 +621,7 @@ var Utility =
 
     getAbsolutePosition: function(element, positionType) {
         var position = 0;
-        while (element != null) {
+        while (element !== null) {
             position += element["offset" + positionType];
             element = element.offsetParent;
         }
@@ -618,8 +634,9 @@ var Utility =
         Utility.display('blockUI');
         var blockUI = $get('blockUI');
 
-        if (blockUI != null) // it will be null if called from CompactFramework
+        if (blockUI !== null) {// it will be null if called from CompactFramework
             blockUI.style.height = Math.max(Utility.getContentHeight(), 1000) + "px";
+        }
     },
 
     unblockUI: function() {
@@ -627,14 +644,16 @@ var Utility =
     },
 
     untilTrue: function(test, callback) {
-        if (test() === true)
+        if (test() === true) {
             callback();
-        else
+        }
+        else {
             window.setTimeout(function() { Utility.untilTrue(test, callback); }, 200);
+        }
     },
-    
+
     untilFalse: function(test, callback) {
-        Utility.untilTrue(function(){ return test() === false }, callback);
+        Utility.untilTrue(function() { return test() === false }, callback);
     }
 };
 
@@ -974,21 +993,13 @@ function CreateResizeExtender1(instanceId)
 //};
 
 var WidgetMaximizeBehavior = function(widgetId) {
-    this.visibleHeightIfWidgetExpanded = 0
-    this.visibleHeightIfWidgetCollasped = 0
+    this.visibleHeightIfWidgetExpanded = 0;
+    this.visibleHeightIfWidgetCollasped = 0;
     this.init = function(widgetId) {
         if (this.initialized) return;
-        
-        this.widget =  $('#' + widgetId);
-        //this.widgetSelector = DropthingsUI.getWidgetDivId(instanceId);
-        this.instanceId = this.widget.attr(DropthingsUI.Attributes.INSTANCE_ID);;
 
-
-        //_widgetMaxBackground = $('widgetMaxBackground');
-        //_maximizeButton = $(widgetContainerId + '_MaximizeWidget');
-        //_restoreButton = $(widgetContainerId + '_RestoreWidget');
-
-        this.initialized = true;
+        this.widget = $('#' + widgetId);
+        this.instanceId = this.widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
     }
 
     this.init(widgetId);
@@ -997,39 +1008,40 @@ var WidgetMaximizeBehavior = function(widgetId) {
         this.initialized = false;
         this.instanceId = 0;
         this.widget = null;
-    }
+    };
 
     this.maximize = function() {
         this.removeFloatingBehavior();
         this.fitToViewPort();
         window.scrollTo(0, 0);
-    }
+    };
 
     this.restorePreviouslyMaximizedWidget = function() {
         if (this.initialized) {
             this.widget.find('.widget_restore').click();
         }
-    }
+    };
 
     this.restore = function() {
         this.addFloatingBehavior();
         $('.widget_max_holder').css({ display: 'none', height: 'auto' });
 
-        var height = Boolean.parse(this.widget.attr( DropthingsUI.Attributes.RESIZED )) ? this.widget.attr( DropthingsUI.Attributes.HEIGHT ) + 'px' : 'auto';
+        var widgetDef = DropthingsUI.WidgetDefs[this.instanceId];
+        var height = widgetDef.resized ? widgetDef.height + 'px' : 'auto';
         this.widget.css({ left: 'auto', top: 'auto', position: 'static' })
-                    .removeClass('widget_max_content')
-                    .attr(DropthingsUI.Attributes.MAXIMIZED, 'false')
+                    .removeClass('widget_max_content');
+
+        widgetDef.maximized = false;
 
         this.widget.find('.widget_resize_frame').each(function() {
             $(this)
                         .css({ width: 'auto' })
-                        .css({height: height});
-
+                        .css({ height: height });
         });
 
         this.restoredInstanceId = this.instanceId;
         this.dispose();
-    }
+    };
 
     this.fitToViewPort = function() {
         var maxBackground = $('.widget_max_holder');
@@ -1052,26 +1064,26 @@ var WidgetMaximizeBehavior = function(widgetId) {
         this.visibleHeightIfWidgetExpanded = visibleHeight;
         this.visibleHeightIfWidgetCollasped = 40;
 
-         
+
         if (isExpanded) {
-           WidgetResizeFrame.height((this.visibleHeightIfWidgetExpanded - 40) + 'px');
+            WidgetResizeFrame.height((this.visibleHeightIfWidgetExpanded - 40) + 'px');
         }
         else {
-            WidgetResizeFrame.height(this.visibleHeightIfWidgetCollasped + 'px');//this is a mim hieght
+            WidgetResizeFrame.height(this.visibleHeightIfWidgetCollasped + 'px'); //this is a mim hieght
         }
-    }
+    };
 
     this.removeFloatingBehavior = function() {
         this.widget.addClass('nodrag')
                     .attr('onmouseover', "this.className='widget nodrag widget_hover'")
                     .attr('onmouseout', "this.className='widget nodrag'");
-    }
+    };
 
     this.addFloatingBehavior = function() {
         this.widget.removeClass('nodrag')
                     .attr("onmouseover", "this.className='widget widget_hover'")
                     .attr("onmouseout", "this.className='widget'");
-    }
+    };
 };
 var WidgetPermission =
 {

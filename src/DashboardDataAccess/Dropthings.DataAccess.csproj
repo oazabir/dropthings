@@ -113,7 +113,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>$(SolutionDir)..\Thirdparty\NArrange\narrange-console.exe $(SolutionPath)
+$(SolutionDir)..\Thirdparty\NArrange\narrange-console.exe $(SolutionDir)Dropthings\</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Dropthings.Widget.Framework
+﻿namespace Dropthings.Widget.Framework
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     public class EventBrokerService
     {
+        #region Fields
+
         public List<WeakReference> Subscribers = new List<WeakReference>();
+
+        #endregion Fields
+
+        #region Methods
 
         public void AddListener(IEventListener listerner)
         {
@@ -33,5 +39,7 @@ namespace Dropthings.Widget.Framework
                 }
             }
         }
+
+        #endregion Methods
     }
 }
