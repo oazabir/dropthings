@@ -313,6 +313,14 @@ namespace Dropthings.Business.Activities
 
     public class CallWorkflowService : WorkflowRuntimeService
     {
+        #region Fields
+
+        private EventHandler<WorkflowCompletedEventArgs> _CompletedHandler = null;
+        private EventHandler<WorkflowTerminatedEventArgs> _TerminatedHandler = null;
+        private Dictionary<Guid, WorkflowInfo> _WorkflowQueue = new Dictionary<Guid, WorkflowInfo>();
+
+        #endregion Fields
+
         #region Methods
 
         public void StartWorkflow(Type workflowType,Dictionary<string,object> inparms,Guid caller,IComparable qn)
@@ -322,36 +330,72 @@ namespace Dropthings.Business.Activities
             wi.Start();
 
             var instanceId = wi.InstanceId;
-            EventHandler<WorkflowCompletedEventArgs> d  = null;
-            d = delegate(object o, WorkflowCompletedEventArgs e)
-            {
-                if (e.WorkflowInstance.InstanceId == instanceId)
-                {
-                    wr.WorkflowCompleted -= d;
-                    WorkflowInstance c = wr.GetWorkflow(caller);
-                    c.EnqueueItem(qn, e.OutputParameters, null, null);
-                }
-            };
-
-            EventHandler<WorkflowTerminatedEventArgs> te = null;
-            te = delegate(object o, WorkflowTerminatedEventArgs e)
-            {
-                if (e.WorkflowInstance.InstanceId == instanceId)
-                {
-                    wr.WorkflowTerminated -= te;
-                    WorkflowInstance c = wr.GetWorkflow(caller);
-                    c.EnqueueItem(qn, new Exception("Called Workflow Terminated", e.Exception), null, null);
-                }
-            };
-
-            wr.WorkflowCompleted += d;
-            wr.WorkflowTerminated += te;
+            _WorkflowQueue[instanceId] = new WorkflowInfo { Caller = caller, qn = qn };
 
             ManualWorkflowSchedulerService ss = wr.GetService<ManualWorkflowSchedulerService>();
             if (ss != null)
                 ss.RunWorkflow(wi.InstanceId);
         }
 
+        protected override void OnStarted()
+        {
+            base.OnStarted();
+
+            if (null == _CompletedHandler)
+            {
+                _CompletedHandler = delegate(object o, WorkflowCompletedEventArgs e)
+                {
+                    var instanceId = e.WorkflowInstance.InstanceId;
+                    if (_WorkflowQueue.ContainsKey(instanceId))
+                    {
+                        WorkflowInfo wf = _WorkflowQueue[instanceId];
+                        WorkflowInstance c = this.Runtime.GetWorkflow(wf.Caller);
+                        c.EnqueueItem(wf.qn, e.OutputParameters, null, null);
+                        _WorkflowQueue.Remove(instanceId);
+                    }
+                };
+                this.Runtime.WorkflowCompleted += _CompletedHandler;
+            }
+
+            if (null == _TerminatedHandler)
+            {
+                _TerminatedHandler = delegate(object o, WorkflowTerminatedEventArgs e)
+                {
+                    var instanceId = e.WorkflowInstance.InstanceId;
+                    if (_WorkflowQueue.ContainsKey(instanceId))
+                    {
+                        WorkflowInfo wf = _WorkflowQueue[instanceId];
+                        WorkflowInstance c = this.Runtime.GetWorkflow(wf.Caller);
+                        c.EnqueueItem(wf.qn, new Exception("Called Workflow Terminated", e.Exception), null, null);
+                        _WorkflowQueue.Remove(instanceId);
+                    }
+                };
+
+                this.Runtime.WorkflowTerminated += _TerminatedHandler;
+            }
+        }
+
+        protected override void OnStopped()
+        {
+            _WorkflowQueue.Clear();
+
+            base.OnStopped();
+        }
+
         #endregion Methods
+
+        #region Nested Types
+
+        private struct WorkflowInfo
+        {
+            #region Fields
+
+            public Guid Caller;
+            public IComparable qn;
+
+            #endregion Fields
+        }
+
+        #endregion Nested Types
     }
 }
