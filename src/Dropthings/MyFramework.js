@@ -213,7 +213,7 @@ var DropthingsUI = {
             items: '.' + widgetClass + ':not(.nodrag)',
             //handle: '.widget_header',
             handle: '.' + handleClass,
-            cancel: 'a',
+            cancel: 'a, input',
             cursor: 'move',
             appendTo: 'body',
             connectWith: allZones,
