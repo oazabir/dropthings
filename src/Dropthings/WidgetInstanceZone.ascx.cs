@@ -124,8 +124,10 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         //        .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass) + "});", true);
 
         ScriptManager.RegisterStartupScript(this.WidgetHolderPanel, typeof(Panel), this.WidgetHolderPanel.ClientID + "_InitWidgets",
-                "$(document).ready(function() {" + " /*DropthingsUI.initWidgetActions('{0}', '{1}');*/ DropthingsUI.initDragDrop('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');"
-                .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass, WidgetHolderPanelTrigger.ClientID) + "});", true);
+                " jQuery(document).ready(function() {" + 
+                    "DropthingsUI.initDragDrop('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');"
+                        .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass, WidgetHolderPanelTrigger.ClientID) 
+                + "});", true);
 
         base.OnPreRender(e);
     }

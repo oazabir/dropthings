@@ -20,7 +20,7 @@
 <body>
 <form id="default_form" runat="server">
 
-<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Debug">
+<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Release">
     <Services>
         <asp:ServiceReference InlineScript="true" Path="PageService.asmx" />
         <asp:ServiceReference InlineScript="true" Path="ProxyAsync.asmx" />
@@ -171,7 +171,7 @@
 
 
 <script type="text/javascript">
-     $(document).ready(function() {
+     jQuery(document).ready(function() {
         DropthingsUI.init();
     });
 </script>
