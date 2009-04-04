@@ -72,6 +72,7 @@
     <Compile Include="Helper\SetupHelper.cs" />
     <Compile Include="Helper\WorkflowTest.cs" />
     <Compile Include="IntegrationTests\TestProfileProvider.cs" />
+    <Compile Include="IntegrationTests\TestVisit.cs" />
     <Compile Include="Plugin\AjaxRequestPlugin.cs" />
     <Compile Include="Plugin\ASPNETWebTestPlugin.cs" />
     <Compile Include="Plugin\AsyncPostbackRequestPlugin.cs" />
@@ -102,7 +103,9 @@
     <None Include="FirstAnonymousVisit.webtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">

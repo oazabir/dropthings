@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -19,6 +20,7 @@ public static class ExtensionFunctions
 {
     #region Methods
 
+    [DebuggerStepThrough]
     public static void Each<T>(this T[] array, Action<T, int> act)
     {
         int counter = 0;
@@ -26,6 +28,7 @@ public static class ExtensionFunctions
             act(item, counter++);
     }
 
+    [DebuggerStepThrough]
     public static void Each<T>(this IList<T> list, Action<T, int> act)
     {
         int counter = 0;
@@ -33,33 +36,39 @@ public static class ExtensionFunctions
             act(item, counter++);
     }
 
+    [DebuggerStepThrough]
     public static void Each<T>(this IList<T> list, Action<T> act)
     {
         foreach (T item in list)
             act(item);
     }
 
+    [DebuggerStepThrough]
     public static string FormatWith(this string s, params object[] args)
     {
         return string.Format(s, args);
     }
 
+    [DebuggerStepThrough]
     public static string Percent(this int value)
     {
         return value + "%";
     }
 
+    [DebuggerStepThrough]
     public static string Pixels(this int value)
     {
         return value + "px";
     }
 
+    [DebuggerStepThrough]
     public static void Times(this int count, Action<int> doSomething)
     {
         for (int i = 0; i < count; i++)
             doSomething(i);
     }
 
+    [DebuggerStepThrough]
     public static string Xml(this XElement e)
     {
         StringBuilder builder = new StringBuilder();

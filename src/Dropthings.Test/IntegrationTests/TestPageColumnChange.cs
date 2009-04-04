@@ -61,7 +61,7 @@
         #region Methods
 
         [TestMethod]
-        public void TestLayout_Change_Should_Move_Widgets_To_Last_Available_Column()
+        public void Layout_Change_Should_Move_Widgets_To_Last_Available_Column()
         {
             const int ColumnsBeforeChange = 3;
             const int ColumnsAfterChange = 2;

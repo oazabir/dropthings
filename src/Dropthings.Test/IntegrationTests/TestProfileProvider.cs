@@ -58,7 +58,7 @@
         #region Methods
 
         [TestMethod]
-        public void TestProfile_LastUpdate_Should_Change_Every_30_Mins()
+        public void Profile_LastUpdate_Should_Change_Every_30_Mins()
         {
             MembershipHelper.UsingNewAnonUser((profile) =>
             {

@@ -79,7 +79,7 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         this.WidgetHolderPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
         //this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
 
-        var response = RunWorkflow.Run<LoadWidgetInstancesInZoneWorkflow, LoadWidgetInstancesInZoneRequest, LoadWidgetInstancesInZoneResponse>(
+        var response = WorkflowHelper.Run<LoadWidgetInstancesInZoneWorkflow, LoadWidgetInstancesInZoneRequest, LoadWidgetInstancesInZoneResponse>(
                         new LoadWidgetInstancesInZoneRequest { WidgetZoneId = this.WidgetZoneId, UserName = this.UserName }
                     );
 

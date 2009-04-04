@@ -82,12 +82,12 @@ namespace Dropthings.Business.Activities
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
         {
-            this.NewColumn = DatabaseHelper.Insert<Column>(DatabaseHelper.SubsystemEnum.Column, (wi) =>
+            this.NewColumn = DatabaseHelper.Insert<Column>(DatabaseHelper.SubsystemEnum.Column, (col) =>
                 {
-                    wi.PageId = this.PageId;
-                    wi.WidgetZoneId = this.WidgetZoneId;
-                    wi.ColumnNo = this.ColumnToClone.ColumnNo;
-                    wi.ColumnWidth = this.ColumnToClone.ColumnWidth;
+                    col.PageId = this.PageId;
+                    col.WidgetZoneId = this.WidgetZoneId;
+                    col.ColumnNo = this.ColumnToClone.ColumnNo;
+                    col.ColumnWidth = this.ColumnToClone.ColumnWidth;
                });
 
             return ActivityExecutionStatus.Closed;

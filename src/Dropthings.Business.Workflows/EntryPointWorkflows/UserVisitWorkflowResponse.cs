@@ -26,11 +26,6 @@
             get; set;
         }
 
-        public List<WidgetInstance> WidgetInstances
-        {
-            get; set;
-        }
-
         #endregion Properties
     }
 }

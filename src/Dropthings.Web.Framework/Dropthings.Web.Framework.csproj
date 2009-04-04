@@ -70,7 +70,6 @@
     <Compile Include="ProxyAsync.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RunWorkflow.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="WebServiceBase.cs">
       <SubType>Component</SubType>

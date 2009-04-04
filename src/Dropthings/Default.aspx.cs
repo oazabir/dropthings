@@ -101,7 +101,7 @@ public partial class _Default : BasePage
 
     protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
     {
-        var response = RunWorkflow.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
+        var response = WorkflowHelper.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
                             new DeleteTabWorkflowRequest { PageID = _Setup.CurrentPage.ID, UserName = Profile.UserName }
                         );
 
@@ -154,24 +154,24 @@ public partial class _Default : BasePage
 
         if (!Page.IsPostBack)
             ScriptManager.RegisterStartupScript(this, typeof(Page), "OverrideIsScriptLoaded", @"
-                if(typeof(Sys)!=='undefined')             
-                {                
+                if(typeof(Sys)!=='undefined')
+                {
                     if(typeof(Sys._ScriptLoader) !== 'undefined')
-                    {                                    
-                        Sys._ScriptLoader.isScriptLoaded = function Sys$_ScriptLoader$isScriptLoaded(scriptSrc) 
-                        {                                                    
+                    {
+                        Sys._ScriptLoader.isScriptLoaded = function Sys$_ScriptLoader$isScriptLoaded(scriptSrc)
+                        {
                             var dummyScript = document.createElement('script');
                             dummyScript.src = scriptSrc;
                             var fullUrl = dummyScript.src;
                             var result = Array.contains(Sys._ScriptLoader._getLoadedScripts(), fullUrl);
                             if (result === true) return true;
                             result = Array.contains(window._combinedScripts, fullUrl);
-                            if (result === true) return true;                            
+                            if (result === true) return true;
                             var scriptTags = document.getElementsByTagName('script');
                             for(var i = 0; i < scriptTags.length; i ++ ) if (scriptTags[i].src == fullUrl) return true;
                             return false;
                         }
-                    }                    
+                    }
                 }", true);
     }
 
@@ -185,7 +185,7 @@ public partial class _Default : BasePage
 
         if (newTitle != _Setup.CurrentPage.Title)
         {
-            var response = RunWorkflow.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
+            var response = WorkflowHelper.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
                             new ChangeTabNameWorkflowRequest { PageName = newTitle, UserName = Profile.UserName }
                         );
 
@@ -234,26 +234,27 @@ public partial class _Default : BasePage
                     Profile.IsFirstVisit = false;
                     Profile.Save();
 
-                    _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                        new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName });
+                    //_Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                    //    new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName });
+                    _Setup = new DashboardFacade(Profile.UserName).SetupNewUser(Profile.UserName);
 
                 }
                 else
                 {
-                    _Setup = RunWorkflow.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                    _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
                         new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = true });
                 }
             }
             else
             {
-                _Setup = RunWorkflow.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
                     new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = false });
 
                 // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
                 // to recrate the pages
                 if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
                 {
-                    _Setup = RunWorkflow.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+                    _Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
                         new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName, IsAnonymous = false });
                 }
             }

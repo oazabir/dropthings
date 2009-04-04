@@ -8,6 +8,7 @@
 
     using Dropthings.Business.Container;
     using Dropthings.Business.Workflows;
+using System.Diagnostics;
 
     internal class WorkflowTest
     {
@@ -49,6 +50,7 @@
                 request);
         }
 
+        [DebuggerStepThrough]
         public static void UsingWorkflowRuntime(Action callback)
         {
             Init();

@@ -138,8 +138,8 @@
           <RequestPlugins>
             <RequestPlugin Classname="Dropthings.Test.Plugin.AsyncPostbackRequestPlugin, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="AsyncPostbackRequestPlugin" Description="">
               <RuleParameters>
-                <RuleParameter Name="ControlName" Value="{{$POSTBACK.EditWidget.2}}" />
-                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.WidgetHeaderUpdatePanel.2}}" />
+                <RuleParameter Name="ControlName" Value="{{$POSTBACK.EditWidget.1}}" />
+                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.WidgetHeaderUpdatePanel.1}}" />
               </RuleParameters>
             </RequestPlugin>
           </RequestPlugins>
@@ -160,7 +160,7 @@
             <RequestPlugin Classname="Dropthings.Test.Plugin.AsyncPostbackRequestPlugin, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="AsyncPostbackRequestPlugin" Description="">
               <RuleParameters>
                 <RuleParameter Name="ControlName" Value="{{$POSTBACK.CancelEditWidget.1}}" />
-                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.WidgetHeaderUpdatePanel.2}}" />
+                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.WidgetHeaderUpdatePanel.1}}" />
               </RuleParameters>
             </RequestPlugin>
           </RequestPlugins>
@@ -184,8 +184,8 @@
           <RequestPlugins>
             <RequestPlugin Classname="Dropthings.Test.Plugin.AsyncPostbackRequestPlugin, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="AsyncPostbackRequestPlugin" Description="">
               <RuleParameters>
-                <RuleParameter Name="ControlName" Value="{{$POSTBACK.CloseWidget.2}}" />
-                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.WidgetHeaderUpdatePanel.2}}" />
+                <RuleParameter Name="ControlName" Value="{{$POSTBACK.CloseWidget.1}}" />
+                <RuleParameter Name="UpdatePanelName" Value="{{$UPDATEPANEL.WidgetHeaderUpdatePanel.1}}" />
               </RuleParameters>
             </RequestPlugin>
           </RequestPlugins>

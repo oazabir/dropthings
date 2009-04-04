@@ -24,11 +24,6 @@
             get; set;
         }
 
-        List<WidgetInstance> WidgetInstances
-        {
-            get; set;
-        }
-
         #endregion Properties
     }
 }
