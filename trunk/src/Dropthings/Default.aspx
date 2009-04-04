@@ -20,7 +20,7 @@
 <body>
 <form id="default_form" runat="server">
 
-<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Debug" LoadScriptsBeforeUI="true">
+<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Debug">
     <Services>
         <asp:ServiceReference InlineScript="true" Path="PageService.asmx" />
         <asp:ServiceReference InlineScript="true" Path="ProxyAsync.asmx" />
