@@ -20,25 +20,21 @@
 <body>
 <form id="default_form" runat="server">
 
-<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Debug">
+<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Debug" LoadScriptsBeforeUI="true">
     <Services>
         <asp:ServiceReference InlineScript="true" Path="PageService.asmx" />
         <asp:ServiceReference InlineScript="true" Path="ProxyAsync.asmx" />
         <asp:ServiceReference InlineScript="true" Path="WidgetService.asmx" />
     </Services>
     <Scripts>
-        <asp:ScriptReference Path="~/Scripts/jquery-1.2.6.min.js" />
+        <asp:ScriptReference Path="~/Scripts/jquery-1.3.2.min.js" />
+        <asp:ScriptReference Path="~/Scripts/jquery-ui-1.7.1.custom.min.js" />
         <asp:ScriptReference Path="~/Scripts/jquery.micro_template.js" />
-        <asp:ScriptReference Path="~/Scripts/ui.core.js" />
-        <asp:ScriptReference Path="~/Scripts/ui.draggable.js" />
-        <asp:ScriptReference Path="~/Scripts/ui.droppable.js" />
-        <asp:ScriptReference Path="~/Scripts/ui.resizable.js" />
-        <asp:ScriptReference Path="~/Scripts/ui.sortable.js" />
         <asp:ScriptReference Path="~/Scripts/tabscroll.js" />
+        <asp:ScriptReference Path="~/Myframework.js" />
     </Scripts>    
 </asp:ScriptManager>
 
-<script src="Myframework.js" type="text/javascript"></script> 
 <script type="text/javascript">if( typeof Proxy == "undefined" ) window.Proxy = Dropthings.Web.Framework.ProxyAsync;</script>
 
     <div id="container">

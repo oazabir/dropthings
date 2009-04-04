@@ -5,6 +5,7 @@
  * Requires jQuery 1.1.3+
  * Docs: http://ejohn.org/blog/javascript-micro-templating/
  */
+;(function($) {
 
 $.fn.drink = function(json)
              {if (!(arguments.callee.name_class = this[0].className))
@@ -34,3 +35,5 @@ $.fn.drink = function(json)
               this.html(window[name_tpl_fun_cache](json));
               arguments[1] || this.show();
              };
+
+})(jQuery);
