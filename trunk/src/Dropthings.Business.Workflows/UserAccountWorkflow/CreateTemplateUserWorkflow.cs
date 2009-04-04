@@ -19,11 +19,11 @@
         #region Fields
 
         // Using a DependencyProperty as the backing store for Request.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RequestProperty = 
+        public static readonly DependencyProperty RequestProperty =
             DependencyProperty.Register("Request", typeof(CreateTemplateUserWorkflowRequest), typeof(CreateTemplateUserWorkflow));
 
         // Using a DependencyProperty as the backing store for Response.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ResponseProperty = 
+        public static readonly DependencyProperty ResponseProperty =
             DependencyProperty.Register("Response", typeof(CreateTemplateUserWorkflowResponse), typeof(CreateTemplateUserWorkflow));
 
         #endregion Fields

@@ -3,6 +3,22 @@
 /// <reference name="MicrosoftAjax.debug.js" />
 /// <reference name="MicrosoftAjaxTimer.debug.js" />
 /// <reference name="MicrosoftAjaxWebForms.debug.js" />
+
+var is = {
+    types : ["Array","RegExp","Date","Number","String","Object","HTMLDocument"]
+};
+
+for(var i=0,c;c=is.types[i++];)
+{
+    is[c] = (function(type)
+    {
+        return function(obj)
+        {
+            return Object.prototype.toString.call(obj) == "[object "+type+"]";
+        }
+    })(c);
+}
+
 var DropthingsUI = {
     _LastMaximizedWidget: null,
     Attributes: {
@@ -24,13 +40,16 @@ var DropthingsUI = {
         $('#tab_container').scrollable();
     },
     setWidgetDef: function(id, expanded, maximized, resized, width, height, zoneId) {
-        DropthingsUI.WidgetDefs[id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
+        DropthingsUI.WidgetDefs["" + id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
+    },
+    getWidgetDef: function(id) {
+        return DropthingsUI.WidgetDefs["" + id];
     },
     setActionOnWidget: function(widgetId) {
         var nohref = "javascript:void(0);";
         var widget = $('#' + widgetId);
         var widgetInstanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
-        var widgetDef = DropthingsUI.WidgetDefs[widgetInstanceId];
+        var widgetDef = DropthingsUI.getWidgetDef(widgetInstanceId);
         //var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
 
         //Widget Title
@@ -164,17 +183,17 @@ var DropthingsUI = {
             });
 
     },
-//    initWidgetActions: function(zoneDivId, widgetClass) {
+    //    initWidgetActions: function(zoneDivId, widgetClass) {
 
-//        //var widgets = $('.widget', '#' + zoneDivId);
-//        var widgets = $('.' + widgetClass, '#' + zoneDivId);
+    //        //var widgets = $('.widget', '#' + zoneDivId);
+    //        var widgets = $('.' + widgetClass, '#' + zoneDivId);
 
-//        widgets.each(function() {
-//            var widget = $(this);
-//            var widgetId = widget.attr('id');
-//            DropthingsUI.setActionOnWidget(widgetId);
-//        });
-//    },
+    //        widgets.each(function() {
+    //            var widget = $(this);
+    //            var widgetId = widget.attr('id');
+    //            DropthingsUI.setActionOnWidget(widgetId);
+    //        });
+    //    },
     //    refreshSortable: function(zoneId) {
     //        var zone = $('#' + zoneId);
     //        zone.sortable('refresh');
@@ -194,9 +213,13 @@ var DropthingsUI = {
             items: '.' + widgetClass + ':not(.nodrag)',
             //handle: '.widget_header',
             handle: '.' + handleClass,
+            cancel: 'a',
             cursor: 'move',
             appendTo: 'body',
             connectWith: allZones,
+            opacity: 0.8,
+            revert: true,
+            //tolerance: 'pointer',
             placeholder: 'placeholder',
             start: function(e, ui) {
                 ui.helper.css("width", ui.item.parent().outerWidth());
@@ -271,7 +294,7 @@ var DropthingsUI = {
                 resize: function(e, ui) {
                     if (!ui.options.handles['w'] && !ui.options.handles['e']) {
                         var widget = ui.element.parent().parent();
-                        var widgetDef = DropthingsUI.WidgetDefs[widget.attr(DropthingsUI.Attributes.INSTANCE_ID)];
+                        var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
                         widgetDef.expanded = false;
                         if (!widgetDef.maximized) {
                             //$('#widgetMaxBackground').css({'height':$('#widgetMaxBackground').height() + (ui.element.height() - ui.originalSize.height) });
@@ -283,7 +306,7 @@ var DropthingsUI = {
                 },
                 stop: function(e, ui) {
                     var widget = ui.element.parent().parent();
-                    var widgetDef = DropthingsUI.WidgetDefs[widget.attr(DropthingsUI.Attributes.INSTANCE_ID)];
+                    var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
                     widgetDef.expanded = false;
                     if (!widgetDef.maximized) {
                         DropthingsUI.Actions.resizeWidget(widget, ui.element.height());
@@ -363,7 +386,7 @@ var DropthingsUI = {
             //widget.attr(DropthingsUI.Attributes.MAXIMIZED, 'true');
 
             //if collaspe then expand it
-            var widgetDef = DropthingsUI.WidgetDefs[widget.attr(DropthingsUI.Attributes.INSTANCE_ID)];
+            var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             widgetDef.maximized = true;
             if (!widgetDef.expanded) {
                 widget.find('.widget_expand').click();
@@ -397,7 +420,7 @@ var DropthingsUI = {
             //widget.attr(DropthingsUI.Attributes.EXPANDED, 'false');
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
-            var widgetDef = DropthingsUI.WidgetDefs[instanceId];
+            var widgetDef = DropthingsUI.getWidgetDef(instanceId);
             widgetDef.expanded = false;
             Dropthings.Web.Framework.WidgetService.CollaspeWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onCollaspeWidgetComplete);
 
@@ -416,7 +439,7 @@ var DropthingsUI = {
             var widget = $('#' + widgetId);
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
-            var widgetDef = DropthingsUI.WidgetDefs[instanceId];
+            var widgetDef = DropthingsUI.getWidgetDef(instanceId);
             widgetDef.expanded = true;
             Dropthings.Web.Framework.WidgetService.ExpandWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onExpandWidgetComplete);
 
@@ -433,7 +456,7 @@ var DropthingsUI = {
 
         resizeWidget: function(widget, resizeHeight) {
             var instanceId = parseInt(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-            var widgetDef = DropthingsUI.WidgetDefs[instanceId];
+            var widgetDef = DropthingsUI.getWidgetDef(instanceId);
 
             if (!widgetDef.maximized) {
                 Dropthings.Web.Framework.WidgetService.ResizeWidgetInstance(instanceId, 0, resizeHeight);
@@ -1026,7 +1049,7 @@ var WidgetMaximizeBehavior = function(widgetId) {
         this.addFloatingBehavior();
         $('.widget_max_holder').css({ display: 'none', height: 'auto' });
 
-        var widgetDef = DropthingsUI.WidgetDefs[this.instanceId];
+        var widgetDef = DropthingsUI.getWidgetDef(this.instanceId);
         var height = widgetDef.resized ? widgetDef.height + 'px' : 'auto';
         this.widget.css({ left: 'auto', top: 'auto', position: 'static' })
                     .removeClass('widget_max_content');
@@ -1058,14 +1081,14 @@ var WidgetMaximizeBehavior = function(widgetId) {
             top: maxBackground.offset().top
         }).addClass('widget_max_content');
 
-        var isExpanded = Boolean.parse(this.widget.attr(DropthingsUI.Attributes.EXPANDED));
+        var widgetDef = DropthingsUI.getWidgetDef(this.widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
+        
         var WidgetResizeFrame = this.widget.find('.widget_resize_frame');
 
         this.visibleHeightIfWidgetExpanded = visibleHeight;
         this.visibleHeightIfWidgetCollasped = 40;
 
-
-        if (isExpanded) {
+        if (widgetDef.expanded) {
             WidgetResizeFrame.height((this.visibleHeightIfWidgetExpanded - 40) + 'px');
         }
         else {

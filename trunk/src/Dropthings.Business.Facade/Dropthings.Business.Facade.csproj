@@ -100,6 +100,14 @@
       <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
       <Name>Dropthings.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Activities\Dropthings.Business.Activities.csproj">
+      <Project>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</Project>
+      <Name>Dropthings.Business.Activities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj">
+      <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
+      <Name>Dropthings.Business.Workflows</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows Workflow Foundation\v3.5\Workflow.Targets" />

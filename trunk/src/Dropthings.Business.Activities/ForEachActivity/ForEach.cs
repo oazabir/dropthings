@@ -42,6 +42,8 @@ namespace ForEachActivity
 
         private static readonly DependencyProperty EnumeratorProperty = DependencyProperty.Register("Enumerator", typeof(IEnumerator), typeof(ForEach));
 
+        private Activity _DynamicActivity = null;
+
         #endregion Fields
 
         #region Constructors
@@ -88,6 +90,10 @@ namespace ForEachActivity
                 if (this.DesignMode)
                     return null;
 
+                // OMAR: Hack to return the dynamic activity if it was set specifically
+                if (null != this._DynamicActivity)
+                    return this._DynamicActivity;
+
                 if (this.EnabledActivities.Count > 0)
                 {
                     Activity[] dynamicChildren = this.GetDynamicActivities(this.EnabledActivities[0]);
@@ -95,6 +101,11 @@ namespace ForEachActivity
                         return dynamicChildren[0];
                 }
                 return null;
+            }
+            set
+            {
+                // OMAR: Hack to store the dynamic activity from fast workflow runner
+                this._DynamicActivity = value;
             }
         }
 
@@ -141,6 +152,15 @@ namespace ForEachActivity
         #endregion Properties
 
         #region Methods
+
+        public void RaiseEvent()
+        {
+            EventHandler[] invocationList = this.GetInvocationList<EventHandler>(IteratingEvent);
+            foreach (EventHandler handler in invocationList)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
 
         /// <summary>
         ///	This override function cancels the execution of the child activity if cancel is called

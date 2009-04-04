@@ -33,31 +33,24 @@ namespace Dropthings.Business.Workflows.EntryPointWorkflows
             System.Workflow.ComponentModel.WorkflowParameterBinding workflowparameterbinding1 = new System.Workflow.ComponentModel.WorkflowParameterBinding();
             System.Workflow.ComponentModel.ActivityBind activitybind2 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.WorkflowParameterBinding workflowparameterbinding2 = new System.Workflow.ComponentModel.WorkflowParameterBinding();
+            System.Workflow.ComponentModel.ActivityBind activitybind3 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference1 = new System.Workflow.Activities.Rules.RuleConditionReference();
             System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference2 = new System.Workflow.Activities.Rules.RuleConditionReference();
-            System.Workflow.ComponentModel.ActivityBind activitybind3 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.ActivityBind activitybind4 = new System.Workflow.ComponentModel.ActivityBind();
-            System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference3 = new System.Workflow.Activities.Rules.RuleConditionReference();
-            System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference4 = new System.Workflow.Activities.Rules.RuleConditionReference();
             System.Workflow.ComponentModel.ActivityBind activitybind5 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.WorkflowParameterBinding workflowparameterbinding3 = new System.Workflow.ComponentModel.WorkflowParameterBinding();
             System.Workflow.ComponentModel.ActivityBind activitybind6 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.WorkflowParameterBinding workflowparameterbinding4 = new System.Workflow.ComponentModel.WorkflowParameterBinding();
             System.Workflow.ComponentModel.ActivityBind activitybind7 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.WorkflowParameterBinding workflowparameterbinding5 = new System.Workflow.ComponentModel.WorkflowParameterBinding();
-            System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference5 = new System.Workflow.Activities.Rules.RuleConditionReference();
-            System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference6 = new System.Workflow.Activities.Rules.RuleConditionReference();
+            System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference3 = new System.Workflow.Activities.Rules.RuleConditionReference();
+            System.Workflow.Activities.Rules.RuleConditionReference ruleconditionreference4 = new System.Workflow.Activities.Rules.RuleConditionReference();
             System.Workflow.ComponentModel.ActivityBind activitybind8 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.ActivityBind activitybind9 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.ActivityBind activitybind10 = new System.Workflow.ComponentModel.ActivityBind();
             System.Workflow.ComponentModel.ActivityBind activitybind11 = new System.Workflow.ComponentModel.ActivityBind();
-            this.SetException2 = new System.Workflow.Activities.CodeActivity();
-            this.CallLoadUserVisitWorkflow = new Dropthings.Business.Activities.CallWorkflowActivity();
-            this.SecondPageFailed = new System.Workflow.Activities.IfElseBranchActivity();
-            this.IfSecondPageCreated = new System.Workflow.Activities.IfElseBranchActivity();
             this.SetException = new System.Workflow.Activities.CodeActivity();
-            this.SecondPageCheck = new System.Workflow.Activities.IfElseActivity();
-            this.CreateSecondPage = new Dropthings.Business.Activities.CreateNewPageActivity();
+            this.CallLoadUserVisitWorkflow = new Dropthings.Business.Activities.CallWorkflowActivity();
             this.CreateDefaultWidgets = new Dropthings.Business.Activities.CreateDeafultWidgetsOnPageActivity();
             this.FirstPageFailed = new System.Workflow.Activities.IfElseBranchActivity();
             this.IfCreated = new System.Workflow.Activities.IfElseBranchActivity();
@@ -71,10 +64,10 @@ namespace Dropthings.Business.Workflows.EntryPointWorkflows
             this.GetUserSettingTemplates = new Dropthings.Business.Activities.GetUserSettingTemplatesActivity();
             this.GetUserGUID = new Dropthings.Business.Activities.GetUserGuidActivity();
             // 
-            // SetException2
+            // SetException
             // 
-            this.SetException2.Name = "SetException2";
-            this.SetException2.ExecuteCode += new System.EventHandler(this.SetException_ExecuteCode);
+            this.SetException.Name = "SetException";
+            this.SetException.ExecuteCode += new System.EventHandler(this.SetException_ExecuteCode);
             // 
             // CallLoadUserVisitWorkflow
             // 
@@ -91,64 +84,27 @@ namespace Dropthings.Business.Workflows.EntryPointWorkflows
             this.CallLoadUserVisitWorkflow.Parameters.Add(workflowparameterbinding2);
             this.CallLoadUserVisitWorkflow.Type = typeof(Dropthings.Business.Workflows.EntryPointWorkflows.UserVisitWorkflow);
             // 
-            // SecondPageFailed
-            // 
-            this.SecondPageFailed.Activities.Add(this.SetException2);
-            ruleconditionreference1.ConditionName = "SecondPageIDZeroOrLess";
-            this.SecondPageFailed.Condition = ruleconditionreference1;
-            this.SecondPageFailed.Name = "SecondPageFailed";
-            // 
-            // IfSecondPageCreated
-            // 
-            this.IfSecondPageCreated.Activities.Add(this.CallLoadUserVisitWorkflow);
-            ruleconditionreference2.ConditionName = "SecondPageIDNonZero";
-            this.IfSecondPageCreated.Condition = ruleconditionreference2;
-            this.IfSecondPageCreated.Name = "IfSecondPageCreated";
-            // 
-            // SetException
-            // 
-            this.SetException.Name = "SetException";
-            this.SetException.ExecuteCode += new System.EventHandler(this.SetException_ExecuteCode);
-            // 
-            // SecondPageCheck
-            // 
-            this.SecondPageCheck.Activities.Add(this.IfSecondPageCreated);
-            this.SecondPageCheck.Activities.Add(this.SecondPageFailed);
-            this.SecondPageCheck.Name = "SecondPageCheck";
-            // 
-            // CreateSecondPage
-            // 
-            this.CreateSecondPage.LayoutType = null;
-            this.CreateSecondPage.Name = "CreateSecondPage";
-            this.CreateSecondPage.NewPage = null;
-            this.CreateSecondPage.NewPageId = 0;
-            this.CreateSecondPage.Title = "Second Page";
-            activitybind3.Name = "GetUserGUID";
-            activitybind3.Path = "UserGuid";
-            this.CreateSecondPage.SetBinding(System.Workflow.ComponentModel.DependencyProperty.FromName("UserId", typeof(Dropthings.Business.Activities.CreateNewPageActivity)), ((System.Workflow.ComponentModel.ActivityBind)(activitybind3)));
-            // 
             // CreateDefaultWidgets
             // 
             this.CreateDefaultWidgets.Name = "CreateDefaultWidgets";
-            activitybind4.Name = "CreateFirstTab";
-            activitybind4.Path = "NewPageId";
+            activitybind3.Name = "CreateFirstTab";
+            activitybind3.Path = "NewPageId";
             this.CreateDefaultWidgets.UserName = null;
-            this.CreateDefaultWidgets.SetBinding(Dropthings.Business.Activities.CreateDeafultWidgetsOnPageActivity.PageIdProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind4)));
+            this.CreateDefaultWidgets.SetBinding(Dropthings.Business.Activities.CreateDeafultWidgetsOnPageActivity.PageIdProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind3)));
             // 
             // FirstPageFailed
             // 
             this.FirstPageFailed.Activities.Add(this.SetException);
-            ruleconditionreference3.ConditionName = "FirstPageIDZeroOrLess";
-            this.FirstPageFailed.Condition = ruleconditionreference3;
+            ruleconditionreference1.ConditionName = "FirstPageIDZeroOrLess";
+            this.FirstPageFailed.Condition = ruleconditionreference1;
             this.FirstPageFailed.Name = "FirstPageFailed";
             // 
             // IfCreated
             // 
             this.IfCreated.Activities.Add(this.CreateDefaultWidgets);
-            this.IfCreated.Activities.Add(this.CreateSecondPage);
-            this.IfCreated.Activities.Add(this.SecondPageCheck);
-            ruleconditionreference4.ConditionName = "FirstPageIDNonZero";
-            this.IfCreated.Condition = ruleconditionreference4;
+            this.IfCreated.Activities.Add(this.CallLoadUserVisitWorkflow);
+            ruleconditionreference2.ConditionName = "FirstPageIDNonZero";
+            this.IfCreated.Condition = ruleconditionreference2;
             this.IfCreated.Name = "IfCreated";
             // 
             // FirstPageCreateCheck
@@ -165,15 +121,17 @@ namespace Dropthings.Business.Workflows.EntryPointWorkflows
             this.CreateFirstTab.NewPage = null;
             this.CreateFirstTab.NewPageId = 0;
             this.CreateFirstTab.Title = "First Page";
-            activitybind5.Name = "GetUserGUID";
-            activitybind5.Path = "UserGuid";
-            this.CreateFirstTab.SetBinding(System.Workflow.ComponentModel.DependencyProperty.FromName("UserId", typeof(Dropthings.Business.Activities.CreateNewPageActivity)), ((System.Workflow.ComponentModel.ActivityBind)(activitybind5)));
+            activitybind4.Name = "GetUserGUID";
+            activitybind4.Path = "UserGuid";
+            this.CreateFirstTab.SetBinding(System.Workflow.ComponentModel.DependencyProperty.FromName("UserId", typeof(Dropthings.Business.Activities.CreateNewPageActivity)), ((System.Workflow.ComponentModel.ActivityBind)(activitybind4)));
             // 
             // CallCloneUserFromTemplateWorkflow
             // 
             this.CallCloneUserFromTemplateWorkflow.Name = "CallCloneUserFromTemplateWorkflow";
+            activitybind5.Name = "FirstVisitWorkflow";
+            activitybind5.Path = "Request.UserName";
             workflowparameterbinding3.ParameterName = "CloneWithUserName";
-            workflowparameterbinding3.Value = "";
+            workflowparameterbinding3.SetBinding(System.Workflow.ComponentModel.WorkflowParameterBinding.ValueProperty, ((System.Workflow.ComponentModel.ActivityBind)(activitybind5)));
             activitybind6.Name = "FirstVisitWorkflow";
             activitybind6.Path = "Request";
             workflowparameterbinding4.ParameterName = "Request";
@@ -191,15 +149,15 @@ namespace Dropthings.Business.Workflows.EntryPointWorkflows
             // 
             this.IfSettingTemplateDisable.Activities.Add(this.CreateFirstTab);
             this.IfSettingTemplateDisable.Activities.Add(this.FirstPageCreateCheck);
-            ruleconditionreference5.ConditionName = "CloneAnonProfileDisabled";
-            this.IfSettingTemplateDisable.Condition = ruleconditionreference5;
+            ruleconditionreference3.ConditionName = "CloneAnonProfileDisabled";
+            this.IfSettingTemplateDisable.Condition = ruleconditionreference3;
             this.IfSettingTemplateDisable.Name = "IfSettingTemplateDisable";
             // 
             // IfCloneAnonProfileEnabled
             // 
             this.IfCloneAnonProfileEnabled.Activities.Add(this.CallCloneUserFromTemplateWorkflow);
-            ruleconditionreference6.ConditionName = "CloneAnonProfileEnabled";
-            this.IfCloneAnonProfileEnabled.Condition = ruleconditionreference6;
+            ruleconditionreference4.ConditionName = "CloneAnonProfileEnabled";
+            this.IfCloneAnonProfileEnabled.Condition = ruleconditionreference4;
             this.IfCloneAnonProfileEnabled.Name = "IfCloneAnonProfileEnabled";
             // 
             // CheckIfCloneAnonProfileEnabled
@@ -263,14 +221,12 @@ namespace Dropthings.Business.Workflows.EntryPointWorkflows
         private IfElseBranchActivity FirstPageFailed;
         private IfElseBranchActivity IfCreated;
         private IfElseActivity FirstPageCreateCheck;
-        private Dropthings.Business.Activities.CreateNewPageActivity CreateSecondPage;
-        private IfElseBranchActivity SecondPageFailed;
-        private IfElseBranchActivity IfSecondPageCreated;
-        private IfElseActivity SecondPageCheck;
-        private CodeActivity SetException2;
         private CodeActivity SetException;
         private Dropthings.Business.Activities.CreateNewPageActivity CreateFirstTab;
         private Dropthings.Business.Activities.GetUserGuidActivity GetUserGUID;
+
+
+
 
 
 

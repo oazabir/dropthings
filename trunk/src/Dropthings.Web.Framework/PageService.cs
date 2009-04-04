@@ -47,7 +47,7 @@ namespace Dropthings.Web.Framework
         {
             //new Dropthings.Business.DashboardFacade(Profile.UserName).ChangeCurrentTab(pageId);
 
-            RunWorkflow.Run<ChangeTabWorkflow, ChangeTabWorkflowRequest, ChangeTabWorkflowResponse>(
+            WorkflowHelper.Run<ChangeTabWorkflow, ChangeTabWorkflowRequest, ChangeTabWorkflowResponse>(
                 new ChangeTabWorkflowRequest { PageID = pageId, UserName = Profile.UserName }
             );
         }
@@ -56,7 +56,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void ChangePageLayout(int newLayout)
         {
-            RunWorkflow.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
+            WorkflowHelper.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
                     new ModifyTabLayoutWorkflowRequest { UserName = Profile.UserName, LayoutType = newLayout }
                     );
         }
@@ -65,7 +65,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public string DeletePage(int PageID)
         {
-            var response = RunWorkflow.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
+            var response = WorkflowHelper.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
                 new DeleteTabWorkflowRequest { PageID = PageID, UserName = Profile.UserName }
             );
 
@@ -80,7 +80,7 @@ namespace Dropthings.Web.Framework
             //var newPage = new DashboardFacade(Profile.UserName).AddNewPage(newLayout);
             //return newPage.TabName();
 
-            var response = RunWorkflow.Run<AddNewTabWorkflow, AddNewTabWorkflowRequest, AddNewTabWorkflowResponse>(
+            var response = WorkflowHelper.Run<AddNewTabWorkflow, AddNewTabWorkflowRequest, AddNewTabWorkflowResponse>(
                 new AddNewTabWorkflowRequest { LayoutType = newLayout, UserName = Profile.UserName }
             );
 
@@ -91,7 +91,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void RenamePage(string newName)
         {
-            RunWorkflow.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
+            WorkflowHelper.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
                 new ChangeTabNameWorkflowRequest { IsAnonymous = Profile.IsAnonymous, PageName = newName, UserName = Profile.UserName }
             );
         }

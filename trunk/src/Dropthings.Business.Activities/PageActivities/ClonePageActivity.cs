@@ -75,15 +75,16 @@ namespace Dropthings.Business.Activities
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
         {
-            this.NewPage = DatabaseHelper.Insert<Page>(DatabaseHelper.SubsystemEnum.Page, (wi) =>
+            this.NewPage = DatabaseHelper.Insert<Page>(DatabaseHelper.SubsystemEnum.Page, (page) =>
                 {
-                    wi.CreatedDate = DateTime.Now;
-                    wi.Title = this.PageToClone.Title;
-                    wi.UserId = this.UserId;
-                    wi.LastUpdated = this.PageToClone.LastUpdated;
-                    wi.VersionNo = this.PageToClone.VersionNo;
-                    wi.LayoutType = this.PageToClone.LayoutType;
-                    wi.PageType = this.PageToClone.PageType;
+                    page.CreatedDate = DateTime.Now;
+                    page.Title = this.PageToClone.Title;
+                    page.UserId = this.UserId;
+                    page.LastUpdated = this.PageToClone.LastUpdated;
+                    page.VersionNo = this.PageToClone.VersionNo;
+                    page.LayoutType = this.PageToClone.LayoutType;
+                    page.PageType = this.PageToClone.PageType;
+                    page.ColumnCount = this.PageToClone.ColumnCount;
 
                });
 

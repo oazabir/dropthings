@@ -47,7 +47,7 @@ namespace Dropthings.Web.Framework
         {
             //WidgetInstance widget = new DashboardFacade(Profile.UserName).AddWidget(widgetId, 0, toRow, toZone);
 
-            var response = RunWorkflow.Run<AddWidgetWorkflow, AddWidgetRequest, AddWidgetResponse>(
+            var response = WorkflowHelper.Run<AddWidgetWorkflow, AddWidgetRequest, AddWidgetResponse>(
                 new AddWidgetRequest { WidgetId = widgetId, RowNo = toRow, ColumnNo = 0, ZoneId = toZone, UserName = Profile.UserName } );
 
             Context.Cache.Remove(Profile.UserName);
@@ -57,7 +57,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void AssignPermission(string widgetPermissions)
         {
-            RunWorkflow.Run<AssignWidgetPermissionWorkflow, AssignWidgetPermissionRequest, AssignWidgetPermissionResponse>(
+            WorkflowHelper.Run<AssignWidgetPermissionWorkflow, AssignWidgetPermissionRequest, AssignWidgetPermissionResponse>(
                     new AssignWidgetPermissionRequest { WidgetPermissions = widgetPermissions, UserName = Profile.UserName }
                 );
         }
@@ -66,7 +66,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void ChangePageLayout(int newLayout)
         {
-            RunWorkflow.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
+            WorkflowHelper.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
                 new ModifyTabLayoutWorkflowRequest{ LayoutType = newLayout, UserName = Profile.UserName }
             );
         }
@@ -75,7 +75,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void ChangeWidgetTitle(int widgetId, string newTitle)
         {
-            RunWorkflow.Run<ChangeWidgetInstanceTitleWorkflow, ChangeWidgetInstanceTitleWorkflowRequest, ChangeWidgetInstanceTitleWorkflowResponse>(
+            WorkflowHelper.Run<ChangeWidgetInstanceTitleWorkflow, ChangeWidgetInstanceTitleWorkflowRequest, ChangeWidgetInstanceTitleWorkflowResponse>(
                 new ChangeWidgetInstanceTitleWorkflowRequest { WidgetInstanceId = widgetId, UserName = Profile.UserName, NewTitle = newTitle }
             );
         }
@@ -86,7 +86,7 @@ namespace Dropthings.Web.Framework
         {
             //new DashboardFacade(Profile.UserName).ExpanCollaspeWidgetInstance(widgetId, false);
 
-            RunWorkflow.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
+            WorkflowHelper.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
                     new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = widgetId, IsExpand = false }
                 );
 
@@ -99,7 +99,7 @@ namespace Dropthings.Web.Framework
         {
             //new DashboardFacade(Profile.UserName).DeleteWidgetInstance(widgetId);
 
-            RunWorkflow.Run<DeleteWidgetInstanceWorkflow, DeleteWidgetInstanceWorkflowRequest, DeleteWidgetInstanceWorkflowResponse>(
+            WorkflowHelper.Run<DeleteWidgetInstanceWorkflow, DeleteWidgetInstanceWorkflowRequest, DeleteWidgetInstanceWorkflowResponse>(
                     new DeleteWidgetInstanceWorkflowRequest { WidgetInstanceId = widgetId, UserName = Profile.UserName }
                 );
 
@@ -112,7 +112,7 @@ namespace Dropthings.Web.Framework
         {
             //new DashboardFacade(Profile.UserName).ExpanCollaspeWidgetInstance(widgetId, true);
 
-            RunWorkflow.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
+            WorkflowHelper.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
                     new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = widgetId, IsExpand = true }
                 );
 
@@ -124,7 +124,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = true, XmlSerializeString = true)]
         public string GetWidgetState(int widgetId)
         {
-            var response = RunWorkflow.Run<GetWidgetInstanceStateWorkflow, GetWidgetInstanceStateRequest, GetWidgetInstanceStateResponse>(
+            var response = WorkflowHelper.Run<GetWidgetInstanceStateWorkflow, GetWidgetInstanceStateRequest, GetWidgetInstanceStateResponse>(
                     new GetWidgetInstanceStateRequest { WidgetInstanceId = widgetId, UserName = Profile.UserName }
                 );
             return response.WidgetState;
@@ -135,7 +135,7 @@ namespace Dropthings.Web.Framework
         public void MaximizeWidgetInstance(int widgetId)
         {
             //new DashboardFacade(Profile.UserName).MaximizeRestoreWidgetInstance(widgetId, true);
-            RunWorkflow.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
+            WorkflowHelper.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
                     new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = widgetId, IsMaximize = true }
                 );
         }
@@ -146,7 +146,7 @@ namespace Dropthings.Web.Framework
         {
             //new DashboardFacade(Profile.UserName).MoveWidgetInstance(instanceId, toZoneId, toRow);
 
-            RunWorkflow.Run<MoveWidgetInstanceWorkflow, MoveWidgetInstanceWorkflowRequest, MoveWidgetInstanceWorkflowResponse>(
+            WorkflowHelper.Run<MoveWidgetInstanceWorkflow, MoveWidgetInstanceWorkflowRequest, MoveWidgetInstanceWorkflowResponse>(
                         new MoveWidgetInstanceWorkflowRequest { NewZoneId = toZoneId, RowNo = toRow, UserName = Profile.UserName, WidgetInstanceId = instanceId });
 
             Context.Cache.Remove(Profile.UserName);
@@ -158,7 +158,7 @@ namespace Dropthings.Web.Framework
         {
             //new DashboardFacade(Profile.UserName).ResizeWidgetInstance(widgetId, width, height);
 
-            RunWorkflow.Run<ResizeWidgetInstanceWorkflow, ResizeWidgetInstanceRequest, ResizeWidgetInstanceResponse>(
+            WorkflowHelper.Run<ResizeWidgetInstanceWorkflow, ResizeWidgetInstanceRequest, ResizeWidgetInstanceResponse>(
                     new ResizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = widgetId, Width = width, Hidth = height }
                 );
 
@@ -171,7 +171,7 @@ namespace Dropthings.Web.Framework
         {
             //new DashboardFacade(Profile.UserName).MaximizeRestoreWidgetInstance(widgetId, false);
 
-            RunWorkflow.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
+            WorkflowHelper.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
                     new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = widgetId, IsMaximize = false }
                 );
         }
@@ -180,7 +180,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void SaveWidgetState(int widgetId, string state)
         {
-            RunWorkflow.Run<SaveWidgetInstanceStateWorkflow, SaveWidgetInstanceStateRequest, SaveWidgetInstanceStateResponse>(
+            WorkflowHelper.Run<SaveWidgetInstanceStateWorkflow, SaveWidgetInstanceStateRequest, SaveWidgetInstanceStateResponse>(
                      new SaveWidgetInstanceStateRequest { WidgetInstanceId = widgetId, State = state, UserName = Profile.UserName }
                 );
         }

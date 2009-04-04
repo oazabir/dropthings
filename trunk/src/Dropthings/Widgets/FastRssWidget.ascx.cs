@@ -130,7 +130,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 
     protected void SaveSettings_Click(object sender, EventArgs e)
     {
-        _Host.HideSettings();        
+        _Host.HideSettings();
     }
 
     private string GetCachedJSON()

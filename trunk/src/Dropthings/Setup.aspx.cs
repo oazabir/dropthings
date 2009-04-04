@@ -24,7 +24,7 @@ public partial class Setup : System.Web.UI.Page
     private static void SetupDefaultSetting()
     {
         //setup default roles, template user and role template
-        RunWorkflow.Run<SetupDefaultRolesWorkflow, SetupDefaultRolesWorkflowRequest, SetupDefaultRolesWorkflowResponse>(
+        WorkflowHelper.Run<SetupDefaultRolesWorkflow, SetupDefaultRolesWorkflowRequest, SetupDefaultRolesWorkflowResponse>(
             new SetupDefaultRolesWorkflowRequest { }
         );
 
@@ -32,7 +32,7 @@ public partial class Setup : System.Web.UI.Page
 
         foreach (UserSettingTemplateElement setting in settings.UserSettingTemplates)
         {
-            RunWorkflow.Run<CreateTemplateUserWorkflow, CreateTemplateUserWorkflowRequest, CreateTemplateUserWorkflowResponse>(
+            WorkflowHelper.Run<CreateTemplateUserWorkflow, CreateTemplateUserWorkflowRequest, CreateTemplateUserWorkflowResponse>(
                 new CreateTemplateUserWorkflowRequest { Email = setting.UserName, IsActivationRequired = false, Password = setting.Password, RequestedUsername = setting.UserName, RoleName = setting.RoleNames, TemplateRoleName = setting.TemplateRoleName }
             );
 

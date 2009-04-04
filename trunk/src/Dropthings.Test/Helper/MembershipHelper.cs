@@ -7,11 +7,13 @@
     using System.Web.Profile;
 
     using Dropthings.Web.Framework;
+    using System.Diagnostics;
 
     internal class MembershipHelper
     {
         #region Methods
 
+        [DebuggerStepThrough]
         public static void UsingNewAnonUser(Action<UserProfile> callback)
         {
             UserProfile profile = UserProfile.Create(Guid.NewGuid().ToString(), false) as UserProfile;

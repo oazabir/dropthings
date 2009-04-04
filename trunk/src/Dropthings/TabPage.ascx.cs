@@ -64,7 +64,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
     protected void addNewTabLinkButton_Click(object sender, EventArgs e)
     {
-        var response = RunWorkflow.Run<AddNewTabWorkflow,AddNewTabWorkflowRequest,AddNewTabWorkflowResponse>(
+        var response = WorkflowHelper.Run<AddNewTabWorkflow,AddNewTabWorkflowRequest,AddNewTabWorkflowResponse>(
                             new AddNewTabWorkflowRequest { LayoutType = "1", UserName = Profile.UserName }
                         );
 
