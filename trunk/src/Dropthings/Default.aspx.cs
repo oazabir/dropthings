@@ -152,27 +152,27 @@ public partial class _Default : BasePage
             ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel" + DateTime.Now.Ticks.ToString(),
                 "DropthingsUI.showWidgetGallery();", true);
 
-        if (!Page.IsPostBack)
-            ScriptManager.RegisterStartupScript(this, typeof(Page), "OverrideIsScriptLoaded", @"
-                if(typeof(Sys)!=='undefined')
-                {
-                    if(typeof(Sys._ScriptLoader) !== 'undefined')
-                    {
-                        Sys._ScriptLoader.isScriptLoaded = function Sys$_ScriptLoader$isScriptLoaded(scriptSrc)
-                        {
-                            var dummyScript = document.createElement('script');
-                            dummyScript.src = scriptSrc;
-                            var fullUrl = dummyScript.src;
-                            var result = Array.contains(Sys._ScriptLoader._getLoadedScripts(), fullUrl);
-                            if (result === true) return true;
-                            result = Array.contains(window._combinedScripts, fullUrl);
-                            if (result === true) return true;
-                            var scriptTags = document.getElementsByTagName('script');
-                            for(var i = 0; i < scriptTags.length; i ++ ) if (scriptTags[i].src == fullUrl) return true;
-                            return false;
-                        }
-                    }
-                }", true);
+//        if (!Page.IsPostBack)
+//            ScriptManager.RegisterStartupScript(this, typeof(Page), "OverrideIsScriptLoaded", @"
+//                if(typeof(Sys)!=='undefined')
+//                {
+//                    if(typeof(Sys._ScriptLoader) !== 'undefined')
+//                    {
+//                        Sys._ScriptLoader.isScriptLoaded = function Sys$_ScriptLoader$isScriptLoaded(scriptSrc)
+//                        {
+//                            var dummyScript = document.createElement('script');
+//                            dummyScript.src = scriptSrc;
+//                            var fullUrl = dummyScript.src;
+//                            var result = Array.contains(Sys._ScriptLoader._getLoadedScripts(), fullUrl);
+//                            if (result === true) return true;
+//                            result = Array.contains(window._combinedScripts, fullUrl);
+//                            if (result === true) return true;
+//                            var scriptTags = document.getElementsByTagName('script');
+//                            for(var i = 0; i < scriptTags.length; i ++ ) if (scriptTags[i].src == fullUrl) return true;
+//                            return false;
+//                        }
+//                    }
+//                }", true);
     }
 
     protected void Page_Load(object sender, EventArgs e)
