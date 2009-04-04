@@ -1,4 +1,4 @@
-﻿(function($) {
+﻿; (function($) {
 		
 	// plugin initialization
 	$.fn.extend({

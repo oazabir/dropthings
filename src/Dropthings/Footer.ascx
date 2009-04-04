@@ -21,9 +21,3 @@
 
     </div>
 </div>
-
-<% if( !Request.IsLocal ) { %>
-<!--
-<script defer="defer" type="text/javascript" charset="utf-8" src="http://search.live.com/bootstrap.js?market=en-US&ServId=SearchBox&ServId=SearchBoxWeb&Callback=WLSearchBoxScriptReady"></script>
--->
-<% } %>
