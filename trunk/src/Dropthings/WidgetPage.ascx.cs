@@ -100,12 +100,6 @@ public partial class WidgetPage : System.Web.UI.UserControl
     {
         this.Controls.Clear();
 
-        var maxBackground = new HtmlGenericControl("div");
-        maxBackground.ID = "widgetMaxBackground";
-        maxBackground.Attributes.Add("class", "widget_max_holder");
-        maxBackground.Style.Add("display", "none");
-        this.Controls.Add(maxBackground);
-
         var columns = WorkflowHelper.Run<GetColumnsInPageWorkflow, GetColumnsInPageWorkflowRequest, GetColumnsInPageWorkflowResponse>(
                 new GetColumnsInPageWorkflowRequest { PageId = this.CurrentPage.ID, UserName = Profile.UserName }
             ).Columns;

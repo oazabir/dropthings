@@ -9,7 +9,7 @@
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://localhost:8000/WidgetService.asmx"
+            <endpoint address="http://dropthings.omaralzabir.com/WidgetService.asmx"
                 binding="basicHttpBinding" bindingConfiguration="WidgetServiceSoap"
                 contract="DropthingsWebService.WidgetServiceSoap" name="WidgetServiceSoap" />
         </client>

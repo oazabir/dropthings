@@ -219,7 +219,7 @@ var DropthingsUI = {
             connectWith: allZones,
             opacity: 0.8,
             revert: true,
-            //tolerance: 'pointer',
+            tolerance: 'pointer',
             placeholder: 'placeholder',
             start: function(e, ui) {
                 ui.helper.css("width", ui.item.parent().outerWidth());
@@ -1018,10 +1018,18 @@ function CreateResizeExtender1(instanceId)
 var WidgetMaximizeBehavior = function(widgetId) {
     this.visibleHeightIfWidgetExpanded = 0;
     this.visibleHeightIfWidgetCollasped = 0;
+    this.widgetContainer = null;
+    this.position = 0;
+
     this.init = function(widgetId) {
         if (this.initialized) return;
 
         this.widget = $('#' + widgetId);
+        
+        // Remember where the widget was last time
+        this.widgetContainer = this.widget.parent();
+        var position = this.widgetContainer.children().index(this.widget);
+        
         this.instanceId = this.widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
     }
 
@@ -1034,7 +1042,6 @@ var WidgetMaximizeBehavior = function(widgetId) {
     };
 
     this.maximize = function() {
-        this.removeFloatingBehavior();
         this.fitToViewPort();
         window.scrollTo(0, 0);
     };
@@ -1046,66 +1053,47 @@ var WidgetMaximizeBehavior = function(widgetId) {
     };
 
     this.restore = function() {
-        this.addFloatingBehavior();
-        $('.widget_max_holder').css({ display: 'none', height: 'auto' });
 
         var widgetDef = DropthingsUI.getWidgetDef(this.instanceId);
         var height = widgetDef.resized ? widgetDef.height + 'px' : 'auto';
-        this.widget.css({ left: 'auto', top: 'auto', position: 'static' })
-                    .removeClass('widget_max_content');
+        this.widget.css({ left: 'auto', top: 'auto', width: 'auto', height: 'auto', position: 'static' });
 
         widgetDef.maximized = false;
 
-        this.widget.find('.widget_resize_frame').each(function() {
-            $(this)
-                        .css({ width: 'auto' })
-                        .css({ height: height });
-        });
+        var resizeFrame = this.widget.find('.widget_resize_frame');
+        resizeFrame.css({ width: 'auto', height: height });
 
         this.restoredInstanceId = this.instanceId;
         this.dispose();
     };
 
     this.fitToViewPort = function() {
-        var maxBackground = $('.widget_max_holder');
-        var visibleHeight = (Utility.getViewPortHeight() - Utility.getAbsolutePosition(maxBackground[0], 'Top'));
+        var maxBackground = $('#widget_area_wrapper');
+        //var visibleHeight = (Utility.getViewPortHeight() - Utility.getAbsolutePosition(maxBackground[0], 'Top'));
+        var visibleHeight = (Utility.getViewPortHeight() - maxBackground.offset().top);
 
         if (Sys.Browser.agent === Sys.Browser.InternetExplorer) {
             visibleHeight -= 20;
         }
-        maxBackground.css({ display: 'block', height: visibleHeight });
 
-        this.widget.css({ zIndex: '10000',
-            position: 'absolute',
-            left: maxBackground.offset().left,
-            top: maxBackground.offset().top
-        }).addClass('widget_max_content');
+        this.widget.prependTo(maxBackground);
+
+        this.widget.css({ zIndex: '10000', display: 'block', clear: 'both' });
 
         var widgetDef = DropthingsUI.getWidgetDef(this.widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-        
-        var WidgetResizeFrame = this.widget.find('.widget_resize_frame');
+        widgetDef.maximized = true;
 
-        this.visibleHeightIfWidgetExpanded = visibleHeight;
-        this.visibleHeightIfWidgetCollasped = 40;
+        //        var WidgetResizeFrame = this.widget.find('.widget_resize_frame');
 
-        if (widgetDef.expanded) {
-            WidgetResizeFrame.height((this.visibleHeightIfWidgetExpanded - 40) + 'px');
-        }
-        else {
-            WidgetResizeFrame.height(this.visibleHeightIfWidgetCollasped + 'px'); //this is a mim hieght
-        }
-    };
+        //        this.visibleHeightIfWidgetExpanded = visibleHeight;
+        //        this.visibleHeightIfWidgetCollasped = 40;
 
-    this.removeFloatingBehavior = function() {
-        this.widget.addClass('nodrag')
-                    .attr('onmouseover', "this.className='widget nodrag widget_hover'")
-                    .attr('onmouseout', "this.className='widget nodrag'");
-    };
-
-    this.addFloatingBehavior = function() {
-        this.widget.removeClass('nodrag')
-                    .attr("onmouseover", "this.className='widget widget_hover'")
-                    .attr("onmouseout", "this.className='widget'");
+        //        if (widgetDef.expanded) {
+        //            WidgetResizeFrame.height((this.visibleHeightIfWidgetExpanded - 40) + 'px');
+        //        }
+        //        else {
+        //            WidgetResizeFrame.height(this.visibleHeightIfWidgetCollasped + 'px'); //this is a min height
+        //        }
     };
 };
 var WidgetPermission =
@@ -1138,10 +1126,10 @@ var WidgetPermission =
         });
 
         Dropthings.Web.Framework.WidgetService.AssignPermission(nameValuePair,
-                                                                function(result) {
-                                                                    WidgetPermission.showProgress(true);
-                                                                    $('#Message').html("Permission assigned successfully.");
-                                                                });
+            function(result) {
+                WidgetPermission.showProgress(true);
+                $('#Message').html("Permission assigned successfully.");
+            });
 
     },
     showProgress: function(hide) {
