@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="WidgetPanels.ascx.cs" Inherits="WidgetPanels" %>
 <%@ Register Src="WidgetContainer.ascx" TagName="WidgetContainer" TagPrefix="widget" %>
-<div id="widgetMaxBackground" class="widget_max_holder" style="display:none;">&nbsp;</div>
 <table id="WidgetContainer" width="98%" cellspacing="5" align="left" class="table_fixed">
     <tbody>
         <tr>

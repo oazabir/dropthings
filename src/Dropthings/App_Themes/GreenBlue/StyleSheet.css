@@ -126,8 +126,8 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 					.widget_edit a {color:green;text-decoration:none;}
 						.widget_edit a:hover {color:red;}
 						
-				.widget_max_holder{	background-color:#ffffff;width:98%;position:relative;}
-				.widget_max_content{width:93%;}
+				/*.widget_max_holder{	background-color:#ffffff;width:98%;position:relative;}
+				.widget_max_content{width:93%;}*/
 
 				.widget_button {padding: 2px 2px 0 0; vertical-align:top;}
 				.widget_max {background-image:url('Images/Widget/os_maximise.gif');}
