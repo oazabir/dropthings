@@ -17,8 +17,9 @@ namespace Dropthings.Business.Workflows
     using System.Workflow.Runtime;
     using System.Workflow.Runtime.Hosting;
 
-    using Exceptions;
     using Dropthings.Business.Container;
+
+    using Exceptions;
 
     public class WorkflowHelper : Dropthings.Business.Workflows.IWorkflowHelper
     {
@@ -37,6 +38,14 @@ namespace Dropthings.Business.Workflows
             workflowRuntime.StartRuntime();
 
             return workflowRuntime;
+        }
+
+        public static TResponse Run<TWorkflow, TRequest, TResponse>(TRequest request)
+            where TResponse : new()
+        {
+            return ServiceLocator.Resolve<IWorkflowHelper>().ExecuteWorkflow<TWorkflow, TRequest, TResponse>(
+                ServiceLocator.Resolve<WorkflowRuntime>(),
+                request);
         }
 
         public static void TerminateDefaultRuntime(WorkflowRuntime workflowRuntime)
@@ -105,13 +114,6 @@ namespace Dropthings.Business.Workflows
                 throw new WorkflowException(x);
         }
 
-        public static TResponse Run<TWorkflow, TRequest, TResponse>(TRequest request)
-            where TResponse : new()
-        {
-            return ObjectContainer.Resolve<IWorkflowHelper>().ExecuteWorkflow<TWorkflow, TRequest, TResponse>(
-                ObjectContainer.Resolve<WorkflowRuntime>(),
-                request);
-        }
         #endregion Methods
     }
 }

@@ -25,6 +25,9 @@ using Dropthings.Business.Workflows.UserAccountWorkflow;
 using Dropthings.Business.Workflows.UserAccountWorkflows;
 using Dropthings.Web.Framework;
 using Dropthings.Web.Util;
+using Dropthings.Business.Facade;
+using Dropthings.Model;
+using Dropthings.Business.Facade.Context;
 
 public partial class LoginPage : System.Web.UI.Page
 {
@@ -51,29 +54,57 @@ public partial class LoginPage : System.Web.UI.Page
         try
         {
             bool activationRequired = Convert.ToBoolean(ConfigurationManager.AppSettings["ActivationRequired"]);
-            var response = WorkflowHelper.Run<UserRegistrationWorkflow,UserRegistrationWorkflowRequest,UserRegistrationWorkflowResponse>(
-                            new UserRegistrationWorkflowRequest { Email = Email.Text, RequestedUsername = Email.Text, Password = Password.Text, IsActivationRequired = activationRequired, UserName = Profile.UserName }
-                        );
 
-            if (response != null)
+            RegisterUserResponse registerUserResponse = null;
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                registerUserResponse = facade.RegisterUser(Email.Text, Password.Text, Email.Text, true);
+            }
+
+            if (registerUserResponse != null)
             {
                 if (activationRequired)
                 {
-                    MailManager.SendSignupMail(Email.Text.Trim(), Password.Text.Trim(), activationRequired, response.UnlockKey);
+                    MailManager.SendSignupMail(Email.Text.Trim(), Password.Text.Trim(), activationRequired, registerUserResponse.UnlockKey);
                     CookieHelper.Clear();
                     Response.Redirect("~/Confirm.aspx");
                 }
                 else
                 {
-                    FormsAuthentication.RedirectFromLoginPage( Email.Text, RememberMeCheckbox.Checked );
+                    FormsAuthentication.RedirectFromLoginPage(Email.Text, RememberMeCheckbox.Checked);
                     MailManager.SendSignupMail(Email.Text.Trim(), Password.Text.Trim(), activationRequired, string.Empty);
-                    Response.Redirect( "~/Default.aspx" );
+                    Response.Redirect("~/Default.aspx");
                 }
             }
             else
             {
                 InvalidLoginLabel.Visible = true;
             }
+
+            // -- Workflow way. Obselete.
+            //var response = WorkflowHelper.Run<UserRegistrationWorkflow,UserRegistrationWorkflowRequest,UserRegistrationWorkflowResponse>(
+            //                new UserRegistrationWorkflowRequest { Email = Email.Text, RequestedUsername = Email.Text, Password = Password.Text, IsActivationRequired = activationRequired, UserName = Profile.UserName }
+            //            );
+
+            //if (response != null)
+            //{
+            //    if (activationRequired)
+            //    {
+            //        MailManager.SendSignupMail(Email.Text.Trim(), Password.Text.Trim(), activationRequired, response.UnlockKey);
+            //        CookieHelper.Clear();
+            //        Response.Redirect("~/Confirm.aspx");
+            //    }
+            //    else
+            //    {
+            //        FormsAuthentication.RedirectFromLoginPage( Email.Text, RememberMeCheckbox.Checked );
+            //        MailManager.SendSignupMail(Email.Text.Trim(), Password.Text.Trim(), activationRequired, string.Empty);
+            //        Response.Redirect( "~/Default.aspx" );
+            //    }
+            //}
+            //else
+            //{
+            //    InvalidLoginLabel.Visible = true;
+            //}
         }
         catch(Exception x )
         {
@@ -87,18 +118,29 @@ public partial class LoginPage : System.Web.UI.Page
     {
         try
         {
-            var response = ObjectContainer.Resolve<IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        ResetPasswordWorkflow,
-                        ResetPasswordWorkflowRequest,
-                        ResetPasswordWorkflowResponse
-                        >(
-                            ObjectContainer.Resolve<WorkflowRuntime>(),
-                            new ResetPasswordWorkflowRequest { Email = ForgotEmail.Text.Trim(), UserName = Profile.UserName }
-                        );
-            //var password = new DashboardFacade(Profile.UserName).ResetPassword(ForgotEmail.Text);
-            MailManager.SendPasswordMail(ForgotEmail.Text.Trim(), response.NewPassword);
+            string newPassword = string.Empty;
+
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                newPassword = facade.ResetPassword(ForgotEmail.Text.Trim());
+            }
+
+            MailManager.SendPasswordMail(ForgotEmail.Text.Trim(), newPassword);
             InvalidLoginLabel.Text = "Password has been sent to your provided email.";
+
+            // -- Workflow way. Obselete.
+            //var response = ServiceLocator.Resolve<IWorkflowHelper>()
+            //        .ExecuteWorkflow<
+            //            ResetPasswordWorkflow,
+            //            ResetPasswordWorkflowRequest,
+            //            ResetPasswordWorkflowResponse
+            //            >(
+            //                ServiceLocator.Resolve<WorkflowRuntime>(),
+            //                new ResetPasswordWorkflowRequest { Email = ForgotEmail.Text.Trim(), UserName = Profile.UserName }
+            //            );
+            ////var password = new DashboardFacade(Profile.UserName).ResetPassword(ForgotEmail.Text);
+            //MailManager.SendPasswordMail(ForgotEmail.Text.Trim(), response.NewPassword);
+            //InvalidLoginLabel.Text = "Password has been sent to your provided email.";
         }
         catch (Exception x)
         {

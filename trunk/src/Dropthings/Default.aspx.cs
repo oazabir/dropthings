@@ -33,6 +33,9 @@ using Dropthings.Web.Framework;
 using Dropthings.Web.UI;
 using Dropthings.Web.Util;
 using Dropthings.Widget.Framework;
+using Dropthings.Business.Facade;
+using Dropthings.Model;
+using Dropthings.Business.Facade.Context;
 
 public partial class _Default : BasePage
 {
@@ -55,10 +58,16 @@ public partial class _Default : BasePage
         set { ViewState["AddStuffPageIndex"] = value; }
     }
 
-    private IUserVisitWorkflowResponse _Setup
+    //private UserVisitWorkflowResponse _Setup
+    //{
+    //    get { return Context.Items[typeof(UserVisitWorkflowResponse)] as UserVisitWorkflowResponse; }
+    //    set { Context.Items[typeof(UserVisitWorkflowResponse)] = value; }
+    //}
+
+    private UserSetup _Setup
     {
-        get { return Context.Items[typeof(IUserVisitWorkflowResponse)] as IUserVisitWorkflowResponse; }
-        set { Context.Items[typeof(IUserVisitWorkflowResponse)] = value; }
+        get { return Context.Items[typeof(UserSetup)] as UserSetup; }
+        set { Context.Items[typeof(UserSetup)] = value; }
     }
 
     #endregion Properties
@@ -101,13 +110,15 @@ public partial class _Default : BasePage
 
     protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
     {
-        var response = WorkflowHelper.Run<DeletePageWorkflow, DeleteTabWorkflowRequest, DeleteTabWorkflowResponse>(
-                            new DeleteTabWorkflowRequest { PageID = _Setup.CurrentPage.ID, UserName = Profile.UserName }
-                        );
-
-        Context.Cache.Remove(Profile.UserName);
-
-        RedirectToTab(response.NewCurrentPage);
+        TrapDatabaseException(() =>
+            {
+                using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                {
+                    var newCurrentPage = facade.DeletePage(_Setup.CurrentPage.ID);
+                    Context.Cache.Remove(Profile.UserName);
+                    RedirectToTab(newCurrentPage);
+                }
+            });
     }
 
     protected void HideAddContentPanel_Click(object sender, EventArgs e)
@@ -185,9 +196,10 @@ public partial class _Default : BasePage
 
         if (newTitle != _Setup.CurrentPage.Title)
         {
-            var response = WorkflowHelper.Run<ChangePageNameWorkflow, ChangeTabNameWorkflowRequest, ChangeTabNameWorkflowResponse>(
-                            new ChangeTabNameWorkflowRequest { PageName = newTitle, UserName = Profile.UserName }
-                        );
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                facade.ChangePageName(newTitle);
+            }
 
             this.LoadUserPageSetup(false);
 
@@ -226,39 +238,76 @@ public partial class _Default : BasePage
 
         TrapDatabaseException(() =>
         {
-            if (Profile.IsAnonymous)
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
             {
-                if (Profile.IsFirstVisit)
+                if (Profile.IsAnonymous)
                 {
-                    // First visit
-                    Profile.IsFirstVisit = false;
-                    Profile.Save();
+                    if (Profile.IsFirstVisit)
+                    {
+                        // First visit
+                        Profile.IsFirstVisit = false;
+                        Profile.Save();
 
-                    //_Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                    //    new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName });
-                    _Setup = new DashboardFacade(Profile.UserName).SetupNewUser(Profile.UserName);
+                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true);
 
+                    }
+                    else
+                    {
+                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true);
+                    }
                 }
                 else
                 {
-                    _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                        new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = true });
-                }
-            }
-            else
-            {
-                _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                    new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = false });
+                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false);
 
-                // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
-                // to recrate the pages
-                if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
-                {
-                    _Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-                        new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName, IsAnonymous = false });
+                    // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
+                    // to recrate the pages
+                    if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
+                    {
+                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true);
+                    }
                 }
             }
         });
+
+
+        // Workflow way -- obselete
+
+        //TrapDatabaseException(() =>
+        //{
+        //    if (Profile.IsAnonymous)
+        //    {
+        //        if (Profile.IsFirstVisit)
+        //        {
+        //            // First visit
+        //            Profile.IsFirstVisit = false;
+        //            Profile.Save();
+
+        //            //_Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+        //            //    new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName });
+        //            _Setup = new DashboardFacade(Profile.UserName).SetupNewUser(Profile.UserName);
+
+        //        }
+        //        else
+        //        {
+        //            _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+        //                new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = true });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+        //            new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = false });
+
+        //        // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
+        //        // to recrate the pages
+        //        if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
+        //        {
+        //            _Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
+        //                new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName, IsAnonymous = false });
+        //        }
+        //    }
+        //});
     }
 
     private void OnReloadPage(object sender, EventArgs e)

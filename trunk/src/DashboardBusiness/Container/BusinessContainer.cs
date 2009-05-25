@@ -8,7 +8,7 @@
 
     using Microsoft.Practices.Unity;
 
-    public class ObjectContainer
+    public class ServiceLocator
     {
         #region Fields
 
@@ -123,6 +123,11 @@
         public static void Teardown(object o)
         {
             _container.Teardown(o);
+        }
+
+        public static void InjectIntoConstructor<T>(params object[] parameters) 
+        {
+            _container.Configure<InjectedMembers>().ConfigureInjectionFor<T>(new InjectionConstructor(parameters));
         }
 
         #endregion Methods

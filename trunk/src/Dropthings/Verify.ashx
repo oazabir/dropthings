@@ -9,25 +9,38 @@ using System.Web.Security;
 using System.Collections.Generic;
 using Dropthings.Business;
 using Dropthings.DataAccess;
+using Dropthings.Business.Facade;
+using Dropthings.Business.Facade.Context;
+using Dropthings.Web.Framework;
+
 public class Logout : IHttpHandler {
     
     public void ProcessRequest (HttpContext context) {
 
         string activationKey = context.Request.QueryString["key"];
 
-        var response = Dropthings.Business.Container.ObjectContainer.Resolve<Dropthings.Business.Workflows.IWorkflowHelper>()
-                    .ExecuteWorkflow<
-                        Dropthings.Business.Workflows.UserAccountWorkflow.ActivateAccountWorkflow,
-                        Dropthings.Business.Workflows.UserAccountWorkflows.ActivateAccountWorkflowRequest,
-                        Dropthings.Business.Workflows.UserAccountWorkflows.ActivateAccountWorkflowResponse
-                        >(
-                            Dropthings.Business.Container.ObjectContainer.Resolve<System.Workflow.Runtime.WorkflowRuntime>(),
-                            new Dropthings.Business.Workflows.UserAccountWorkflows.ActivateAccountWorkflowRequest { ActivationKey = activationKey, UserName = string.Empty }
-                        );
+        Token token = null;
+        
+        // -- Workflow way. Obselete.
+        
+        //var response = Dropthings.Business.Container.ServiceLocator.Resolve<Dropthings.Business.Workflows.IWorkflowHelper>()
+        //            .ExecuteWorkflow<
+        //                Dropthings.Business.Workflows.UserAccountWorkflow.ActivateAccountWorkflow,
+        //                Dropthings.Business.Workflows.UserAccountWorkflows.ActivateAccountWorkflowRequest,
+        //                Dropthings.Business.Workflows.UserAccountWorkflows.ActivateAccountWorkflowResponse
+        //                >(
+        //                    Dropthings.Business.Container.ServiceLocator.Resolve<System.Workflow.Runtime.WorkflowRuntime>(),
+        //                    new Dropthings.Business.Workflows.UserAccountWorkflows.ActivateAccountWorkflowRequest { ActivationKey = activationKey, UserName = string.Empty }
+        //                );
 
-        if (response.Token != null)
+        using (var facade = new Facade(new AppContext(string.Empty, context.Profile.UserName)))
         {
-            FormsAuthentication.RedirectFromLoginPage(response.Token.UserName, true);
+            token = facade.ActivateUser(activationKey);
+        }
+        
+        if (token != null)
+        {
+            FormsAuthentication.RedirectFromLoginPage(token.UserName, true);
         }
     }
  

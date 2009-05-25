@@ -20,8 +20,9 @@
         Application[APPLICATION_WORKFLOW_RUNTIME_KEY] = runtime;
 
         // Setup default Dependencies for regular execution where all dependencies are real
-        ObjectContainer.RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
-        ObjectContainer.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
+        ServiceLocator.RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
+        ServiceLocator.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
+        Dropthings.Business.Facade.Facade.BootStrap();
     }
 
     void Application_End(object sender, EventArgs e)
@@ -34,7 +35,7 @@
             Dropthings.Business.Workflows.WorkflowHelper.TerminateDefaultRuntime(runtime);
 
         // Teardown Dependency Containers
-        Dropthings.Business.Container.ObjectContainer.Dispose();
+        Dropthings.Business.Container.ServiceLocator.Dispose();
     }
 
     void Application_Error(object sender, EventArgs e)

@@ -27,6 +27,9 @@ namespace Dropthings.Web.Framework
     using Dropthings.DataAccess;
     using Dropthings.Web.Framework;
 
+    using Dropthings.Business.Facade;
+    using Dropthings.Business.Facade.Context;
+
     public class PageService : WebServiceBase
     {
         #region Constructors
@@ -56,9 +59,15 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void ChangePageLayout(int newLayout)
         {
-            WorkflowHelper.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
-                    new ModifyTabLayoutWorkflowRequest { UserName = Profile.UserName, LayoutType = newLayout }
-                    );
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                facade.ModifyPageLayout(newLayout);
+            }
+
+            // -- Workflow way. Obselete.
+            //WorkflowHelper.Run<ModifyPageLayoutWorkflow, ModifyTabLayoutWorkflowRequest, ModifyTabLayoutWorkflowResponse>(
+            //        new ModifyTabLayoutWorkflowRequest { UserName = Profile.UserName, LayoutType = newLayout }
+            //        );
         }
 
         [WebMethod]

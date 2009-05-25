@@ -5,12 +5,18 @@
     using System.Linq;
     using System.Text;
 
+    using System.Configuration;
+
     public class DropthingsDataContext2 : DropthingsDataContext, IDisposable
     {
         #region Constructors
 
         public DropthingsDataContext2(string connectionString)
             : base(connectionString)
+        {
+        }
+
+        public DropthingsDataContext2() : base(DatabaseHelper.GetConnectionString(DEFAULT_CONNECTION_STRING_NAME))
         {
         }
 

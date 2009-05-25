@@ -15,6 +15,10 @@ using Dropthings.DataAccess;
 using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
 
+using Dropthings.Business.Facade;
+using Dropthings.Model;
+using Dropthings.Business.Facade.Context;
+
 public partial class WidgetPage : System.Web.UI.UserControl
 {
     #region Fields
@@ -100,9 +104,16 @@ public partial class WidgetPage : System.Web.UI.UserControl
     {
         this.Controls.Clear();
 
-        var columns = WorkflowHelper.Run<GetColumnsInPageWorkflow, GetColumnsInPageWorkflowRequest, GetColumnsInPageWorkflowResponse>(
-                new GetColumnsInPageWorkflowRequest { PageId = this.CurrentPage.ID, UserName = Profile.UserName }
-            ).Columns;
+        List<Column> columns;
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            columns = facade.GetColumnsInPage(CurrentPage.ID);
+        }
+
+        // -- Workflow way. Obselete.
+        //var columns = WorkflowHelper.Run<GetColumnsInPageWorkflow, GetColumnsInPageWorkflowRequest, GetColumnsInPageWorkflowResponse>(
+        //        new GetColumnsInPageWorkflowRequest { PageId = this.CurrentPage.ID, UserName = Profile.UserName }
+        //    ).Columns;
 
         _WidgetControlMap.Clear();
         columns.Each<Column>( (column, index) =>

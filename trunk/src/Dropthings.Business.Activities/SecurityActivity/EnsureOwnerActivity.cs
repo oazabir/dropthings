@@ -81,38 +81,46 @@ namespace Dropthings.Business.Activities
 
         protected override ActivityExecutionStatus Execute(ActivityExecutionContext executionContext)
         {
-            if (this.PageId == 0 && this.WidgetInstanceId == 0 && this.WidgetZoneId == 0)
+            try
             {
-                throw new ApplicationException("Nothing specified to check. Must have one of these: PageID, WidgetInstanceID, WidgetZoneID");
+                if (this.PageId == 0 && this.WidgetInstanceId == 0 && this.WidgetZoneId == 0)
+                {
+                    throw new ApplicationException("Nothing specified to check. Must have one of these: PageID, WidgetInstanceID, WidgetZoneID");
+                }
+
+                if (this.PageId > 0)
+                {
+                    // Get the user who is the owner of the page. Then see if the current user is the same
+                    var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.Page,
+                        this.PageId, LinqQueries.CompiledQuery_GetPageOwnerName);
+
+                    if (!this.UserName.ToLower().Equals(ownerName))
+                        throw new ApplicationException(string.Format("User {0} is not the owner of the page {1}", this.UserName, this.PageId));
+                }
+                else if (this.WidgetZoneId > 0)
+                {
+                    // Get the user who is the owner of the widget. Then see if the current user is the same
+                    var owners = DatabaseHelper.GetList<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                        this.WidgetZoneId, LinqQueries.CompiledQuery_GetWidgetZoneOwnerName);
+                    var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                        this.WidgetZoneId, LinqQueries.CompiledQuery_GetWidgetZoneOwnerName);
+
+                    if (!this.UserName.ToLower().Equals(ownerName))
+                        throw new ApplicationException(string.Format("User {0} is not the owner of the widget zone {1}", this.UserName, this.WidgetInstanceId));
+                }
+
+                else if (this.WidgetInstanceId > 0)
+                {
+                    // Get the user who is the owner of the widget. Then see if the current user is the same
+                    var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                        this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceOwnerName);
+
+                    if (!this.UserName.ToLower().Equals(ownerName))
+                        throw new ApplicationException(string.Format("User {0} is not the owner of the widget instance {1}", this.UserName, this.WidgetInstanceId));
+                }
             }
-
-            if (this.PageId > 0)
+            catch (Exception e)
             {
-                // Get the user who is the owner of the page. Then see if the current user is the same
-                var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.Page,
-                    this.PageId, LinqQueries.CompiledQuery_GetPageOwnerName);
-
-                if (!this.UserName.ToLower().Equals(ownerName))
-                    throw new ApplicationException(string.Format("User {0} is not the owner of the page {1}", this.UserName, this.PageId));
-            }
-            else if (this.WidgetZoneId > 0)
-            {
-                // Get the user who is the owner of the widget. Then see if the current user is the same
-                var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    this.WidgetZoneId, LinqQueries.CompiledQuery_GetWidgetZoneOwnerName);
-
-                if (!this.UserName.ToLower().Equals(ownerName))
-                    throw new ApplicationException(string.Format("User {0} is not the owner of the widget zone {1}", this.UserName, this.WidgetInstanceId));
-            }
-
-            else if (this.WidgetInstanceId > 0)
-            {
-                // Get the user who is the owner of the widget. Then see if the current user is the same
-                var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    this.WidgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceOwnerName);
-
-                if (!this.UserName.ToLower().Equals(ownerName))
-                    throw new ApplicationException(string.Format("User {0} is not the owner of the widget instance {1}", this.UserName, this.WidgetInstanceId));
             }
 
             return ActivityExecutionStatus.Closed;

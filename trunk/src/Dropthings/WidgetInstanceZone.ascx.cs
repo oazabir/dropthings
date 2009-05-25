@@ -13,6 +13,10 @@ using Dropthings.DataAccess;
 using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
 
+using Dropthings.Business.Facade;
+using Dropthings.Model;
+using Dropthings.Business.Facade.Context;
+
 public partial class WidgetInstanceZone : System.Web.UI.UserControl
 {
     #region Fields
@@ -79,11 +83,18 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         this.WidgetHolderPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
         //this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
 
-        var response = WorkflowHelper.Run<LoadWidgetInstancesInZoneWorkflow, LoadWidgetInstancesInZoneRequest, LoadWidgetInstancesInZoneResponse>(
-                        new LoadWidgetInstancesInZoneRequest { WidgetZoneId = this.WidgetZoneId, UserName = this.UserName }
-                    );
+        List<WidgetInstance> list;
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            list = facade.GetWidgetInstancesInZone(WidgetZoneId);
+        }
 
-        this.WidgetInstances = response.WidgetInstances;
+        // -- Workflow way. Obselete.
+        //var response = WorkflowHelper.Run<LoadWidgetInstancesInZoneWorkflow, LoadWidgetInstancesInZoneRequest, LoadWidgetInstancesInZoneResponse>(
+        //                new LoadWidgetInstancesInZoneRequest { WidgetZoneId = this.WidgetZoneId, UserName = this.UserName }
+        //            );
+
+        this.WidgetInstances = list;
 
         var controlsToDelete = new List<Control>();
         foreach (Control control in this.WidgetZoneUpdatePanel.ContentTemplateContainer.Controls)
