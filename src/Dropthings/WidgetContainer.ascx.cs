@@ -22,6 +22,10 @@ using System.Workflow.Runtime;
 using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
 using Dropthings.Web.Framework;
 
+using Dropthings.Business.Facade;
+using Dropthings.Model;
+using Dropthings.Business.Facade.Context;
+
 public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 {
     public const string ATTR_INSTANCEID = "_InstanceId";
@@ -266,9 +270,15 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     {
         (this as IWidgetHost).Expand();
 
-        this.ReloadWidgetInstanceAfter(() => 
-            WorkflowHelper.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
-                new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsMaximize = true }));
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            this.WidgetInstance = facade.MaximizeWidget(this.WidgetInstance.Id, true);
+        }
+
+        // -- Workflow way. Obselete.
+        //this.ReloadWidgetInstanceAfter(() => 
+        //    WorkflowHelper.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
+        //        new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsMaximize = true }));
 
         this.SetMaximizeRestoreButtons();
         this._WidgetRef.Maximized();
@@ -282,9 +292,15 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Restore()
     {
-        this.ReloadWidgetInstanceAfter(() => 
-            WorkflowHelper.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
-                new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsMaximize = false }));
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            this.WidgetInstance = facade.MaximizeWidget(this.WidgetInstance.Id, false);
+        }
+
+        // -- Workflow way. Obselete.
+        //this.ReloadWidgetInstanceAfter(() => 
+        //    WorkflowHelper.Run<MaximizeWidgetInstanceWorkflow, MaximizeWidgetInstanceRequest, MaximizeWidgetInstanceResponse>(
+        //        new MaximizeWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsMaximize = false }));
 
         this.SetMaximizeRestoreButtons();
         this._WidgetRef.Restored();
@@ -294,9 +310,15 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Expand()
     {
-        this.ReloadWidgetInstanceAfter(() => 
-            WorkflowHelper.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
-                new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsExpand = true }));
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            this.WidgetInstance = facade.ExpandWidget(this.WidgetInstance.Id, true);
+        }
+
+        // -- Workflow way. Obselete.
+        //this.ReloadWidgetInstanceAfter(() => 
+        //    WorkflowHelper.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
+        //        new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsExpand = true }));
 
         this.SetExpandCollapseButtons();
         this._WidgetRef.Expanded();
@@ -307,9 +329,15 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Collaspe()
     {
-        this.ReloadWidgetInstanceAfter(() => 
-            WorkflowHelper.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
-                new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsExpand = false }));
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            this.WidgetInstance = facade.ExpandWidget(this.WidgetInstance.Id, false);
+        }
+
+        // -- Workflow way. Obselete.
+        //this.ReloadWidgetInstanceAfter(() => 
+        //    WorkflowHelper.Run<ExpandWidgetInstanceWorkflow, ExpandWidgetInstanceRequest, ExpandWidgetInstanceResponse>(
+        //        new ExpandWidgetInstanceRequest { UserName = Profile.UserName, WidgetInstanceId = this.WidgetInstance.Id, IsExpand = false }));
 
         this.SetExpandCollapseButtons();
         this._WidgetRef.Collasped();
@@ -321,9 +349,15 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Close()
     {
-        WorkflowHelper.Run<DeleteWidgetInstanceWorkflow, DeleteWidgetInstanceWorkflowRequest, DeleteWidgetInstanceWorkflowResponse>(
-                            new DeleteWidgetInstanceWorkflowRequest { WidgetInstanceId = this.WidgetInstance.Id, UserName = Profile.UserName }
-                        );
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            facade.DeleteWidgetInstance(this.WidgetInstance.Id);
+        }
+
+        // -- Workflow way. Obselete.
+        //WorkflowHelper.Run<DeleteWidgetInstanceWorkflow, DeleteWidgetInstanceWorkflowRequest, DeleteWidgetInstanceWorkflowResponse>(
+        //                    new DeleteWidgetInstanceWorkflowRequest { WidgetInstanceId = this.WidgetInstance.Id, UserName = Profile.UserName }
+        //                );
 
         Deleted(this.WidgetInstance, this);
     }
@@ -343,9 +377,15 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.SaveState(string state)
     {
-        this.ReloadWidgetInstanceAfter(() => 
-            WorkflowHelper.Run<SaveWidgetInstanceStateWorkflow, SaveWidgetInstanceStateRequest, SaveWidgetInstanceStateResponse>(
-                new SaveWidgetInstanceStateRequest { WidgetInstanceId = this._WidgetInstance.Id, State = state, UserName = Profile.UserName }));
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            this.WidgetInstance = facade.SaveWidgetInstanceState(this._WidgetInstance.Id, state);
+        }
+
+        // -- Workflow way. Obselete.
+        //this.ReloadWidgetInstanceAfter(() =>
+        //    WorkflowHelper.Run<SaveWidgetInstanceStateWorkflow, SaveWidgetInstanceStateRequest, SaveWidgetInstanceStateResponse>(
+        //        new SaveWidgetInstanceStateRequest { WidgetInstanceId = this._WidgetInstance.Id, State = state, UserName = Profile.UserName }));
                         
     }
 

@@ -2,13 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using System.Workflow.Runtime;
 
     using Dropthings.Business.Container;
     using Dropthings.Business.Workflows;
-using System.Diagnostics;
 
     internal class WorkflowTest
     {
@@ -36,8 +36,8 @@ using System.Diagnostics;
             {
                 _Runtime = WorkflowHelper.CreateDefaultRuntime();
 
-                ObjectContainer.RegisterInstanceExternalLifetime<WorkflowRuntime>(_Runtime);
-                ObjectContainer.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
+                ServiceLocator.RegisterInstanceExternalLifetime<WorkflowRuntime>(_Runtime);
+                ServiceLocator.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
             }
         }
 
@@ -45,8 +45,8 @@ using System.Diagnostics;
             where TResponse : new()
         {
             Init();
-            return ObjectContainer.Resolve<IWorkflowHelper>().ExecuteWorkflow<TWorkflow, TRequest, TResponse>(
-                ObjectContainer.Resolve<WorkflowRuntime>(),
+            return ServiceLocator.Resolve<IWorkflowHelper>().ExecuteWorkflow<TWorkflow, TRequest, TResponse>(
+                ServiceLocator.Resolve<WorkflowRuntime>(),
                 request);
         }
 

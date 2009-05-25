@@ -25,11 +25,11 @@ namespace Dropthings.Business
     using Dropthings.Business.Activities.UserAccountActivities;
     using Dropthings.Business.Activities.WidgetActivities;
     using Dropthings.Business.Container;
-    using Dropthings.Business.Workflows.EntryPointWorkflows;
-    using Dropthings.DataAccess;
     using Dropthings.Business.Workflows;
+    using Dropthings.Business.Workflows.EntryPointWorkflows;
     using Dropthings.Business.Workflows.SystemWorkflows;
     using Dropthings.Business.Workflows.UserAccountWorkflow;
+    using Dropthings.DataAccess;
 
     public class DashboardFacade
     {
@@ -70,6 +70,23 @@ namespace Dropthings.Business
                 widgetId, roleName, LinqQueries.CompiledQuery_GetWidgetsInRolesByRoleName);
 
             return widgetsInRole != null;
+        }
+
+        public void SetupDefaultSetting()
+        {
+            //setup default roles, template user and role template
+            WorkflowHelper.Run<SetupDefaultRolesWorkflow, SetupDefaultRolesWorkflowRequest, SetupDefaultRolesWorkflowResponse>(
+                new SetupDefaultRolesWorkflowRequest { }
+            );
+
+            Dropthings.Business.UserSettingTemplateSettingsSection settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);
+
+            foreach (UserSettingTemplateElement setting in settings.UserSettingTemplates)
+            {
+                WorkflowHelper.Run<CreateTemplateUserWorkflow, CreateTemplateUserWorkflowRequest, CreateTemplateUserWorkflowResponse>(
+                    new CreateTemplateUserWorkflowRequest { Email = setting.UserName, IsActivationRequired = false, Password = setting.Password, RequestedUsername = setting.UserName, RoleName = setting.RoleNames, TemplateRoleName = setting.TemplateRoleName }
+                );
+            }
         }
 
         /// <summary>
@@ -145,23 +162,6 @@ namespace Dropthings.Business
             response.UserPages = getUserPagesActivity.Pages;
 
             return response;
-        }
-
-        public void SetupDefaultSetting()
-        {
-            //setup default roles, template user and role template
-            WorkflowHelper.Run<SetupDefaultRolesWorkflow, SetupDefaultRolesWorkflowRequest, SetupDefaultRolesWorkflowResponse>(
-                new SetupDefaultRolesWorkflowRequest { }
-            );
-
-            Dropthings.Business.UserSettingTemplateSettingsSection settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);
-
-            foreach (UserSettingTemplateElement setting in settings.UserSettingTemplates)
-            {
-                WorkflowHelper.Run<CreateTemplateUserWorkflow, CreateTemplateUserWorkflowRequest, CreateTemplateUserWorkflowResponse>(
-                    new CreateTemplateUserWorkflowRequest { Email = setting.UserName, IsActivationRequired = false, Password = setting.Password, RequestedUsername = setting.UserName, RoleName = setting.RoleNames, TemplateRoleName = setting.TemplateRoleName }
-                );
-            }
         }
 
         private static bool IsValidEmail(string email)

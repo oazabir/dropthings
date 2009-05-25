@@ -85,6 +85,7 @@
     <Compile Include="Configuration\UserSettingTemplateElement.cs" />
     <Compile Include="Configuration\UserSettingTemplateElementCollection.cs" />
     <Compile Include="Configuration\UserSettingTemplateSection.cs" />
+    <Compile Include="Configuration\UserTemplateSetting.cs" />
     <Compile Include="Container\BusinessContainer.cs" />
     <Compile Include="Helpers\ShortGuid.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

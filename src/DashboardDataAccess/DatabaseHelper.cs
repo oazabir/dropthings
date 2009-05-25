@@ -418,13 +418,36 @@ namespace Dropthings.DataAccess
         }
 
         /// <summary>
+        /// If there's a connection string specified for the subsystem, then use that 
+        /// otherwise use the first connection string as the default for the subsystem 
+        /// Connection string name must be in this format: SubsystemNameConnectionString           
+        /// </summary>
+        /// <param name="subsystem"></param>
+        /// <returns></returns>
+        internal static string GetConnectionString(string connectionStringName)
+        {
+            return ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+        }
+
+        /// <summary>
         /// Creates a disconnected DataContext which does not support deferred loading
         /// </summary>
         /// <param name="subsystem"></param>
         /// <returns></returns>
         internal static DropthingsDataContext2 GetDataContext(SubsystemEnum subsystem, bool nolock)
         {
-            var context = new DropthingsDataContext2(GetConnectionString(subsystem));
+            return GetDataContext(GetConnectionString(subsystem), nolock);
+        }
+
+        /// <summary>
+        /// Creates a disconnected DataContext which does not support deferred loading from Connection String
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="nolock"></param>
+        /// <returns></returns>
+        internal static DropthingsDataContext2 GetDataContext(string connectionString, bool nolock)
+        {
+            var context = new DropthingsDataContext2(connectionString);
             context.Log = new DebugStreamWriter();
             context.DeferredLoadingEnabled = false;
 

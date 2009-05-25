@@ -14,6 +14,8 @@ using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.TabWorkflows;
 using Dropthings.DataAccess;
 using Dropthings.Web.Framework;
+using Dropthings.Business.Facade;
+using Dropthings.Business.Facade.Context;
 
 public partial class TabPage : System.Web.UI.UserControl
 {
@@ -64,11 +66,18 @@ public partial class TabPage : System.Web.UI.UserControl
 
     protected void addNewTabLinkButton_Click(object sender, EventArgs e)
     {
-        var response = WorkflowHelper.Run<AddNewTabWorkflow,AddNewTabWorkflowRequest,AddNewTabWorkflowResponse>(
-                            new AddNewTabWorkflowRequest { LayoutType = "1", UserName = Profile.UserName }
-                        );
+        // -- Workflow way. Obselete.
+        //var response = WorkflowHelper.Run<AddNewTabWorkflow, AddNewTabWorkflowRequest, AddNewTabWorkflowResponse>(
+        //            new AddNewTabWorkflowRequest { LayoutType = "1", UserName = Profile.UserName }
+        //        );
 
-        RedirectToTab(response.NewPage);
+        //RedirectToTab(response.NewPage);
+
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            var page = facade.CreatePage(string.Empty, null);
+            RedirectToTab(page);
+        }
     }
 
     private void SetupTabs()

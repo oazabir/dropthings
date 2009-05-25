@@ -57,8 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="aspnet_User.cs" />
-    <Compile Include="Column.cs" />
+    <Compile Include="IDropthingsDataContext.cs" />
+    <Compile Include="ObjectExtensions\aspnet_User.cs" />
+    <Compile Include="ObjectExtensions\Column.cs" />
     <Compile Include="DropthingsDataContext.cs">
       <DependentUpon>DropthingsDataContext.dbml</DependentUpon>
     </Compile>
@@ -71,17 +72,40 @@
     <Compile Include="DropthingsDataContext2.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="LinqQueries.cs" />
-    <Compile Include="ObjectBuilder.cs" />
-    <Compile Include="Page.cs" />
+    <Compile Include="Helpers\ObjectBuilder.cs" />
+    <Compile Include="ObjectExtensions\Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="TimedLog.cs" />
-    <Compile Include="UserSetting.cs" />
-    <Compile Include="WidgetInstance.cs" />
+    <Compile Include="Helpers\TimedLog.cs" />
+    <Compile Include="ObjectExtensions\UserSetting.cs" />
+    <Compile Include="ObjectExtensions\WidgetInstance.cs" />
+    <Compile Include="DropthingsDataContext.DatabaseHelper.cs" />
+    <Compile Include="Repository\ColumnRepository.cs" />
+    <Compile Include="Repository\IColumnRepository.cs" />
+    <Compile Include="Repository\IPageRepository.cs" />
+    <Compile Include="Repository\IRoleRepository.cs" />
+    <Compile Include="Repository\IRoleTemplateRepository.cs" />
+    <Compile Include="Repository\ITokenRepository.cs" />
+    <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Repository\IUserSettingRepository.cs" />
+    <Compile Include="Repository\IWidgetInstanceRepository.cs" />
+    <Compile Include="Repository\IWidgetRepository.cs" />
+    <Compile Include="Repository\IWidgetsInRolesRepository.cs" />
+    <Compile Include="Repository\IWidgetZoneRepository.cs" />
+    <Compile Include="Repository\PageRepository.cs" />
+    <Compile Include="Repository\RoleRepository.cs" />
+    <Compile Include="Repository\RoleTemplateRepository.cs" />
+    <Compile Include="Repository\TokenRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\UserSettingRepository.cs" />
+    <Compile Include="Repository\WidgetInstanceRepository.cs" />
+    <Compile Include="Repository\WidgetRepository.cs" />
+    <Compile Include="Repository\WidgetsInRolesRepository.cs" />
+    <Compile Include="Repository\WidgetZoneRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -102,6 +126,12 @@
     <None Include="DropthingsDataContext.dbml.layout">
       <DependentUpon>DropthingsDataContext.dbml</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
+      <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
+      <Name>Dropthings.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

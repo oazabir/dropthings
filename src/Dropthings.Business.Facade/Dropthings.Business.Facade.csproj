@@ -79,8 +79,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DashboardFacade.cs" />
+    <Compile Include="Configuration.Facade.cs" />
+    <Compile Include="Context\AppContext.cs" />
+    <Compile Include="Context\SessionWrapper.cs" />
+    <Compile Include="DashboardFacade.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Facade.Configuration.cs" />
+    <Compile Include="Facade.cs" />
+    <Compile Include="Facade.Page.cs" />
+    <Compile Include="Facade.Security.cs" />
+    <Compile Include="Facade.User.cs" />
+    <Compile Include="Facade.Visit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Facade.Widget.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.cs</LastGenOutput>
@@ -108,10 +120,17 @@
       <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
       <Name>Dropthings.Business.Workflows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Model\Dropthings.Model.csproj">
+      <Project>{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}</Project>
+      <Name>Dropthings.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
       <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
       <Name>Dropthings.Util</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows Workflow Foundation\v3.5\Workflow.Targets" />

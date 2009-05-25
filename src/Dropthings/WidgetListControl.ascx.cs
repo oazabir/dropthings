@@ -24,6 +24,10 @@ using Dropthings.DataAccess;
 using Dropthings.Web.Framework;
 using Dropthings.Web.Util;
 
+using Dropthings.Business.Facade;
+using Dropthings.Model;
+using Dropthings.Business.Facade.Context;
+
 public partial class WidgetListControl : System.Web.UI.UserControl
 {
     #region Fields
@@ -129,15 +133,23 @@ public partial class WidgetListControl : System.Web.UI.UserControl
 
         int widgetId = int.Parse(e.CommandArgument.ToString());
 
-        DashboardFacade facade = new DashboardFacade(HttpContext.Current.Profile.UserName);
+        //DashboardFacade facade = new DashboardFacade(HttpContext.Current.Profile.UserName);
 
         //User added a new widget. The new widget is loaded for the first time. So, it's not
         //a postback experience for the widget. But for rest of the widgets, it is a postback experience.
-        var response = WorkflowHelper.Run<AddWidgetWorkflow,AddWidgetRequest,AddWidgetResponse>(
-                           new AddWidgetRequest { WidgetId = widgetId, RowNo = 0, ColumnNo = 0, ZoneId = 0, UserName = Profile.UserName }
-                       );
+        WidgetInstance widgetInstance;
+        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        {
+            widgetInstance = facade.AddWidget(widgetId, 0, 0, 0);
+        }
 
-        widgetRefreshCallback(response.WidgetInstanceAffected);
+        // -- Workflow way. Obselete.
+        //var response = WorkflowHelper.Run<AddWidgetWorkflow,AddWidgetRequest,AddWidgetResponse>(
+        //                   new AddWidgetRequest { WidgetId = widgetId, RowNo = 0, ColumnNo = 0, ZoneId = 0, UserName = Profile.UserName }
+        //               );
+
+        //widgetRefreshCallback(response.WidgetInstanceAffected);
+        widgetRefreshCallback(widgetInstance);
     }
 
     #endregion Methods

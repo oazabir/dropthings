@@ -49,6 +49,16 @@ public static class ExtensionFunctions
         return string.Format(s, args);
     }
 
+    public static bool IsEmpty(this Guid g)
+    {
+        return g.Equals(Guid.Empty);
+    }
+
+    public static bool IsEmpty(this string g)
+    {
+        return string.IsNullOrEmpty(g);
+    }
+
     [DebuggerStepThrough]
     public static string Percent(this int value)
     {
@@ -75,6 +85,11 @@ public static class ExtensionFunctions
         XmlTextWriter writer = new XmlTextWriter(new StringWriter(builder));
         e.WriteTo(writer);
         return builder.ToString();
+    }
+
+    public static bool HasItems<T>(this List<T> list)
+    {
+        return (list != null) && (list.Count > 0);
     }
 
     #endregion Methods
