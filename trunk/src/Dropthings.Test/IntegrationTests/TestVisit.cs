@@ -61,6 +61,36 @@
         #region Methods
 
         [TestMethod]
+        public void First_Visit_Should_Return_Pages_And_Settings_ByFacade()
+        {
+            Dropthings.Business.Facade.Facade.BootStrap();
+
+            MembershipHelper.UsingNewAnonUser((profile) =>
+                SetupHelper.UsingNewAnonSetup_ByFacade(profile.UserName, (response) =>
+                {
+                    response.UserPages.Each((page) =>
+                    {
+                        var columns = WorkflowTest.Run<GetColumnsInPageWorkflow, GetColumnsInPageWorkflowRequest, GetColumnsInPageWorkflowResponse>(
+                            new GetColumnsInPageWorkflowRequest { PageId = page.ID, UserName = profile.UserName }
+                        ).Columns;
+
+                        Assert.AreNotEqual(0, page.ColumnCount, "Page must have at least one column");
+                        Assert.AreEqual(page.ColumnCount, columns.Count, "Not same columns available in the page");
+
+                        columns.Each((column) =>
+                        {
+                            var widgets = WorkflowTest.Run<LoadWidgetInstancesInZoneWorkflow, LoadWidgetInstancesInZoneRequest, LoadWidgetInstancesInZoneResponse>(
+                                new LoadWidgetInstancesInZoneRequest { WidgetZoneId = column.WidgetZoneId, UserName = profile.UserName }
+                            ).WidgetInstances;
+
+                            Assert.AreNotEqual(0, widgets.Count, "No widgets found on page " + page.Title + ", column " + column.ColumnNo);
+                        });
+                    });
+                })
+            );
+        }
+
+        [TestMethod]
         public void First_Visit_Should_Return_Pages_And_Settings()
         {
             WorkflowTest.UsingWorkflowRuntime(() =>

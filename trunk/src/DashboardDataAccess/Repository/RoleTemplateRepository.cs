@@ -34,6 +34,11 @@
             _database.Delete<RoleTemplate>(DropthingsDataContext.SubsystemEnum.User, page);
         }
 
+        public List<RoleTemplate> GeAllRoleTemplates()
+        {
+            return _database.GetList<RoleTemplate>(DropthingsDataContext.SubsystemEnum.User, LinqQueries.CompiledQuery_GetRoleTemplates);
+        }
+
         public RoleTemplate GetRoleTemplateByRoleName(string roleName)
         {
             return _database.GetSingle<RoleTemplate, string>(DropthingsDataContext.SubsystemEnum.User, roleName, LinqQueries.CompiledQuery_GetRoleTemplateByRoleName);

@@ -10,6 +10,9 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Diagnostics;
+    using Dropthings.Model;
+    using Dropthings.Business.Facade;
+    using Dropthings.Business.Facade.Context;
 
     internal class SetupHelper
     {
@@ -34,6 +37,28 @@
             finally
             {
                 // TODO: Clear the setup
+            }
+        }
+
+        [DebuggerStepThrough]
+        public static void UsingNewAnonSetup_ByFacade(string userName, Action<UserSetup> callback)
+        {
+            // Create default page setup which is expected to populate all three columns with widgets
+            using(var facade = new Facade(new AppContext(string.Empty, userName)))
+            {
+                var response = facade.FirstVisitHomePage(userName, string.Empty, true);
+                Assert.IsNotNull(response.CurrentPage, "First time visit did not create pages");
+                Assert.AreNotEqual(0, response.UserPages.Count, "No page returned");
+                Assert.IsNotNull(response.UserSetting, "User setting not returned");
+
+                try
+                {
+                    callback(response);
+                }
+                finally
+                {
+                    // TODO: Clear the setup
+                }
             }
         }
 

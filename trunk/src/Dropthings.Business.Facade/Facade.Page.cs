@@ -20,9 +20,9 @@
             return this.columnRepository.GetColumnsByPageId(pageId);
         }
 
-        public Column CloneColumn(int pageId, int widgetZoneId, Column columnToClone)
+        public Column CloneColumn(Page clonedPage, Column columnToClone)
         {
-            var widgetZoneToClone = this.widgetZoneRepository.GetWidgetZoneById(widgetZoneId);
+            var widgetZoneToClone = this.widgetZoneRepository.GetWidgetZoneById(columnToClone.WidgetZoneId);
 
             var clonedWidgetZone = this.widgetZoneRepository.Insert((newWidgetZone) =>
             {
@@ -35,8 +35,8 @@
 
             return this.columnRepository.Insert((col) =>
             {
-                col.PageId = pageId;
-                col.WidgetZoneId = widgetZoneId;
+                col.PageId = clonedPage.ID;
+                col.WidgetZoneId = clonedWidgetZone.ID;
                 col.ColumnNo = columnToClone.ColumnNo;
                 col.ColumnWidth = columnToClone.ColumnWidth;
             });
@@ -96,7 +96,7 @@
                 });
 
                 var columns = this.columnRepository.GetColumnsByPageId(pageToClone.ID);
-                columns.Each(column => CloneColumn(clonedPage.ID, column.WidgetZoneId, column));
+                columns.Each(columnToClone => CloneColumn(clonedPage, columnToClone));
 
                 return clonedPage;
             }
