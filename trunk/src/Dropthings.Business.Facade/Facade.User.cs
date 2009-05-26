@@ -78,8 +78,8 @@ namespace Dropthings.Business.Facade
                 var newUserGuid = CreateUser(requestedUserName, password, email);
                 SetUserRoles(requestedUserName, roleName);
                 AddUserToRoleTemplate(newUserGuid, templateRoleName);
-                
-                var createdPage = CreatePage(userGuid, string.Empty, null);
+
+                var createdPage = CreatePage(newUserGuid, string.Empty, null);
 
                 if (createdPage != null && createdPage.ID > 0)
                 {
@@ -90,6 +90,18 @@ namespace Dropthings.Business.Facade
                 {
                     throw new ApplicationException("First page creation failed");
                 }
+            }
+        }
+
+        public void SetupDefaultSetting()
+        {
+            SetupDefaultRoles();
+
+            var settings = (UserSettingTemplateSettingsSection)System.Configuration.ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);
+
+            foreach (UserSettingTemplateElement setting in settings.UserSettingTemplates)
+            {
+                CreateTemplateUser(setting.UserName, false, setting.Password, setting.UserName, setting.RoleNames, setting.TemplateRoleName);
             }
         }
 
