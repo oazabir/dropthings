@@ -1,6 +1,7 @@
 ﻿namespace Dropthings.DataAccess.Repository
 {
     using System;
+    using System.Collections.Generic;
 
     public interface IRoleTemplateRepository
     {
@@ -9,6 +10,8 @@
         void Delete(int id);
 
         void Delete(RoleTemplate page);
+
+        List<RoleTemplate> GeAllRoleTemplates();
 
         Dropthings.DataAccess.RoleTemplate GetRoleTemplateByRoleName(string roleName);
 

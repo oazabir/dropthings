@@ -8,6 +8,7 @@
     using System.Web.Security;
     using Dropthings.DataAccess;
     using Dropthings.Model;
+    using System.Configuration;
 
     partial class Facade
     {
@@ -24,6 +25,49 @@
                     if (!System.Web.Security.Roles.IsUserInRole(roles[i]))
                     {
                         System.Web.Security.Roles.AddUserToRole(userName, roles[i]);
+                    }
+                }
+            }
+        }
+
+        public void SetupDefaultRoles()
+        {
+            var settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);
+
+            foreach (UserSettingTemplateElement setting in settings.UserSettingTemplates)
+            {
+                var roleNames = setting.RoleNames;
+
+                if (!string.IsNullOrEmpty(roleNames))
+                {
+                    string[] roles = roleNames.Split(new char[] { ',', ':' });
+
+                    for (int i = 0; i < roles.Length; i++)
+                    {
+                        if (!System.Web.Security.Roles.RoleExists(roles[i]))
+                        {
+                            if (!Roles.RoleExists(roles[i]))
+                            {
+                                Roles.CreateRole(roles[i]);
+
+                                var aspnet_Role = DatabaseHelper.GetSingle<aspnet_Role, string>(DatabaseHelper.SubsystemEnum.User, roles[i], LinqQueries.CompiledQuery_GetRoleByRoleName);
+                                var defaultWidgets = DatabaseHelper.GetList<Widget, bool>(DatabaseHelper.SubsystemEnum.Widget,
+                                    true, LinqQueries.CompiledQuery_GetWidgetByIsDefault);
+
+                                if (defaultWidgets != null && defaultWidgets.Count > 0)
+                                {
+                                    foreach (var defaultWidget in defaultWidgets)
+                                    {
+                                        DatabaseHelper.Insert<WidgetsInRole>(DatabaseHelper.SubsystemEnum.Widget,
+                                           (newWidgetsInRole) =>
+                                           {
+                                               newWidgetsInRole.WidgetId = defaultWidget.ID;
+                                               newWidgetsInRole.RoleId = aspnet_Role.RoleId;
+                                           });
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -85,6 +129,29 @@
         {
             MembershipUser newUser = Membership.CreateUser(registeredUserName, password, email);
             return (Guid)newUser.ProviderUserKey;
+        }
+
+        public void AddUserToRoleTemplate(Guid userGuid, string templateRoleName)
+        {
+            var RoleTemplates = this.roleTemplateRepository.GeAllRoleTemplates();
+
+            int priority = RoleTemplates.Count == 0 ? 0 : RoleTemplates.Max(r => r.Priority);
+
+            var aspnet_Role = DatabaseHelper.GetSingle<aspnet_Role, string>(DatabaseHelper.SubsystemEnum.User,
+                    templateRoleName, LinqQueries.CompiledQuery_GetRoleByRoleName);
+
+            var RoleTemplate = DatabaseHelper.GetSingle<RoleTemplate, string>(DatabaseHelper.SubsystemEnum.User,
+                templateRoleName, LinqQueries.CompiledQuery_GetRoleTemplateByRoleName);
+
+            if (RoleTemplate == null)
+            {
+                var insertedRoleTemplate = DatabaseHelper.Insert<RoleTemplate>(DatabaseHelper.SubsystemEnum.User, (newRoleTemplate) =>
+                {
+                    newRoleTemplate.RoleId = aspnet_Role.RoleId;
+                    newRoleTemplate.TemplateUserId = userGuid;
+                    newRoleTemplate.Priority = priority + 1;
+                });
+            }
         }
 
         public RegisterUserResponse RegisterUser(string registeredUserName, string password, string email, bool isActivationRequired)

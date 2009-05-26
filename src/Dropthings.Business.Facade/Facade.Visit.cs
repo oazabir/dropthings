@@ -46,12 +46,14 @@
                 // Setup some default pages
                 var page = CreatePage(userGuid, string.Empty, null);
 
-                if (page == null)
-                    throw new ApplicationException("First page creation failed");
-                else
+                if (page != null && page.ID > 0)
                 {
                     CreateDefaultWidgetsOnPage(userName, page.ID);
                     RepeatVisitHomePage(userName, pageTitle, isAnonymous);    // non-recursive. this will hit the outter most else block
+                }
+                else
+                {
+                    throw new ApplicationException("First page creation failed");
                 }
             }
 

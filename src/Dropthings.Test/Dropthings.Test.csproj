@@ -128,6 +128,10 @@
       <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
       <Name>Dropthings.Business.Workflows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Model\Dropthings.Model.csproj">
+      <Project>{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}</Project>
+      <Name>Dropthings.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
       <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
       <Name>Dropthings.Util</Name>

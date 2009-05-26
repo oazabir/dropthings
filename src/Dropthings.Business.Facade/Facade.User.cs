@@ -5,12 +5,12 @@ using System.Text;
 using Dropthings.DataAccess;
 
 using System.Transactions;
+using System.Web.Security;
 
 namespace Dropthings.Business.Facade
 {
 	partial class Facade
     {
-
         #region Methods
         public UserSetting GetUserSetting(Guid userGuid)
         {
@@ -68,6 +68,29 @@ namespace Dropthings.Business.Facade
         public bool UserExists(string userName)
         {
             return (this.userRepository.GetUserGuidFromUserName(userName) != default(Guid));
+        }
+
+        public void CreateTemplateUser(string email, bool isActivationRequired, string password, string requestedUserName, string roleName, string templateRoleName)
+        {
+            var userGuid = this.userRepository.GetUserGuidFromUserName(requestedUserName);
+            if (userGuid.IsEmpty())
+            {
+                var newUserGuid = CreateUser(requestedUserName, password, email);
+                SetUserRoles(requestedUserName, roleName);
+                AddUserToRoleTemplate(newUserGuid, templateRoleName);
+                
+                var createdPage = CreatePage(userGuid, string.Empty, null);
+
+                if (createdPage != null && createdPage.ID > 0)
+                {
+                    var userSetting = GetUserSetting(newUserGuid);
+                    CreateDefaultWidgetsOnPage(requestedUserName, createdPage.ID);
+                }
+                else
+                {
+                    throw new ApplicationException("First page creation failed");
+                }
+            }
         }
 
         #endregion
