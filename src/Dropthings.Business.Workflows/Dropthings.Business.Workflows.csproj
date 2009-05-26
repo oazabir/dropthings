@@ -317,6 +317,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="WidgetWorkflows\LoadWidgetInstancesInZoneWorkflow.xoml">
+      <SubType>Component</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,8 @@
     using System.Data.SqlClient;
     using System.Configuration;
     using Dropthings.Business;
+    using Dropthings.Business.Facade;
+    using Dropthings.Business.Facade.Context;
 
     /// <summary>
     /// Summary description for TestVisit
@@ -63,7 +65,7 @@
         [TestMethod]
         public void First_Visit_Should_Return_Pages_And_Settings_ByFacade()
         {
-            Dropthings.Business.Facade.Facade.BootStrap();
+            Facade.BootStrap();
 
             MembershipHelper.UsingNewAnonUser((profile) =>
                 SetupHelper.UsingNewAnonSetup_ByFacade(profile.UserName, (response) =>
@@ -136,6 +138,29 @@
 
             // Do the first visit test
             First_Visit_Should_Return_Pages_And_Settings();
+        }
+
+        [TestMethod]
+        public void Very_First_Vist_With_Empty_Database_Should_Setup_Default_Pages_ByFacade()
+        {
+            Facade.BootStrap();
+
+            // Initialize database to empty state so that we can test the first time initalization process
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings[1].ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("EXEC Resurrection", con))
+            {
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+            // Prepare the database for use
+            using (var facade = new Facade(new AppContext(string.Empty, string.Empty)))
+            {
+                facade.SetupDefaultSetting();
+            }
+
+            // Do the first visit test
+            First_Visit_Should_Return_Pages_And_Settings_ByFacade();
         }
 
 

@@ -12,6 +12,8 @@
     using Dropthings.DataAccess;
     using Dropthings.Test.Helper;
     using Dropthings.Web.Framework;
+    using Dropthings.Business.Facade;
+    using Dropthings.Business.Facade.Context;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -59,6 +61,72 @@
         #endregion Properties
 
         #region Methods
+
+        [TestMethod]
+        public void Layout_Change_Should_Move_Widgets_To_Last_Available_Column_ByFacade()
+        {
+            const int ColumnsBeforeChange = 3;
+            const int ColumnsAfterChange = 2;
+            const int LayoutType = 2;
+
+            Facade.BootStrap();
+
+            MembershipHelper.UsingNewAnonUser((profile) =>
+                SetupHelper.UsingNewAnonSetup_ByFacade(profile.UserName, (setup) =>
+                {
+                    using (var facade = new Facade(new AppContext(string.Empty, profile.UserName)))
+                    {
+                        int originalLayoutType = setup.CurrentPage.LayoutType;
+
+                        // Ensure there's widgets on the last column
+                        WidgetZone lastZone = DatabaseHelper.GetSingle<WidgetZone, int, int>(DatabaseHelper.SubsystemEnum.WidgetZone,
+                            setup.CurrentPage.ID, ColumnsBeforeChange - 1,
+                            LinqQueries.CompiledQuery_GetWidgetZoneByPageId_ColumnNo);
+                        List<WidgetInstance> widgetsOnLastZone = DatabaseHelper.GetList<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                            lastZone.ID,
+                            LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId);
+                        Assert.AreNotEqual(0, widgetsOnLastZone.Count, "No widget found on last column to move");
+
+                        // Change to 25%, 75% two column layout
+                        facade.ModifyPageLayout(LayoutType);
+
+                        // Get the page setup again to ensure the number of columns are changed
+                        var userSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true);
+
+                        Assert.AreEqual(ColumnsAfterChange, userSetup.CurrentPage.ColumnCount, "Number of columns did not change");
+
+                        // Get the columns to verify the column number are same and each column has the expected width set
+                        List<Column> columns = DatabaseHelper.GetList<Column, int>(DatabaseHelper.SubsystemEnum.Column,
+                            userSetup.CurrentPage.ID,
+                            LinqQueries.CompiledQuery_GetColumnsByPageId);
+                        Assert.AreEqual(ColumnsAfterChange, columns.Count, "There are still more columns in database");
+
+                        int[] columnWidths = Page.GetColumnWidths(LayoutType);
+                        foreach (Column col in columns)
+                            Assert.AreEqual(columnWidths[col.ColumnNo], col.ColumnWidth, "Column width is not as expected for Column No: " + col.ColumnNo);
+
+                        // Ensure the last column does not have any widgets
+                        List<WidgetInstance> remainingWidgetsOnLastZone = DatabaseHelper.GetList<WidgetInstance, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
+                            lastZone.ID,
+                            LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId);
+                        Assert.AreEqual(0, remainingWidgetsOnLastZone.Count, "Widgets are still in the last column. {0}".FormatWith(lastZone.ID));
+
+                        // Now change back to 3 column layout and ensure the last column is added
+                        facade.ModifyPageLayout(originalLayoutType);
+
+                        List<Column> originalColumns = DatabaseHelper.GetList<Column, int>(DatabaseHelper.SubsystemEnum.Column,
+                            setup.CurrentPage.ID,
+                            LinqQueries.CompiledQuery_GetColumnsByPageId);
+                        Assert.AreEqual(ColumnsBeforeChange, originalColumns.Count, "There are still more columns in database");
+
+                        // and the column width distribution must have changed as well
+                        int[] originalColumnWidths = Page.GetColumnWidths(originalLayoutType);
+                        foreach (Column col in originalColumns)
+                            Assert.AreEqual(originalColumnWidths[col.ColumnNo], col.ColumnWidth, "Column width is not as expected for Column No: " + col.ColumnNo);
+                    }
+                })
+            );
+        }
 
         [TestMethod]
         public void Layout_Change_Should_Move_Widgets_To_Last_Available_Column()
