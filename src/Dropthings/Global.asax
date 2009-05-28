@@ -15,13 +15,14 @@
     {
         // Code that runs on application startup
 
+        // -- Workflow way. Obselete.
         // Create a global workflow runtime and store in Application context.
-        System.Workflow.Runtime.WorkflowRuntime runtime = Dropthings.Business.Workflows.WorkflowHelper.CreateDefaultRuntime();
-        Application[APPLICATION_WORKFLOW_RUNTIME_KEY] = runtime;
+        //System.Workflow.Runtime.WorkflowRuntime runtime = Dropthings.Business.Workflows.WorkflowHelper.CreateDefaultRuntime();
+        //Application[APPLICATION_WORKFLOW_RUNTIME_KEY] = runtime;
 
-        // Setup default Dependencies for regular execution where all dependencies are real
-        ServiceLocator.RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
-        ServiceLocator.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
+        //// Setup default Dependencies for regular execution where all dependencies are real
+        //ServiceLocator.RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
+        //ServiceLocator.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
         Dropthings.Business.Facade.Facade.BootStrap();
     }
 
@@ -29,10 +30,11 @@
     {
         //  Code that runs on application shutdown
 
+        // -- Workflow way. Obselete.
         // Terminate the workflow runtime
-        System.Workflow.Runtime.WorkflowRuntime runtime = Application[APPLICATION_WORKFLOW_RUNTIME_KEY] as System.Workflow.Runtime.WorkflowRuntime;
-        if (null != runtime)
-            Dropthings.Business.Workflows.WorkflowHelper.TerminateDefaultRuntime(runtime);
+        //System.Workflow.Runtime.WorkflowRuntime runtime = Application[APPLICATION_WORKFLOW_RUNTIME_KEY] as System.Workflow.Runtime.WorkflowRuntime;
+        //if (null != runtime)
+        //    Dropthings.Business.Workflows.WorkflowHelper.TerminateDefaultRuntime(runtime);
 
         // Teardown Dependency Containers
         Dropthings.Business.Container.ServiceLocator.Dispose();
