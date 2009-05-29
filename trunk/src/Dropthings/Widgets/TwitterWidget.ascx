@@ -1,63 +1,104 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="TwitterWidget.ascx.cs" Inherits="TwitterWidget" %>
+<script src="/Widgets/TwitterWidget/TwitterService.js" id="twitterService" type="text/javascript"></script>
 <script type="text/javascript">
-    var TwitterWidgetOperations = function() {
+    var Twitter_<%= WidgetID %> = function() {
+        this.LoadWidget();
     };
-    TwitterWidgetOperations.prototype = {
+    Twitter_<%= WidgetID %>.prototype = {
         _selectedOption: null,
         _currentPage: 1,
         _pagingEnable: false,
         _currentResponse: null,
         _loggedIn: false,
         _pageCount: 1,
-        LoggedIn: function(val) {
-            this._loggedIn = (val == 'True') ? true : false;
-        },
+        _widgetState: null,
+        _uName: null,
+        _uPass: null,
+        _widgetID: <%= WidgetHostID %>,
         ResetTabs: function() {
-            $('.twitterTabs ul li').removeClass('selected');
+            $('#<%= WidgetID %>_MainView .twitterTabs li').removeClass('selected');
         },
         SetSelected: function(el) {
-            this.ResetTabs();
-            if (typeof (el) != 'object') el = $get(el);
-            $(el).parent().addClass('selected');
+            if (typeof (el) != 'object') el = $('#'+el);
             this._selectedOption = $(el).html();
-            if (this._selectedOption == 'Update') {
-                $('.twitterView').css('display', 'none');
-                $('.twitterUpdate').css('display', '');
-                $('#<%= txtTwUpdate.ClientID %>').css('width', (($('.twitterUpdate').width() - 10) + 'px'));
+            $('#<%= WidgetID %>_TwUpdateError').html('');
+            if(!this._loggedIn) 
+            {
+                if(this._selectedOption != 'Public')
+                {
+                    this._selectedOption = 'Public';
+                    return;
+                }
             }
-            else {
-                $('.twitterView').css('display', '');
-                $('.twitterUpdate').css('display', 'none');
+            this.ResetTabs();
+            $(el).parent().addClass('selected');
+            $('#<%= WidgetID %>_TwView').html('');
+            if (this._selectedOption != 'Update') {
+                $('#<%= WidgetID %>_TwView').css('display', '');
+                $('#<%= WidgetID %>_TwUpdatePanel').css('display', 'none');
             }
+            switch (this._selectedOption) {
+                case 'Update': {
+                    $('#<%= WidgetID %>_TwView').css('display', 'none');
+                    $('#<%= WidgetID %>_TwUpdateError').html('');
+                    $('#<%= WidgetID %>_TwUpdatePanel').css('display', '');
+                    $('#<%= WidgetID %>_TwUpdateText').css('width', (($('.twitterUpdate').width() - 10) + 'px'));
+                    break;
+                }
+                case 'Friends': this.LoadFriendsTimeline(); break;
+                case 'Public': this.LoadPublicTimeline(); break;
+                case 'Archive': this.LoadMyTimeline(); break;
+            }
+        },
+        Update: function() {
+            this.ShowProgress('Updating...');
+            $('#<%= WidgetID %>_TwUpdateBtn').attr('disabled','true');
+            TwitterService.UpdateStaus(this._uName, this._uPass, $('#<%= WidgetID %>_TwUpdateText').val(),function(resp){
+                $('#<%= WidgetID %>_TwUpdateBtn').attr('disabled','false');
+                if(resp.toString().indexOf("error") > -1) $('#<%= WidgetID %>_TwUpdateError').html('Update failed. Please check your credentials.');
+                else Tw_<%= WidgetID %>.SetSelected('<%= WidgetID %>_TwFriends');
+            }, 
+            function(msg){
+                $('#<%= WidgetID %>_TwUpdateBtn').attr('disabled','false');
+                if(resp.toString().indexOf("error") > -1) $('#<%= WidgetID %>_TwUpdateError').html('Update failed:' + msg);
+            });
+        },
+        HideSettings: function() {
+            $('#<%= WidgetID %>_SettingsPanel').css('display','none');
+            $('#<%= WidgetID %>_Content').css('display','');
         },
         ShowSettings: function() {
-            $('#<%= btnTwShowSettings.ClientID %>').click();
+            $('#<%= WidgetID %>_SettingsPanel').css('display','');
+            $('#<%= WidgetID %>_Content').css('display','none');
         },
         ViewDisplay: function(items) {
-            $('.twitterView').css('display', 'block').html('');
+            $('#<%= WidgetID %>_MainView').css('display', 'block');
+            $('#<%= WidgetID %>_Progress').css('display', 'none');
+            $('#<%= WidgetID %>_TwUpdateError').html('');
+            $('#<%= WidgetID %>_TwView').html('');
             var mainDiv;
             var dataDiv;
-            if (this._loggedIn == false) {
-                $('<div/>').addClass('twitterLogin').html('Please <a href="javascript:void(0)" onclick="Tw_op.ShowSettings()">Sign in</a> to update your account').appendTo('.twitterView');
+            if(!this._loggedIn) {
+                $('<div/>').addClass('twitterLogin').html('Please <a href="javascript:void(0)" onclick="Tw_<%= WidgetID %>.ShowSettings()">sign in</a> to view & update').appendTo('#<%= WidgetID %>_TwView');
             }
             $.each(items, function(i, item) {
                 mainDiv = 'u_' + item.user.id + '_' + i;
                 dataDiv = 'd_' + item.user.id + '_' + i;
                 if (i % 2) {
-                    $('<div/>').attr('id', mainDiv).addClass('even').appendTo('.twitterView');
+                    $('<div/>').attr('id', mainDiv).addClass('even').appendTo('#<%= WidgetID %>_TwView');
                 }
                 else {
-                    $('<div/>').attr('id', mainDiv).addClass('odd').appendTo('.twitterView');
+                    $('<div/>').attr('id', mainDiv).addClass('odd').appendTo('#<%= WidgetID %>_TwView');
                 }
                 $('<img/>').attr('src', item.user.profile_image_url).attr('alt', item.user.screen_name).attr('title', item.user.screen_name).appendTo('#' + mainDiv);
                 $('<div/>').attr('id', dataDiv).appendTo('#' + mainDiv);
-                $('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'javascript:void(0)')).html(item.user.screen_name).appendTo('#' + dataDiv);
+                $('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'http://twitter.com/' + item.user.screen_name)).attr('target', '_blank').html(item.user.screen_name).appendTo('#' + dataDiv);
                 $('<div/>').html(item.text).appendTo('#' + dataDiv);
                 $('<div/>').html(item.created_at).appendTo('#' + dataDiv);
             });
             if (this._pagingEnable) {
-                if (this._currentPage != this._pageCount) $('<a/>').html('Next >').addClass('nextLink').attr('href', 'javascript:void(0)').click(this.NextPage).appendTo('.twitterView');
-                if (this._currentPage != 1) $('<a/>').html('< Previous').addClass('prevLink').attr('href', 'javascript:void(0)').click(this.PrevPage).appendTo('.twitterView');
+                if (this._currentPage != this._pageCount) $('<a/>').html('Next >').addClass('nextLink').attr('href', 'javascript:void(0)').click(this.NextPage).appendTo('#<%= WidgetID %>_TwView');
+                if (this._currentPage != 1) $('<a/>').html('< Previous').addClass('prevLink').attr('href', 'javascript:void(0)').click(this.PrevPage).appendTo('#<%= WidgetID %>_TwView');
             }
         },
         SetPageItems: function() {
@@ -68,10 +109,9 @@
 
             this.ViewDisplay(returnArray);
         },
-        ParseUpdate: function(resp) {
-        },
         ParseStatus: function(resp) {
-            this._currentResponse = resp;
+            this.HideProgress();
+            this._currentResponse = Utility.getJSONObject(resp);
             if (this._currentResponse.length > 5) {
                 this._pagingEnable = true;
                 this._pageCount = (Math.ceil(this._currentResponse.length / 5));
@@ -80,72 +120,173 @@
             this._currentPage = 1;
             this.SetPageItems();
         },
-        SetDisplayFromResponse: function() {
-            var response = $('#<%= hdnResponseField.ClientID %>').val();
-            var obj = eval(response);
-            switch (this._selectedOption) {
-                case 'Update': this.ParseUpdate(obj); break;
-                case 'Friends':
-                case 'Public':
-                case 'Archive': this.ParseStatus(obj); break;
-                default: this.ParseStatus(obj); break;
-            }
-        },
         NextPage: function() {
-            Tw_op._currentPage++;
-            Tw_op.SetPageItems();
+            Tw_<%= WidgetID %>._currentPage++;
+            Tw_<%= WidgetID %>.SetPageItems();
         },
         PrevPage: function() {
-            Tw_op._currentPage--;
-            Tw_op.SetPageItems();
+            Tw_<%= WidgetID %>._currentPage--;
+            Tw_<%= WidgetID %>.SetPageItems();
+        },
+        ParseError: function(msg){
+            alert(msg);
+        },
+        LoadPublicTimeline: function(){
+            this.ShowProgress('Loading public updates...');
+            TwitterService.GetPublicStatuses(function(resp){
+                Tw_<%= WidgetID %>.ParseStatus(resp);
+            }, 
+            function(msg){
+                Tw_<%= WidgetID %>.ParseError(msg);
+            });
+        },
+        LoadFriendsTimeline: function(){
+            this.ShowProgress('Loading friends updates...');
+            TwitterService.GetFriendStatuses(this._uName, this._uPass, function(resp){
+                Tw_<%= WidgetID %>.ParseStatus(resp);
+            }, 
+            function(msg){
+                Tw_<%= WidgetID %>.ParseError(msg);
+            });
+        },
+        LoadMyTimeline: function(){
+            this.ShowProgress('Loading my timeline...');
+            TwitterService.GetUserStatuses(this._uName, this._uPass, function(resp){
+                Tw_<%= WidgetID %>.ParseStatus(resp);
+            }, 
+            function(msg){
+                Tw_<%= WidgetID %>.ParseError(msg);
+            });
+        },
+        ShowProgress: function(msg){
+            $('#<%= WidgetID %>_Progress').html(msg).css('display','block');
+        },
+        HideProgress: function(){
+            $('#<%= WidgetID %>_Progress').css('display','none');
+        },
+        SuccessVerify: function(msg){
+            if(msg.toString().indexOf('error') < 0)
+            {
+                Tw_<%= WidgetID %>._loggedIn = true;
+                if($('#<%= WidgetID %>_Content').css('display') == 'none')
+                {
+                    Dropthings.Web.Framework.WidgetService.SaveWidgetState(Tw_<%= WidgetID %>._widgetID, Tw_<%= WidgetID %>.PrepareState(), function(msg){
+                        Tw_<%= WidgetID %>.SuccessStateSave(msg);
+                    },
+                    function(err){
+                        Tw_<%= WidgetID %>.FailStateSave(msg);
+                    });
+                }
+                Tw_<%= WidgetID %>.HideSettings();
+                Tw_<%= WidgetID %>.SetSelected('<%= WidgetID %>_TwFriends');
+                
+                
+            }
+            else
+            {
+                Tw_<%= WidgetID %>.FailVerify(msg);
+            }
+        },
+        SuccessStateSave: function(msg){
+            // nothing to do
+        },
+        FailStateSave: function(err){
+            $('#<%= WidgetID %>_TwUpdateError').html('Failed to save your credentials');
+        },
+        PrepareState: function(){
+            return '<state><username>' + this._uName + '</username><password>' + this._uPass + '</password></state>';
+        },
+        FailVerify: function(msg){
+            Tw_<%= WidgetID %>._loggedIn = false;
+            if($('#<%= WidgetID %>_Content').css('display') == 'none')
+                $('#<%= WidgetID %>_TwError').html('Login failed. Please check your credentials.');
+            else
+                Tw_<%= WidgetID %>.SetSelected('<%= WidgetID %>_TwPublic');
+        },
+        VerifyCredentials: function(){
+            if($('#<%= WidgetID %>_Content').css('display') == 'none')
+            {
+                $('#<%= WidgetID %>_TwError').html('');
+                this._uName = $('#<%= WidgetID %>_TwUsername').val();
+                this._uPass = $('#<%= WidgetID %>_TwPassword').val();
+            }
+            else
+            {
+                this._uName = this._widgetState.getElementsByTagName('state')[0].getElementsByTagName('username')[0].firstChild.nodeValue;
+                this._uPass = this._widgetState.getElementsByTagName('state')[0].getElementsByTagName('password')[0].firstChild.nodeValue;
+            }
+            TwitterService.VerifyCredentials(this._uName, this._uPass, this.SuccessVerify, this.FailVerify);
+        },
+        CheckLength: function(el){
+            var left = 140-el.value.length;
+            if(left < 0)
+            {
+                el.value = el.value.substring(0, 140);
+                left--;
+            }
+            $('#<%= WidgetID %>_TwUpdateLeft').html(left+' characters left');
+        },
+        LoadNew: function() {
+            this._loggedIn = false;
+            this.SetSelected('<%= WidgetID %>_TwPublic');
+        },
+        LoadWidget: function(){
+            this._widgetState = Utility.getXMLDocument("<%= WidgetState %>");
+            try
+            {
+                if(this._widgetState.getElementsByTagName('state')[0].getElementsByTagName('username')[0].firstChild.nodeValue != '')
+                    this.VerifyCredentials();
+                else
+                    this.LoadNew();
+            }
+            catch(e)
+            {
+                this.LoadNew();
+            }
         }
     };
-    
+    var Tw_<%= WidgetID %>;
 </script>
-<link rel="Stylesheet" href="/Widgets/TwitterWidget.css" />
-<asp:Panel ID="settingsPanel" runat="server" Visible="False">
+<link rel="Stylesheet" id="twitterCSS" href="/Widgets/TwitterWidget/TwitterWidget.css" />
+<div id="<%= WidgetID %>_SettingsPanel" class="twSettings" style="display:none">
     <h3 class="twitterHeading">Twitter Credentials</h3>
     <table width="100%" border="0">
         <tr>
-            <td colspan="2" class="twitterError"><asp:Literal ID="litTwError" runat="server"></asp:Literal></td>
+            <td colspan="2" class="twitterError" id="<%= WidgetID %>_TwError"></td>
         </tr>
         <tr>
             <td>Twitter Username</td>
-            <td><asp:TextBox ID="txtTwUsername" runat="server" style="width:140px;"></asp:TextBox></td>
+            <td><input type="text" id="<%= WidgetID %>_TwUsername" class="twCredentialInput" /></td>
         </tr>
         <tr>
             <td>Twitter Password</td>
-            <td><asp:TextBox ID="txtTwPassword" TextMode="Password" runat="server" style="width:140px;"></asp:TextBox></td>
+            <td><input type="password" id="<%= WidgetID %>_TwPassword" class="twCredentialInput" /></td>
         </tr>
         <tr>
             <td></td>
-            <td><asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" />&nbsp;<asp:Button ID="btnCancel" OnClick="btnCancel_Click" runat="server" Text="Cancel" /></td>
+            <td><input type="button" id="<%= WidgetID %>_TwSave" onclick="Tw_<%= WidgetID %>.VerifyCredentials()" value="Save" />&nbsp;<input type="button" id="<%= WidgetID %>_TwCancel" onclick="Tw_<%= WidgetID %>.HideSettings()" value="Cancel" /></td>
         </tr>
     </table>
-</asp:Panel>
-<asp:MultiView ID="TwitterWidgetMultiview" runat="server" ActiveViewIndex="0">
-    <asp:View runat="server" ID="TwitterWidgetProgressView">
-        <asp:Label runat="Server" ID="label1" Text="Loading..." Font-Size="smaller" ForeColor="DimGray" />
-    </asp:View>
-    <asp:View runat="server" ID="TwitterWidgetMainView">
-        <asp:Panel ID="dataPanel" runat="server">
-            <div class="twitterTabs">
-                <ul>
-                    <li><asp:LinkButton ID="lbtnUpdate" runat="server" Text="Update" OnClientClick="Tw_op.SetSelected(this);return false;" Enabled="false"></asp:LinkButton></li>
-                    <li><asp:LinkButton ID="lbtnFriends" runat="server" Text="Friends" OnClick="lbtnFriends_Click" OnClientClick="Tw_op.SetSelected(this)" Enabled="false"></asp:LinkButton></li>
-                    <li><asp:LinkButton ID="lbtnArchive" runat="server" Text="Archive" OnClick="lbtnArchive_Click" OnClientClick="Tw_op.SetSelected(this)" Enabled="false"></asp:LinkButton></li>
-                    <li><asp:LinkButton ID="lbtnPublic" runat="server" Text="Public" OnClick="lbtnPublic_Click" OnClientClick="Tw_op.SetSelected(this)"></asp:LinkButton></li>
-                </ul>
-            </div>
-            <div class="twitterView"></div>
-            <div class="twitterUpdate" style="display:none">
-                <asp:Label ID="lblTwUpdtaeError" CssClass="twitterError" runat="server"></asp:Label>
-                <asp:TextBox TextMode="MultiLine" ID="txtTwUpdate" runat="server" Rows="4"></asp:TextBox>
-                <asp:Button ID="btnTwUpdate" Text="Update" runat="server" OnClick="btnTwUpdate_Click" />
-            </div>
-        </asp:Panel>
-    </asp:View>
-</asp:MultiView>
-<asp:Button ID="btnTwShowSettings" OnClick="btnTwShowSettings_Click" runat="server" style="display:none" />
-<asp:HiddenField ID="hdnResponseField" runat="server" />
-<asp:Timer ID="TwitterWidgetTimer" Interval="100" OnTick="LoadWidget" runat="server" /> 
+</div>
+<div id="<%= WidgetID %>_Content">
+    <div id="<%= WidgetID %>_MainView" style="display:none">
+        <span id="<%= WidgetID %>_TwUpdateError" class="twitterError"></span>
+        <div class="twitterTabs">
+            <ul>
+                <li><a id="<%= WidgetID %>_TwUpdate" href="javascript:void(0)" onclick="Tw_<%= WidgetID %>.SetSelected(this);return false;">Update</a></li>
+                <li><a id="<%= WidgetID %>_TwFriends" href="javascript:void(0)" onclick="Tw_<%= WidgetID %>.SetSelected(this)">Friends</a></li>
+                <li><a id="<%= WidgetID %>_TwArchive" href="javascript:void(0)" onclick="Tw_<%= WidgetID %>.SetSelected(this)">Archive</a></li>
+                <li><a id="<%= WidgetID %>_TwPublic" href="javascript:void(0)" onclick="Tw_<%= WidgetID %>.SetSelected(this)">Public</a></li>
+            </ul>
+        </div>
+        <div id="<%= WidgetID %>_TwView" class="twitterView"></div>
+        <div id="<%= WidgetID %>_TwUpdatePanel" class="twitterUpdate" style="display:none">
+            <textarea id="<%= WidgetID %>_TwUpdateText" rows="4" cols="" onkeyup="Tw_<%= WidgetID %>.CheckLength(this)"></textarea>
+            <input type="button" id="<%= WidgetID %>_TwUpdateBtn" onclick="Tw_<%= WidgetID %>.Update()" value="Update" />
+            <span id="<%= WidgetID %>_TwUpdateLeft" class="twitterCCount">140 characters left</span>
+        </div>
+    </div>
+    <div id="<%= WidgetID %>_Progress" class="twitterProgress">
+        Loading from Twitter...
+    </div>
+</div>

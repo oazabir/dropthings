@@ -3,18 +3,21 @@
 .twitterTabs li { float:left; padding: 2px 8px; margin-top:3px; }
 .twitterTabs a { font-weight: bold; color:#646464; }
 .twitterTabs a:hover { text-decoration:none; }
-.twitterTabs .selected { background-color:#646464; }
-.twitterTabs .selected a { color:#fff; }
+.twitterTabs .selected { background-color:#E7F2FC; }
+.twitterTabs .selected a { /*color:#fff;*/ }
 .twitterView .odd { background-color:#E7F2FC; padding:5px 10px; clear:left; overflow:auto; }
 .twitterView .even { background-color:#FFF; padding:5px 10px; clear:left; overflow:auto; }
 .twitterView img { margin-right:10px; float:left; height:50px; }
 .twitterView a {font-weight:bold; display:block;}
 .twitterView .prevLink {float:left;}
 .twitterView .nextLink {float:right;}
-.twitterView, .twitterUpdate { border:1px solid #646464; }
+.twitterView, .twitterUpdate { border:1px solid #E7F2FC; }
 .twitterHeading { font-size:12px; }
 .twitterError {color:Red;}
 .twitterLogin {padding:5px;}
 .twitterLogin a {display:inline;}
 .twitterUpdate {padding:5px;background-color:#E7F2FC;}
 .twitterUpdate textarea {margin-bottom:5px;}
+.twSettings .twCredentialInput {width:140px;}
+.twitterProgress {padding:3px 5px;}
+.twitterCCount {float:right;}
