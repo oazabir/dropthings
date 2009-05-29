@@ -677,6 +677,22 @@ var Utility =
 
     untilFalse: function(test, callback) {
         Utility.untilTrue(function() { return test() === false }, callback);
+    },
+
+    getXMLDocument: function(xmlString) {
+        var doc;
+        if ($.browser.msie) {
+            doc = new ActiveXObject('Microsoft.XMLDOM');
+            doc.async = 'false'
+            doc.loadXML(xmlString);
+        } else {
+            doc = (new DOMParser()).parseFromString(xmlString, 'text/xml');
+        }
+        return doc;
+    },
+
+    getJSONObject: function(jsonString) {
+        return (new Function("return " + jsonString))();
     }
 };
 
