@@ -16,8 +16,13 @@
 .twitterError {color:Red;}
 .twitterLogin {padding:5px;}
 .twitterLogin a {display:inline;}
-.twitterUpdate {padding:5px;background-color:#E7F2FC;}
-.twitterUpdate textarea {margin-bottom:5px;}
+.twitterUpdate {padding:5px;background-color:#E7F2FC;height:120px;}
+.twitterUpdate textarea {margin-bottom:5px;height:85px;}
+.twitterUpdate input {float:left;}
 .twSettings .twCredentialInput {width:140px;}
 .twitterProgress {padding:3px 5px;}
-.twitterCCount {float:right;}
+.twitterCCount {float:right;position:relative;right:10px;}
+.twitterClose {float:right;cursor:pointer;font-weight:bold;margin:5px;font-size:smaller;color:Gray;}
+.twFeature {padding:15px 5px;font-weight:bold;}
+.twFeature a {display:inline;}
+.twTime {color:Gray;font-style:italic;}
