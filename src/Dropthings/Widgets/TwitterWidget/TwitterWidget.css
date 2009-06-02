@@ -8,7 +8,7 @@
 .twitterView .odd { background-color:#E7F2FC; padding:5px 10px; clear:left; overflow:auto; }
 .twitterView .even { background-color:#FFF; padding:5px 10px; clear:left; overflow:auto; }
 .twitterView img { margin-right:10px; float:left; height:50px; }
-.twitterView a {font-weight:bold; display:block;}
+.twitterView a {font-weight:bold;}
 .twitterView .prevLink {float:left;}
 .twitterView .nextLink {float:right;}
 .twitterView, .twitterUpdate { border:1px solid #E7F2FC; }
@@ -23,6 +23,7 @@
 .twitterProgress {padding:3px 5px;}
 .twitterCCount {float:right;position:relative;right:10px;}
 .twitterClose {float:right;cursor:pointer;font-weight:bold;margin:5px;font-size:smaller;color:Gray;}
-.twFeature {padding:15px 5px;font-weight:bold;}
+.twFeature {padding:15px 5px;font-weight:bold;_padding:5px 5px 15px;}
 .twFeature a {display:inline;}
 .twTime {color:Gray;font-style:italic;}
+.twitterSName {font-size:1.1em;}

@@ -65,7 +65,8 @@ Twitter.prototype = {
         if (!this._loggedIn) {
             if (this._selectedOption != 'Public') {
                 this._selectedOption = 'Public';
-                $('#W' + this._widgetID + '_TwFeatures').slideToggle();
+                if ($('#W' + this._widgetID + '_TwFeatures').css('display') != 'none') return;
+                $('#W' + this._widgetID + '_TwFeatures').slideDown();
                 $('#W' + this._widgetID + '_TwFeatures a').click(function() { wgt.ShowSettings(); });
                 $('#W' + this._widgetID + '_TwFeatClose').click(function() { $('#W' + wgt._widgetID + '_TwFeatures').slideUp(); });
                 return;
@@ -143,8 +144,9 @@ Twitter.prototype = {
             }
             $('<img/>').attr('src', item.user.profile_image_url).attr('alt', item.user.screen_name).attr('title', item.user.screen_name).appendTo('#' + mainDiv);
             $('<div/>').attr('id', dataDiv).appendTo('#' + mainDiv);
-            $('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'http://twitter.com/' + item.user.screen_name)).attr('target', '_blank').html(item.user.screen_name).appendTo('#' + dataDiv);
-            $('<div/>').html(item.text).appendTo('#' + dataDiv);
+            $('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'http://twitter.com/' + item.user.screen_name)).attr('target', '_blank').addClass('twitterSName').html(item.user.screen_name).appendTo('#' + dataDiv);
+
+            $('<div/>').html(wgt.ProcessTweet(item.text)).appendTo('#' + dataDiv);
 
             $('<div/>').addClass('twTime').html(wgt.FormatDateDiff(item.created_at) + ' ago').appendTo('#' + dataDiv);
         });
@@ -158,6 +160,83 @@ Twitter.prototype = {
                 wgt.SetPageItems();
             }).appendTo('#W' + this._widgetID + '_TwView');
         }
+    },
+    ProcessTweet: function(text) {
+        var temp = text; var end;
+        while (temp.indexOf("http://") != -1) {
+            var start = temp.indexOf("http://");
+            var url = temp.substr(start);
+            if (url.indexOf(" ") != -1) {
+                url = url.substr(0, url.indexOf(" "));
+            }
+            end = this.StringFilter(url);
+            url = url.substr(0, end);
+            while (url.charAt(url.length - 1) == ".") {
+                url = url.substr(0, url.length - 1);
+            }
+            while (url.charAt(url.length - 1) == "/") {
+                url = url.substr(0, url.length - 1);
+            }
+            while (url.charAt(url.length - 1) == "-") {
+                url = url.substr(0, url.length - 1);
+            }
+            temp = temp.substr(start + end);
+            text = text.replace(url, '<a target="_blank" href="' + url + '">' + url + "</a>");
+        }
+        temp = text;
+        while (temp.indexOf("https://") != -1) {
+            var start = temp.indexOf("https://");
+            var url = temp.substr(start);
+            if (url.indexOf(" ") != -1) {
+                url = url.substr(0, url.indexOf(" "));
+            }
+            end = this.StringFilter(url);
+            url = url.substr(0, end);
+            while (url.charAt(url.length - 1) == ".") {
+                url = url.substr(0, url.length - 1);
+            }
+            while (url.charAt(url.length - 1) == "/") {
+                url = url.substr(0, url.length - 1);
+            }
+            while (url.charAt(url.length - 1) == "-") {
+                url = url.substr(0, url.length - 1);
+            }
+            temp = temp.substr(start + end);
+            text = text.replace(url, '<a target="_blank" href="' + url + '">' + url + "</a>");
+        }
+        temp = text;
+        while (temp.indexOf("@") != -1) {
+            var start = temp.indexOf("@");
+            var scrName = temp.substr(start);
+            if (scrName.indexOf(" ") != -1) {
+                scrName = scrName.substr(0, scrName.indexOf(" "));
+            }
+            end = this.StringFilter(scrName);
+            scrName = scrName.substr(1, end);
+            while (scrName.charAt(scrName.length - 1) == ".") {
+                scrName = scrName.substr(0, scrName.length - 1);
+            }
+            while (scrName.charAt(scrName.length - 1) == "/") {
+                scrName = scrName.substr(0, scrName.length - 1);
+            }
+            while (scrName.charAt(scrName.length - 1) == "-") {
+                scrName = scrName.substr(0, scrName.length - 1);
+            }
+            temp = temp.substr(start + end);
+            text = text.replace(scrName, '<a target="_blank" href="http://twitter.com/' + scrName + '">' + scrName + "</a>");
+        }
+        return text;
+    },
+    StringFilter: function(str) {
+        var filteredValues = "()<>\\{}[]_!*|,;'\"";
+        var i; var returnString = "";
+        for (i = 0; i < str.length; i++) {
+            var c = str.charAt(i);
+            if (filteredValues.indexOf(c) != -1) {
+                return i;
+            }
+        }
+        return i;
     },
     FormatDateDiff: function(feedDate) {
         var dtSplit = feedDate.split(" ");
