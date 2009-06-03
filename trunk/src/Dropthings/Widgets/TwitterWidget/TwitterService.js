@@ -395,6 +395,9 @@ Twitter.prototype = {
     },
     load: function(instanceId) {
         this._widgetID = instanceId;
+        $('#Widget' + this._widgetID + '_EditWidget').attr('href', 'javascript:void(0)');
+        $('#Widget' + this._widgetID + '_EditWidget').css('color', 'Gray');
+        
         var wgt = this;
         $('#W' + this._widgetID + '_TwUpdate').click(function() {
             wgt.SetSelected('W' + wgt._widgetID + '_TwUpdate');
