@@ -89,7 +89,7 @@ Twitter.prototype = {
                     $('#W' + this._widgetID + '_TwView').css('display', 'none');
                     $('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
                     $('#W' + this._widgetID + '_TwUpdatePanel').css('display', '');
-                    $('#W' + this._widgetID + '_TwUpdateText').css('width', (($('.twitterUpdate').width() - 10) + 'px'));
+                    $('#W' + this._widgetID + '_TwUpdateText').css('width', (($('#W' + this._widgetID + '_TwUpdatePanel').width() - 10) + 'px'));
                     break;
                 }
             case 'Friends': this.LoadFriendsTimeline(); break;
@@ -103,12 +103,13 @@ Twitter.prototype = {
         var wgtId = this._widgetID;
         wgt.ShowProgress('Updating...');
         TwitterService.UpdateStaus(this._uName, this._uPass, $('#W' + this._widgetID + '_TwUpdateText').val(), function(resp) {
-            $('#W' + wgtId + '_TwUpdateBtn').attr('disabled', 'false');
+            $('#W' + wgtId + '_TwUpdateBtn').removeAttr('disabled');
+            $('#W' + wgtId + '_TwUpdateText').val('');
             if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed. Please check your credentials.').css('display', '');
             else wgt.SetSelected('W' + wgtId + '_TwFriends');
         },
         function(msg) {
-            $('#W' + wgtId + '_TwUpdateBtn').attr('disabled', 'false');
+            $('#W' + wgtId + '_TwUpdateBtn').removeAttr('disabled');
             if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed:' + msg).css('display', '');
         });
     },
