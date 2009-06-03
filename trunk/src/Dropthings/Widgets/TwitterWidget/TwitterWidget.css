@@ -13,7 +13,7 @@
 .twitterView .nextLink {float:right;}
 .twitterView, .twitterUpdate { border:1px solid #E7F2FC; }
 .twitterHeading { font-size:12px; }
-.twitterError {color:Red;}
+.twitterError {color:Red;padding:3px 0;}
 .twitterLogin {padding:5px;}
 .twitterLogin a {display:inline;}
 .twitterUpdate {padding:5px;background-color:#E7F2FC;height:120px;}

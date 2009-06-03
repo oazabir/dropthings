@@ -60,7 +60,7 @@ Twitter.prototype = {
         if (typeof (el) != 'object') el = $('#' + el);
         if (this._selectedOption == $(el).html()) return;
         this._selectedOption = $(el).html();
-        $('#W' + this._widgetID + '_TwUpdateError').html('');
+        $('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
         var wgt = this;
         if (!this._loggedIn) {
             if (this._selectedOption != 'Public') {
@@ -87,7 +87,7 @@ Twitter.prototype = {
             case 'Update':
                 {
                     $('#W' + this._widgetID + '_TwView').css('display', 'none');
-                    $('#W' + this._widgetID + '_TwUpdateError').html('');
+                    $('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
                     $('#W' + this._widgetID + '_TwUpdatePanel').css('display', '');
                     $('#W' + this._widgetID + '_TwUpdateText').css('width', (($('.twitterUpdate').width() - 10) + 'px'));
                     break;
@@ -104,12 +104,12 @@ Twitter.prototype = {
         wgt.ShowProgress('Updating...');
         TwitterService.UpdateStaus(this._uName, this._uPass, $('#W' + this._widgetID + '_TwUpdateText').val(), function(resp) {
             $('#W' + wgtId + '_TwUpdateBtn').attr('disabled', 'false');
-            if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed. Please check your credentials.');
+            if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed. Please check your credentials.').css('display', '');
             else wgt.SetSelected('W' + wgtId + '_TwFriends');
         },
         function(msg) {
             $('#W' + wgtId + '_TwUpdateBtn').attr('disabled', 'false');
-            if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed:' + msg);
+            if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed:' + msg).css('display', '');
         });
     },
     HideSettings: function() {
@@ -123,7 +123,7 @@ Twitter.prototype = {
     ViewDisplay: function(items) {
         $('#W' + this._widgetID + '_MainView').css('display', 'block');
         $('#W' + this._widgetID + '_Progress').css('display', 'none');
-        $('#W' + this._widgetID + '_TwUpdateError').html('');
+        $('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
         $('#W' + this._widgetID + '_TwView').html('');
         var mainDiv;
         var dataDiv;
@@ -289,7 +289,7 @@ Twitter.prototype = {
         this.SetPageItems();
     },
     ParseError: function(msg) {
-        alert(msg);
+        $('#W' + this._widgetID + '_TwUpdateError').html('Error: ' + msg).css('display', '');
     },
     LoadPublicTimeline: function() {
         this.ShowProgress('Loading public updates...');
@@ -331,7 +331,7 @@ Twitter.prototype = {
         // nothing to do
     },
     FailStateSave: function(err) {
-        $('#W' + this._widgetID + '_TwUpdateError').html('Failed to save your credentials');
+        $('#W' + this._widgetID + '_TwUpdateError').html('Failed to save your credentials').css('display', '');
     },
     PrepareState: function() {
         return '<state><username>' + this._uName + '</username><password>' + this._uPass + '</password></state>';
@@ -340,6 +340,8 @@ Twitter.prototype = {
         if ($('#W' + this._widgetID + '_Content').css('display') == 'none') {
             $('#W' + this._widgetID + '_TwError').html('');
             $('#W' + this._widgetID + '_TwLoginProgress').css('display', '');
+            $('#W' + this._widgetID + '_TwSave').attr('disabled', 'true');
+            $('#W' + this._widgetID + '_TwCancel').attr('disabled', 'true');
             this._uName = $('#W' + this._widgetID + '_TwUsername').val();
             this._uPass = $('#W' + this._widgetID + '_TwPassword').val();
         }
@@ -349,11 +351,17 @@ Twitter.prototype = {
         }
         var wgt = this;
         var wgtId = this._widgetID;
+
         TwitterService.VerifyCredentials(this._uName, this._uPass, function(msg) {
+            if ($('#W' + wgtId + '_Content').css('display') == 'none') {
+                $('#W' + wgtId + '_TwSave').removeAttr('disabled');
+                $('#W' + wgtId + '_TwCancel').removeAttr('disabled');
+                $('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
+            }
             if (msg.toString().indexOf('error') < 0) {
                 wgt._loggedIn = true;
                 if ($('#W' + wgtId + '_Content').css('display') == 'none') {
-                    $('#W' + this._widgetID + '_TwLoginProgress').css('display', 'none');
+
                     Dropthings.Web.Framework.WidgetService.SaveWidgetState(wgt._widgetID, wgt.PrepareState(), function(msg) {
                         wgt.SuccessStateSave(msg);
                     },
@@ -365,10 +373,16 @@ Twitter.prototype = {
                 wgt.SetSelected('W' + wgtId + '_TwFriends');
             }
             else {
+                if ($('#W' + wgtId + '_Content').css('display') == 'none') $('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
                 wgt.FailVerify(msg);
             }
         },
         function(msg) {
+            if ($('#W' + wgtId + '_Content').css('display') == 'none') {
+                $('#W' + wgtId + '_TwSave').removeAttr('disabled');
+                $('#W' + wgtId + '_TwCancel').removeAttr('disabled');
+                $('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
+            }
             wgt.FailVerify(msg);
         });
     },
@@ -397,7 +411,7 @@ Twitter.prototype = {
         this._widgetID = instanceId;
         $('#Widget' + this._widgetID + '_EditWidget').attr('href', 'javascript:void(0)');
         $('#Widget' + this._widgetID + '_EditWidget').css('color', 'Gray');
-        
+
         var wgt = this;
         $('#W' + this._widgetID + '_TwUpdate').click(function() {
             wgt.SetSelected('W' + wgt._widgetID + '_TwUpdate');
@@ -425,6 +439,11 @@ Twitter.prototype = {
         });
         $('#W' + this._widgetID + '_TwCancel').click(function() {
             wgt.HideSettings();
+        });
+
+        $('#W' + this._widgetID + '_TwPassword').keypress(function(event) {
+            if (event.keyCode == 13)
+                $('#W' + wgt._widgetID + '_TwSave').click();
         });
 
         Dropthings.Web.Framework.WidgetService.GetWidgetState(this._widgetID, function(stateXml) {
