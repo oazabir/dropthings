@@ -146,8 +146,8 @@ Twitter.prototype = {
             $('<img/>').attr('src', item.user.profile_image_url).attr('alt', item.user.screen_name).attr('title', item.user.screen_name).appendTo('#' + mainDiv);
             $('<div/>').attr('id', dataDiv).appendTo('#' + mainDiv);
             $('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'http://twitter.com/' + item.user.screen_name)).attr('target', '_blank').addClass('twitterSName').html(item.user.screen_name).appendTo('#' + dataDiv);
-
-            $('<div/>').html(wgt.ProcessTweet(item.text)).appendTo('#' + dataDiv);
+            
+            $('<div/>').html(wgt.ProcessTweet(item.text)).css('word-break', 'break-all').appendTo('#' + dataDiv);
 
             $('<div/>').addClass('twTime').html(wgt.FormatDateDiff(item.created_at) + ' ago').appendTo('#' + dataDiv);
         });
@@ -161,6 +161,20 @@ Twitter.prototype = {
                 wgt.SetPageItems();
             }).appendTo('#W' + this._widgetID + '_TwView');
         }
+    },
+    ProcessUrlText: function(item) {
+        if (!$.browser.msie) {
+            if (item.length > 45) {
+                var part2 = item.substr(45);
+                item = item.substr(0, 45) + '&shy;';
+                while (part2.length > 45) {
+                    item += part2.substr(0, 45) + '&shy;';
+                    part2 = part2.substr(45);
+                }
+                item += part2;
+            }
+        }
+        return item;
     },
     ProcessTweet: function(text) {
         var temp = text; var end;
@@ -182,7 +196,8 @@ Twitter.prototype = {
                 url = url.substr(0, url.length - 1);
             }
             temp = temp.substr(start + end);
-            text = text.replace(url, '<a target="_blank" href="' + url + '">' + url + "</a>");
+
+            text = text.replace(url, '<a target="_blank" href="' + url + '">' + this.ProcessUrlText(url) + "</a>");
         }
         temp = text;
         while (temp.indexOf("https://") != -1) {
@@ -203,7 +218,7 @@ Twitter.prototype = {
                 url = url.substr(0, url.length - 1);
             }
             temp = temp.substr(start + end);
-            text = text.replace(url, '<a target="_blank" href="' + url + '">' + url + "</a>");
+            text = text.replace(url, '<a target="_blank" href="' + url + '">' + this.ProcessUrlText(url) + "</a>");
         }
         temp = text;
         while (temp.indexOf("@") != -1) {
@@ -224,7 +239,7 @@ Twitter.prototype = {
                 scrName = scrName.substr(0, scrName.length - 1);
             }
             temp = temp.substr(start + end);
-            text = text.replace(scrName, '<a target="_blank" href="http://twitter.com/' + scrName + '">' + scrName + "</a>");
+            text = text.replace(scrName, '<a target="_blank" href="http://twitter.com/' + scrName + '">' + this.ProcessUrlText(scrName) + "</a>");
         }
         return text;
     },
