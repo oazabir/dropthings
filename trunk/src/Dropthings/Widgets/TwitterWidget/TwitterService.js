@@ -146,7 +146,7 @@ Twitter.prototype = {
             $('<img/>').attr('src', item.user.profile_image_url).attr('alt', item.user.screen_name).attr('title', item.user.screen_name).appendTo('#' + mainDiv);
             $('<div/>').attr('id', dataDiv).appendTo('#' + mainDiv);
             $('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'http://twitter.com/' + item.user.screen_name)).attr('target', '_blank').addClass('twitterSName').html(item.user.screen_name).appendTo('#' + dataDiv);
-            
+
             $('<div/>').html(wgt.ProcessTweet(item.text)).css('word-break', 'break-all').appendTo('#' + dataDiv);
 
             $('<div/>').addClass('twTime').html(wgt.FormatDateDiff(item.created_at) + ' ago').appendTo('#' + dataDiv);
@@ -166,7 +166,7 @@ Twitter.prototype = {
         if (!$.browser.msie) {
             if (item.length > 45) {
                 var part2 = item.substr(45);
-                item = item.substr(0, 45) + '&shy;';
+                item = '&shy;' + item.substr(0, 45) + '&shy;';
                 while (part2.length > 45) {
                     item += part2.substr(0, 45) + '&shy;';
                     part2 = part2.substr(45);
@@ -224,6 +224,7 @@ Twitter.prototype = {
         while (temp.indexOf("@") != -1) {
             var start = temp.indexOf("@");
             var scrName = temp.substr(start);
+            if (scrName.indexOf('<') != -1) break;
             if (scrName.indexOf(" ") != -1) {
                 scrName = scrName.substr(0, scrName.indexOf(" "));
             }
