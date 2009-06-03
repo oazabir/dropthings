@@ -2,7 +2,7 @@
 <link rel="Stylesheet" id="twitterCSS" href="/Widgets/TwitterWidget/TwitterWidget.css" />
 <div id="W<%= WidgetHostID %>_SettingsPanel" class="twSettings" style="display:none">
     <h3 class="twitterHeading">Twitter Credentials</h3>
-    <div id="W<%= WidgetHostID %>_TwLoginProgress" style="display:none">Logging in...</div>
+    <div id="W<%= WidgetHostID %>_TwLoginProgress" class="twitterProgress" style="display:none">Logging in...</div>
     <table width="100%" border="0">
         <tr>
             <td colspan="2" class="twitterError" id="W<%= WidgetHostID %>_TwError"></td>
@@ -23,7 +23,7 @@
 </div>
 <div id="W<%= WidgetHostID %>_Content">
     <div id="W<%= WidgetHostID %>_MainView" style="display:none">
-        <span id="W<%= WidgetHostID %>_TwUpdateError" class="twitterError"></span>
+        <span id="W<%= WidgetHostID %>_TwUpdateError" class="twitterError" style="display:none"></span>
         <div class="twitterTabs">
             <ul>
                 <li><a id="W<%= WidgetHostID %>_TwUpdate" href="javascript:void(0)">Update</a></li>
