@@ -106,10 +106,11 @@ public partial class TwitterWidget : System.Web.UI.UserControl, IWidget
     protected override void OnPreRender(EventArgs e)
     {
         base.OnPreRender(e);
-        
-        WidgetHelper.RegisterWidgetScript(this, "~/Widgets/TwitterWidget/TwitterService.js");
-        ScriptManager.RegisterStartupScript(this, typeof(TwitterWidget), "TwitterWidget" + WidgetID,
-             string.Format("var tw = new Twitter(); tw.load('{0}');", WidgetHostID), true);
+
+        var scriptToLoad = "/Widgets/TwitterWidget/TwitterService.js";
+        var startUpCode = string.Format("var tw = new Twitter(); tw.load('{0}');", WidgetHostID);
+
+        WidgetHelper.RegisterWidgetScript(this, scriptToLoad, startUpCode);
     }
     protected void Page_Load(object sender, EventArgs e)
     {

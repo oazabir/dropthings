@@ -150,7 +150,7 @@ color:#FF0000;
                 <asp:ScriptReference Path="~/Scripts/ui.core.js" />
             </Scripts>
         </asp:ScriptManager>
-        <script src="Myframework.js" type="text/javascript"></script> 
+        <script src="Scripts/MyFramework.js" type="text/javascript"></script> 
         <table cellpadding="2" width="100%" cellspacing="0" border="0">
             <tr>
                 <td colspan="2">

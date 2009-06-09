@@ -11,14 +11,18 @@ namespace Dropthings.Widget.Framework
 {
     public class WidgetHelper
     {
-        public static void RegisterWidgetScript(Control controlToBind, string pathToClientScript) 
+        public static void RegisterWidgetScript(Control controlToBind, string scriptToLoad, string startUpCode) 
         {
-            using (var reader = new StreamReader(HttpContext.Current.Server.MapPath(pathToClientScript)))
-            {
-                var content = reader.ReadToEnd();
-                reader.Close();
-                ScriptManager.RegisterStartupScript(controlToBind, controlToBind.GetType(), controlToBind.ToString() + DateTime.Now.Ticks.ToString(), content, true);
-            }
+            var scriptLoader = new StringBuilder();
+
+            scriptLoader.Append("ensure( { js: '");
+            scriptLoader.Append(string.Format("{0}", scriptToLoad)); 
+            scriptLoader.Append("' }, function() { ");
+            scriptLoader.Append(string.Format("{0}", startUpCode)); 
+            scriptLoader.Append(" } );");
+
+            ScriptManager.RegisterStartupScript(controlToBind, controlToBind.GetType(), controlToBind.ToString() + DateTime.Now.Ticks.ToString(), 
+                scriptLoader.ToString(), true);
         }
     }
 }
