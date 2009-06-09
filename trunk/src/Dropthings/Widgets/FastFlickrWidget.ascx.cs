@@ -147,19 +147,14 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
     {
         base.OnPreRender(e);
 
-        ScriptManager.RegisterClientScriptInclude(this,
-            typeof(Widgets_FastFlickrWidget),
-            "FastFlickrWidget",
-            this.ResolveClientUrl(this.AppRelativeTemplateSourceDirectory + "FastFlickrWidget.js"));
-
         var cachedJSON = GetCachedJSON();
 
-        // Create a script block which will initialize an instance of FastFlickrWidget javascript class on the
-        // client and then load photo xml by calling Proxy.GetXml
-        ScriptManager.RegisterStartupScript(this, typeof(Widgets_FastFlickrWidget), "LoadFlickr" + this.ClientID,
-            string.Format("window.flickrLoader{0} = new FastFlickrWidget('{1}', '{2}', '{3}', '{4}', {5}); window.flickrLoader{0}.load();",
+        var scriptToLoad = "/Widgets/FastFlickrWidget.js";
+        var startUpCode = string.Format("window.flickrLoader{0} = new FastFlickrWidget('{1}', '{2}', '{3}', '{4}', {5}); window.flickrLoader{0}.load();",
                 this._Host.ID, this.GetPhotoUrl(), this.FlickrPhotoPanel.ClientID,
-                this.ShowPrevious.ClientID, this.ShowNext.ClientID, cachedJSON ?? "null"), true);
+                this.ShowPrevious.ClientID, this.ShowNext.ClientID, cachedJSON ?? "null");
+
+        WidgetHelper.RegisterWidgetScript(this, scriptToLoad, startUpCode);
 
         this.ShowPrevious.OnClientClick = string.Format("window.flickrLoader{0}.previous(); return false;", this._Host.ID);
         this.ShowNext.OnClientClick = string.Format("window.flickrLoader{0}.next(); return false;", this._Host.ID);

@@ -112,16 +112,13 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
     {
         base.OnPreRender(e);
 
-        ScriptManager.RegisterClientScriptInclude(this,
-                        typeof(Widgets_FastRssWidget),
-                        "FastRssWidget",
-                        this.ResolveClientUrl(this.AppRelativeTemplateSourceDirectory + "FastRssWidget.js"));
-
         var cachedJSON = GetCachedJSON();
 
-        ScriptManager.RegisterStartupScript(this, typeof(Widgets_FastRssWidget), "LoadRSS" + this.ClientID,
-            string.Format("window.rssLoader{0} = new FastRssWidget( '{1}', '{2}', {3}, {4} ); window.rssLoader{0}.load();",
-                this._Host.ID, this.Url, this.RssContainer.ClientID, this.Count, cachedJSON ?? "null"), true);
+        var scriptToLoad = "/Widgets/FastRssWidget.js";
+        var startUpCode = string.Format("window.rssLoader{0} = new FastRssWidget( '{1}', '{2}', {3}, {4} ); window.rssLoader{0}.load();",
+                this._Host.ID, this.Url, this.RssContainer.ClientID, this.Count, cachedJSON ?? "null");
+
+        WidgetHelper.RegisterWidgetScript(this, scriptToLoad, startUpCode);
     }
 
     protected void Page_Load(object sender, EventArgs e)
