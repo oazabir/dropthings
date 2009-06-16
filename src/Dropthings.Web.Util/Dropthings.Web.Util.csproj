@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ActionValidator.cs" />
     <Compile Include="CombineScripts.cs" />
+    <Compile Include="ConstantHelper.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="MailManage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
