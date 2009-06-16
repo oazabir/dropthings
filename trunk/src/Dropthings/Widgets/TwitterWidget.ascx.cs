@@ -21,6 +21,7 @@ using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Text;
 using System.Xml;
+using Dropthings.Web.Util;
 
 
 public partial class TwitterWidget : System.Web.UI.UserControl, IWidget
@@ -107,7 +108,7 @@ public partial class TwitterWidget : System.Web.UI.UserControl, IWidget
     {
         base.OnPreRender(e);
 
-        var scriptToLoad = "/Widgets/TwitterWidget/TwitterService.js";
+        var scriptToLoad = "/Widgets/TwitterWidget/TwitterService.js?v=" + ConstantHelper.ScriptVersionNo;
         var startUpCode = string.Format("var tw = new Twitter(); tw.load('{0}');", WidgetHostID);
 
         WidgetHelper.RegisterWidgetScript(this, scriptToLoad, startUpCode);

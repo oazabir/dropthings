@@ -22,6 +22,7 @@ using System.Xml.Linq;
 using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets;
+using Dropthings.Web.Util;
 
 public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidget
 {
@@ -149,7 +150,7 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
 
         var cachedJSON = GetCachedJSON();
 
-        var scriptToLoad = "/Widgets/FastFlickrWidget.js";
+        var scriptToLoad = "/Widgets/FastFlickrWidget.js?v=" + ConstantHelper.ScriptVersionNo;
         var startUpCode = string.Format("window.flickrLoader{0} = new FastFlickrWidget('{1}', '{2}', '{3}', '{4}', {5}); window.flickrLoader{0}.load();",
                 this._Host.ID, this.GetPhotoUrl(), this.FlickrPhotoPanel.ClientID,
                 this.ShowPrevious.ClientID, this.ShowNext.ClientID, cachedJSON ?? "null");
