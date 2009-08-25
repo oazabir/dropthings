@@ -10,22 +10,24 @@ function doSearch()
 </script>
 <div id="header">
 
-    <h1><a href="/">Dropthings - open source Web 2.0 AJAX Portal</a></h1>
+    <h1><a href="/">
+        <asp:Literal ID="Literal1" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, SiteTitle%>" /> <asp:Literal ID="Literal2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Slogan%>" />
+    </a></h1>
 
     <div id="login_panel">
         <asp:Label ID="UserNameLabel" runat="server" EnableViewState="false" Text="" Visible="false"></asp:Label>
-        <asp:HyperLink ID="AccountLinkButton" Text="My Account" runat="server" NavigateUrl="~/ManageAccount.aspx" />
-        <asp:HyperLink ID="LoginLinkButton" Text="Log in" runat="server" NavigateUrl="~/LoginPage.aspx" /> | 
-        <asp:HyperLink ID="LogoutLinkButton" Text="Log out" runat="server" NavigateUrl="~/Logout.ashx" />
-        <asp:HyperLink ID="StartOverButton" Text="Start Over" runat="server" NavigateUrl="~/Logout.ashx" /> | 
-        <a id="HelpLink" href="javascript:void(0)" onclick="DropthingsUI.Actions.showHelp()">Help</a>       
+        <asp:HyperLink ID="AccountLinkButton" Text="<%$Resources:SharedResources, MyAccount%>" runat="server" NavigateUrl="~/ManageAccount.aspx" />
+        <asp:HyperLink ID="LoginLinkButton" Text="<%$Resources:SharedResources, Login%>" runat="server" NavigateUrl="~/LoginPage.aspx" /> | 
+        <asp:HyperLink ID="LogoutLinkButton" Text="<%$Resources:SharedResources, Logout%>" runat="server" NavigateUrl="~/Logout.ashx" />
+        <asp:HyperLink ID="StartOverButton" Text="<%$Resources:SharedResources, StartOver%>" runat="server" NavigateUrl="~/Logout.ashx" /> | 
+        <a id="HelpLink" href="javascript:void(0)" onclick="DropthingsUI.Actions.showHelp()"><asp:Literal ID="ltlHelp" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Help%>" /></a>       
     </div>    
     <div id="search_bar">
         <div id="search_bar_wrapper">
             <div id="google_search">
                 <img class="google_logo" src="img/google.jpg" alt="Google" />
                 <input id="query" size="40" maxlength="2048" value="" type="text" onkeypress="if( event.keyCode == 13 ) return doSearch(); " />
-                <input value="Search" type="button" onclick="return doSearch();" />
+                <asp:Button runat="server" Text="<%$Resources:SharedResources, Search%>" OnClientClick="return doSearch();" />
             </div>
             
             <!--
@@ -68,14 +70,14 @@ function doSearch()
 
     <div id="header_message">
         <div id="header_message_wrapper">
-            This is an open source Web 2.0 style AJAX Portal built using ASP.NET 3.5, Workflow Foundation and LINQ. 
-            The source code is available at: <a href="http://www.codeplex.com/dropthings/">www.codeplex.com/dropthings</a>
+            <asp:Literal ID="ltlSiteDescription" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, SiteDescription%>" />
+            <asp:Literal ID="ltlSourceCode" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, SourceCode%>" /> <a href="http://www.codeplex.com/dropthings/">www.codeplex.com/dropthings</a>
         </div>
     </div>
 
     <div id="Progress" >
         <asp:UpdateProgress ID="UpdateProgress1" runat="server" DisplayAfter="10" DynamicLayout="false" >
-        <ProgressTemplate><span><img src="indicator.gif" align="middle" alt="Loading..." /></span></ProgressTemplate>
+        <ProgressTemplate><span><img src="indicator.gif" align="middle" runat="server" alt="<%$Resources:SharedResources, Loading%>" /></span></ProgressTemplate>
         </asp:UpdateProgress>
     </div>
 

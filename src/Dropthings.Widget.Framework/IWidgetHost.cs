@@ -17,6 +17,7 @@ namespace Dropthings.Widget.Framework
         void Restore();
         void Close();
         WidgetInstance WidgetInstance { get; set; }
+        bool IsLocked { get; set; }
         event Action<WidgetInstance,IWidgetHost> Deleted;
         void ShowSettings();
         void HideSettings();

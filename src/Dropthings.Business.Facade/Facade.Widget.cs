@@ -73,7 +73,6 @@
         public List<WidgetInstance> GetWidgetInstancesInZone(int widgetZoneId)
         {
             List<WidgetInstance> list;
-            EnsureOwner(0, 0, widgetZoneId);    // will throw exception if this widgetZoneId is not authorized for current user.
             list = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneIdWithWidget(widgetZoneId);
             return list;
         }

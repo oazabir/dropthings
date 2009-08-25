@@ -89,5 +89,17 @@ namespace Dropthings.DataAccess.Properties {
                 return ((string)(this["dropthingsConnectionString4"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=E:\\Development\\OpenSource\\DT\\dropthings" +
+            "\\src\\Dropthings\\App_Data\\dropthings.mdf;Integrated Security=True;User Instance=T" +
+            "rue")]
+        public string dropthingsConnectionString5 {
+            get {
+                return ((string)(this["dropthingsConnectionString5"]));
+            }
+        }
     }
 }

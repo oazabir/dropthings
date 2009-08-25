@@ -14,9 +14,10 @@
             p.CreatedDate = DateTime.Now;
             p.ColumnCount = 3;
             p.VersionNo = 1;
-            p.PageType = Enumerations.PageTypeEnum.PersonalPage;
+            p.PageType = (int)Enumerations.PageTypeEnum.PersonalPage;
             p.UserId = userId;
             p.Title = title;
+            p.IsLocked = false;
             p.LayoutType = layoutType;
         }
 

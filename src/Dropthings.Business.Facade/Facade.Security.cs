@@ -22,7 +22,7 @@
 
                 for (int i = 0; i < roles.Length; i++)
                 {
-                    if (!System.Web.Security.Roles.IsUserInRole(roles[i]))
+                    if (!System.Web.Security.Roles.IsUserInRole(userName, roles[i]))
                     {
                         System.Web.Security.Roles.AddUserToRole(userName, roles[i]);
                     }
@@ -115,7 +115,7 @@
         {
             var newPassword = string.Empty;
             var userName = Membership.GetUserNameByEmail(forgotEmail);
-
+            
             if (!string.IsNullOrEmpty(userName))
             {
                 var user = Membership.GetUser(userName, false);
@@ -171,13 +171,19 @@
                 {
                     // Get template user pages so that it can be cloned for new user
                     var templateUserPages = this.pageRepository.GetPagesOfUser(roleTemplate.TemplateUserId);
-                    templateUserPages.Each(templatePage => ClonePage(userGuid, templatePage));
+                    templateUserPages.Each(templatePage =>
+                    {
+                        if (!templatePage.IsLocked)
+                        {
+                            ClonePage(userGuid, templatePage);
+                        }
+                    });
                 }
             }
             else
             {
                 var aspnet_user = this.userRepository.GetUserFromUserName(Context.CurrentUserName);
-                TransferOwnership(aspnet_user.UserId);
+                TransferOwnership(userGuid, aspnet_user.UserId);
             }
 
             registerUserResponse = new RegisterUserResponse();

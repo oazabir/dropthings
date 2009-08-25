@@ -8,7 +8,7 @@
 <div style="height:100%"><div style="height:450px; position:relative;">
     <asp:Silverlight ID="diggXaml" runat="server" Source="~/ClientBin/Dropthing.Silverlight.xap?v=1" MinimumVersion="2.0.30923.0" Width="100%" Height="100%">
         <PluginNotInstalledTemplate>
-            Silverlight Plugin not installed. 
+            <asp:Literal ID="ltlWorking" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, SilverlightPluginError%>" />
         </PluginNotInstalledTemplate>
     </asp:Silverlight></div>
 </div>

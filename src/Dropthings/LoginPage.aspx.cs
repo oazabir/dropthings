@@ -58,7 +58,7 @@ public partial class LoginPage : System.Web.UI.Page
             RegisterUserResponse registerUserResponse = null;
             using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
             {
-                registerUserResponse = facade.RegisterUser(Email.Text, Password.Text, Email.Text, true);
+                registerUserResponse = facade.RegisterUser(Email.Text, Password.Text, Email.Text, activationRequired);
             }
 
             if (registerUserResponse != null)

@@ -74,6 +74,11 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         get; set;
     }
 
+    public bool IsLocked
+    {
+        get; set;
+    }
+
     #endregion Properties
 
     #region Methods
@@ -107,8 +112,10 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         {
             var widget = LoadControl(this.WidgetContainerPath) as Control;
             widget.ID = "WidgetContainer" + instance.Id.ToString();
+            
             var widgetHost = widget as IWidgetHost;
             widgetHost.WidgetInstance = instance;
+            widgetHost.IsLocked = this.IsLocked;
             widgetHost.EventBroker = eventBroker;
 
             widgetHost.Deleted += new Action<WidgetInstance, IWidgetHost>(Widget_Deleted);

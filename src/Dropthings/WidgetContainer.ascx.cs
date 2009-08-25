@@ -77,13 +77,9 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     private IWidget _WidgetRef;
 
-    private bool _IsFirstLoad;
+    public bool IsFirstLoad { get; set; }
 
-    public bool IsFirstLoad
-    {
-        get { return _IsFirstLoad; }
-        set { _IsFirstLoad = value; }
-    }
+    public bool IsLocked { get; set; }
 
     protected override void OnPreRender(EventArgs e)
     {
@@ -95,7 +91,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
             this.WidgetResizeFrame.Style.Add(HtmlTextWriterStyle.Height, this.WidgetInstance.Height + "px");
         }
 
-        if (this.WidgetInstance.Expanded)
+        if (this.WidgetInstance.Expanded && (!IsLocked || !WidgetInstance.Widget.IsLocked))
         {
             ScriptManager.RegisterStartupScript(this.WidgetResizeFrame, this.WidgetResizeFrame.GetType(), this.ID + "_initResizer",
                 "DropthingsUI.initResizer('" + this.WidgetResizeFrame.ClientID + "');", true);
@@ -133,16 +129,17 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         WidgetTitleTextBox.Style.Add("display", "none");
         SaveWidgetTitle.Style.Add("display", "none");
 
-        if (WidgetInstance.Widget.IsLocked || this.WidgetInstance.Maximized)
+        if (this.IsLocked || WidgetInstance.Widget.IsLocked || this.WidgetInstance.Maximized)
         {
             Widget.CssClass = "widget nodrag";
             Widget.Attributes.Add("onmouseover", "this.className='widget nodrag widget_hover'");
             Widget.Attributes.Add("onmouseout", "this.className='widget nodrag'");
         }
 
-        if (WidgetInstance.Widget.IsLocked)
+        if (IsLocked || WidgetInstance.Widget.IsLocked)
         {
-            EditWidget.Visible = false;
+            WidgetHeader.Enabled = false;
+            EditWidget.Visible = MaximizeWidget.Visible = RestoreWidget.Visible = CollapseWidget.Visible = ExpandWidget.Visible = CloseWidget.Visible = false;
             LockedWidget.Visible = true;
         }
     }
@@ -155,8 +152,8 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         widget.ID = "Widget" + this.WidgetInstance.Id.ToString();
 
         WidgetBodyPanel.Controls.Add(widget);
-        this._WidgetRef = widget as IWidget;
-        this._WidgetRef.Init(this);
+        _WidgetRef = widget as IWidget;
+        if (_WidgetRef != null) _WidgetRef.Init(this);
 
         // Since viewstate is disabled for all control, we need to do things manually            
         if (this.SettingsOpen)

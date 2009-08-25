@@ -162,9 +162,10 @@ var DropthingsUI = {
         widgetMaximize
 	        .unbind('click')
             .bind('click', function() {
+                //widgetDef.maximized = true;
                 widgetMaximize.hide();
-                widgetRestore.show();
-                eval(widgetMaximize.attr("href"));
+                widgetRestore.css({ display: 'block'});
+                //eval(widgetMaximize.attr("href"));
 
                 // Asynchronously notify server that widget maximized
                 DropthingsUI.Actions.maximizeWidget(widgetId);
@@ -174,31 +175,17 @@ var DropthingsUI = {
         widgetRestore
 		    .unbind('click')
             .bind('click', function() {
-                
+                //widgetDef.maximized = true;
                 widgetMaximize.show();
                 widgetRestore.hide();
+                
                 //eval(widgetRestore.attr("href"));
                 // Asynchronously notify server that widget restored
                 DropthingsUI.Actions.restoreWidget(widgetId);
                 return false;
             });
 
-    },
-    //    initWidgetActions: function(zoneDivId, widgetClass) {
-
-    //        //var widgets = $('.widget', '#' + zoneDivId);
-    //        var widgets = $('.' + widgetClass, '#' + zoneDivId);
-
-    //        widgets.each(function() {
-    //            var widget = $(this);
-    //            var widgetId = widget.attr('id');
-    //            DropthingsUI.setActionOnWidget(widgetId);
-    //        });
-    //    },
-    //    refreshSortable: function(zoneId) {
-    //        var zone = $('#' + zoneId);
-    //        zone.sortable('refresh');
-    //    },
+    },    
     initDragDrop: function(zoneId, widgetClass, newWidgetClass, handleClass, zoneClass, zonePostbackTrigger) {
         // Get all widget zones on the page and allow widget to be dropped on any of them
         var allZones = $('.' + zoneClass);
@@ -278,7 +265,7 @@ var DropthingsUI = {
         .bind("sortreceive", function(e, ui) {
             var widget = $(ui.item);
             if (widget.hasClass(newWidgetClass)) {
-                widget.remove();
+                //widget.remove();
             }
         });
     },
@@ -406,10 +393,12 @@ var DropthingsUI = {
 
         restoreWidget: function(widgetId) {
             var widget = $('#' + widgetId);
+            var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
+            widgetDef.maximized = false;
+            //DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
+            DropthingsUI._LastMaximizedWidget.restore();
 
             if (null !== DropthingsUI._LastMaximizedWidget) DropthingsUI._LastMaximizedWidget.dispose();
-            DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
-            DropthingsUI._LastMaximizedWidget.restore();
 
             //DropthingsUI.initDragDrop();
             Dropthings.Web.Framework.WidgetService.RestoreWidgetInstance(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
@@ -847,7 +836,6 @@ function winopen2(url,target, w, h)
   return;
 }
 
-
 var LayoutPicker =
 {
     yesCallback : null,
@@ -939,104 +927,10 @@ var LayoutPicker =
     }
 };
 
-/*
-function CreateResizeExtender(instanceId)
-{
-     var _resizeHandler = Function.createDelegate(this, CreateResizeExtender1(instanceId));
-        $addHandler(window, 'load', this._resizeHandler);
-}
-function CreateResizeExtender1(instanceId)
-{        
-    var widgetContainerId = "WidgetPanelsLayout_WidgetContainer" + instanceId ;
-    var widgetPanel = $get(widgetContainerId + '_Widget'); 
-}
-*/
-
-//var ResizeWidget =
-//{
-//    _resizableItemClassValue: 'widget',
-//    init: function() {
-//        ResizeWidget._initializeResizableItems();
-//        //window.setTimeout(ResizeWidget._initializeResizableItems, 2000);
-
-//        //var resizeHandler = Function.createDelegate(this, this._initializeResizableItems);
-//        //$addHandler(window, 'resize', resizeHandler);
-
-//    },
-//    _initializeResizableItems: function() {
-//        var widgetPanels = new Array($get('WidgetPanelsLayout_LeftPanel'), $get('WidgetPanelsLayout_MiddlePanel'), $get('WidgetPanelsLayout_RightPanel'));
-
-//        for (var i = 0; i < widgetPanels.length; i++) {
-//            var el = widgetPanels[i];
-
-//            if (el == null)
-//                return null;
-
-//            var child = el.firstChild;
-//            while (child != null) {
-//                if (ResizeWidget._isItemResizable(child, ResizeWidget._resizableItemClassValue)) {
-//                    ResizeWidget.attachResizer(child);
-//                }
-//                child = child.nextSibling;
-//            }
-//        }
-//        var el = $get('WidgetContainer');
-
-//    },
-//    _isItemResizable: function(item, className) {
-//        var regEx = new RegExp('(?:^|\\s+)' + className + '(?:\\s+|$)');
-//        return regEx.test(item.className);
-//    },
-//    attachResizer: function(item) {
-//        return;
-//        
-//        var rceId = item.id + '_ResizableControlExtender';
-//        var rce = $find(rceId);
-
-//        if (rce) {
-//            rce.dispose();
-//            Sys.Application.removeComponent(rce);
-//        }
-
-//        var isResized = Boolean.parse(item.getAttribute(DropthingsUI.Attributes.RESIZED));
-//        var isMaximized = Boolean.parse(item.getAttribute(DropthingsUI.Attributes.MAXIMIZED));
-//        var isExpanded = Boolean.parse(item.getAttribute(DropthingsUI.Attributes.EXPANDED));
-
-//        rce = $create(Dropthings.ResizingWidgetBehavior, { "IsResized": isResized, "ClientStateFieldID": rceId + "_ClientState", "HandleCssClass": "widget_resize_handler", "MinimumHeight": 39, "MaximumWidth": item.offsetWidth - 2, "MinimumWidth": item.offsetWidth - 2, "id": rceId }, null, null, item);
-//        
-//        /*    
-//        if (isMaximized && isExpanded) {
-//            rce.set_Size({ width: -1, height: item.offsetHeight });
-//        }
-//        */
-//        if (!isMaximized && isResized && isExpanded) {
-//            rce.set_Size({ width: -1, height: item.getAttribute(DropthingsUI.Attributes.HEIGHT) });
-//        }
-//        /*
-//        else if (!isMaximized && isExpanded) {
-//            rce.set_Size({ width: -1, height: item.offsetHeight });
-//        }*/
-
-//        if (rce) {
-//            rce.set_resize("DropthingsUI.Actions.resizeWidget");
-//        }
-//    },
-//    removeResizer: function(item) {
-//        var rceId = item.id + '_ResizableControlExtender';
-//        var rce = $find(rceId);
-
-//        if (rce) {
-//            rce.dispose();
-//            Sys.Application.removeComponent(rce);
-//        }
-//    }
-//};
-
 var WidgetMaximizeBehavior = function(widgetId) {
     this.visibleHeightIfWidgetExpanded = 0;
     this.visibleHeightIfWidgetCollasped = 0;
-    this.widgetContainer = null;
-    this.position = 0;
+    this.LastDomLocation = null;
 
     this.init = function(widgetId) {
         if (this.initialized) return;
@@ -1044,9 +938,7 @@ var WidgetMaximizeBehavior = function(widgetId) {
         this.widget = $('#' + widgetId);
 
         // Remember where the widget was last time
-        this.widgetContainer = this.widget.parent();
-        var position = this.widgetContainer.children().index(this.widget);
-
+        this.LastDomLocation = { container: this.widget.parent(), position: this.widget.parent().children().index(this.widget) };
         this.instanceId = this.widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
     }
 
@@ -1064,21 +956,40 @@ var WidgetMaximizeBehavior = function(widgetId) {
     };
 
     this.restorePreviouslyMaximizedWidget = function() {
-        if (this.initialized) {
-            this.widget.find('.widget_restore').click();
-        }
+    if (this.widget != null)
+        this.widget.find('.widget_restore').click();
     };
 
     this.restore = function() {
         var widgetDef = DropthingsUI.getWidgetDef(this.instanceId);
         var height = widgetDef.resized ? widgetDef.height + 'px' : 'auto';
-        this.widget.css({ left: 'auto', top: 'auto', width: 'auto', height: 'auto', position: 'static' });
+        this.widget.css({marginRight: '0px', left: 'auto', top: 'auto', width: 'auto', height: 'auto', position: 'static' });
 
         widgetDef.maximized = false;
 
         var resizeFrame = this.widget.find('.widget_resize_frame');
         resizeFrame.css({ width: 'auto', height: height });
+        //get the current item of the postion
 
+        var currentWidget = $(this.LastDomLocation.container).children()[this.LastDomLocation.position];
+
+        if (currentWidget != null) {
+            this.widget.insertBefore(currentWidget);
+        }
+        else {
+            //
+            var length = $(this.LastDomLocation.container).children().length;
+
+            if (this.LastDomLocation.position >= length) {
+                //add as last item
+                $(this.LastDomLocation.container).append(this.widget);
+            }
+            else {
+                this.widget.prependTo(this.LastDomLocation.container);
+            }
+        }
+
+        //this.widget.prependTo(this.LastDomLocation.container);
         this.restoredInstanceId = this.instanceId;
         this.dispose();
     };

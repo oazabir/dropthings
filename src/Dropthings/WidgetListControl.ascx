@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="WidgetListControl.ascx.cs" Inherits="WidgetListControl" %>
 
-   <p class="addcontent_message">Click on any of the item to add it to your page:</p>
+   <p class="addcontent_message"><asp:Literal ID="ltlAddItemToPage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, AddItemToPage%>" /></p>
                                 <div class="addcontent_navigation"><asp:LinkButton ID="WidgetListPreviousLinkButton" runat="server" Visible="false" Text="&lt; Previous" OnClick="WidgetListPreviousLinkButton_Click" /> | <asp:LinkButton ID="WidgetListNextButton" runat="server" Visible="false" Text="Next &gt;" OnClick="WidgetListNextButton_Click" /></div>
                                 
                                 <asp:DataList ID="WidgetDataList" runat="server" RepeatDirection="Vertical" RepeatColumns="5" RepeatLayout="Table" CellPadding="3" CellSpacing="3" EnableViewState="False" ShowFooter="False" ShowHeader="False" Width="100%" >

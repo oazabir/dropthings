@@ -188,6 +188,22 @@ namespace Dropthings.DataAccess
                 select page                
             );
 
+        public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> CompiledQuery_GetLockedPagesByUserId =
+            CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<Page>>((dc, userId) =>
+                from page in dc.Pages
+                where page.UserId == userId && page.IsLocked
+                orderby page.ID
+                select page
+            );
+
+        public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> CompiledQuery_GetUnLockedPagesByUserId =
+            CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<Page>>((dc, userId) =>
+                from page in dc.Pages
+                where page.UserId == userId && page.IsUnlocked
+                orderby page.ID
+                select page
+            );
+
         public static readonly Func<DropthingsDataContext, int, IQueryable<string>> CompiledQuery_GetWidgetInstanceOwnerName =
             CompiledQuery.Compile<DropthingsDataContext, int, IQueryable<string>>((dc, widgetInstanceId) =>
                 from column in dc.Columns
