@@ -1,9 +1,9 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ManageWidgetPermission.aspx.cs" Inherits="ManageWidgetPermissionPage" %>
+<%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="ManageWidgetPermission.aspx.cs" Inherits="ManageWidgetPermissionPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Manage Widget Permission</title>
+    <title><asp:Literal ID="ltlManageWidgetPermission" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ManageWidgetPermission%>" /></title>
     <style>    
 body, td, div, p, a, font, span {
 font-family:arial,sans-serif;
@@ -171,7 +171,7 @@ color:#FF0000;
                         </tr>
                         <tr bgcolor="#DDE8CC">
                             <td style="padding-left: 4px; padding-bottom: 3px; padding-top: 2px; font-family: arial,sans-serif;">
-                                <b>Manage Widget Permission</b></td>
+                                <b><asp:Literal ID="lblManagePermission" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ManageWidgetPermission%>" /></b></td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -227,13 +227,13 @@ color:#FF0000;
                     <span id="Message"></span>
                 </div>
                 <div>
-                    <span id="progress" style="display:none">Working.....</span>
+                    <span id="progress" style="display:none"><asp:Literal ID="ltlWorking" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Working%>" /></span>
                 </div>
                 <div>
                     
                 </div>
                 <div>
-                    <input id="SaveButton" value="Save" type="button" onclick="WidgetPermission.Save();return false;" />&nbsp;
+                    <asp:Button id="SaveButton" runat="server" Text="<%$Resources:SharedResources, Save%>" OnClientClick="WidgetPermission.Save();return false;" />&nbsp;
                 </div>
               </td>
             </tr>

@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="RSSWidget.ascx.cs" Inherits="Widgets_RSSWidget" EnableViewState="false" %>
 <asp:Panel ID="SettingsPanel" runat="Server" Visible="False" >
-URL: <asp:TextBox ID="FeedUrl" Text="" runat="server" MaxLength="2000" Columns="40" /><br />
-Show 
+<asp:Literal ID="ltlURL" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, URL%>" />: <asp:TextBox ID="FeedUrl" Text="" runat="server" MaxLength="2000" Columns="40" /><br />
+<asp:Literal ID="Literal1" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Show%>" />
 <asp:DropDownList ID="FeedCountDropDownList" runat="Server">
 <asp:ListItem>1</asp:ListItem>
 <asp:ListItem>2</asp:ListItem>
@@ -24,15 +24,15 @@ Show
 <asp:ListItem>19</asp:ListItem>
 <asp:ListItem>20</asp:ListItem>
 </asp:DropDownList>
-items
-<asp:Button ID="SaveSettings" runat="Server" OnClick="SaveSettings_Click" Text="Save" />
+<asp:Literal ID="ltlWorking" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Items%>" />
+<asp:Button ID="SaveSettings" runat="Server" OnClick="SaveSettings_Click" Text="<%$Resources:SharedResources, Save%>" />
 </asp:Panel>
 
 <asp:MultiView ID="RSSMultiview" runat="server" ActiveViewIndex="0">
 
 <asp:View runat="server" ID="RSSProgressView">
     
-    <asp:Label runat="Server" ID="label1" Text="Loading..." Font-Size="smaller" ForeColor="DimGray" />
+    <asp:Label runat="Server" ID="label1" Text="<%$Resources:SharedResources, Loading%>" Font-Size="smaller" ForeColor="DimGray" />
 </asp:View>
 
 <asp:View runat="server" ID="RSSFeedView">

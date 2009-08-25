@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountActivation" xml:space="preserve">
+    <value>Account Activation</value>
+  </data>
+  <data name="AccountSetting" xml:space="preserve">
+    <value>Account Settings</value>
+  </data>
+  <data name="AccountUpdatedMessage" xml:space="preserve">
+    <value>Your account has been successfully updated.</value>
+  </data>
+  <data name="ActivationMessage" xml:space="preserve">
+    <value>Congratulation. Your account has been successfuly created. Please check your email. You should receive a confirmation email. Please click on the link from the email to activate your account.</value>
+  </data>
+  <data name="AddItemToPage" xml:space="preserve">
+    <value>Click on any of the item to add it to your page</value>
+  </data>
+  <data name="AddStuff" xml:space="preserve">
+    <value>Add Stuff  »</value>
+  </data>
+  <data name="Aquarius" xml:space="preserve">
+    <value>Aquarius</value>
+  </data>
+  <data name="ViewFriendMessage" xml:space="preserve">
+    <value>Log in to view freinds updates, your archive &amp;amp; tweet.&lt;a href="javascript:void(0)"&gt;Click here&lt;/a&gt; to sign in to Twitter.</value>
+  </data>
+  <data name="Aries" xml:space="preserve">
+    <value>Aries</value>
+  </data>
+  <data name="Cancer" xml:space="preserve">
+    <value>Cancer</value>
+  </data>
+  <data name="Capricorn" xml:space="preserve">
+    <value>Capricorn</value>
+  </data>
+  <data name="CareAboutNote" xml:space="preserve">
+    <value>See information you care about on your homepage.</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ChangeColumn" xml:space="preserve">
+    <value>Change Columns</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password:</value>
+  </data>
+  <data name="ChangeSettings" xml:space="preserve">
+    <value>Change Settings  »</value>
+  </data>
+  <data name="ChangeTabTitle" xml:space="preserve">
+    <value>Change Tab Title</value>
+  </data>
+  <data name="CharacterLeft" xml:space="preserve">
+    <value>characters left</value>
+  </data>
+  <data name="ChoiceColumnLayout" xml:space="preserve">
+    <value>Please choose a column layout:</value>
+  </data>
+  <data name="CloseEdit" xml:space="preserve">
+    <value>close edit</value>
+  </data>
+  <data name="CloseSettings" xml:space="preserve">
+    <value>CloseSettings Clicked.</value>
+  </data>
+  <data name="CloseWidget" xml:space="preserve">
+    <value>CloseWidget Clicked</value>
+  </data>
+  <data name="Collapse" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="CollapseWidget" xml:space="preserve">
+    <value>CollapseWidget Clicked.</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>All rights reserved.</value>
+  </data>
+  <data name="DeletePage" xml:space="preserve">
+    <value>Delete a Page</value>
+  </data>
+  <data name="DeletePageConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete the page?</value>
+  </data>
+  <data name="DeleteTab" xml:space="preserve">
+    <value>Delete Tab</value>
+  </data>
+  <data name="DeleteWidget" xml:space="preserve">
+    <value>Delete a Widget</value>
+  </data>
+  <data name="DeleteWidgetConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete the widget?</value>
+  </data>
+  <data name="DNDNote" xml:space="preserve">
+    <value>&lt;b&gt;Drag and drop&lt;/b&gt; the sections to rearrange the page</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>edit</value>
+  </data>
+  <data name="EditPersonalInformation" xml:space="preserve">
+    <value>Edit personal information</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EnterZip" xml:space="preserve">
+    <value>Enter Zip:</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="ExpandWidget" xml:space="preserve">
+    <value>ExpandWidget Clicked.</value>
+  </data>
+  <data name="FeedNote" xml:space="preserve">
+    <value>Select from a variety of popular &lt;b&gt;feeds&lt;/b&gt;</value>
+  </data>
+  <data name="FirstLoad" xml:space="preserve">
+    <value>First Load.</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot Password?</value>
+  </data>
+  <data name="Friends" xml:space="preserve">
+    <value>Friends</value>
+  </data>
+  <data name="Gemini" xml:space="preserve">
+    <value>Gemini</value>
+  </data>
+  <data name="HeadlineNote" xml:space="preserve">
+    <value>See headlines from top news sources</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="HideSettings" xml:space="preserve">
+    <value>Hide Settings  »</value>
+  </data>
+  <data name="HideSettingsPanel" xml:space="preserve">
+    <value>Hide Settings panel.</value>
+  </data>
+  <data name="HideStuff" xml:space="preserve">
+    <value>Hide Stuff  »</value>
+  </data>
+  <data name="HiringNotice" xml:space="preserve">
+    <value>We're hiring! Join the project at CodePlex and build cool widgets or features you like.</value>
+  </data>
+  <data name="IFrameNotSupportedMessage" xml:space="preserve">
+    <value>Sorry your browser does not support IFRAME</value>
+  </data>
+  <data name="InvalidCredentialMessage" xml:space="preserve">
+    <value>Invalid Email or Password. Did you register before?</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>items</value>
+  </data>
+  <data name="Leo" xml:space="preserve">
+    <value>Leo</value>
+  </data>
+  <data name="Libra" xml:space="preserve">
+    <value>Libra</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="LoadingFromTwitter" xml:space="preserve">
+    <value>Loading from Twitter…</value>
+  </data>
+  <data name="LoadingWidget" xml:space="preserve">
+    <value>Loading widget…</value>
+  </data>
+  <data name="LoggingIn" xml:space="preserve">
+    <value>Logging in…</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="ManageWidgetPermission" xml:space="preserve">
+    <value>Manage Widget Permission</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximized</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimized</value>
+  </data>
+  <data name="MostInteresting" xml:space="preserve">
+    <value>Most Interesting</value>
+  </data>
+  <data name="MostRecent" xml:space="preserve">
+    <value>Most Recent</value>
+  </data>
+  <data name="MyAccount" xml:space="preserve">
+    <value>My Account</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New Password:</value>
+  </data>
+  <data name="NewsAndUpdates" xml:space="preserve">
+    <value>For latest news and updates, please see &lt;a href="http://msmvps.com/blogs/omar/"&gt;my Blog&lt;/a&gt;</value>
+  </data>
+  <data name="NextPhotos" xml:space="preserve">
+    <value>Next Photos</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NoSetting" xml:space="preserve">
+    <value>No Settings</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old Password:</value>
+  </data>
+  <data name="OldPasswordBlankMessage" xml:space="preserve">
+    <value>Old password cannot be left blank.</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordBlankMessage" xml:space="preserve">
+    <value>Password cannot be left blank.</value>
+  </data>
+  <data name="PasswordChangedMessage" xml:space="preserve">
+    <value>Password has been successfully changed.</value>
+  </data>
+  <data name="PermissionAssignedMessage" xml:space="preserve">
+    <value>Permission assigned successfully.</value>
+  </data>
+  <data name="PersonalizeHomepage" xml:space="preserve">
+    <value>Personalize Your Homepage</value>
+  </data>
+  <data name="PersonalMessage" xml:space="preserve">
+    <value>Free for personal use. Just link to me on the Footer. &lt;br /&gt; For &lt;u&gt;commercial distribution or use&lt;/u&gt;, please email me at "OmarALZabir at gmail.com" to get a license that does not require you to include links to me..</value>
+  </data>
+  <data name="Pisces" xml:space="preserve">
+    <value>Pisces</value>
+  </data>
+  <data name="PortalBookInformation" xml:space="preserve">
+    <value>The book which explains how this portal is built</value>
+  </data>
+  <data name="Pretty" xml:space="preserve">
+    <value>Pretty</value>
+  </data>
+  <data name="PreviewLatestNote" xml:space="preserve">
+    <value>Preview latest &lt;b&gt;messages&lt;/b&gt;</value>
+  </data>
+  <data name="PrevPhotos" xml:space="preserve">
+    <value>Prev Photos</value>
+  </data>
+  <data name="ProvideOldPasswordMessage" xml:space="preserve">
+    <value>Please provide your old password.</value>
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me on this computer.</value>
+  </data>
+  <data name="Sagittarius" xml:space="preserve">
+    <value>Sagittarius</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Scorpio" xml:space="preserve">
+    <value>Scorpio</value>
+  </data>
+  <data name="Scrollbar" xml:space="preserve">
+    <value>Scrollbar</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SelectHoroscope" xml:space="preserve">
+    <value>Select Horoscope:</value>
+  </data>
+  <data name="SendPassword" xml:space="preserve">
+    <value>Send Password</value>
+  </data>
+  <data name="SettingPanel" xml:space="preserve">
+    <value>This is the settings panel.</value>
+  </data>
+  <data name="SettingsButtonClicked" xml:space="preserve">
+    <value>Settings Button Clicked.</value>
+  </data>
+  <data name="SetupCompleteMessage" xml:space="preserve">
+    <value>Setup complete. You can now visit</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="ShowSettingsPanel" xml:space="preserve">
+    <value>Show Settings panel.</value>
+  </data>
+  <data name="SignInNote" xml:space="preserve">
+    <value>Sign in to Personalized Homepage with your account</value>
+  </data>
+  <data name="SignInToTwitter" xml:space="preserve">
+    <value>Click here&lt;/a&gt; to sign in to Twitter.</value>
+  </data>
+  <data name="SilverlightPluginError" xml:space="preserve">
+    <value>Silverlight Plugin not installed.</value>
+  </data>
+  <data name="SiteDescription" xml:space="preserve">
+    <value>This is an open source Web 2.0 style AJAX Portal built using ASP.NET 3.5, Workflow Foundation and LINQ..</value>
+  </data>
+  <data name="SiteTitle" xml:space="preserve">
+    <value>Dropthings</value>
+  </data>
+  <data name="Slogan" xml:space="preserve">
+    <value>- open source Web 2.0 AJAX Portal</value>
+  </data>
+  <data name="SourceCode" xml:space="preserve">
+    <value>The source code is available at:</value>
+  </data>
+  <data name="StartOver" xml:space="preserve">
+    <value>Start Over</value>
+  </data>
+  <data name="StateSaved" xml:space="preserve">
+    <value>State Saved</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag:</value>
+  </data>
+  <data name="Taurus" xml:space="preserve">
+    <value>Taurus</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TwitterCredentials" xml:space="preserve">
+    <value>Twitter Credentials</value>
+  </data>
+  <data name="TwitterPassword" xml:space="preserve">
+    <value>Twitter Password</value>
+  </data>
+  <data name="TwitterUsername" xml:space="preserve">
+    <value>Twitter Username</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="URL" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="Virgo" xml:space="preserve">
+    <value>Virgo</value>
+  </data>
+  <data name="Widget" xml:space="preserve">
+    <value>Widget</value>
+  </data>
+  <data name="WidgetTitle" xml:space="preserve">
+    <value>Widget Title</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value>Working.....</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="FeedNote2" xml:space="preserve">
+    <value>Get &lt;b&gt;weather&lt;/b&gt; forecasts, &lt;b&gt;stock&lt;/b&gt; quotes, and  &lt;b&gt;movie&lt;/b&gt; showtimes</value>
+  </data>
+  <data name="WhatPersonalizeHomePageDo" xml:space="preserve">
+    <value>Your personalized homepage brings together content from across the web, on a single page:</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+</root>

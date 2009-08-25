@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="LoginPage.aspx.cs" Inherits="LoginPage" %>
+<%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="LoginPage.aspx.cs" Inherits="LoginPage" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -86,7 +86,7 @@ color:#FF0000;
                         </tr>
                         <tr bgcolor="#DDE8CC">
                             <td style="padding-left: 4px; padding-bottom: 3px; padding-top: 2px; font-family: arial,sans-serif;">
-                                <b>Personalize Your Homepage</b></td>
+                                <b><asp:Literal ID="ltlPersonalizeHomepage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, PersonalizeHomepage%>" />b></td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -99,7 +99,7 @@ color:#FF0000;
         <table width="94%" align="center" cellpadding="5" cellspacing="1">
             <tr>
                 <td valign="top">
-                    <b>See information you care about on your homepage.</b>
+                    <b><asp:Literal ID="ltlCareAboutNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, CareAboutNote%>" /></b>
                     <td valign="top">
             &nbsp;
         </table>
@@ -107,16 +107,14 @@ color:#FF0000;
             <tr>
                 <td width="75%" valign="top">
                     <p>
-                        <font size="-1">Your personalized homepage brings together content from across the
-                        web, on a single page:
+                        <font size="-1"><asp:Literal ID="ltlWhatPersonalizeHomePageDo" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, WhatPersonalizeHomePageDo%>" />
                     </p>
                     <ul>
-                        <li>Preview latest <b>messages</b> </li>
-                        <li style="padding-top: 5px;">See headlines from top news sources </li>
-                        <li style="padding-top: 5px;">Get <b>weather</b> forecasts, <b>stock</b> quotes, and
-                            <b>movie</b> showtimes </li>
-                        <li style="padding-top: 5px;">Select from a variety of popular <b>feeds</b> </li>
-                        <li style="padding-top: 5px;"><b>Drag and drop</b> the sections to rearrange the page
+                        <li><asp:Literal ID="ltlPreviewLatestNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, PreviewLatestNote%>" /> </li>
+                        <li style="padding-top: 5px;"><asp:Literal ID="ltlHeadlineNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, HeadlineNote%>" /> </li>
+                        <li style="padding-top: 5px;"><asp:Literal ID="ltlFeedNote2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, FeedNote2 %>" /> </li>
+                        <li style="padding-top: 5px;"><asp:Literal ID="ltlFeedNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, FeedNote%>" /> </li>
+                        <li style="padding-top: 5px;"><asp:Literal ID="ltlDNDNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DNDNote%>" />
                         </li>
                     </ul>
                 </td>
@@ -129,18 +127,18 @@ color:#FF0000;
                                     <tbody>
                                         <tr>
                                             <td align="center" colspan="2">
-                                                <font size="-1">Sign in to Personalized Homepage with your account</font>                                                
+                                                <font size="-1"><asp:Literal ID="ltlSignInNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, SignInNote%>" /></font>                                                
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2" nowrap="nowrap">
                                                 <asp:Label ID="InvalidLoginLabel" runat="server" EnableViewState="False" Font-Bold="True"
-                                                    ForeColor="Red" Text="Invalid Email or Password. Did you register before?" Visible="False"></asp:Label></td>
+                                                    ForeColor="Red" Text="<%$Resources:SharedResources, InvalidCredentialMessage%>" Visible="False"></asp:Label></td>
                                         </tr>
                                         <tr>
                                             <td nowrap="">
                                                 <div align="right">
-                                                    <span>Email: </span>
+                                                    <span><asp:Literal ID="ltlEmail" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Email%>" /> </span>
                                                 </div>
                                             </td>
                                             <td>
@@ -154,7 +152,7 @@ color:#FF0000;
                                         </tr>
                                         <tr>
                                             <td align="right">
-                                                <span>Password: </span>
+                                                <span><asp:Literal ID="ltlPassword" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Password%>" /> </span>
                                             </td>
                                             <td>
                                                 <asp:TextBox ID="Password" runat="server" TextMode="Password" />
@@ -171,14 +169,14 @@ color:#FF0000;
                                                 <input type="hidden" value="1" name="rmShown" />
                                             </td>
                                             <td>
-                                                <span class="gaia le rem">Remember me on this computer. </span>
+                                                <span class="gaia le rem"><asp:Literal ID="ltlRememberMe" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, RememberMe%>" /> </span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td />
                                             <td align="left">
-                                                <asp:Button ID="LoginButton" runat="server" Text="Login" OnClick="LoginButton_Click" /> or
-                                                <asp:Button ID="RegisterButton" runat="Server" Text="Register" OnClick="RegisterButton_Click"  />
+                                                <asp:Button ID="LoginButton" runat="server" Text="<%$Resources:SharedResources, Login%>" OnClick="LoginButton_Click" /> <asp:Literal ID="ltlOr" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Or%>" />
+                                                <asp:Button ID="RegisterButton" runat="Server" Text="<%$Resources:SharedResources, Register%>" OnClick="RegisterButton_Click"  />
                                             </td>
                                         </tr>
                                         <tr>
@@ -188,13 +186,13 @@ color:#FF0000;
                                         </tr>
                                         <tr>
                                             <td align="center" colspan="2">
-                                                <font size="-1">Forgot Password?</font>                                                
+                                                <font size="-1"><asp:Literal ID="ltlForgotPassword" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ForgotPassword%>" /></font>                                                
                                             </td>
                                         </tr>
                                         <tr>
                                             <td nowrap="">
                                                 <div align="right">
-                                                    <span>Email: </span>
+                                                    <span><asp:Literal ID="ltlEmail2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Email%>" /> </span>
                                                 </div>
                                             </td>
                                             <td>
@@ -204,7 +202,7 @@ color:#FF0000;
                                         <tr>
                                             <td />
                                             <td align="left">
-                                                <asp:Button ID="btnSendPassword" runat="server" Text="Send Password" OnClick="SendPasswordButton_Click" />
+                                                <asp:Button ID="btnSendPassword" runat="server" Text="<%$Resources:SharedResources, SendPassword%>" OnClick="SendPasswordButton_Click" />
                                             </td>
                                         </tr>
                                     </tbody>

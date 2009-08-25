@@ -54,6 +54,16 @@
             return _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetPagesByUserId);
         }
 
+        public List<Page> GetLockedPagesOfUser(Guid userGuid)
+        {
+            return _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetLockedPagesByUserId);
+        }
+
+        public List<Page> GetUnlockedPagesOfUser(Guid userGuid)
+        {
+            return _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetUnLockedPagesByUserId);
+        }
+
         public Page Insert(Action<Page> populate)
         {
             return _database.Insert<Page>(DropthingsDataContext.SubsystemEnum.Page, populate);

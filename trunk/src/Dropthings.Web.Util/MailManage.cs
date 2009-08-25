@@ -93,7 +93,15 @@ namespace Dropthings.Web.Util
                 message.IsBodyHtml = true;
 
                 var mailClient = new SmtpClient();
-                mailClient.Send(message);
+
+                try
+                {
+                    mailClient.Send(message);
+                }
+                catch (Exception)
+                {
+                }
+                
             }
         }
 

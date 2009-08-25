@@ -102,9 +102,9 @@ public partial class _Default : BasePage
                 base.CreateChildControls();
                 this.LoadUserPageSetup(false);
                 this.LoadAddStuff();
-                this.UserTabPage.LoadTabs(_Setup.UserPages, _Setup.CurrentPage);
-
+                this.UserTabPage.LoadTabs(_Setup.CurrentUserId, _Setup.UserPages, _Setup.UserSharedPages, _Setup.CurrentPage);
                 this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
+                this.LockPageContent(_Setup.CurrentPage);
             });
     }
 
@@ -119,6 +119,18 @@ public partial class _Default : BasePage
                     RedirectToTab(newCurrentPage);
                 }
             });
+    }
+
+    public void RedirectToTab(Dropthings.DataAccess.Page page)
+    {
+        if (!page.IsLocked)
+        {
+            Response.Redirect('?' + page.UserTabName);
+        }
+        else
+        {
+            Response.Redirect('?' + page.LockedTabName);
+        }
     }
 
     protected void HideAddContentPanel_Click(object sender, EventArgs e)
@@ -207,6 +219,30 @@ public partial class _Default : BasePage
         }
     }
 
+    protected void SaveTabLockSettingButton_Clicked(object sender, EventArgs e)
+    {
+        var isLocked = this.TabLocked.Checked;
+
+        if (isLocked != _Setup.CurrentPage.IsLocked)
+        {
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                if(isLocked)
+                {
+                    facade.LockPage();
+                }
+                else
+                {
+                    facade.UnLockPage();
+                }
+            }
+
+            this.LoadUserPageSetup(false);
+
+            RedirectToTab(_Setup.CurrentPage);
+        }
+    }
+
     protected void ShowAddContentPanel_Click(object sender, EventArgs e)
     {
         this.AddContentPanel.Visible = true;
@@ -247,18 +283,16 @@ public partial class _Default : BasePage
                         // First visit
                         Profile.IsFirstVisit = false;
                         Profile.Save();
-
                         _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true);
-
                     }
                     else
                     {
-                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true);
+                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.LastActivityAt);
                     }
                 }
                 else
                 {
-                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false);
+                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.LastActivityAt);
 
                     // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
                     // to recrate the pages
@@ -267,6 +301,10 @@ public partial class _Default : BasePage
                         _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true);
                     }
                 }
+
+                //save the profile to keep LastActivityAt updated
+                Profile.LastActivityAt = DateTime.Now;
+                Profile.Save();
             }
         });
 
@@ -315,11 +353,6 @@ public partial class _Default : BasePage
         this.ReloadCurrentPage();
     }
 
-    private void RedirectToTab(Page page)
-    {
-        Response.Redirect('?' + page.TabName);
-    }
-
     private void ReloadCurrentPage()
     {
         this.LoadUserPageSetup(false);
@@ -337,6 +370,7 @@ public partial class _Default : BasePage
         this.ChangePageTitleLinkButton.Text = "Hide Settings";
 
         this.NewTitleTextBox.Text = _Setup.CurrentPage.Title;
+        this.TabLocked.Checked = _Setup.CurrentPage.IsLocked;
     }
 
     private void TrapDatabaseException(Action work)
@@ -353,6 +387,14 @@ public partial class _Default : BasePage
             Response.Write(x.ToString());
             Response.Write("</pre>");
             Response.Write("</html>");
+        }
+    }
+
+    private void LockPageContent(Page page)
+    {
+        if (page.UserId != _Setup.CurrentUserId)
+        {
+            ShowAddContentPanel.Enabled = HideAddContentPanel.Enabled = ChangePageTitleLinkButton.Enabled = !page.IsLocked;
         }
     }
 

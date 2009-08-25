@@ -2,14 +2,13 @@
 <div id="footer">
     <div id="footer_wrapper">
 
-        <p class="copyright">&copy; <a href="http://msmvps.com/blogs/omar/">Omar AL Zabir</a>. All rights reserved. <br />
-		For latest news and updates, please see <a href="http://msmvps.com/blogs/omar/">my Blog</a></p>
+        <p class="copyright">&copy; <a href="http://msmvps.com/blogs/omar/">Omar AL Zabir</a>. <asp:Literal ID="ltlCopyright" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Copyright%>" /> <br />
+		<asp:Literal ID="ltlNewsAndUpdates" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, NewsAndUpdates%>" /></p>
         <p class="license">
-        Free for personal use. Just link to me on the Footer. <br />
-        For <u>commercial distribution or use</u>, please email me at "OmarALZabir at gmail.com" to get a license that does not require you to include links to me.
+        <asp:Literal ID="ltlPersonalMessage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, PersonalMessage%>" />
         </p>
 
-        <p class="invitation">We're hiring! Join the project at CodePlex and build cool widgets or features you like.
+        <p class="invitation"><asp:Literal ID="ltlHiringNotice" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, HiringNotice%>" />
         </p>
         
         <!-- Begin Shinystat Free code -->

@@ -135,20 +135,44 @@
         {
             Page currentPage = null;
             var pages = this.pageRepository.GetPagesOfUser(userGuid);
+            List<Page> sharedPages = null;
+            
+            var roleTemplate = GetRoleTemplate(userGuid);
+
+            if (!roleTemplate.TemplateUserId.IsEmpty())
+            {
+                // Get template user pages so that it can be cloned for new user
+                if (roleTemplate.TemplateUserId != userGuid)
+                {
+                    sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId);
+                }
+            }
 
             // Find the page that has the specified Page Name and make it as current
             // page. This is needed to make a tab as current tab when the tab name is
             // known
             if (!string.IsNullOrEmpty(pageTitle))
             {
-
                 foreach (Page page in pages)
                 {
-                    if (page.Title.Replace(' ', '_') == pageTitle)
+                    if (string.Equals(page.Title.Replace(' ', '_'), pageTitle))
                     {
                         currentPageId = page.ID;
                         currentPage = page;
                         break;
+                    }
+                }
+
+                if (sharedPages != null)
+                {
+                    foreach (Page page in sharedPages)
+                    {
+                        if (string.Equals(page.Title.Replace(' ', '_') + "_Locked", pageTitle))
+                        {
+                            currentPageId = page.ID;
+                            currentPage = page;
+                            break;
+                        }
                     }
                 }
             }
@@ -194,6 +218,51 @@
                 this.pageRepository.Update(currentPage, (page) =>
                 {
                     page.Title = title;
+                }, null);
+
+                success = true;
+            }
+
+            return success;
+        }
+
+        public bool LockPage()
+        {
+            var success = false;
+            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userSetting = GetUserSetting(userGuid);
+
+            if (userSetting != null && userSetting.CurrentPageId > 0)
+            {
+                var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+
+                this.pageRepository.Update(currentPage, (page) =>
+                {
+                    page.IsLocked = true;
+                    page.LockedAt = DateTime.Now;
+                }, null);
+
+                success = true;
+            }
+
+            return success;
+        }
+
+        public bool UnLockPage()
+        {
+            var success = false;
+            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userSetting = GetUserSetting(userGuid);
+
+            if (userSetting != null && userSetting.CurrentPageId > 0)
+            {
+                var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+
+                this.pageRepository.Update(currentPage, (page) =>
+                {
+                    page.IsLocked = false;
+                    page.IsUnlocked = true;
+                    page.UnlockedAt = DateTime.Now;
                 }, null);
 
                 success = true;
@@ -278,7 +347,7 @@
                             newColumn.PageId = userSetting.CurrentPageId;
                         });
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }

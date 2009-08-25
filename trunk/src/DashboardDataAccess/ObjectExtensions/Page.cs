@@ -17,11 +17,19 @@ namespace Dropthings.DataAccess
     {
         #region Properties
 
-        public string TabName
+        public string UserTabName
         {
             get
             {
                 return this.Title.Replace(' ', '_');
+            }
+        }
+
+        public string LockedTabName
+        {
+            get
+            {
+                return this.Title.Replace(' ', '_') + "_Locked";
             }
         }
 

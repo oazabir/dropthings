@@ -21,6 +21,10 @@
 
         System.Collections.Generic.List<Dropthings.DataAccess.Page> GetPagesOfUser(Guid userGuid);
 
+        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetLockedPagesOfUser(Guid userGuid);
+
+        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetUnlockedPagesOfUser(Guid userGuid);
+
         Dropthings.DataAccess.Page Insert(Action<Dropthings.DataAccess.Page> populate);
 
         void Update(Dropthings.DataAccess.Page page, Action<Dropthings.DataAccess.Page> detach, Action<Dropthings.DataAccess.Page> postAttachUpdate);

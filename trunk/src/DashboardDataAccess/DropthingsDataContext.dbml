@@ -1,21 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Database Name="Dropthings" Class="DropthingsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=VISTA64;Initial Catalog=Dropthings;User ID=dropthings" SettingsObjectName="Dropthings.DataAccess.Properties.Settings" SettingsPropertyName="DropthingsConnectionString2" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Page" Member="Pages">
-    <Type Name="Page">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="VersionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LayoutType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PageType" Type="Enumerations.PageTypeEnum" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ColumnCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LastUpdated" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Association Name="Page_Column" Member="Columns" ThisKey="ID" OtherKey="PageId" Type="Column" />
-      <Association Name="aspnet_User_Page" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-    </Type>
-  </Table>
+<Database Name="dropthings" Class="DropthingsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=E:\Development\OpenSource\DT\dropthings\src\Dropthings\App_Data\dropthings.mdf;Integrated Security=True;User Instance=True" SettingsObjectName="Dropthings.DataAccess.Properties.Settings" SettingsPropertyName="dropthingsConnectionString5" Provider="System.Data.SqlClient" />
   <Table Name="dbo.WidgetZone" Member="WidgetZones">
     <Type Name="WidgetZone">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -123,8 +108,8 @@
       <Column Name="ColumnNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ColumnWidth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="LastUpdated" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Association Name="Page_Column" Member="Page" ThisKey="PageId" OtherKey="ID" Type="Page" IsForeignKey="true" />
       <Association Name="WidgetZone_Column" Member="WidgetZone" ThisKey="WidgetZoneId" OtherKey="ID" Type="WidgetZone" IsForeignKey="true" />
+      <Association Name="Page_Column" Member="Page" ThisKey="PageId" OtherKey="ID" Type="Page" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.WidgetsInRoles" Member="WidgetsInRoles">
@@ -145,11 +130,30 @@
       <Column Name="MobileAlias" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
       <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_Page" Member="Pages" ThisKey="UserId" OtherKey="UserId" Type="Page" />
       <Association Name="aspnet_User_UserSetting" Member="UserSetting" ThisKey="UserId" OtherKey="UserId" Type="UserSetting" Cardinality="One" />
       <Association Name="aspnet_User_Token" Member="Tokens" ThisKey="UserId" OtherKey="UserId" Type="Token" />
       <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
       <Association Name="aspnet_User_RoleTemplate" Member="RoleTemplates" ThisKey="UserId" OtherKey="TemplateUserId" Type="RoleTemplate" />
+      <Association Name="aspnet_User_Page" Member="Pages" ThisKey="UserId" OtherKey="UserId" Type="Page" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Page" Member="Pages">
+    <Type Name="Page">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="VersionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LayoutType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PageType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ColumnCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdated" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LockedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsUnlocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="UnlockedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Page_Column" Member="Columns" ThisKey="ID" OtherKey="PageId" Type="Column" />
+      <Association Name="aspnet_User_Page" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

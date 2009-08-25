@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ManageAccount.aspx.cs" Inherits="ManageAccountPage" %>
+<%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="ManageAccount.aspx.cs" Inherits="ManageAccountPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -87,7 +87,7 @@ color:#FF0000;
                         </tr>
                         <tr bgcolor="#DDE8CC">
                             <td style="padding-left: 4px; padding-bottom: 3px; padding-top: 2px; font-family: arial,sans-serif;">
-                                <b>Account Settings</b></td>
+                                <b><asp:Literal ID="ltlAccountSetting" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, AccountSetting%>" /></b></td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -100,7 +100,7 @@ color:#FF0000;
         <table width="94%" align="center" cellpadding="5" cellspacing="1">
             <tr>
                 <td valign="top">
-                    <b>See information you care about on your homepage.</b></td>
+                    <b><asp:Literal ID="ltlCareAboutNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, CareAboutNote%>" /></b></td>
                     <td valign="top">&nbsp;</td>
             </tr>
             
@@ -113,13 +113,13 @@ color:#FF0000;
             </tr>
             <tr>
               <td style="white-space:nowrap;">
-                <strong><font color="#333333">Edit personal information</font></strong>
+                <strong><font color="#333333"><asp:Literal ID="ltlEditPersonalInformation" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, EditPersonalInformation%>" /></font></strong>
               </td>
               <td width="100%"><hr /></td>
             </tr>
             <tr>
               <td width="20%" nowrap="nowrap" valign="top">
-                  <font size="-1">Email:</font>
+                  <font size="-1"><asp:Literal ID="ltlEmail" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Email%>" />:</font>
               </td>
               <td>
                   <asp:TextBox ID="EmailTextbox" runat="server"></asp:TextBox>
@@ -128,18 +128,18 @@ color:#FF0000;
             <tr>
                 <td width="20%"></td>
                 <td style="text-align:left;">
-                    <asp:Button ID="SaveButton" runat="server" Text="Save" EnableViewState="false" OnClick="SaveButton_Click" />&nbsp;
+                    <asp:Button ID="SaveButton" runat="server" Text="<%$Resources:SharedResources, Save%>" EnableViewState="false" OnClick="SaveButton_Click" />&nbsp;
                 </td>                
             </tr>
             <tr>
               <td style="white-space:nowrap;">
-                <strong><font color="#333333">Change Password:</font></strong>
+                <strong><font color="#333333"><asp:Literal ID="ltlChangePassword" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangePassword%>" /></font></strong>
               </td>
               <td width="100%"><hr /></td>
             </tr>
             <tr>
               <td width="20%" nowrap="nowrap" valign="top">
-                  <font size="-1">Old Password:</font>
+                  <font size="-1"><asp:Literal ID="ltlOldPassword" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, OldPassword%>" /></font>
               </td>
               <td>
                   <asp:TextBox ID="OldPasswordTextbox" runat="server" TextMode="Password"></asp:TextBox>
@@ -147,7 +147,7 @@ color:#FF0000;
              </tr>
              <tr>
               <td width="20%" nowrap="nowrap" valign="top">
-                  <font size="-1">New Password:</font>
+                  <font size="-1"><asp:Literal ID="ltlNewPassword" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, NewPassword%>" /></font>
               </td>
               <td>
                   <asp:TextBox ID="NewPasswordTextbox" runat="server" TextMode="Password"></asp:TextBox>
@@ -156,7 +156,7 @@ color:#FF0000;
             <tr>
                 <td width="20%"></td>
                 <td style="text-align:left;">
-                   <asp:Button ID="ChangePasswordButton" runat="server" Text="Change" EnableViewState="false" OnClick="ChangePasswordButton_Click" />&nbsp;
+                   <asp:Button ID="ChangePasswordButton" runat="server" Text="<%$Resources:SharedResources, Change%>" EnableViewState="false" OnClick="ChangePasswordButton_Click" />&nbsp;
                 </td>                
             </tr>
         </table>

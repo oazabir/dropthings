@@ -79,7 +79,7 @@ namespace Dropthings.Web.Framework
             );
 
             Context.Cache.Remove(Profile.UserName);
-            return response.NewCurrentPage.TabName;
+            return response.NewCurrentPage.UserTabName;
         }
 
         [WebMethod]
@@ -93,7 +93,7 @@ namespace Dropthings.Web.Framework
                 new AddNewTabWorkflowRequest { LayoutType = newLayout, UserName = Profile.UserName }
             );
 
-            return response.NewPage.TabName;
+            return response.NewPage.UserTabName;
         }
 
         [WebMethod]

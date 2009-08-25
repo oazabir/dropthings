@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" Theme="GreenBlue" EnableSessionState="False" ValidateRequest="false" Trace="False" TraceMode="SortByCategory" %>
+<%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" Theme="GreenBlue" EnableSessionState="False" ValidateRequest="false" Trace="False" TraceMode="SortByCategory" %>
 <%@ OutputCache Location="None" NoStore="true" %>
 
 <%@ Register Src="~/Header.ascx" TagName="Header" TagPrefix="uc1" %>
@@ -48,34 +48,35 @@
             <div id="onpage_menu_wrapper">
                 <asp:UpdatePanel ID="OnPageMenuUpdatePanel" runat="server" UpdateMode="Conditional" >
                     <ContentTemplate>
-
                         <div id="onpage_menu_bar" onmouseover="this.className='onpage_menu_bar_hover'" onmouseout="this.className=''">
-                            <asp:LinkButton CssClass="onpage_menu_action" ID="ShowAddContentPanel" runat="server" Text="Add stuff »" OnClick="ShowAddContentPanel_Click"/>
-                            <asp:LinkButton CssClass="onpage_menu_action" ID="HideAddContentPanel" runat="server" Text="Hide Stuff »" OnClick="HideAddContentPanel_Click" Visible="false" OnClientClick="DropthingsUI.hideWidgetGallery();" />
-                            
-                            <asp:LinkButton ID="ChangePageTitleLinkButton" CssClass="onpage_menu_action" Text="Change Settings »" runat="server" OnClick="ChangeTabSettingsLinkButton_Clicked" />
+                            <asp:LinkButton CssClass="onpage_menu_action" ID="ShowAddContentPanel" runat="server" Text="<%$Resources:SharedResources, AddStuff%>" OnClick="ShowAddContentPanel_Click"/>
+                            <asp:LinkButton CssClass="onpage_menu_action" ID="HideAddContentPanel" runat="server" Text="<%$Resources:SharedResources, HideStuff%>" OnClick="HideAddContentPanel_Click" Visible="false" OnClientClick="DropthingsUI.hideWidgetGallery();" />
+                            <asp:LinkButton ID="ChangePageTitleLinkButton" CssClass="onpage_menu_action" Text="<%$Resources:SharedResources, ChangeSettings%>" runat="server" OnClick="ChangeTabSettingsLinkButton_Clicked" />
                         </div>
                         <div id="onpage_menu_panels">
                             <asp:Panel ID="ChangePageSettingsPanel" runat="server" Visible="false" CssClass="onpage_menu_panel">
                                 <div class="onpage_menu_panel_column">
-                                    <h1>Change Tab Title</h1>
+                                    <h1><asp:Literal ID="ltlChangeTabTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeTabTitle%>" /></h1>
                                     <p>
-                                        Title: <asp:TextBox ID="NewTitleTextBox" runat="server" />
-                                        <asp:Button ID="SaveNewTitleButton" runat="server" OnClick="SaveNewTitleButton_Clicked" Text="Save" />
+                                        <asp:Literal ID="ltlTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Title%>" />: <asp:TextBox ID="NewTitleTextBox" runat="server" />
+                                        <asp:Button ID="SaveNewTitleButton" runat="server" OnClick="SaveNewTitleButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
+                                    </p>
+                                    <p>
+                                        <asp:Literal ID="ltlLocked" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Locked%>" />: <asp:CheckBox ID="TabLocked" runat="server" />
+                                        <asp:Button ID="SaveTabLockSetting" runat="server" OnClick="SaveTabLockSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
                                     </p>
                                 </div>
                                 
                                 <div class="onpage_menu_panel_column">
-                                    <h1>Delete Tab</h1>
+                                    <h1><asp:Literal ID="ltlDeleteTab" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" /></h1>
                                     <p>
-                                    Delete tab? <asp:Button ID="DeleteTabLinkButton" runat="server" OnClick="DeleteTabLinkButton_Clicked" Text="Yes" />
+                                    <asp:Literal ID="ltlDeleteTab2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" />? <asp:Button ID="DeleteTabLinkButton" runat="server" OnClick="DeleteTabLinkButton_Clicked" Text="<%$Resources:SharedResources, Yes%>" />
                                     </p>
-                                </div>
-                                
+                                </div>                                
                                 <div class="onpage_menu_panel_column">
-                                    <h1>Change Columns</h1>
+                                    <h1><asp:Literal ID="ltlChangeColumn" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeColumn%>" /></h1>
                                     
-                                    <p>Please choose a column layout:<br />
+                                    <p><asp:Literal ID="ltlChoiceColumnLayout" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChoiceColumnLayout%>" /><br />
                                     <input id="SelectLayoutPopup_Type1" type="image" value="1"  src="img/Layout1.jpg" onclick="DropthingsUI.Actions.changePageLayout(1)" /> 
                                     <input id="SelectLayoutPopup_Type2" type="image" value="2" src="img/Layout2.jpg" onclick="DropthingsUI.Actions.changePageLayout(2)" />         
                                     <input id="SelectLayoutPopup_Type3" type="image" value="3" src="img/Layout3.jpg" onclick="DropthingsUI.Actions.changePageLayout(3)" />      
@@ -91,9 +92,7 @@
                                     <div class="clear"></div>
                                 </asp:Panel>            
                             </div>
-                        </div>    
-                            
-                        
+                        </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>

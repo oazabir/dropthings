@@ -1,6 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="FastRssWidget.ascx.cs" Inherits="Widgets_FastRssWidget" EnableViewState="false" %>
 <asp:Panel ID="SettingsPanel" runat="Server" Visible="False" >
-Show 
+<asp:Literal ID="ltlShow" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Show%>" />
 <asp:DropDownList ID="FeedCountDropDownList" runat="Server">
 <asp:ListItem>1</asp:ListItem>
 <asp:ListItem>2</asp:ListItem>
@@ -23,8 +23,8 @@ Show
 <asp:ListItem>19</asp:ListItem>
 <asp:ListItem>20</asp:ListItem>
 </asp:DropDownList>
-items
-<asp:Button ID="SaveSettings" runat="Server" OnClick="SaveSettings_Click" Text="Save" />
+<asp:Literal ID="Literal1" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Items%>" />
+<asp:Button ID="SaveSettings" runat="Server" OnClick="SaveSettings_Click" Text="<%$Resources:SharedResources, Save%>" />
 </asp:Panel>
 
 <asp:Panel ID="RssContainer" runat="server"></asp:Panel>

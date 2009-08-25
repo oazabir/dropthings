@@ -35,16 +35,17 @@ namespace Dropthings.Business.Facade
             }
         }
 
-        public bool TransferOwnership(Guid userOldGuid)
+        public bool TransferOwnership(Guid userGuid, Guid userOldGuid)
         {
             var success = false;
 
             using (TransactionScope ts = new TransactionScope())
             {
                 List<Page> pages = this.pageRepository.GetPagesOfUser(userOldGuid);
+                
                 this.pageRepository.UpdateList(pages, (page) =>
                 {
-                    page.UserId = userOldGuid;
+                    page.UserId = userGuid;
                 }, null);
                 
                 var userSetting = GetUserSetting(userOldGuid);
@@ -54,7 +55,7 @@ namespace Dropthings.Business.Facade
 
                 this.userSettingRepository.Insert((newSetting) =>
                 {
-                    newSetting.UserId = userOldGuid;
+                    newSetting.UserId = userGuid;
                     newSetting.CurrentPageId = userSetting.CurrentPageId;
                     newSetting.CreatedDate = DateTime.Now;
                 });

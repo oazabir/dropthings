@@ -23,7 +23,19 @@
             set;
         }
 
+        public List<Page> UserSharedPages
+        {
+            get;
+            set;
+        }
+
         public UserSetting UserSetting
+        {
+            get;
+            set;
+        }
+
+        public  Guid CurrentUserId
         {
             get;
             set;

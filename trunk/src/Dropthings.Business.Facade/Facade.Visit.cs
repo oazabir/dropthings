@@ -1,4 +1,6 @@
-﻿namespace Dropthings.Business.Facade
+﻿using System.Web.Security;
+
+namespace Dropthings.Business.Facade
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +24,6 @@
         {
             // If user does not exist, then this is the very *FIRST VISIT* of the user and user
             // Get template setting that so that we can create pages from templates
-
             var response = new UserSetup();
             var userGuid = this.userRepository.GetUserGuidFromUserName(userName);
 
@@ -38,7 +39,18 @@
                 {
                     // Get template user pages so that it can be cloned for new user
                     var templateUserPages = this.pageRepository.GetPagesOfUser(roleTemplate.TemplateUserId);
-                    templateUserPages.Each(templatePage => ClonePage(userGuid, templatePage));
+                    templateUserPages.Each(templatePage =>
+                    { 
+                        if(!templatePage.IsLocked)
+                        {
+                            ClonePage(userGuid, templatePage);
+                        }
+                    });
+
+                    if (roleTemplate.TemplateUserId != userGuid)
+                    {
+                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId);
+                    }
                 }
             }
             else
@@ -49,7 +61,7 @@
                 if (page != null && page.ID > 0)
                 {
                     CreateDefaultWidgetsOnPage(userName, page.ID);
-                    RepeatVisitHomePage(userName, pageTitle, isAnonymous);    // non-recursive. this will hit the outter most else block
+                    RepeatVisitHomePage(userName, pageTitle, isAnonymous, DateTime.Now);    // non-recursive. this will hit the outter most else block
                 }
                 else
                 {
@@ -61,17 +73,42 @@
             response.UserPages = currentPages;
             response.UserSetting = GetUserSetting(userGuid);
             response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPageId);
-
+            response.CurrentUserId = userGuid;
             return response;
         }
 
-        public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous)
+        public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous, DateTime? lastVisited)
         {
             // User is visiting again, so load user's existing page setup
-            var response = new UserSetup();            
+            var response = new UserSetup();
             var userGuid = this.userRepository.GetUserGuidFromUserName(userName);
-            var pages = this.pageRepository.GetPagesOfUser(userGuid);
 
+            var roleTemplate = GetRoleTemplate(userGuid);
+
+            if (!roleTemplate.TemplateUserId.IsEmpty())
+            {
+                // Get template user pages so that it can be cloned for new user
+                if (roleTemplate.TemplateUserId != userGuid)
+                {
+                    //clone all recently unlock user
+                    var unLockedPages = this.pageRepository.GetUnlockedPagesOfUser(roleTemplate.TemplateUserId);
+
+                    unLockedPages.ForEach(p =>
+                    {
+                        if (p.UnlockedAt > lastVisited)
+                        {
+                            ClonePage(userGuid, p);
+                        }
+                    });
+
+                    response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId);
+                }
+            }
+            
+            var pages = this.pageRepository.GetPagesOfUser(userGuid);
+            //var userSettingTemplate = GetUserSettingTemplate();
+            //Membership.GetUser().l
+            
             if (pages != null && pages.Count > 0)
             {
                 // User has pages
@@ -89,6 +126,7 @@
                 }
 
                 response.UserSetting = GetUserSetting(userGuid);
+                response.CurrentUserId = userGuid;
             }
             else
             {

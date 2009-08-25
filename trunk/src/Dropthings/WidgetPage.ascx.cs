@@ -57,7 +57,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
     /// <returns></returns>
     public override Control FindControl(string id)
     {
-        char[] anyOf = new char[] { '$', ':' };
+        var anyOf = new char[] { '$', ':' };
         int num = id.IndexOfAny(anyOf);
 
         // If this is the last control ID, no parent, then it should be of an Widget
@@ -93,7 +93,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
     public void RefreshZone(int widgetZoneId)
     {
         var widgetZone = this.FindControl("WidgetZone" + widgetZoneId) as WidgetInstanceZone;
-        widgetZone.Refresh();
+        if (widgetZone != null) widgetZone.Refresh();
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -119,28 +119,34 @@ public partial class WidgetPage : System.Web.UI.UserControl
         columns.Each<Column>( (column, index) =>
         {
             var widgetZone = LoadControl("~/WidgetInstanceZone.ascx") as WidgetInstanceZone;
-            widgetZone.ID = WidgetInstanceZone.WIDGET_ZONE_ID_PREFIX + column.WidgetZoneId;
-            widgetZone.WidgetZoneId = column.WidgetZoneId;
-            widgetZone.WidgetContainerPath = widgetContainerPath;
-            widgetZone.WidgetZoneClass = "widget_zone";
-            widgetZone.WidgetClass = "widget";
-            widgetZone.NewWidgetClass = "new_widget";
-            widgetZone.HandleClass = "widget_header";
-            widgetZone.UserName = Profile.UserName;
+            
+            if (widgetZone != null)
+            {
+                widgetZone.ID = WidgetInstanceZone.WIDGET_ZONE_ID_PREFIX + column.WidgetZoneId;
+                widgetZone.WidgetZoneId = column.WidgetZoneId;
+                widgetZone.WidgetContainerPath = widgetContainerPath;
+                widgetZone.WidgetZoneClass = "widget_zone";
+                widgetZone.WidgetClass = "widget";
+                widgetZone.NewWidgetClass = "new_widget";
+                widgetZone.HandleClass = "widget_header";
+                widgetZone.UserName = Profile.UserName;
+                widgetZone.IsLocked = this.CurrentPage.IsLocked;
+            }
 
-            var panel = new Panel();
-            panel.ID = "WidgetZonePanel" + index;
-            panel.CssClass = "column";
+            var panel = new Panel {ID = "WidgetZonePanel" + index, CssClass = "column"};
             panel.Style.Add(HtmlTextWriterStyle.Width, column.ColumnWidth.Percent());
 
             this.Controls.Add(panel);
             panel.Controls.Add(widgetZone);
 
-            var widgets = widgetZone.LoadWidgets(this._EventBroker);
-            foreach (IWidgetHost widgetHost in widgets)
+            if (widgetZone != null)
             {
-                Control c = widgetHost as Control;
-                _WidgetControlMap.Add(c.UniqueID, c);
+                var widgets = widgetZone.LoadWidgets(this._EventBroker);
+                foreach (IWidgetHost widgetHost in widgets)
+                {
+                    var c = widgetHost as Control;
+                    if (c != null) _WidgetControlMap.Add(c.UniqueID, c);
+                }
             }
         });
     }

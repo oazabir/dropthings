@@ -123,6 +123,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="DropthingsDataContext.dbml.layout">
       <DependentUpon>DropthingsDataContext.dbml</DependentUpon>
     </None>

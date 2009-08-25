@@ -64,6 +64,19 @@ namespace Dropthings.Web.Framework
             }
         }
 
+        [SettingsAllowAnonymousAttribute(true)]
+        public virtual DateTime? LastActivityAt
+        {
+            get
+            {
+                return ((DateTime?)(this.GetPropertyValue("LastActivityAt")));
+            }
+            set
+            {
+                this.SetPropertyValue("LastActivityAt", value ?? DateTime.Now);
+            }
+        }
+
         #endregion Properties
     }
 }

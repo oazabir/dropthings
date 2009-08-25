@@ -39,20 +39,42 @@ public partial class TabPage : System.Web.UI.UserControl
         get; set;
     }
 
+    public List<Dropthings.DataAccess.Page> LockedPages
+    {
+        get;
+        set;
+    }
+
+    public Guid CurrentUserId
+    {
+        get;
+        set;
+    }
+
     #endregion Properties
 
     #region Methods
 
-    public void LoadTabs(List<Dropthings.DataAccess.Page> pages, Dropthings.DataAccess.Page page)
+    public void LoadTabs(Guid currentUserId, List<Dropthings.DataAccess.Page> pages, List<Dropthings.DataAccess.Page> sharedPages, Dropthings.DataAccess.Page page)
     {
         this.CurrentPage = page;
         this.Pages = pages;
+        this.LockedPages = sharedPages;
+        this.CurrentUserId = currentUserId;
         this.SetupTabs();
     }
 
     public void RedirectToTab(Dropthings.DataAccess.Page page)
     {
-        Response.Redirect('?' + page.TabName);
+
+        if (!page.IsLocked || CurrentUserId == page.UserId)
+        {
+            Response.Redirect('?' + page.UserTabName);
+        }
+        else
+        {
+            Response.Redirect('?' + page.LockedTabName);
+        }
     }
 
     protected override void CreateChildControls()
@@ -84,7 +106,14 @@ public partial class TabPage : System.Web.UI.UserControl
     {
         tabList.Controls.Clear();
 
-        foreach (var page in Pages)
+        var viewablePages = this.Pages;
+
+        if (this.LockedPages != null)
+        {
+            viewablePages.AddRange(this.LockedPages);
+        }
+        
+        foreach (var page in viewablePages)
         {
             var li = new HtmlGenericControl("li");
             li.ID = "Tab" + page.ID.ToString();
@@ -102,7 +131,18 @@ public partial class TabPage : System.Web.UI.UserControl
             }
             else
             {
-                var tabLink = new HyperLink { Text = page.Title, NavigateUrl = "/?" + page.TabName };
+                var url = "/?";
+
+                if (!page.IsLocked || CurrentUserId == page.UserId)
+                {
+                    url += page.UserTabName;
+                }
+                else
+                {
+                    url += page.LockedTabName;
+                }
+
+                var tabLink = new HyperLink { Text = page.Title, NavigateUrl = url };
                 liWrapper.Controls.Add(tabLink);
             }
             tabList.Controls.Add(li);

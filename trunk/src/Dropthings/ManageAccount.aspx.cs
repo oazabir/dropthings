@@ -25,6 +25,7 @@ using Dropthings.Business.Workflows.UserAccountWorkflow;
 using Dropthings.Business.Workflows.UserAccountWorkflows;
 using Dropthings.Web.Framework;
 using Dropthings.Web.Util;
+using Resources;
 
 public partial class ManageAccountPage : System.Web.UI.Page
 {
@@ -57,24 +58,24 @@ public partial class ManageAccountPage : System.Web.UI.Page
 
                 if (string.IsNullOrEmpty(OldPasswordTextbox.Text.Trim()))
                 {
-                    ShowMessage(Message, "Old password cannot be left blank.", true);
+                    ShowMessage(Message, SharedResources.OldPasswordBlankMessage, true);
                     return;
                 }
 
                 if (string.IsNullOrEmpty(NewPasswordTextbox.Text.Trim()))
                 {
-                    ShowMessage(Message, "Password cannot be left blank.", true);
+                    ShowMessage(Message, SharedResources.PasswordBlankMessage, true);
                     return;
                 }
 
                 if(!string.Equals(user.GetPassword(), OldPasswordTextbox.Text.Trim()))
                 {
-                    ShowMessage(Message, "Please provide your old password.", true);
+                    ShowMessage(Message, SharedResources.ProvideOldPasswordMessage, true);
                     return;
                 }
 
                 user.ChangePassword(OldPasswordTextbox.Text.Trim(), NewPasswordTextbox.Text.Trim());
-                ShowMessage(Message, "Password has been successfully changed.", false);
+                ShowMessage(Message, SharedResources.PasswordChangedMessage, false);
             }
 
         }
@@ -105,7 +106,7 @@ public partial class ManageAccountPage : System.Web.UI.Page
 
             FormsAuthentication.SignOut();
             FormsAuthentication.SetAuthCookie(EmailTextbox.Text.Trim(), true);
-            ShowMessage(Message, "Your account has been successfully updated.", false);
+            ShowMessage(Message, SharedResources.AccountUpdatedMessage, false);
         }
         catch(Exception x )
         {
