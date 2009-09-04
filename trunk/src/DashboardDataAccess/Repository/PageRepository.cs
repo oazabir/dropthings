@@ -54,14 +54,20 @@
             return _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetPagesByUserId);
         }
 
-        public List<Page> GetLockedPagesOfUser(Guid userGuid)
+        public List<Page> GetLockedPagesOfUser(Guid userGuid, bool? isDownForMaintenenceMode)
         {
-            return _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetLockedPagesByUserId);
+            return isDownForMaintenenceMode.HasValue ? _database.GetList<Page, Guid, bool>(DropthingsDataContext.SubsystemEnum.Page, userGuid, isDownForMaintenenceMode.Value, LinqQueries.CompiledQuery_GetLockedPages_ByUserId_DownForMaintenence) 
+                                                : _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetLockedPagesByUserId);
         }
 
-        public List<Page> GetUnlockedPagesOfUser(Guid userGuid)
+        public List<Page> GetLockedPagesOfUserByMaintenenceMode(Guid userGuid, bool isInMaintenenceMode)
         {
-            return _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetUnLockedPagesByUserId);
+            return _database.GetList<Page, Guid, bool>(DropthingsDataContext.SubsystemEnum.Page, userGuid, isInMaintenenceMode, LinqQueries.CompiledQuery_GetLockedPages_ByUserId_DownForMaintenence);
+        }
+
+        public List<Page> GetMaintenencePagesOfUser(Guid userGuid)
+        {
+            return _database.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetPagesWhichIsDownForMaintenanceByUserId);
         }
 
         public Page Insert(Action<Page> populate)
@@ -83,6 +89,12 @@
         {
             return _database.GetQueryResult<Page, Guid, Page>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetPagesByUserId, (query) => query.First<Page>());
         }
+
+        public Page GetOverridableStartPageOfUser(Guid userGuid)
+        {
+            return _database.GetSingle<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetOverridableStartPageByUser);
+        }
+
         #endregion Methods
     }
 }

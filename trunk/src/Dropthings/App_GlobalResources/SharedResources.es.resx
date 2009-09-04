@@ -508,4 +508,10 @@ Para el uso commercial, enviame una e-mail a ….para obtener una licencia que n
   <data name="Locked" xml:space="preserve">
     <value>Locked</value>
   </data>
+  <data name="MaintenanceModeMessage" xml:space="preserve">
+    <value>Is In Maintenence Mode</value>
+  </data>
+  <data name="ServeAsStartPageMessage" xml:space="preserve">
+    <value>Serve This Tab At Start</value>
+  </data>
 </root>

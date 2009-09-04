@@ -144,7 +144,7 @@
                 // Get template user pages so that it can be cloned for new user
                 if (roleTemplate.TemplateUserId != userGuid)
                 {
-                    sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId);
+                    sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
                 }
             }
 
@@ -239,9 +239,9 @@
                 this.pageRepository.Update(currentPage, (page) =>
                 {
                     page.IsLocked = true;
-                    page.LockedAt = DateTime.Now;
+                    page.LastLockedStatusChangedAt = DateTime.Now;
                 }, null);
-
+                
                 success = true;
             }
 
@@ -261,8 +261,68 @@
                 this.pageRepository.Update(currentPage, (page) =>
                 {
                     page.IsLocked = false;
-                    page.IsUnlocked = true;
-                    page.UnlockedAt = DateTime.Now;
+                    page.IsDownForMaintenance = false;
+                    page.LastLockedStatusChangedAt = DateTime.Now;
+                }, null);
+
+                success = true;
+            }
+
+            return success;
+        }
+
+        public bool ChangePageMaintenenceStatus(bool isInMaintenenceMode)
+        {
+            var success = false;
+            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userSetting = GetUserSetting(userGuid);
+
+            if (userSetting != null && userSetting.CurrentPageId > 0)
+            {
+                var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+
+                this.pageRepository.Update(currentPage, (page) =>
+                {
+                    page.IsDownForMaintenance = isInMaintenenceMode;
+
+                    if (isInMaintenenceMode)
+                    {
+                        page.LastDownForMaintenanceAt = DateTime.Now;    
+                    }
+                }, null);
+
+                success = true;
+            }
+
+            return success;
+        }
+
+        public bool ChangeServeAsStartPageAfterLoginStatus(bool shouldServeAsStartPage)
+        {
+            var success = false;
+            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userSetting = GetUserSetting(userGuid);
+
+            if (userSetting != null && userSetting.CurrentPageId > 0)
+            {
+                //check if there any previously overridable start page and make it false if request is for changing the start page to true
+                if (shouldServeAsStartPage)
+                {
+                    Page overridablePage = this.pageRepository.GetOverridableStartPageOfUser(userGuid);
+
+                    if (overridablePage != null)
+                    {
+                        this.pageRepository.Update(overridablePage, (page) =>
+                        {
+                            page.ServeAsStartPageAfterLogin = false;
+                        }, null);    
+                    }
+                }
+
+                //change the overridable start page status
+                this.pageRepository.Update(this.pageRepository.GetPageById(userSetting.CurrentPageId), (page) =>
+                {
+                    page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;
                 }, null);
 
                 success = true;

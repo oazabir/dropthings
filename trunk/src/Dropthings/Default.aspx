@@ -55,35 +55,47 @@
                         </div>
                         <div id="onpage_menu_panels">
                             <asp:Panel ID="ChangePageSettingsPanel" runat="server" Visible="false" CssClass="onpage_menu_panel">
-                                <div class="onpage_menu_panel_column">
-                                    <h1><asp:Literal ID="ltlChangeTabTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeTabTitle%>" /></h1>
-                                    <p>
-                                        <asp:Literal ID="ltlTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Title%>" />: <asp:TextBox ID="NewTitleTextBox" runat="server" />
-                                        <asp:Button ID="SaveNewTitleButton" runat="server" OnClick="SaveNewTitleButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
-                                    </p>
-                                    <p>
-                                        <asp:Literal ID="ltlLocked" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Locked%>" />: <asp:CheckBox ID="TabLocked" runat="server" />
-                                        <asp:Button ID="SaveTabLockSetting" runat="server" OnClick="SaveTabLockSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
-                                    </p>
+                                <div>
+                                    <div class="onpage_menu_panel_column">
+                                        <h1><asp:Literal ID="ltlChangeTabTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeTabTitle%>" /></h1>
+                                        <p>
+                                            <asp:Literal ID="ltlTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Title%>" />: <asp:TextBox ID="NewTitleTextBox" runat="server" />
+                                            <asp:Button ID="SaveNewTitleButton" runat="server" OnClick="SaveNewTitleButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
+                                        </p>
+                                        <asp:Panel ID="pnlTemplateUserSettings" runat="server" Visible="false">
+                                        <p>
+                                            <asp:Literal ID="ltlLocked" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Locked%>" />: <asp:CheckBox ID="TabLocked" runat="server" />
+                                            <asp:Button ID="SaveTabLockSetting" runat="server" OnClick="SaveTabLockSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
+                                        </p>
+                                        <p id="maintenenceOption" runat="server" visible="false">
+                                            <asp:Literal ID="ltlMaintence" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, MaintenanceModeMessage%>" />: <asp:CheckBox ID="TabMaintanance" runat="server" />
+                                            <asp:Button ID="SaveTabMaintenenceSetting" runat="server" OnClick="SaveTabMaintenenceSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
+                                        </p>
+                                        <p>
+                                            <asp:Literal ID="ltlServeAsStartPage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ServeAsStartPageMessage%>" />: <asp:CheckBox ID="TabServeAsStartPage" runat="server" />
+                                            <asp:Button ID="SaveTabServeAsStartPageSetting" runat="server" OnClick="SaveTabServeAsStartPageSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
+                                        </p>
+                                        </asp:Panel>
+                                    </div>
+                                    <div class="onpage_menu_panel_column">
+                                        <h1><asp:Literal ID="ltlDeleteTab" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" /></h1>
+                                        <p>
+                                        <asp:Literal ID="ltlDeleteTab2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" />? <asp:Button ID="DeleteTabLinkButton" runat="server" OnClick="DeleteTabLinkButton_Clicked" Text="<%$Resources:SharedResources, Yes%>" />
+                                        </p>
+                                    </div>                                
+                                    <div class="onpage_menu_panel_column" style="clear:right">
+                                        <h1><asp:Literal ID="ltlChangeColumn" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeColumn%>" /></h1>
+                                        
+                                        <p><asp:Literal ID="ltlChoiceColumnLayout" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChoiceColumnLayout%>" /><br />
+                                        <input id="SelectLayoutPopup_Type1" type="image" value="1"  src="img/Layout1.jpg" onclick="DropthingsUI.Actions.changePageLayout(1)" /> 
+                                        <input id="SelectLayoutPopup_Type2" type="image" value="2" src="img/Layout2.jpg" onclick="DropthingsUI.Actions.changePageLayout(2)" />         
+                                        <input id="SelectLayoutPopup_Type3" type="image" value="3" src="img/Layout3.jpg" onclick="DropthingsUI.Actions.changePageLayout(3)" />      
+                                        <input id="SelectLayoutPopup_Type4" type="image" value="4" src="img/Layout4.jpg" onclick="DropthingsUI.Actions.changePageLayout(4)" />
+                                        </p>                                    
+                                        
+                                    </div>
                                 </div>
-                                
-                                <div class="onpage_menu_panel_column">
-                                    <h1><asp:Literal ID="ltlDeleteTab" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" /></h1>
-                                    <p>
-                                    <asp:Literal ID="ltlDeleteTab2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" />? <asp:Button ID="DeleteTabLinkButton" runat="server" OnClick="DeleteTabLinkButton_Clicked" Text="<%$Resources:SharedResources, Yes%>" />
-                                    </p>
-                                </div>                                
-                                <div class="onpage_menu_panel_column">
-                                    <h1><asp:Literal ID="ltlChangeColumn" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeColumn%>" /></h1>
-                                    
-                                    <p><asp:Literal ID="ltlChoiceColumnLayout" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChoiceColumnLayout%>" /><br />
-                                    <input id="SelectLayoutPopup_Type1" type="image" value="1"  src="img/Layout1.jpg" onclick="DropthingsUI.Actions.changePageLayout(1)" /> 
-                                    <input id="SelectLayoutPopup_Type2" type="image" value="2" src="img/Layout2.jpg" onclick="DropthingsUI.Actions.changePageLayout(2)" />         
-                                    <input id="SelectLayoutPopup_Type3" type="image" value="3" src="img/Layout3.jpg" onclick="DropthingsUI.Actions.changePageLayout(3)" />      
-                                    <input id="SelectLayoutPopup_Type4" type="image" value="4" src="img/Layout4.jpg" onclick="DropthingsUI.Actions.changePageLayout(4)" />
-                                    </p>                                    
-                                    
-                                </div>
+                                <div style="clear:both"></div>
                             </asp:Panel>
                             <div id="Widget_Gallery" style="display:none">
                                 <asp:Panel ID="AddContentPanel" runat="Server" CssClass="onpage_menu_panel widget_showcase" Visible="false">                                

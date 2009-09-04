@@ -130,7 +130,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
                 widgetZone.NewWidgetClass = "new_widget";
                 widgetZone.HandleClass = "widget_header";
                 widgetZone.UserName = Profile.UserName;
-                widgetZone.IsLocked = this.CurrentPage.IsLocked;
+                widgetZone.IsLocked = this.CurrentPage.IsLocked && !this.CurrentPage.IsDownForMaintenance;
             }
 
             var panel = new Panel {ID = "WidgetZonePanel" + index, CssClass = "column"};

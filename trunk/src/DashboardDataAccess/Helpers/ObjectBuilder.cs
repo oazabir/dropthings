@@ -18,6 +18,8 @@
             p.UserId = userId;
             p.Title = title;
             p.IsLocked = false;
+            p.IsDownForMaintenance = false;
+            p.ServeAsStartPageAfterLogin = false;
             p.LayoutType = layoutType;
         }
 
