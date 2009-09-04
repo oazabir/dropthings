@@ -58,6 +58,12 @@ public partial class _Default : BasePage
         set { ViewState["AddStuffPageIndex"] = value; }
     }
 
+    private bool ShouldOverrideCurrentPage
+    {
+        get { object val = ViewState["ShouldOverrideCurrentPage"]; if (val == null) return true; else return (bool)val; }
+        set { ViewState["ShouldOverrideCurrentPage"] = value; }
+    }
+
     //private UserVisitWorkflowResponse _Setup
     //{
     //    get { return Context.Items[typeof(UserVisitWorkflowResponse)] as UserVisitWorkflowResponse; }
@@ -105,7 +111,16 @@ public partial class _Default : BasePage
                 this.UserTabPage.LoadTabs(_Setup.CurrentUserId, _Setup.UserPages, _Setup.UserSharedPages, _Setup.CurrentPage);
                 this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
                 this.LockPageContent(_Setup.CurrentPage);
+                this.LoadOptionsForTemplateUser();
             });
+    }
+
+    private void LoadOptionsForTemplateUser()
+    {
+        if(_Setup.RoleTemplate.TemplateUserId == _Setup.CurrentUserId)
+        {
+            pnlTemplateUserSettings.Visible = true;
+        }
     }
 
     protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
@@ -243,6 +258,40 @@ public partial class _Default : BasePage
         }
     }
 
+    protected void SaveTabMaintenenceSettingButton_Clicked(object sender, EventArgs e)
+    {
+        var isInMaintenenceModeLocked = this.TabMaintanance.Checked;
+
+        if (isInMaintenenceModeLocked != _Setup.CurrentPage.IsDownForMaintenance)
+        {
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                facade.ChangePageMaintenenceStatus(isInMaintenenceModeLocked);
+            }
+
+            this.LoadUserPageSetup(false);
+
+            RedirectToTab(_Setup.CurrentPage);
+        }
+    }
+
+    protected void SaveTabServeAsStartPageSettingButton_Clicked(object sender, EventArgs e)
+    {
+        var shouldServeAsStartPage = this.TabServeAsStartPage.Checked;
+
+        if (shouldServeAsStartPage != _Setup.CurrentPage.ServeAsStartPageAfterLogin.GetValueOrDefault())
+        {
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                facade.ChangeServeAsStartPageAfterLoginStatus(shouldServeAsStartPage);
+            }
+
+            this.LoadUserPageSetup(false);
+
+            RedirectToTab(_Setup.CurrentPage);
+        }
+    }
+
     protected void ShowAddContentPanel_Click(object sender, EventArgs e)
     {
         this.AddContentPanel.Visible = true;
@@ -371,6 +420,11 @@ public partial class _Default : BasePage
 
         this.NewTitleTextBox.Text = _Setup.CurrentPage.Title;
         this.TabLocked.Checked = _Setup.CurrentPage.IsLocked;
+
+        //show options for the maintenence mode
+        maintenenceOption.Visible = _Setup.CurrentPage.IsLocked;
+        this.TabMaintanance.Checked = _Setup.CurrentPage.IsDownForMaintenance;
+        this.TabServeAsStartPage.Checked = _Setup.CurrentPage.ServeAsStartPageAfterLogin.GetValueOrDefault();
     }
 
     private void TrapDatabaseException(Action work)

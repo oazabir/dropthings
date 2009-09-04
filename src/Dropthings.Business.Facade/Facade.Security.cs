@@ -304,6 +304,32 @@
             }
         }
 
+        public void OverrideCurrentPageIfTemplateUser(string userName)
+        {
+            var userGuid = this.userRepository.GetUserGuidFromUserName(userName);
+            var roleTemplate = GetRoleTemplate(userGuid);
+
+            if(roleTemplate.TemplateUserId.Equals(userGuid))
+            {
+                //override the current page with server as start page setting
+                Page overridablePage = this.pageRepository.GetOverridableStartPageOfUser(userGuid);
+
+                if(overridablePage != null)
+                {
+                    //get current setting
+                    var userSetting = GetUserSetting(userGuid);
+
+                    if (userSetting.CurrentPageId != overridablePage.ID)
+                    {
+                        this.userSettingRepository.Update(userSetting, (setting) =>
+                        {
+                            setting.CurrentPageId = overridablePage.ID;
+                        }, null);
+                    }
+                }
+            }
+        }
+
         #endregion Methods
     }
 }

@@ -104,10 +104,10 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 			#ChangePageTitleLinkButton { float: right }
 			
 		#onpage_menu_panels { padding: 0px 15px 10px 15px }
-			.onpage_menu_panel { padding: 8px; clear:both; height: 120px; background:#B2DD80; }
+			.onpage_menu_panel { padding: 8px; clear:both; min-height: 120px; height: auto !important; height: 120; background:#B2DD80}
 				.onpage_menu_panel_column { float: left; min-height: 40px; height: auto !important; height: 40px; width: 30%; margin-right: 15px }
 					.onpage_menu_panel_column h1 { font-size: 12pt; color: black; font-weight: bold; padding-bottom: 5px; border-bottom: solid 1px black; margin-bottom: 15px}
-					.onpage_menu_panel_column p { padding: 5px; font-size: 10pt; }
+					.onpage_menu_panel_column p { padding: 5px; font-size: 10pt }
 
 .widget_zone_container { padding: 10px; }
 	.widget_zone { min-height: 400px; height:auto !important; height: 400px; padding-bottom: 10px; }

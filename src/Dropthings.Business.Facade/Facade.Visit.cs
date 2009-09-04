@@ -30,11 +30,11 @@ namespace Dropthings.Business.Facade
             var userSettingTemplate = GetUserSettingTemplate();
             SetUserRoles(userName, userSettingTemplate.AnonUserSettingTemplate.RoleNames);
 
+            // Get the template user so that its page setup can be cloned for new user
+            var roleTemplate = GetRoleTemplate(userGuid);
+
             if (userSettingTemplate.CloneAnonProfileEnabled)
             {
-                // Get the template user so that its page setup can be cloned for new user
-                var roleTemplate = GetRoleTemplate(userGuid);
-
                 if (!roleTemplate.TemplateUserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
@@ -49,7 +49,8 @@ namespace Dropthings.Business.Facade
 
                     if (roleTemplate.TemplateUserId != userGuid)
                     {
-                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId);
+                        //bring only the locked pages which are not in maintenence mode
+                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
                     }
                 }
             }
@@ -74,6 +75,7 @@ namespace Dropthings.Business.Facade
             response.UserSetting = GetUserSetting(userGuid);
             response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPageId);
             response.CurrentUserId = userGuid;
+            response.RoleTemplate = roleTemplate;
             return response;
         }
 
@@ -84,24 +86,27 @@ namespace Dropthings.Business.Facade
             var userGuid = this.userRepository.GetUserGuidFromUserName(userName);
 
             var roleTemplate = GetRoleTemplate(userGuid);
+             response.RoleTemplate = roleTemplate;
 
             if (!roleTemplate.TemplateUserId.IsEmpty())
             {
                 // Get template user pages so that it can be cloned for new user
                 if (roleTemplate.TemplateUserId != userGuid)
                 {
+                    //IILIAS: No more clone. Page will down for maintenence
                     //clone all recently unlock user
-                    var unLockedPages = this.pageRepository.GetUnlockedPagesOfUser(roleTemplate.TemplateUserId);
+                    //var unLockedPages = this.pageRepository.GetUnlockedPagesOfUser(roleTemplate.TemplateUserId);
 
-                    unLockedPages.ForEach(p =>
-                    {
-                        if (p.UnlockedAt > lastVisited)
-                        {
-                            ClonePage(userGuid, p);
-                        }
-                    });
+                    //unLockedPages.ForEach(p =>
+                    //{
+                    //    if (p.UnlockedAt > lastVisited)
+                    //    {
+                    //        ClonePage(userGuid, p);
+                    //    }
+                    //});
 
-                    response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId);
+                    //bring only the locked pages which are not in maintenence mode
+                    response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
                 }
             }
             

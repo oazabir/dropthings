@@ -35,9 +35,15 @@
             set;
         }
 
-        public  Guid CurrentUserId
+        public Guid CurrentUserId
         {
             get;
+            set;
+        }
+
+        public RoleTemplate RoleTemplate
+        {
+            get; 
             set;
         }
 

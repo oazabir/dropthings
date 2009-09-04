@@ -69,7 +69,7 @@ namespace Dropthings.DataAccess
     #endregion
 		
 		public DropthingsDataContext() : 
-				base(global::Dropthings.DataAccess.Properties.Settings.Default.dropthingsConnectionString5, mappingSource)
+				base(global::Dropthings.DataAccess.Properties.Settings.Default.dropthingsConnectionString6, mappingSource)
 		{
 			OnCreated();
 		}
@@ -3103,11 +3103,13 @@ namespace Dropthings.DataAccess
 		
 		private bool _IsLocked;
 		
-		private System.Nullable<System.DateTime> _LockedAt;
+		private System.Nullable<System.DateTime> _LastLockedStatusChangedAt;
 		
-		private bool _IsUnlocked;
+		private bool _IsDownForMaintenance;
 		
-		private System.Nullable<System.DateTime> _UnlockedAt;
+		private System.Nullable<System.DateTime> _LastDownForMaintenanceAt;
+		
+		private System.Nullable<bool> _ServeAsStartPageAfterLogin;
 		
 		private EntitySet<Column> _Columns;
 		
@@ -3137,12 +3139,14 @@ namespace Dropthings.DataAccess
     partial void OnLastUpdatedChanged();
     partial void OnIsLockedChanging(bool value);
     partial void OnIsLockedChanged();
-    partial void OnLockedAtChanging(System.Nullable<System.DateTime> value);
-    partial void OnLockedAtChanged();
-    partial void OnIsUnlockedChanging(bool value);
-    partial void OnIsUnlockedChanged();
-    partial void OnUnlockedAtChanging(System.Nullable<System.DateTime> value);
-    partial void OnUnlockedAtChanged();
+    partial void OnLastLockedStatusChangedAtChanging(System.Nullable<System.DateTime> value);
+    partial void OnLastLockedStatusChangedAtChanged();
+    partial void OnIsDownForMaintenanceChanging(bool value);
+    partial void OnIsDownForMaintenanceChanged();
+    partial void OnLastDownForMaintenanceAtChanging(System.Nullable<System.DateTime> value);
+    partial void OnLastDownForMaintenanceAtChanged();
+    partial void OnServeAsStartPageAfterLoginChanging(System.Nullable<bool> value);
+    partial void OnServeAsStartPageAfterLoginChanged();
     #endregion
 		
 		public Page()
@@ -3356,62 +3360,82 @@ namespace Dropthings.DataAccess
 			}
 		}
 		
-		[Column(Storage="_LockedAt", DbType="DateTime", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<System.DateTime> LockedAt
+		[Column(Storage="_LastLockedStatusChangedAt", DbType="DateTime", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<System.DateTime> LastLockedStatusChangedAt
 		{
 			get
 			{
-				return this._LockedAt;
+				return this._LastLockedStatusChangedAt;
 			}
 			set
 			{
-				if ((this._LockedAt != value))
+				if ((this._LastLockedStatusChangedAt != value))
 				{
-					this.OnLockedAtChanging(value);
+					this.OnLastLockedStatusChangedAtChanging(value);
 					this.SendPropertyChanging();
-					this._LockedAt = value;
-					this.SendPropertyChanged("LockedAt");
-					this.OnLockedAtChanged();
+					this._LastLockedStatusChangedAt = value;
+					this.SendPropertyChanged("LastLockedStatusChangedAt");
+					this.OnLastLockedStatusChangedAtChanged();
 				}
 			}
 		}
 		
-		[Column(Storage="_IsUnlocked", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
-		public bool IsUnlocked
+		[Column(Storage="_IsDownForMaintenance", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public bool IsDownForMaintenance
 		{
 			get
 			{
-				return this._IsUnlocked;
+				return this._IsDownForMaintenance;
 			}
 			set
 			{
-				if ((this._IsUnlocked != value))
+				if ((this._IsDownForMaintenance != value))
 				{
-					this.OnIsUnlockedChanging(value);
+					this.OnIsDownForMaintenanceChanging(value);
 					this.SendPropertyChanging();
-					this._IsUnlocked = value;
-					this.SendPropertyChanged("IsUnlocked");
-					this.OnIsUnlockedChanged();
+					this._IsDownForMaintenance = value;
+					this.SendPropertyChanged("IsDownForMaintenance");
+					this.OnIsDownForMaintenanceChanged();
 				}
 			}
 		}
 		
-		[Column(Storage="_UnlockedAt", DbType="DateTime", UpdateCheck=UpdateCheck.Never)]
-		public System.Nullable<System.DateTime> UnlockedAt
+		[Column(Storage="_LastDownForMaintenanceAt", DbType="DateTime", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<System.DateTime> LastDownForMaintenanceAt
 		{
 			get
 			{
-				return this._UnlockedAt;
+				return this._LastDownForMaintenanceAt;
 			}
 			set
 			{
-				if ((this._UnlockedAt != value))
+				if ((this._LastDownForMaintenanceAt != value))
 				{
-					this.OnUnlockedAtChanging(value);
+					this.OnLastDownForMaintenanceAtChanging(value);
 					this.SendPropertyChanging();
-					this._UnlockedAt = value;
-					this.SendPropertyChanged("UnlockedAt");
-					this.OnUnlockedAtChanged();
+					this._LastDownForMaintenanceAt = value;
+					this.SendPropertyChanged("LastDownForMaintenanceAt");
+					this.OnLastDownForMaintenanceAtChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ServeAsStartPageAfterLogin", DbType="Bit", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<bool> ServeAsStartPageAfterLogin
+		{
+			get
+			{
+				return this._ServeAsStartPageAfterLogin;
+			}
+			set
+			{
+				if ((this._ServeAsStartPageAfterLogin != value))
+				{
+					this.OnServeAsStartPageAfterLoginChanging(value);
+					this.SendPropertyChanging();
+					this._ServeAsStartPageAfterLogin = value;
+					this.SendPropertyChanged("ServeAsStartPageAfterLogin");
+					this.OnServeAsStartPageAfterLoginChanged();
 				}
 			}
 		}

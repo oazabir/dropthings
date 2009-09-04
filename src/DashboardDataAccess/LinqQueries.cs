@@ -164,6 +164,13 @@ namespace Dropthings.DataAccess
                 select page
             );
 
+        public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> CompiledQuery_GetOverridableStartPageByUser =
+            CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<Page>>((dc, userId) =>
+                from page in dc.Pages
+                where page.UserId == userId && page.ServeAsStartPageAfterLogin.GetValueOrDefault()
+                select page
+            );
+
         public static readonly Func<DropthingsDataContext, int, IQueryable<WidgetInstance>> CompiledQuery_GetWidgetInstancesByWidgetZoneId =
             CompiledQuery.Compile<DropthingsDataContext, int, IQueryable<WidgetInstance>>((dc, widgetZoneId) =>
                 from widgetInstance in dc.WidgetInstances
@@ -196,10 +203,18 @@ namespace Dropthings.DataAccess
                 select page
             );
 
-        public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> CompiledQuery_GetUnLockedPagesByUserId =
+        public static readonly Func<DropthingsDataContext, Guid, bool, IQueryable<Page>> CompiledQuery_GetLockedPages_ByUserId_DownForMaintenence =
+            CompiledQuery.Compile<DropthingsDataContext, Guid, bool, IQueryable<Page>>((dc, userId, isDownForMaintenance) =>
+                from page in dc.Pages
+                where page.UserId == userId && page.IsLocked && page.IsDownForMaintenance == isDownForMaintenance
+                orderby page.ID
+                select page
+            );
+
+        public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> CompiledQuery_GetPagesWhichIsDownForMaintenanceByUserId =
             CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<Page>>((dc, userId) =>
                 from page in dc.Pages
-                where page.UserId == userId && page.IsUnlocked
+                where page.UserId == userId && page.IsDownForMaintenance
                 orderby page.ID
                 select page
             );
