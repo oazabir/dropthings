@@ -33,11 +33,37 @@ var DropthingsUI = {
     getWidgetZoneDivId: function(zoneId) {
         return "#WidgetPage_WidgetZone" + zoneId + "_WidgetHolderPanel";
     },
-    init: function() {
-        DropthingsUI.initTab();
+    init: function(isTemplateUser) {
+        var enableSorting = Boolean.parse(isTemplateUser);
+        DropthingsUI.initTab(enableSorting);
     },
-    initTab: function() {
+    initTab: function(enableSorting) {
         $('#tab_container').scrollable();
+        if (enableSorting) {
+            DropthingsUI.initTabSorting();
+        }
+    },
+    initTabSorting: function() {
+        var plugin = $('#tab_container').find(".tabs").data('sortable');
+        if (plugin) plugin.destroy();
+
+        $('#tab_container').find(".tabs")
+                                    .sortable({
+                                        axis: 'x',
+                                        items: '.tab',
+                                        opacity: 0.8,
+                                        revert: true,
+                                        stop: function(e, ui) {
+                                            var position = ui.item.parent()
+                                                                        .children()
+                                                                        .index(ui.item);
+                                            var pageId = ui.item.attr('id').match(/\d+/);
+
+                                            DropthingsUI.Actions.onTabItemDrop(pageId[0], position, function() {
+                                                //do work after saving the tab order
+                                            });
+                                        }
+                                    });
     },
     setWidgetDef: function(id, expanded, maximized, resized, width, height, zoneId) {
         DropthingsUI.WidgetDefs["" + id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
@@ -164,7 +190,7 @@ var DropthingsUI = {
             .bind('click', function() {
                 //widgetDef.maximized = true;
                 widgetMaximize.hide();
-                widgetRestore.css({ display: 'block'});
+                widgetRestore.css({ display: 'block' });
                 //eval(widgetMaximize.attr("href"));
 
                 // Asynchronously notify server that widget maximized
@@ -178,14 +204,14 @@ var DropthingsUI = {
                 //widgetDef.maximized = true;
                 widgetMaximize.show();
                 widgetRestore.hide();
-                
+
                 //eval(widgetRestore.attr("href"));
                 // Asynchronously notify server that widget restored
                 DropthingsUI.Actions.restoreWidget(widgetId);
                 return false;
             });
 
-    },    
+    },
     initDragDrop: function(zoneId, widgetClass, newWidgetClass, handleClass, zoneClass, zonePostbackTrigger) {
         // Get all widget zones on the page and allow widget to be dropped on any of them
         var allZones = $('.' + zoneClass);
@@ -511,6 +537,9 @@ var DropthingsUI = {
         },
         hide: function(id) {
             document.getElementById(id).style.display = "none";
+        },
+        onTabItemDrop: function(tabId, orderNo, callback) {
+            Dropthings.Web.Framework.PageService.MoveTab(tabId, orderNo, callback);
         },
 
         showHelp: function() {

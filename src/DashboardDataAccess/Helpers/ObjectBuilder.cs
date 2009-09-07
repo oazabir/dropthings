@@ -9,7 +9,7 @@
     {
         #region Methods
 
-        public static void BuildDefaultPage(Page p, Guid userId, string title, int layoutType)
+        public static void BuildDefaultPage(Page p, Guid userId, string title, int layoutType, int position)
         {
             p.CreatedDate = DateTime.Now;
             p.ColumnCount = 3;
@@ -21,6 +21,7 @@
             p.IsDownForMaintenance = false;
             p.ServeAsStartPageAfterLogin = false;
             p.LayoutType = layoutType;
+            p.OrderNo = position;
         }
 
         public static void BuildDefaultWidgetInstance(WidgetInstance wi, string title, int widgetZoneId, int position, int widgetId, string state)

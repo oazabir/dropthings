@@ -52,16 +52,16 @@ public partial class _Default : BasePage
         get { return ConfigurationManager.AppSettings["ScriptVersionNo"]; }
     }
 
+    public bool IsTemplateUser
+    {
+        get { return Convert.ToBoolean(ViewState[this.ClientID + "_IsTemplateUser"]); }
+        set { ViewState[this.ClientID + "_IsTemplateUser"] = value; }
+    }
+
     private int AddStuffPageIndex
     {
         get { object val = ViewState["AddStuffPageIndex"]; if( val == null ) return 0; else return (int)val; }
         set { ViewState["AddStuffPageIndex"] = value; }
-    }
-
-    private bool ShouldOverrideCurrentPage
-    {
-        get { object val = ViewState["ShouldOverrideCurrentPage"]; if (val == null) return true; else return (bool)val; }
-        set { ViewState["ShouldOverrideCurrentPage"] = value; }
     }
 
     //private UserVisitWorkflowResponse _Setup
@@ -185,6 +185,11 @@ public partial class _Default : BasePage
     protected override void OnPreRender(EventArgs e)
     {
         base.OnPreRender(e);
+
+        if (_Setup != null)
+        {
+            IsTemplateUser = _Setup.RoleTemplate.TemplateUserId.Equals(_Setup.CurrentUserId);  
+        }
 
         if (this.AddContentPanel.Visible)
             ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel" + DateTime.Now.Ticks.ToString(),

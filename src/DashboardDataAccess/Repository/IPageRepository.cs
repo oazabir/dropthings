@@ -33,6 +33,10 @@
         
         void UpdateList(List<Page> pages, Action<Page> detach, Action<Page> postAttachUpdate);
 
+        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetPagesOfUserAfterPosition(Guid userGuid, int position);
+
+        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetPagesOfUserFromPosition(Guid userGuid, int position);
+
         #endregion Methods
     }
 }

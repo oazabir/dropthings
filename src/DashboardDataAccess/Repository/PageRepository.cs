@@ -95,6 +95,16 @@
             return _database.GetSingle<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetOverridableStartPageByUser);
         }
 
+        public List<Page> GetPagesOfUserAfterPosition(Guid userId, int position)
+        {
+            return _database.GetList<Page, Guid, int>(DropthingsDataContext.SubsystemEnum.Page, userId, position, LinqQueries.CompiledQuery_GetPagesOfUserAfterPosition);
+        }
+
+        public List<Page> GetPagesOfUserFromPosition(Guid userId, int position)
+        {
+            return _database.GetList<Page, Guid, int>(DropthingsDataContext.SubsystemEnum.Page, userId, position, LinqQueries.CompiledQuery_GetPagesOfUserFromPosition);
+        }
+
         #endregion Methods
     }
 }

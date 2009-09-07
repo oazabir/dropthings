@@ -42,13 +42,15 @@
             });
         }
 
-        public Page CreatePage(Guid userGuid, string title, string layoutType)
+        public Page CreatePage(Guid userGuid, string title, string layoutType, int toOrder)
         {
+            PushDownPages(0, toOrder);
+            
             title = string.IsNullOrEmpty(title) ? DecideUniquePageName() : title;
 
             var insertedPage = this.pageRepository.Insert((pageToBeCreated) =>
             {
-                ObjectBuilder.BuildDefaultPage(pageToBeCreated, userGuid, title, Convert.ToInt32(layoutType));
+                ObjectBuilder.BuildDefaultPage(pageToBeCreated, userGuid, title, Convert.ToInt32(layoutType), toOrder);
             });
 
             var page = this.pageRepository.GetPageById(insertedPage.ID);
@@ -70,13 +72,15 @@
                 });
             }
 
+            ReorderPagesOfUser();
+
             return SetCurrentPage(userGuid, page.ID);
         }
 
         public Page CreatePage(string title, string layoutType)
         {
             var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName); 
-            return CreatePage(userGuid, title, layoutType);
+            return CreatePage(userGuid, title, layoutType, 9999);
         }
 
         public Page ClonePage(Guid userGuid, Page pageToClone)
@@ -359,6 +363,7 @@
             columns.Each((column) => DeleteColumn(pageId, column.ID, column.ColumnNo));
             this.pageRepository.Delete(pageId);
             var currentPage = DecideCurrentPage(userGuid, string.Empty, 0);   // 0 - since current page has been deleted.
+            ReorderPagesOfUser();
             return SetCurrentPage(userGuid, currentPage.ID);
         }
 
@@ -428,6 +433,55 @@
                 page.LayoutType = newLayout;
                 page.ColumnCount = Page.GetColumnWidths(newLayout).Length;
             }, null);
+        }
+
+        public void MovePage(int pageId, int toOrderNo)
+        {
+            EnsureOwner(pageId, 0 , 0);
+            PushDownPages(pageId, toOrderNo);
+            ChangePagePosition(pageId, toOrderNo);
+            ReorderPagesOfUser();
+        }
+
+        public void PushDownPages(int pageId, int toOrderNo)
+        {
+            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var isMovingDown = toOrderNo > (pageId > 0 ? this.pageRepository.GetPageById(pageId).OrderNo.GetValueOrDefault() : 0);
+
+            List<Page> list = null;
+
+            list = isMovingDown ? this.pageRepository.GetPagesOfUserAfterPosition(userGuid, toOrderNo) : this.pageRepository.GetPagesOfUserFromPosition(userGuid, toOrderNo);
+
+            int orderNo = toOrderNo + 1;
+            foreach (Page item in list)
+            {
+                item.OrderNo = ++orderNo;
+            }
+
+            this.pageRepository.UpdateList((list), null, null);
+        }
+
+        public void ChangePagePosition(int pageId, int orderNo)
+        {
+            this.pageRepository.Update(this.pageRepository.GetPageById(pageId), (p) =>
+            {
+                p.OrderNo = orderNo > p.OrderNo.GetValueOrDefault() ? orderNo + 1 : orderNo;
+            }, null);
+        }
+
+        public void ReorderPagesOfUser()
+        {
+            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+
+            var list = this.pageRepository.GetPagesOfUser(userGuid);
+
+            int orderNo = 0;
+            foreach (Page page in list)
+            {
+                page.OrderNo = orderNo++;
+            }
+
+            this.pageRepository.UpdateList(list, null, null);
         }
 
         #endregion Methods

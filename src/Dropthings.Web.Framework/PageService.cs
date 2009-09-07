@@ -105,6 +105,16 @@ namespace Dropthings.Web.Framework
             );
         }
 
+        [WebMethod]
+        [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
+        public void MoveTab(int pageId, int orderNo)
+        {
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                facade.MovePage(pageId, orderNo);
+            }
+        }
+
         #endregion Methods
     }
 }

@@ -80,7 +80,7 @@ namespace Dropthings.Business.Facade
                 SetUserRoles(requestedUserName, roleName);
                 AddUserToRoleTemplate(newUserGuid, templateRoleName);
 
-                var createdPage = CreatePage(newUserGuid, string.Empty, null);
+                var createdPage = CreatePage(newUserGuid, string.Empty, null, 0);
 
                 if (createdPage != null && createdPage.ID > 0)
                 {

@@ -191,7 +191,7 @@ namespace Dropthings.DataAccess
             CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<Page>>((dc, userId) =>
                 from page in dc.Pages
                 where page.UserId == userId
-                orderby page.ID
+                orderby page.OrderNo
                 select page                
             );
 
@@ -199,7 +199,7 @@ namespace Dropthings.DataAccess
             CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<Page>>((dc, userId) =>
                 from page in dc.Pages
                 where page.UserId == userId && page.IsLocked
-                orderby page.ID
+                orderby page.OrderNo
                 select page
             );
 
@@ -207,7 +207,7 @@ namespace Dropthings.DataAccess
             CompiledQuery.Compile<DropthingsDataContext, Guid, bool, IQueryable<Page>>((dc, userId, isDownForMaintenance) =>
                 from page in dc.Pages
                 where page.UserId == userId && page.IsLocked && page.IsDownForMaintenance == isDownForMaintenance
-                orderby page.ID
+                orderby page.OrderNo
                 select page
             );
 
@@ -215,7 +215,23 @@ namespace Dropthings.DataAccess
             CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<Page>>((dc, userId) =>
                 from page in dc.Pages
                 where page.UserId == userId && page.IsDownForMaintenance
-                orderby page.ID
+                orderby page.OrderNo
+                select page
+            );
+
+        public static readonly Func<DropthingsDataContext, Guid, int, IQueryable<Page>> CompiledQuery_GetPagesOfUserAfterPosition =
+            CompiledQuery.Compile<DropthingsDataContext, Guid, int, IQueryable<Page>>((dc, userId, position) =>
+                from page in dc.Pages
+                where page.UserId == userId && page.OrderNo > position
+                orderby page.OrderNo
+                select page
+            );
+
+        public static readonly Func<DropthingsDataContext, Guid, int, IQueryable<Page>> CompiledQuery_GetPagesOfUserFromPosition =
+            CompiledQuery.Compile<DropthingsDataContext, Guid, int, IQueryable<Page>>((dc, userId, position) =>
+                from page in dc.Pages
+                where page.UserId == userId && page.OrderNo >= position
+                orderby page.OrderNo
                 select page
             );
 
