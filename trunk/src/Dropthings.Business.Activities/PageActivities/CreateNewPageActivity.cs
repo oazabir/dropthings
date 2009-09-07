@@ -97,7 +97,7 @@ namespace Dropthings.Business.Activities
             var insertedPage = DatabaseHelper.Insert<Page>(DatabaseHelper.SubsystemEnum.Page, (newPage) =>
                 {
                     ObjectBuilder.BuildDefaultPage(newPage,
-                        this.UserId, this.Title, Convert.ToInt32(this.LayoutType));
+                        this.UserId, this.Title, Convert.ToInt32(this.LayoutType), 0);
                 });
 
             var page = DatabaseHelper.GetSingle<Page, int>(DatabaseHelper.SubsystemEnum.Page,

@@ -3111,6 +3111,8 @@ namespace Dropthings.DataAccess
 		
 		private System.Nullable<bool> _ServeAsStartPageAfterLogin;
 		
+		private System.Nullable<int> _OrderNo;
+		
 		private EntitySet<Column> _Columns;
 		
 		private EntityRef<aspnet_User> _aspnet_User;
@@ -3147,6 +3149,8 @@ namespace Dropthings.DataAccess
     partial void OnLastDownForMaintenanceAtChanged();
     partial void OnServeAsStartPageAfterLoginChanging(System.Nullable<bool> value);
     partial void OnServeAsStartPageAfterLoginChanged();
+    partial void OnOrderNoChanging(System.Nullable<int> value);
+    partial void OnOrderNoChanged();
     #endregion
 		
 		public Page()
@@ -3436,6 +3440,26 @@ namespace Dropthings.DataAccess
 					this._ServeAsStartPageAfterLogin = value;
 					this.SendPropertyChanged("ServeAsStartPageAfterLogin");
 					this.OnServeAsStartPageAfterLoginChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_OrderNo", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		public System.Nullable<int> OrderNo
+		{
+			get
+			{
+				return this._OrderNo;
+			}
+			set
+			{
+				if ((this._OrderNo != value))
+				{
+					this.OnOrderNoChanging(value);
+					this.SendPropertyChanging();
+					this._OrderNo = value;
+					this.SendPropertyChanged("OrderNo");
+					this.OnOrderNoChanged();
 				}
 			}
 		}

@@ -57,7 +57,7 @@ namespace Dropthings.Business.Facade
             else
             {
                 // Setup some default pages
-                var page = CreatePage(userGuid, string.Empty, null);
+                var page = CreatePage(userGuid, string.Empty, null, 0);
 
                 if (page != null && page.ID > 0)
                 {

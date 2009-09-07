@@ -153,6 +153,7 @@
       <Column Name="IsDownForMaintenance" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="LastDownForMaintenanceAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="ServeAsStartPageAfterLogin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="OrderNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Page_Column" Member="Columns" ThisKey="ID" OtherKey="PageId" Type="Column" />
       <Association Name="aspnet_User_Page" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
     </Type>

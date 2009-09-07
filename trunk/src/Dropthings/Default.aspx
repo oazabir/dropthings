@@ -184,7 +184,7 @@
 
 <script type="text/javascript">
      jQuery(document).ready(function() {
-        DropthingsUI.init();
+        DropthingsUI.init("<%= this.IsTemplateUser %>");
     });
 </script>
 
