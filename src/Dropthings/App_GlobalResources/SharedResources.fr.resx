@@ -127,13 +127,13 @@
     <value>Votre compte a été mis à jour.</value>
   </data>
   <data name="ActivationMessage" xml:space="preserve">
-    <value>Congratulation. Votre compte a été créé avec succès. S'il vous plaît vérifier votre email. Vous devriez recevoir un email de confirmation. S'il vous plaît cliquer sur le lien de l'e-mail pour activer votre compte</value>
+    <value>Félicitation. Votre compte a été créé avec succès. Vérifier vos e-mails. Vous devriez recevoir un e-mail de confirmation. Cliquez sur le lien de l'e-mail pour activer votre compte</value>
   </data>
   <data name="AddItemToPage" xml:space="preserve">
-    <value>Cliquez sur l'un de l'élément à ajouter à votre page</value>
+    <value>Cliquez sur l'un des gadgets pour l'ajouter à votre page</value>
   </data>
   <data name="AddStuff" xml:space="preserve">
-    <value>Ajouter des modules  »</value>
+    <value>Ajouter du contenu  »</value>
   </data>
   <data name="Aquarius" xml:space="preserve">
     <value>Verseau</value>
@@ -154,10 +154,10 @@
     <value>Voir les informations qui vous intéressent sur votre page d'accueil.</value>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Changer</value>
+    <value>Modifier</value>
   </data>
   <data name="ChangeColumn" xml:space="preserve">
-    <value>Changement le titre de l'onglet</value>
+    <value>Changer le titre de la colonne</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Changer le mot de passe:</value>
@@ -166,16 +166,16 @@
     <value>Modifier les paramètres  »</value>
   </data>
   <data name="ChangeTabTitle" xml:space="preserve">
-    <value>Changement le titre de l'onglet</value>
+    <value>Changer le titre de l'onglet</value>
   </data>
   <data name="CharacterLeft" xml:space="preserve">
     <value>140 caractères restants</value>
   </data>
   <data name="ChoiceColumnLayout" xml:space="preserve">
-    <value>S'il vous plaît choisir une colonne:</value>
+    <value>Choisissez la disposition des colonnes:</value>
   </data>
   <data name="CloseEdit" xml:space="preserve">
-    <value>fermer la modification</value>
+    <value>Fermer</value>
   </data>
   <data name="CloseSettings" xml:space="preserve">
     <value>Fermer Paramètres cliquez</value>
@@ -184,58 +184,58 @@
     <value>Fermer Widget cliquez</value>
   </data>
   <data name="Collapse" xml:space="preserve">
-    <value>effondrement</value>
+    <value>Plier</value>
   </data>
   <data name="CollapseWidget" xml:space="preserve">
-    <value>effondrement Widget cliquez</value>
+    <value>Plier Widget cliquez</value>
   </data>
   <data name="Copyright" xml:space="preserve">
     <value>Tous droits réservés.</value>
   </data>
   <data name="DeletePage" xml:space="preserve">
-    <value>ef</value>
+    <value>Supprimer la page</value>
   </data>
   <data name="DeletePageConfirm" xml:space="preserve">
-    <value>Supprimer une page</value>
+    <value>Êtes-vous sûr de vouloir supprimer la page ?</value>
   </data>
   <data name="DeleteTab" xml:space="preserve">
     <value>Supprimer l'onglet</value>
   </data>
   <data name="DeleteWidget" xml:space="preserve">
-    <value>Supprimer un Widget</value>
+    <value>Supprimer le widget</value>
   </data>
   <data name="DeleteWidgetConfirm" xml:space="preserve">
-    <value>Êtes-vous sûr de vouloir supprimer le widget?</value>
+    <value>Êtes-vous sûr de vouloir supprimer le widget ?</value>
   </data>
   <data name="DNDNote" xml:space="preserve">
-    <value>Drag and drop &lt;b&gt; &lt;/ b&gt; les rubriques pour réorganiser la page</value>
+    <value>Drag and drop des widgets pour réorganiser la page</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>modifier</value>
+    <value>Modifier</value>
   </data>
   <data name="EditPersonalInformation" xml:space="preserve">
     <value>Modifier les informations personnelles</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
+    <value>E-mail</value>
   </data>
   <data name="EnterZip" xml:space="preserve">
-    <value>Enter Code postal:</value>
+    <value>Enter le code postal:</value>
   </data>
   <data name="Expand" xml:space="preserve">
-    <value>s'étendre</value>
+    <value>Déplier</value>
   </data>
   <data name="ExpandWidget" xml:space="preserve">
-    <value>s'étendre Widget cliquez</value>
+    <value>Déplier Widget cliquez</value>
   </data>
   <data name="FeedNote" xml:space="preserve">
-    <value>Choisissez parmi une variété de &lt;b&gt; flux &lt;/ b&gt;</value>
+    <value>Choisissez parmi une variété de flux</value>
   </data>
   <data name="FirstLoad" xml:space="preserve">
-    <value>Premier charger</value>
+    <value>Premier chargement</value>
   </data>
   <data name="ForgotPassword" xml:space="preserve">
-    <value>Mot de passe oublié?</value>
+    <value>Mot de passe oublié ?</value>
   </data>
   <data name="Friends" xml:space="preserve">
     <value>Amis</value>
@@ -250,16 +250,16 @@
     <value>Taille</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>aide</value>
+    <value>Aide</value>
   </data>
   <data name="HideSettings" xml:space="preserve">
-    <value>masquer les paremètres  »</value>
+    <value>Masquer les paramètres  »</value>
   </data>
   <data name="HideSettingsPanel" xml:space="preserve">
-    <value>Masquer panneau Paramètres.</value>
+    <value>Masquer le panneau des Paramètres.</value>
   </data>
   <data name="HideStuff" xml:space="preserve">
-    <value>masquer  »</value>
+    <value>Masquer  »</value>
   </data>
   <data name="HiringNotice" xml:space="preserve">
     <value>Nous embauchons! Rejoignez le projet CodePlex et à construire de belles widgets ou fonctionnalités que vous souhaitez.</value>
@@ -268,7 +268,7 @@
     <value>Désolé votre navigateur ne supporte pas les IFRAME</value>
   </data>
   <data name="InvalidCredentialMessage" xml:space="preserve">
-    <value>Invalid e-mail ou mot de passe. Avez-vous inscrire avant?</value>
+    <value>Mot de passe ou adresse e-mail incorrects. Vous êtes-vous inscrit avant ?</value>
   </data>
   <data name="Items" xml:space="preserve">
     <value>articles</value>
@@ -280,31 +280,31 @@
     <value>Balance</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Charger….</value>
+    <value>Chargement...</value>
   </data>
   <data name="LoadingFromTwitter" xml:space="preserve">
     <value>Chargement de Twitter ...</value>
   </data>
   <data name="LoadingWidget" xml:space="preserve">
-    <value>Chargement widget ...</value>
+    <value>Chargement du widget ...</value>
   </data>
   <data name="LoggingIn" xml:space="preserve">
-    <value>Logging in ...</value>
+    <value>Connexion...</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>login</value>
+    <value>Me connecter</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>log out</value>
+    <value>Déconnexion</value>
   </data>
   <data name="ManageWidgetPermission" xml:space="preserve">
-    <value>Gérer Widget Permission</value>
+    <value>Gérer les permissions des Widgets</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Agrandie</value>
+    <value>Agrandir</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Réduire</value>
   </data>
   <data name="MostInteresting" xml:space="preserve">
     <value>Les plus intéressants</value>
@@ -313,22 +313,22 @@
     <value>Les plus récents</value>
   </data>
   <data name="MyAccount" xml:space="preserve">
-    <value>mon acceés</value>
+    <value>Mon compte</value>
   </data>
   <data name="NewPassword" xml:space="preserve">
     <value>Nouveau mot de passe:</value>
   </data>
   <data name="NewsAndUpdates" xml:space="preserve">
-    <value>our les dernières nouvelles et mises à jour, s'il vous plaît voir &lt;a href="http://msmvps.com/blogs/omar/"&gt;mon Blog&lt;/a&gt;</value>
+    <value>Pour les dernières nouvelles et mises à jour, s'il vous plaît voir &lt;a href="http://msmvps.com/blogs/omar/"&gt;mon Blog&lt;/a&gt;</value>
   </data>
   <data name="NextPhotos" xml:space="preserve">
-    <value>prochaine Photos</value>
+    <value>Prochaines Photos</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Non</value>
   </data>
   <data name="NoSetting" xml:space="preserve">
-    <value>pas  Paramètres</value>
+    <value>Pas de paramètres</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
@@ -337,19 +337,19 @@
     <value>Ancien mot de passe:</value>
   </data>
   <data name="OldPasswordBlankMessage" xml:space="preserve">
-    <value>Ancien mot de passe ne peut pas être laissé en blanc.</value>
+    <value>L'ancien mot de passe ne peut pas être laissé vide.</value>
   </data>
   <data name="Or" xml:space="preserve">
     <value>ou</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>mot de passe</value>
+    <value>Mot de passe</value>
   </data>
   <data name="PasswordBlankMessage" xml:space="preserve">
-    <value>Mot de passe ne peut pas être laissé en blanc.</value>
+    <value>Le mot de passe ne peut pas être laissé vide.</value>
   </data>
   <data name="PasswordChangedMessage" xml:space="preserve">
-    <value>Mot de passe a été changé.</value>
+    <value>Le mot de passe a été changé.</value>
   </data>
   <data name="PermissionAssignedMessage" xml:space="preserve">
     <value>Permission attribué avec succès.</value>
@@ -370,19 +370,19 @@
     <value>Joli</value>
   </data>
   <data name="PreviewLatestNote" xml:space="preserve">
-    <value>Preview &lt;b&gt; derniers messages &lt;/ b&gt;</value>
+    <value>Prévisualisation des derniers messages</value>
   </data>
   <data name="PrevPhotos" xml:space="preserve">
-    <value>Préc Photos</value>
+    <value>Photos précédantes</value>
   </data>
   <data name="ProvideOldPasswordMessage" xml:space="preserve">
-    <value>S'il vous plaît fournir votre ancien mot de passe.</value>
+    <value>Entrez votre ancien mot de passe.</value>
   </data>
   <data name="Public" xml:space="preserve">
-    <value>Public</value>
+    <value>Publique</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>registre</value>
+    <value>S'inscrire</value>
   </data>
   <data name="RememberMe" xml:space="preserve">
     <value>Se souvenir de moi sur cet ordinateur.</value>
@@ -397,10 +397,10 @@
     <value>Scorpion</value>
   </data>
   <data name="Scrollbar" xml:space="preserve">
-    <value>Scrollbar</value>
+    <value>Barre de défilement</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>recherche</value>
+    <value>Recherche</value>
   </data>
   <data name="SelectHoroscope" xml:space="preserve">
     <value>Sélectionnez Horoscope:</value>
@@ -412,19 +412,19 @@
     <value>C'est le panneau de réglages.</value>
   </data>
   <data name="SettingsButtonClicked" xml:space="preserve">
-    <value>Clic du bouton Paramètres.</value>
+    <value>Bouton des paramètres cliqué</value>
   </data>
   <data name="SetupCompleteMessage" xml:space="preserve">
-    <value>Le programme d'installation complète. Vous pouvez maintenant visiter</value>
+    <value>Iinstallation terminée. Vous pouvez maintenant visiter le site</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Voir</value>
   </data>
   <data name="ShowSettingsPanel" xml:space="preserve">
     <value>Voir panneau Paramètres.</value>
   </data>
-  <data name="SignIn" xml:space="preserve">
-    <value>Connectez-vous à la page d'accueil personnalisée à votre compte</value>
+  <data name="SignInNote" xml:space="preserve">
+    <value>Connectez-vous à la page d'accueil personnalisée de votre compte</value>
   </data>
   <data name="SignInToTwitter" xml:space="preserve">
     <value>Cliquez ici &lt;/ a&gt; pour vous connecter à Twitter.</value>
@@ -436,7 +436,7 @@
     <value>C'est une open source Web 2.0 style AJAX Portal built using ASP.NET 3.5, Workflow Foundation and LINQ..</value>
   </data>
   <data name="SiteTitle" xml:space="preserve">
-    <value>choix</value>
+    <value>TOTSA Portal</value>
   </data>
   <data name="Slogan" xml:space="preserve">
     <value>- open source Web 2.0 AJAX Portal</value>
@@ -445,10 +445,10 @@
     <value>Le code source est disponible à l'adresse:</value>
   </data>
   <data name="StartOver" xml:space="preserve">
-    <value>recommencer</value>
+    <value>Recommencer</value>
   </data>
   <data name="StateSaved" xml:space="preserve">
-    <value>État Saved</value>
+    <value>État enregistré</value>
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Tag:</value>
@@ -469,7 +469,7 @@
     <value>Nom d'utilisateur Twitter</value>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Update</value>
+    <value>Mettre à jour</value>
   </data>
   <data name="URL" xml:space="preserve">
     <value>URL</value>
@@ -487,13 +487,13 @@
     <value>Largeur</value>
   </data>
   <data name="Working" xml:space="preserve">
-    <value>De travail .....</value>
+    <value>Veuillez patienter un moment...</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
   </data>
   <data name="FeedNote2" xml:space="preserve">
-    <value>Get &lt;b&gt; temps &lt;/ b&gt; prévisions, &lt;b&gt; stock &lt;/ b&gt; de prix, et &lt;b&gt; film &lt;/ b&gt; showtimes</value>
+    <value>Visualisez la météo, les prévisions, la Bourse et les programmes TV</value>
   </data>
   <data name="WhatPersonalizeHomePageDo" xml:space="preserve">
     <value>Votre page d'accueil personnalisée rassemble le contenu du Web sur une seule page:</value>
@@ -502,15 +502,15 @@
     <value>Archives</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuler</value>
   </data>
   <data name="Locked" xml:space="preserve">
-    <value>Locked</value>
+    <value>Verrouillé</value>
   </data>
   <data name="MaintenanceModeMessage" xml:space="preserve">
-    <value>Is In Maintenence Mode</value>
+    <value>Est en maintenance</value>
   </data>
   <data name="ServeAsStartPageMessage" xml:space="preserve">
-    <value>Serve This Tab At Start</value>
+    <value>Afficher cet onglet au démarrage</value>
   </data>
 </root>
