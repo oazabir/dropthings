@@ -47,6 +47,12 @@
             set;
         }
 
+        public bool IsRoleTemplateForRegisterUser
+        {
+            get;
+            set;
+        }
+
         #endregion Properties
     }
 }

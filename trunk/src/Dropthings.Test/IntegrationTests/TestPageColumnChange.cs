@@ -91,7 +91,7 @@
                         facade.ModifyPageLayout(LayoutType);
 
                         // Get the page setup again to ensure the number of columns are changed
-                        var userSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, DateTime.Now);
+                        var userSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, DateTime.Now, false);
 
                         Assert.AreEqual(ColumnsAfterChange, userSetup.CurrentPage.ColumnCount, "Number of columns did not change");
 

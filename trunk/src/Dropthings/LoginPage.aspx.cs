@@ -37,11 +37,9 @@ public partial class LoginPage : System.Web.UI.Page
     {
         if( Membership.ValidateUser( Email.Text, Password.Text ) )
         {
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
-            {
-                facade.OverrideCurrentPageIfTemplateUser(Email.Text);
-            }
-            
+            var profile = Profile.GetProfile(Email.Text);
+            profile.IsFirstVisitAfterLogin = true;
+            profile.Save();
             FormsAuthentication.RedirectFromLoginPage( Email.Text, RememberMeCheckbox.Checked );
         }
         else

@@ -71,7 +71,7 @@
                                             <asp:Literal ID="ltlMaintence" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, MaintenanceModeMessage%>" />: <asp:CheckBox ID="TabMaintanance" runat="server" />
                                             <asp:Button ID="SaveTabMaintenenceSetting" runat="server" OnClick="SaveTabMaintenenceSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
                                         </p>
-                                        <p>
+                                        <p id="serveAsStartPageOption" runat="server" visible="false">
                                             <asp:Literal ID="ltlServeAsStartPage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ServeAsStartPageMessage%>" />: <asp:CheckBox ID="TabServeAsStartPage" runat="server" />
                                             <asp:Button ID="SaveTabServeAsStartPageSetting" runat="server" OnClick="SaveTabServeAsStartPageSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
                                         </p>

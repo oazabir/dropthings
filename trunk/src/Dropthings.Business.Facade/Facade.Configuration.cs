@@ -8,6 +8,7 @@
 
     using Dropthings.DataAccess;
     using Dropthings.Model;
+    using System.Web.Security;
 
     partial class Facade
     {
@@ -25,6 +26,24 @@
             }
 
             return template;
+        }
+
+        public bool CheckRoleTemplateIsRegisterUserTemplate(RoleTemplate template)
+        {
+            MembershipUser user = Membership.GetUser(template.TemplateUserId);
+
+            UserTemplateSetting settingTemplate = GetUserSettingTemplate();
+
+            return settingTemplate.RegisteredUserSettingTemplate.UserName.Equals(user.UserName);
+        }
+
+        public bool CheckRoleTemplateIsAnonymousUserTemplate(RoleTemplate template)
+        {
+            MembershipUser user = Membership.GetUser(template.TemplateUserId);
+
+            UserTemplateSetting settingTemplate = GetUserSettingTemplate();
+
+            return settingTemplate.AnonUserSettingTemplate.UserName.Equals(user.UserName);
         }
 
         public UserTemplateSetting GetUserSettingTemplate()

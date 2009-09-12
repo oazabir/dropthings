@@ -65,6 +65,20 @@ namespace Dropthings.Web.Framework
         }
 
         [SettingsAllowAnonymousAttribute(true)]
+        [DefaultSettingValue("false")]
+        public virtual bool IsFirstVisitAfterLogin
+        {
+            get
+            {
+                return ((bool)(this.GetPropertyValue("IsFirstVisitAfterLogin")));
+            }
+            set
+            {
+                this.SetPropertyValue("IsFirstVisitAfterLogin", value);
+            }
+        }
+
+        [SettingsAllowAnonymousAttribute(true)]
         public virtual DateTime? LastActivityAt
         {
             get
