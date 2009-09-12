@@ -337,27 +337,28 @@ public partial class _Default : BasePage
                         // First visit
                         Profile.IsFirstVisit = false;
                         Profile.Save();
-                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true);
+                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                     }
                     else
                     {
-                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.LastActivityAt);
+                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.LastActivityAt, Profile.IsFirstVisitAfterLogin);
                     }
                 }
                 else
                 {
-                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.LastActivityAt);
+                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.LastActivityAt, Profile.IsFirstVisitAfterLogin);
 
                     // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
                     // to recrate the pages
                     if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
                     {
-                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true);
+                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                     }
                 }
 
                 //save the profile to keep LastActivityAt updated
                 Profile.LastActivityAt = DateTime.Now;
+                Profile.IsFirstVisitAfterLogin = false;
                 Profile.Save();
             }
         });
@@ -427,8 +428,9 @@ public partial class _Default : BasePage
         this.TabLocked.Checked = _Setup.CurrentPage.IsLocked;
 
         //show options for the maintenence mode
-        maintenenceOption.Visible = _Setup.CurrentPage.IsLocked;
+        this.maintenenceOption.Visible = _Setup.CurrentPage.IsLocked;
         this.TabMaintanance.Checked = _Setup.CurrentPage.IsDownForMaintenance;
+        this.serveAsStartPageOption.Visible = _Setup.CurrentPage.IsLocked && _Setup.IsRoleTemplateForRegisterUser;
         this.TabServeAsStartPage.Checked = _Setup.CurrentPage.ServeAsStartPageAfterLogin.GetValueOrDefault();
     }
 

@@ -20,7 +20,7 @@ namespace Dropthings.Business.Facade
 
         #region Methods
 
-        public UserSetup FirstVisitHomePage(string userName, string pageTitle, bool isAnonymous)
+        public UserSetup FirstVisitHomePage(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
             // If user does not exist, then this is the very *FIRST VISIT* of the user and user
             // Get template setting that so that we can create pages from templates
@@ -62,7 +62,7 @@ namespace Dropthings.Business.Facade
                 if (page != null && page.ID > 0)
                 {
                     CreateDefaultWidgetsOnPage(userName, page.ID);
-                    RepeatVisitHomePage(userName, pageTitle, isAnonymous, DateTime.Now);    // non-recursive. this will hit the outter most else block
+                    RepeatVisitHomePage(userName, pageTitle, isAnonymous, DateTime.Now, isFirstVisitAfterLogin);    // non-recursive. this will hit the outter most else block
                 }
                 else
                 {
@@ -73,20 +73,22 @@ namespace Dropthings.Business.Facade
             var currentPages = this.pageRepository.GetPagesOfUser(userGuid);
             response.UserPages = currentPages;
             response.UserSetting = GetUserSetting(userGuid);
-            response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPageId);
+            response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPageId, isAnonymous, isFirstVisitAfterLogin);
             response.CurrentUserId = userGuid;
             response.RoleTemplate = roleTemplate;
+            response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);
             return response;
         }
 
-        public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous, DateTime? lastVisited)
+        public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous, DateTime? lastVisited, bool isFirstVisitAfterLogin)
         {
             // User is visiting again, so load user's existing page setup
             var response = new UserSetup();
             var userGuid = this.userRepository.GetUserGuidFromUserName(userName);
 
             var roleTemplate = GetRoleTemplate(userGuid);
-             response.RoleTemplate = roleTemplate;
+            response.RoleTemplate = roleTemplate;
+            response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);
 
             if (!roleTemplate.TemplateUserId.IsEmpty())
             {
@@ -120,7 +122,7 @@ namespace Dropthings.Business.Facade
                 response.UserPages = pages;
 
                 var userSetting = GetUserSetting(userGuid);
-                response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, userSetting.CurrentPageId);
+                response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, userSetting.CurrentPageId, isAnonymous, isFirstVisitAfterLogin);
 
                 if (userSetting.CurrentPageId != response.CurrentPage.ID)
                 {
@@ -136,7 +138,7 @@ namespace Dropthings.Business.Facade
             else
             {
                 // User has no pages
-                response = FirstVisitHomePage(userName, pageTitle, isAnonymous);
+                response = FirstVisitHomePage(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);
             }
 
             return response;

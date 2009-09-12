@@ -46,7 +46,7 @@
             // Create default page setup which is expected to populate all three columns with widgets
             using(var facade = new Facade(new AppContext(string.Empty, userName)))
             {
-                var response = facade.FirstVisitHomePage(userName, string.Empty, true);
+                var response = facade.FirstVisitHomePage(userName, string.Empty, true, false);
                 Assert.IsNotNull(response.CurrentPage, "First time visit did not create pages");
                 Assert.AreNotEqual(0, response.UserPages.Count, "No page returned");
                 Assert.IsNotNull(response.UserSetting, "User setting not returned");

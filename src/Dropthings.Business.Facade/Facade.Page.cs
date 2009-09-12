@@ -97,7 +97,10 @@
                     page.LayoutType = pageToClone.LayoutType;
                     page.PageType = pageToClone.PageType;
                     page.ColumnCount = pageToClone.ColumnCount;
+                    page.OrderNo = pageToClone.OrderNo;
                 });
+
+                ReorderPagesOfUser();
 
                 var columns = this.columnRepository.GetColumnsByPageId(pageToClone.ID);
                 columns.Each(columnToClone => CloneColumn(clonedPage, columnToClone));
@@ -135,23 +138,27 @@
             return this.pageRepository.GetPageById(currentPageId);
         }
 
-        public Page DecideCurrentPage(Guid userGuid, string pageTitle, int currentPageId)
+        public Page DecideCurrentPage(Guid userGuid, string pageTitle, int currentPageId, bool? isAnonymous, bool? isFirstVisitAfterLogin)
         {
             Page currentPage = null;
             var pages = this.pageRepository.GetPagesOfUser(userGuid);
             List<Page> sharedPages = null;
-            
-            var roleTemplate = GetRoleTemplate(userGuid);
+            RoleTemplate roleTemplate = null;
+            UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 
-            if (!roleTemplate.TemplateUserId.IsEmpty())
+            if((isAnonymous.GetValueOrDefault() && settingTemplate.CloneAnonProfileEnabled) || (!isAnonymous.GetValueOrDefault() && settingTemplate.CloneRegisteredProfileEnabled))
             {
-                // Get template user pages so that it can be cloned for new user
-                if (roleTemplate.TemplateUserId != userGuid)
+                roleTemplate = GetRoleTemplate(userGuid);
+
+                if (!roleTemplate.TemplateUserId.IsEmpty())
                 {
-                    sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
+                    // Get template user pages so that it can be cloned for new user
+                    if (roleTemplate.TemplateUserId != userGuid)
+                    {
+                        sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
+                    }
                 }
             }
-
             // Find the page that has the specified Page Name and make it as current
             // page. This is needed to make a tab as current tab when the tab name is
             // known
@@ -172,6 +179,34 @@
                     foreach (Page page in sharedPages)
                     {
                         if (string.Equals(page.Title.Replace(' ', '_') + "_Locked", pageTitle))
+                        {
+                            currentPageId = page.ID;
+                            currentPage = page;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (roleTemplate != null && settingTemplate.CloneRegisteredProfileEnabled && roleTemplate.TemplateUserId.Equals(userGuid) && CheckRoleTemplateIsRegisterUserTemplate(roleTemplate))
+            {
+                foreach (Page page in pages)
+                {
+                    if (page.ServeAsStartPageAfterLogin.GetValueOrDefault())
+                    {
+                        currentPageId = page.ID;
+                        currentPage = page;
+                        break;
+                    }
+                }
+            }
+            else if (settingTemplate.CloneRegisteredProfileEnabled && isFirstVisitAfterLogin.GetValueOrDefault() && !isAnonymous.GetValueOrDefault() && !CheckRoleTemplateIsAnonymousUserTemplate(roleTemplate))
+            {
+                //For register user check for the first load after login and find if there any defined page should load after login set by register template user
+                if (sharedPages != null)
+                {
+                    foreach (Page page in sharedPages)
+                    {
+                        if(page.ServeAsStartPageAfterLogin.GetValueOrDefault())
                         {
                             currentPageId = page.ID;
                             currentPage = page;
@@ -362,7 +397,7 @@
             var columns = this.columnRepository.GetColumnsByPageId(pageId);
             columns.Each((column) => DeleteColumn(pageId, column.ID, column.ColumnNo));
             this.pageRepository.Delete(pageId);
-            var currentPage = DecideCurrentPage(userGuid, string.Empty, 0);   // 0 - since current page has been deleted.
+            var currentPage = DecideCurrentPage(userGuid, string.Empty, 0, null, null);   // 0 - since current page has been deleted.
             ReorderPagesOfUser();
             return SetCurrentPage(userGuid, currentPage.ID);
         }
