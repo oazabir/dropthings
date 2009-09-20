@@ -259,6 +259,70 @@
         </Request>
       </Items>
     </TransactionTimer>
+    <Comment CommentText="Revisit and ensure the Digg widget exists and How to widget does not exist" />
+    <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+      <ValidationRules>
+        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High">
+          <RuleParameters>
+            <RuleParameter Name="StopOnError" Value="False" />
+            <RuleParameter Name="CookieValueToMatch" Value="" />
+            <RuleParameter Name="MatchValue" Value="False" />
+            <RuleParameter Name="Exists" Value="False" />
+            <RuleParameter Name="CookieName" Value="{{Config.TestParameters.AnonCookieName}}" />
+            <RuleParameter Name="IsPersistent" Value="True" />
+            <RuleParameter Name="Domain" Value="" />
+            <RuleParameter Name="Index" Value="0" />
+          </RuleParameters>
+        </ValidationRule>
+        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High">
+          <RuleParameters>
+            <RuleParameter Name="StopOnError" Value="False" />
+            <RuleParameter Name="CookieValueToMatch" Value="" />
+            <RuleParameter Name="MatchValue" Value="False" />
+            <RuleParameter Name="Exists" Value="False" />
+            <RuleParameter Name="CookieName" Value="{{Config.TestParameters.SessionCookieName}}" />
+            <RuleParameter Name="IsPersistent" Value="False" />
+            <RuleParameter Name="Domain" Value="" />
+            <RuleParameter Name="Index" Value="0" />
+          </RuleParameters>
+        </ValidationRule>
+        <ValidationRule Classname="Dropthings.Test.Rules.CacheHeaderValidation, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Cache Header Validation" Description="" Level="High">
+          <RuleParameters>
+            <RuleParameter Name="Enabled" Value="True" />
+            <RuleParameter Name="DifferenceThresholdSec" Value="0" />
+            <RuleParameter Name="CacheControlPrivate" Value="False" />
+            <RuleParameter Name="CacheControlPublic" Value="False" />
+            <RuleParameter Name="CacheControlNoCache" Value="True" />
+            <RuleParameter Name="ExpiresAfterSeconds" Value="0" />
+            <RuleParameter Name="StopOnError" Value="False" />
+          </RuleParameters>
+        </ValidationRule>
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+          <RuleParameters>
+            <RuleParameter Name="FindText" Value="How to of the Day" />
+            <RuleParameter Name="IgnoreCase" Value="False" />
+            <RuleParameter Name="UseRegularExpression" Value="False" />
+            <RuleParameter Name="PassIfTextFound" Value="False" />
+          </RuleParameters>
+        </ValidationRule>
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+          <RuleParameters>
+            <RuleParameter Name="FindText" Value="Digg" />
+            <RuleParameter Name="IgnoreCase" Value="False" />
+            <RuleParameter Name="UseRegularExpression" Value="False" />
+            <RuleParameter Name="PassIfTextFound" Value="True" />
+          </RuleParameters>
+        </ValidationRule>
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+          <RuleParameters>
+            <RuleParameter Name="FindText" Value="All rights reserved" />
+            <RuleParameter Name="IgnoreCase" Value="False" />
+            <RuleParameter Name="UseRegularExpression" Value="False" />
+            <RuleParameter Name="PassIfTextFound" Value="True" />
+          </RuleParameters>
+        </ValidationRule>
+      </ValidationRules>
+    </Request>
     <Comment CommentText="- Logout and ensure Anon Cookie is set to expire" />
     <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Logout.ashx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="302" ExpectedResponseUrl="">
       <ValidationRules>
