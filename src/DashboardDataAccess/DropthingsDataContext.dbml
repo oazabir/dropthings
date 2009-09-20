@@ -145,7 +145,7 @@
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="VersionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="LayoutType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PageType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PageType" Type="Enumerations.PageTypeEnum" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ColumnCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="LastUpdated" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
       <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />

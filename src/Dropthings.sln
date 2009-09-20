@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19DA7990-1A71-4E87-9FCF-5C2EC7C3EC26}"
+	ProjectSection(SolutionItems) = preProject
+		Dropthings.vsmdi = Dropthings.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business", "DashboardBusiness\Dropthings.Business.csproj", "{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DataAccess", "DashboardDataAccess\Dropthings.DataAccess.csproj", "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}"
@@ -37,12 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthing.Silverlight", "Dr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test", "Dropthings.Test\Dropthings.Test.csproj", "{6368DD2E-C2A0-45B6-8D08-3F1E67572322}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19DA7990-1A71-4E87-9FCF-5C2EC7C3EC26}"
-	ProjectSection(SolutionItems) = preProject
-		Dropthings.vsmdi = Dropthings.vsmdi
-		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Workflows", "Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj", "{63C65FF9-E003-4074-9451-70D4EC3D7906}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Activities", "Dropthings.Business.Activities\Dropthings.Business.Activities.csproj", "{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}"
@@ -60,6 +60,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AJAXASMXHandler", "AjaxAsmxHandler\AJAXASMXHandler.csproj", "{42190D98-86BA-44B5-8CFF-F62754029C61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Model", "Dropthings.Model\Dropthings.Model.csproj", "{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Util.UnitTests", "Dropthings.Util.UnitTests\Dropthings.Util.UnitTests.csproj", "{F027216C-FC95-4E0B-A4AC-4511482AFB36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DataAccess.UnitTest", "Dropthings.DataAccess.UnitTest\Dropthings.DataAccess.UnitTest.csproj", "{F66DC261-EE76-4591-BAFF-04791C5DAE3E}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -214,6 +218,26 @@ Global
 		{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F027216C-FC95-4E0B-A4AC-4511482AFB36}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,6 +10,7 @@
     using DataAccess.Repository;
     using DataAccess;
     using Microsoft.Practices.Unity;
+    using Dropthings.Util;
 
     /// <summary>
     /// Summary description for FacadeBase
@@ -34,8 +35,8 @@
 
         #region Constructors
 
-        public Facade(AppContext context) : 
-            this(context, 
+        public Facade(AppContext context) :
+            this(context,
             ServiceLocator.Resolve<IColumnRepository>(),
             ServiceLocator.Resolve<IPageRepository>(),
             ServiceLocator.Resolve<IUserRepository>(),
@@ -93,24 +94,29 @@
 
         public static void BootStrap()
         {
-            ServiceLocator.RegisterType<IDropthingsDataContext, DropthingsDataContext2>();
-            ServiceLocator.InjectIntoConstructor<DropthingsDataContext2>(); // dummy injection for empty constructor
-            ServiceLocator.RegisterType<IColumnRepository, ColumnRepository>();
-            ServiceLocator.RegisterType<IPageRepository, PageRepository>();
-            ServiceLocator.RegisterType<IUserRepository, UserRepository>();
-            ServiceLocator.RegisterType<IRoleRepository, RoleRepository>();
-            ServiceLocator.RegisterType<IRoleTemplateRepository, RoleTemplateRepository>();
-            ServiceLocator.RegisterType<ITokenRepository, TokenRepository>();
-            ServiceLocator.RegisterType<IWidgetRepository, WidgetRepository>();
-            ServiceLocator.RegisterType<IWidgetInstanceRepository, WidgetInstanceRepository>();
-            ServiceLocator.RegisterType<IWidgetZoneRepository, WidgetZoneRepository>();
-            ServiceLocator.RegisterType<IWidgetsInRolesRepository, WidgetsInRolesRepository>();
-            ServiceLocator.RegisterType<IUserSettingRepository, UserSettingRepository>();
+            AspectF.Define
+                .Log(Logger.Writer, "Register default types in Unity")
+                .Do(() =>
+            {
+                ServiceLocator.RegisterType<IDropthingsDataContext, DropthingsDataContext2>();
+                ServiceLocator.InjectIntoConstructor<DropthingsDataContext2>(); // dummy injection for empty constructor
+                ServiceLocator.RegisterType<IColumnRepository, ColumnRepository>();
+                ServiceLocator.RegisterType<IPageRepository, PageRepository>();
+                ServiceLocator.RegisterType<IUserRepository, UserRepository>();
+                ServiceLocator.RegisterType<IRoleRepository, RoleRepository>();
+                ServiceLocator.RegisterType<IRoleTemplateRepository, RoleTemplateRepository>();
+                ServiceLocator.RegisterType<ITokenRepository, TokenRepository>();
+                ServiceLocator.RegisterType<IWidgetRepository, WidgetRepository>();
+                ServiceLocator.RegisterType<IWidgetInstanceRepository, WidgetInstanceRepository>();
+                ServiceLocator.RegisterType<IWidgetZoneRepository, WidgetZoneRepository>();
+                ServiceLocator.RegisterType<IWidgetsInRolesRepository, WidgetsInRolesRepository>();
+                ServiceLocator.RegisterType<IUserSettingRepository, UserSettingRepository>();
+            });
         }
 
         public void Dispose()
         {
-            
+
         }
 
         #endregion Methods

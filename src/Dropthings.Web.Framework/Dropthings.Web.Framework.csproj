@@ -103,6 +103,10 @@
       <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
       <Name>Dropthings.Business.Workflows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
+      <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
+      <Name>Dropthings.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dropthings.Widget.Framework\Dropthings.Widget.Framework.csproj">
       <Project>{A5F19582-1F00-406F-A130-5BB7AC598FF7}</Project>
       <Name>Dropthings.Widget.Framework</Name>

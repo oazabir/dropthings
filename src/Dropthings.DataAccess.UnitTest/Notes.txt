@@ -1,0 +1,5 @@
+﻿Abandoning unit test of repositories because:
+* Repositories do nothing but perform one database operation.
+* Mocking the database context to test repository function makes no sense since the repository function does nothing but to return the object/collection or call the mocked method.
+* Unit testing repository basically does nothing but to verify a single mocked object/collection/method was tested.
+* Testing facade has far more value because Facade calls one or more repositories and those repositories in the end calls several database context operations. So, if the database context operations are mocked, we not only test the repositories but also test the facade methods.
