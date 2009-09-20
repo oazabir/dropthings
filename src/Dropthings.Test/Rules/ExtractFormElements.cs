@@ -54,30 +54,31 @@
             string body = e.Response.BodyString;
 
             List<string> formElements = new List<string>();
-            var processMatches = new Action<MatchCollection, string>((matches, prefix) =>
+            var processMatches = new Action<MatchCollection, string>((extractMatches, prefix) =>
             {
-                foreach (Match match in matches)
+                foreach (Match extractMatch in extractMatches)
                 {
-                    var extractMatches = _ExtractSelectTags.Matches(match.Value);
+                    string name = extractMatch.Groups["name"].Value;
+                    string value = extractMatch.Groups["value"].Value;
 
-                    foreach (Match extractMatch in extractMatches)
-                    {
-                        string name = extractMatch.Groups["name"].Value;
-                        string value = extractMatch.Groups["value"].Value;
+                    string lastPartOfName = name.Substring(name.LastIndexOf('$') + 1);
+                    string keyName = RuleHelper.PlaceUniqueItem(e.WebTest.Context, prefix + lastPartOfName, name);
+                    e.WebTest.Context[keyName + VALUE_SUFFIX] = value;
 
-                        string lastPartOfName = name.Substring(name.LastIndexOf('$') + 1);
-                        string keyName = RuleHelper.PlaceUniqueItem(e.WebTest.Context, prefix + lastPartOfName, name);
-                        e.WebTest.Context[keyName + VALUE_SUFFIX] = value;
-
-                        // Create a name value pair in context as it is using the form element's name
-                        e.WebTest.Context[name] = value;
-                        formElements.Add(name);
-                    }
+                    // Create a name value pair in context as it is using the form element's name
+                    e.WebTest.Context[name] = value;
+                    formElements.Add(name);
                 }
+
             });
 
             processMatches(_FindInputTags.Matches(body), INPUT_PREFIX);
-            processMatches(_FindSelectTags.Matches(body), SELECT_PREFIX);
+
+            foreach (Match match in _FindSelectTags.Matches(body))
+            {
+                var extractMatches = _ExtractSelectTags.Matches(match.Value);
+                processMatches(extractMatches, SELECT_PREFIX);
+            }
 
             e.WebTest.Context[FORM_ELEMENT_KEYS] = formElements.ToArray();
         }
