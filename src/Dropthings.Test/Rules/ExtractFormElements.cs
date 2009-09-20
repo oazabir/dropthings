@@ -27,7 +27,16 @@
             | RegexOptions.IgnorePatternWhitespace
             | RegexOptions.Compiled
             );
+
         private static Regex _FindSelectTags = new Regex(
+            @"<select[^>]*>(.*?)</select>",
+            RegexOptions.IgnoreCase
+            | RegexOptions.Singleline
+            | RegexOptions.IgnorePatternWhitespace
+            | RegexOptions.Compiled
+            );
+
+        private static Regex _ExtractSelectTags = new Regex(
             @"<select\s*[^>]*name=""(?<name>([^""]*))""\s*[^>]*.*<option\s"
             + @"*[^>]*selected=""[^""]*""\s*[^>]*value=""(?<value>([^""]*))""",
             RegexOptions.IgnoreCase
@@ -46,11 +55,15 @@
 
             List<string> formElements = new List<string>();
             var processMatches = new Action<MatchCollection, string>((matches, prefix) =>
+            {
+                foreach (Match match in matches)
                 {
-                    foreach (Match match in matches)
+                    var extractMatches = _ExtractSelectTags.Matches(match.Value);
+
+                    foreach (Match extractMatch in extractMatches)
                     {
-                        string name = match.Groups["name"].Value;
-                        string value = match.Groups["value"].Value;
+                        string name = extractMatch.Groups["name"].Value;
+                        string value = extractMatch.Groups["value"].Value;
 
                         string lastPartOfName = name.Substring(name.LastIndexOf('$') + 1);
                         string keyName = RuleHelper.PlaceUniqueItem(e.WebTest.Context, prefix + lastPartOfName, name);
@@ -60,9 +73,10 @@
                         e.WebTest.Context[name] = value;
                         formElements.Add(name);
                     }
-                });
+                }
+            });
 
-            processMatches(_FindInputTags.Matches(body), INPUT_PREFIX);
+            //processMatches(_FindInputTags.Matches(body), INPUT_PREFIX);
             processMatches(_FindSelectTags.Matches(body), SELECT_PREFIX);
 
             e.WebTest.Context[FORM_ELEMENT_KEYS] = formElements.ToArray();
