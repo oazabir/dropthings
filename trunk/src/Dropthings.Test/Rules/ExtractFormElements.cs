@@ -76,7 +76,7 @@
                 }
             });
 
-            //processMatches(_FindInputTags.Matches(body), INPUT_PREFIX);
+            processMatches(_FindInputTags.Matches(body), INPUT_PREFIX);
             processMatches(_FindSelectTags.Matches(body), SELECT_PREFIX);
 
             e.WebTest.Context[FORM_ELEMENT_KEYS] = formElements.ToArray();
