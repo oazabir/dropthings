@@ -200,7 +200,7 @@ namespace Dropthings.Util
                 for (int i = 0; i < args.Length; i++)
                 {
                     T arg = args[i];
-                    if (arg == null || !arg.Equals(defaultvalue))
+                    if (arg == null || arg.Equals(defaultvalue))
                         throw new ArgumentException(
                             string.Format("Parameter at index {0} is null", i));
                 }
