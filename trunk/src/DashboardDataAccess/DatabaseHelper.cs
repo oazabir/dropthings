@@ -20,6 +20,7 @@ namespace Dropthings.DataAccess
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Text;
+    using Dropthings.Util;
 
     public static class DatabaseHelper
     {
@@ -308,14 +309,20 @@ namespace Dropthings.DataAccess
 
         public static void InDataContext(SubsystemEnum subsystem, bool nolock, DataContextDelegate d)
         {
-            using (var data = GetDataContext(subsystem, nolock))
-                d(data);
+            AspectF.Define.Retry().Do(() =>
+            {
+                using (var data = GetDataContext(subsystem, nolock))
+                    d(data);
+            });
         }
 
         public static T InDataContext<T>(SubsystemEnum subsystem, bool nolock, Func<DropthingsDataContext, T> f)
         {
-            using (var data = GetDataContext(subsystem, nolock))
-                return f(data);
+            return AspectF.Define.Retry().Return<T>(() =>
+            {
+                using (var data = GetDataContext(subsystem, nolock))
+                    return f(data);
+            });
         }
 
         public static TSource Insert<TSource>(SubsystemEnum subsystem, Action<TSource> populate)
@@ -411,10 +418,20 @@ namespace Dropthings.DataAccess
             if (_SubsystemConnectionStringMap.ContainsKey(subsystem))
                 return _SubsystemConnectionStringMap[subsystem];
 
-            var connectionStringSetting = ConfigurationManager.ConnectionStrings[subsystem.ToString() + "ConnectionString" ] ??
-                ConfigurationManager.ConnectionStrings[DEFAULT_CONNECTION_STRING_NAME];
-            _SubsystemConnectionStringMap.Add(subsystem, connectionStringSetting.ConnectionString);
-            return connectionStringSetting.ConnectionString;
+            lock (_SubsystemConnectionStringMap)
+            {
+                if (_SubsystemConnectionStringMap.ContainsKey(subsystem))
+                {
+                    return _SubsystemConnectionStringMap[subsystem];
+                }
+                else
+                {
+                    var connectionStringSetting = ConfigurationManager.ConnectionStrings[subsystem.ToString() + "ConnectionString"] ??
+                        ConfigurationManager.ConnectionStrings[DEFAULT_CONNECTION_STRING_NAME];
+                    _SubsystemConnectionStringMap.Add(subsystem, connectionStringSetting.ConnectionString);
+                    return connectionStringSetting.ConnectionString;
+                }
+            }
         }
 
         /// <summary>

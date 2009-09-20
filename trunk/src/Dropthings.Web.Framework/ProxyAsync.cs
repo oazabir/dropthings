@@ -29,6 +29,7 @@ namespace Dropthings.Web.Framework
     using AJAXASMXHandler;
 
     using Dropthings.Widget.Framework;
+    using Dropthings.Util;
 
     /// <summary>
     /// Summary description for Proxy
@@ -67,24 +68,28 @@ namespace Dropthings.Web.Framework
         [ScriptMethod]
         public IAsyncResult BeginGetString(string url, int cacheDuration, AsyncCallback cb, object state)
         {
-            // See if the response from the URL is already cached on server
-            string cachedContent = Context.Cache[CACHE_KEY + url] as string;
-            if (!string.IsNullOrEmpty(cachedContent))
-            {
-                this.CacheResponse(Context, cacheDuration);
-                return new AsmxHandlerSyncResult(cachedContent);
-            }
+            return AspectF.Define.Log(Logger.Writer, "BeginGetString Url: {0) cache: {1}", url, cacheDuration)
+                .Return<IAsyncResult>(() =>
+                {
+                    // See if the response from the URL is already cached on server
+                    string cachedContent = Context.Cache[CACHE_KEY + url] as string;
+                    if (!string.IsNullOrEmpty(cachedContent))
+                    {
+                        this.CacheResponse(Context, cacheDuration);
+                        return new AsmxHandlerSyncResult(cachedContent);
+                    }
 
-            HttpWebRequest request = this.CreateHttpWebRequest(url);
-            // As we will stream the response, don't want to automatically decompress the content
-            request.AutomaticDecompression = DecompressionMethods.None;
+                    HttpWebRequest request = this.CreateHttpWebRequest(url);
+                    // As we will stream the response, don't want to automatically decompress the content
+                    request.AutomaticDecompression = DecompressionMethods.None;
 
-            GetStringState myState = new GetStringState(state);
-            myState.Request = request;
-            myState.Url = url;
-            myState.CacheDuration = cacheDuration;
+                    GetStringState myState = new GetStringState(state);
+                    myState.Request = request;
+                    myState.Url = url;
+                    myState.CacheDuration = cacheDuration;
 
-            return request.BeginGetResponse(cb, myState);
+                    return request.BeginGetResponse(cb, myState);
+                });
         }
 
         [ScriptMethod]
@@ -97,67 +102,74 @@ namespace Dropthings.Web.Framework
         public string EndGetString(IAsyncResult result)
         {
             GetStringState state = result.AsyncState as GetStringState;
-            MemoryStream responseBuffer = new MemoryStream();
 
-            HttpWebRequest request = state.Request;
-            using (HttpWebResponse response = request.EndGetResponse(result) as HttpWebResponse)
-            {
-                using (Stream stream = response.GetResponseStream())
-                {
-                    // produce cache headers for response caching
-                    this.CacheResponse(state.Context, state.CacheDuration);
+            return AspectF.Define
+                .MustBeNonNull(state)
+                .Log(Logger.Writer, "EndGetString Url: {0) cache: {1}", state.Url, state.CacheDuration)
+                .Return<string>(() =>
+                {   
+                    MemoryStream responseBuffer = new MemoryStream();
 
-                    string contentLength = response.GetResponseHeader("Content-Length") ?? "-1";
-                    state.Context.Response.AppendHeader("Content-Length", contentLength);
-
-                    string contentEncoding = response.GetResponseHeader("Content-Encoding") ?? "";
-                    state.Context.Response.AppendHeader("Content-Encoding", contentEncoding);
-
-                    state.Context.Response.ContentType = response.ContentType;
-
-                    const int BUFFER_SIZE = 4 * 1024;
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    int dataReceived;
-                    while ((dataReceived = stream.Read(buffer, 0, BUFFER_SIZE)) > 0)
+                    HttpWebRequest request = state.Request;
+                    using (HttpWebResponse response = request.EndGetResponse(result) as HttpWebResponse)
                     {
-                        if (!state.Context.Response.IsClientConnected) return string.Empty;
+                        using (Stream stream = response.GetResponseStream())
+                        {
+                            // produce cache headers for response caching
+                            this.CacheResponse(state.Context, state.CacheDuration);
 
-                        // Transmit to client (browser) immediately
-                        byte[] outBuffer = new byte[dataReceived];
-                        Array.Copy(buffer, outBuffer, dataReceived);
+                            string contentLength = response.GetResponseHeader("Content-Length") ?? "-1";
+                            state.Context.Response.AppendHeader("Content-Length", contentLength);
 
-                        state.Context.Response.BinaryWrite(outBuffer);
-                        //state.Context.Response.Flush();
+                            string contentEncoding = response.GetResponseHeader("Content-Encoding") ?? "";
+                            state.Context.Response.AppendHeader("Content-Encoding", contentEncoding);
 
-                        // Store in buffer so that we can cache the whole stuff
-                        responseBuffer.Write(buffer, 0, dataReceived);
+                            state.Context.Response.ContentType = response.ContentType;
+
+                            const int BUFFER_SIZE = 4 * 1024;
+                            byte[] buffer = new byte[BUFFER_SIZE];
+                            int dataReceived;
+                            while ((dataReceived = stream.Read(buffer, 0, BUFFER_SIZE)) > 0)
+                            {
+                                if (!state.Context.Response.IsClientConnected) return string.Empty;
+
+                                // Transmit to client (browser) immediately
+                                byte[] outBuffer = new byte[dataReceived];
+                                Array.Copy(buffer, outBuffer, dataReceived);
+
+                                state.Context.Response.BinaryWrite(outBuffer);
+                                //state.Context.Response.Flush();
+
+                                // Store in buffer so that we can cache the whole stuff
+                                responseBuffer.Write(buffer, 0, dataReceived);
+                            }
+
+                            // If the content is compressed, decompress it
+                            Stream contentStream = contentEncoding == "gzip" ?
+                                (new GZipStream(responseBuffer, CompressionMode.Decompress) as Stream)
+                                :
+                                (contentEncoding == "deflate" ?
+                                    (new DeflateStream(responseBuffer, CompressionMode.Decompress) as Stream)
+                                    :
+                                    (responseBuffer as Stream));
+
+                            // Cache the decompressed content so that we can return it next time
+                            using (StreamReader reader = new StreamReader(contentStream, true))
+                            {
+                                string content = reader.ReadToEnd();
+
+                                state.Context.Cache.Insert(CACHE_KEY + state.Url, content, null,
+                                Cache.NoAbsoluteExpiration,
+                                TimeSpan.FromMinutes(state.CacheDuration),
+                                CacheItemPriority.Normal, null);
+                            }
+
+                            state.Context.Response.Flush();
+
+                            return null;
+                        }
                     }
-
-                    // If the content is compressed, decompress it
-                    Stream contentStream = contentEncoding == "gzip" ?
-                        (new GZipStream(responseBuffer, CompressionMode.Decompress) as Stream)
-                        :
-                        (contentEncoding == "deflate" ?
-                            (new DeflateStream(responseBuffer, CompressionMode.Decompress) as Stream)
-                            :
-                            (responseBuffer as Stream));
-
-                    // Cache the decompressed content so that we can return it next time
-                    using (StreamReader reader = new StreamReader(contentStream, true))
-                    {
-                        string content = reader.ReadToEnd();
-
-                        state.Context.Cache.Insert(CACHE_KEY + state.Url, content, null,
-                        Cache.NoAbsoluteExpiration,
-                        TimeSpan.FromMinutes(state.CacheDuration),
-                        CacheItemPriority.Normal, null);
-                    }
-
-                    state.Context.Response.Flush();
-
-                    return null;
-                }
-            }
+                });
         }
 
         [ScriptMethod]
@@ -190,7 +202,7 @@ namespace Dropthings.Web.Framework
                     }
 
                     if (feed == null) return null;
-                    Context.Cache.Add(CACHE_KEY + url, feed, null, DateTime.MaxValue, TimeSpan.FromMinutes(15), CacheItemPriority.Normal, null);
+                    Context.Cache.Add(CACHE_KEY + url, feed, null, DateTime.Now.AddMinutes(15), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
 
                 }
                 catch(Exception x)
@@ -198,7 +210,7 @@ namespace Dropthings.Web.Framework
                     Debug.WriteLine(x.ToString());
                     // Let's remember that we failed to load this RSS feed and we will not try to load it again
                     // in next 15 mins
-                    Context.Cache.Insert(CACHE_KEY + url, string.Empty, null, DateTime.MaxValue, TimeSpan.FromMinutes(15));
+                    Context.Cache.Insert(CACHE_KEY + url, string.Empty, null, DateTime.Now.AddMinutes(15), Cache.NoSlidingExpiration);
                     return null;
                 }
             }
@@ -243,18 +255,22 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = true)]
         public string GetString(string url, int cacheDuration)
         {
-            var cachedContent = Context.Cache[CACHE_KEY + url] as string;
-            if (null != cachedContent) return cachedContent;
+            return AspectF.Define.MustBeNonNull(url).HowLong(Logger.Writer, "Begin:GetString " + url, "End:GetString " + url + " {0}")
+                .Return<string>(() =>
+                {
+                    var cachedContent = Context.Cache[CACHE_KEY + url] as string;
+                    if (null != cachedContent) return cachedContent;
 
-            using (WebClient client = new WebClient())
-            {
-                var content = client.DownloadString(url);
-                Context.Cache.Insert(CACHE_KEY + url, content, null,
-                        Cache.NoAbsoluteExpiration,
-                        TimeSpan.FromMinutes(cacheDuration),
-                        CacheItemPriority.Normal, null);
-                return content;
-            }
+                    using (WebClient client = new WebClient())
+                    {
+                        var content = client.DownloadString(url);
+                        Context.Cache.Insert(CACHE_KEY + url, content, null,
+                                Cache.NoAbsoluteExpiration,
+                                TimeSpan.FromMinutes(cacheDuration),
+                                CacheItemPriority.Normal, null);
+                        return content;
+                    }
+                });
         }
 
         [WebMethod]

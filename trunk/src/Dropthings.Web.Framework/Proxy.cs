@@ -26,6 +26,7 @@ namespace Dropthings.Web.Framework
     using System.Xml.Linq;
 
     using Dropthings.Widget.Framework;
+    using Dropthings.Util;
 
     [WebService(Namespace = "http://www.dropthings.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -46,97 +47,114 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = true)]
         public object GetRss(string url, int count, int cacheDuration)
         {
-            var feed = Context.Cache[url] as XElement;
-            if (feed == null)
-            {
-                if (string.IsNullOrEmpty(Context.Cache[url] as string)) return null;
-                try
+            return AspectF.Define
+                .Retry()
+                .HowLong(Logger.Writer,
+                    string.Format("[begin] GetRss\tUrl:{0}\tcount:{1}\tcacheDuration{2}", url, count, cacheDuration),
+                    "[end] GetRss Url:" + url + " {0}")
+                .Return<object>(() =>
                 {
-                    HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
 
-                    request.Timeout = 15000;
-                    using (WebResponse response = request.GetResponse())
+                    var feed = Context.Cache[url] as XElement;
+                    if (feed == null)
                     {
-                        using (XmlTextReader reader = new XmlTextReader(response.GetResponseStream()))
+                        if (string.IsNullOrEmpty(Context.Cache[url] as string)) return null;
+                        try
                         {
-                            feed = XElement.Load(reader);
+                            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+
+                            request.Timeout = 15000;
+                            using (WebResponse response = request.GetResponse())
+                            {
+                                using (XmlTextReader reader = new XmlTextReader(response.GetResponseStream()))
+                                {
+                                    feed = XElement.Load(reader);
+                                }
+                            }
+
+                            if (feed == null) return null;
+                            Context.Cache.Insert(url, feed, null, DateTime.MaxValue, TimeSpan.FromMinutes(15));
+
+                        }
+                        catch
+                        {
+                            Context.Cache[url] = string.Empty;
+                            return null;
                         }
                     }
 
-                    if (feed == null) return null;
-                    Context.Cache.Insert(url, feed, null, DateTime.MaxValue, TimeSpan.FromMinutes(15));
+                    XNamespace ns = "http://www.w3.org/2005/Atom";
 
-                }
-                catch
-                {
-                    Context.Cache[url] = string.Empty;
-                    return null;
-                }
-            }
+                    // see if RSS or Atom
 
-            XNamespace ns = "http://www.w3.org/2005/Atom";
+                    try
+                    {
+                        // RSS
+                        if (feed.Element("channel") != null)
+                            return (from item in feed.Element("channel").Elements("item")
+                                    select new RssItem
+                                    {
+                                        Title = item.Element("title").Value,
+                                        Link = item.Element("link").Value,
+                                        Description = item.Element("description").Value
+                                    }).Take(count);
 
-            // see if RSS or Atom
+                        // Atom
+                        else if (feed.Element(ns + "entry") != null)
+                            return (from item in feed.Elements(ns + "entry")
+                                    select new RssItem
+                                    {
+                                        Title = item.Element(ns + "title").Value,
+                                        Link = item.Element(ns + "link").Attribute("href").Value,
+                                        Description = item.Element(ns + "content").Value
+                                    }).Take(count);
 
-            try
-            {
-                // RSS
-                if (feed.Element("channel") != null)
-                    return (from item in feed.Element("channel").Elements("item")
-                            select new RssItem
-                            {
-                                Title = item.Element("title").Value,
-                                Link = item.Element("link").Value,
-                                Description = item.Element("description").Value
-                            }).Take(count);
-
-                // Atom
-                else if (feed.Element(ns + "entry") != null)
-                    return (from item in feed.Elements(ns + "entry")
-                            select new RssItem
-                            {
-                                Title = item.Element(ns + "title").Value,
-                                Link = item.Element(ns + "link").Attribute("href").Value,
-                                Description = item.Element(ns + "content").Value
-                            }).Take(count);
-
-                // Invalid
-                else
-                    return null;
-            }
-            finally
-            {
-                this.CacheResponse(cacheDuration);
-            }
+                        // Invalid
+                        else
+                            return null;
+                    }
+                    finally
+                    {
+                        this.CacheResponse(cacheDuration);
+                    }
+                });
         }
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true)]
         public string GetString(string url, int cacheDuration)
         {
-            // See if the response from the URL is already cached on server
-            string cachedContent = Context.Cache[url] as string;
-            if (!string.IsNullOrEmpty(cachedContent))
-            {
-                this.CacheResponse(cacheDuration);
-                return cachedContent;
-            }
-            else
-            {
-                using (WebClient client = new WebClient())
+            return AspectF.Define
+                .Retry()
+                .HowLong(Logger.Writer,
+                    string.Format("[begin] GetString\tUrl:{0}\tcacheDuration{2}", url, cacheDuration),
+                    "[end] GetString Url:" + url + " {0}")
+                .Return<string>(() =>
                 {
-                    string response = client.DownloadString(url);
-                    Context.Cache.Insert(url, response, null,
-                        Cache.NoAbsoluteExpiration,
-                        TimeSpan.FromMinutes(cacheDuration),
-                        CacheItemPriority.Normal, null);
+                    // See if the response from the URL is already cached on server
+                    string cachedContent = Context.Cache[url] as string;
+                    if (!string.IsNullOrEmpty(cachedContent))
+                    {
+                        this.CacheResponse(cacheDuration);
+                        return cachedContent;
+                    }
+                    else
+                    {
+                        using (WebClient client = new WebClient())
+                        {
+                            string response = client.DownloadString(url);
+                            Context.Cache.Insert(url, response, null,
+                                Cache.NoAbsoluteExpiration,
+                                TimeSpan.FromMinutes(cacheDuration),
+                                CacheItemPriority.Normal, null);
 
-                    // produce cache headers for response caching
-                    this.CacheResponse(cacheDuration);
+                            // produce cache headers for response caching
+                            this.CacheResponse(cacheDuration);
 
-                    return response;
-                }
-            }
+                            return response;
+                        }
+                    }
+                });
         }
 
         [WebMethod]
