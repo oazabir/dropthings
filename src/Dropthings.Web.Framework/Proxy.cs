@@ -27,7 +27,7 @@ namespace Dropthings.Web.Framework
 
     using Dropthings.Widget.Framework;
     using Dropthings.Util;
-
+    
     [WebService(Namespace = "http://www.dropthings.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
@@ -48,8 +48,8 @@ namespace Dropthings.Web.Framework
         public object GetRss(string url, int count, int cacheDuration)
         {
             return AspectF.Define
-                .Retry()
-                .HowLong(Logger.Writer,
+                .Retry(ServiceLocator.Resolve<ILogger>())
+                .HowLong(ServiceLocator.Resolve<ILogger>(),
                     string.Format("[begin] GetRss\tUrl:{0}\tcount:{1}\tcacheDuration{2}", url, count, cacheDuration),
                     "[end] GetRss Url:" + url + " {0}")
                 .Return<object>(() =>
@@ -125,8 +125,8 @@ namespace Dropthings.Web.Framework
         public string GetString(string url, int cacheDuration)
         {
             return AspectF.Define
-                .Retry()
-                .HowLong(Logger.Writer,
+                .Retry(ServiceLocator.Resolve<ILogger>())
+                .HowLong(ServiceLocator.Resolve<ILogger>(),
                     string.Format("[begin] GetString\tUrl:{0}\tcacheDuration{2}", url, cacheDuration),
                     "[end] GetString Url:" + url + " {0}")
                 .Return<string>(() =>

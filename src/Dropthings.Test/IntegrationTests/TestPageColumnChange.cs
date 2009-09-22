@@ -135,7 +135,6 @@
             const int ColumnsAfterChange = 2;
             const int LayoutType = 2;
 
-            WorkflowTest.UsingWorkflowRuntime(() =>
                 MembershipHelper.UsingNewAnonUser((profile) =>
                     SetupHelper.UsingNewAnonSetup(profile.UserName, (setup) =>
                     {

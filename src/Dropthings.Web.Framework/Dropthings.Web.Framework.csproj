@@ -83,25 +83,13 @@
       <Project>{42190D98-86BA-44B5-8CFF-F62754029C61}</Project>
       <Name>AJAXASMXHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">
-      <Project>{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}</Project>
-      <Name>Dropthings.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DashboardDataAccess\Dropthings.DataAccess.csproj">
       <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
       <Name>Dropthings.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dropthings.Business.Activities\Dropthings.Business.Activities.csproj">
-      <Project>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</Project>
-      <Name>Dropthings.Business.Activities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dropthings.Business.Facade\Dropthings.Business.Facade.csproj">
       <Project>{514B9055-2EEF-4111-9CAC-F763120BB35D}</Project>
       <Name>Dropthings.Business.Facade</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj">
-      <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
-      <Name>Dropthings.Business.Workflows</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
       <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>

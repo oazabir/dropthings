@@ -19,15 +19,13 @@ using System.Web.UI.WebControls.WebParts;
 using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.Business.Container;
-using Dropthings.Business.Workflows;
-using Dropthings.Business.Workflows.UserAccountWorkflow;
-using Dropthings.Business.Workflows.UserAccountWorkflows;
 using Dropthings.Web.Framework;
 using Dropthings.Web.Util;
 using Resources;
+using Dropthings.Business.Facade;
+using Dropthings.Business.Facade.Context;
 
-public partial class ManageAccountPage : System.Web.UI.Page
+public partial class ManageAccountPage : BasePage
 {
     #region Methods
 
@@ -100,9 +98,13 @@ public partial class ManageAccountPage : System.Web.UI.Page
         {
             //new DashboardFacade(Profile.UserName).UpdateAccount(EmailTextbox.Text.Trim());
 
-            WorkflowHelper.Run<UpdateAccountWorkflow,UpdateAccountWorkflowRequest,UpdateAccountWorkflowResponse>(
-                            new UpdateAccountWorkflowRequest { Email = EmailTextbox.Text.Trim(), UserName = Profile.UserName }
-                        );
+            //WorkflowHelper.Run<UpdateAccountWorkflow,UpdateAccountWorkflowRequest,UpdateAccountWorkflowResponse>(
+            //                new UpdateAccountWorkflowRequest { Email = EmailTextbox.Text.Trim(), UserName = Profile.UserName }
+            //            );
+            using (Facade facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            {
+                facade.UpdateAccount(EmailTextbox.Text.Trim(), Profile.UserName);
+            }
 
             FormsAuthentication.SignOut();
             FormsAuthentication.SetAuthCookie(EmailTextbox.Text.Trim(), true);

@@ -15,7 +15,6 @@ using System.ComponentModel;
 using Dropthings.Business;
 using Dropthings.Widget.Framework;
 using Dropthings.DataAccess;
-using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.WidgetWorkflows;
 using System.Workflow.Runtime;

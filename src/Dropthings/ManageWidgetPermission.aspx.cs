@@ -21,12 +21,13 @@ using System.Web.UI.WebControls.WebParts;
 using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.UserAccountWorkflow;
 using Dropthings.Business.Workflows.UserAccountWorkflows;
 using Dropthings.DataAccess;
 using Dropthings.Web.Util;
+using Dropthings.Business.Facade;
+using Dropthings.Business.Facade.Context;
 
 public partial class ManageWidgetPermissionPage : System.Web.UI.Page
 {
@@ -64,14 +65,16 @@ public partial class ManageWidgetPermissionPage : System.Web.UI.Page
 
     protected bool IsWidgetInRole(int widgetId, string roleName)
     {
-        return new DashboardFacade(Profile.UserName).IsWidgetInRole(widgetId, roleName);
+        using(var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            return facade.IsWidgetInRole(widgetId, roleName);
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            this.Widgets = new DashboardFacade(Profile.UserName).GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
+            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                this.Widgets = facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
         }
     }
 

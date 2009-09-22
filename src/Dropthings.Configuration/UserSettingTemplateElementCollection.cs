@@ -1,4 +1,4 @@
-namespace Dropthings.Business
+namespace Dropthings.Configuration
 {
     using System.Configuration;
     using System.Diagnostics;

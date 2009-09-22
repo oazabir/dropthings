@@ -7,8 +7,6 @@ namespace Dropthings.Business.Facade
     using System.Linq;
     using System.Text;
 
-    using Dropthings.Business.Activities;
-    using Dropthings.Business.Activities.UserAccountActivities;
     using Dropthings.DataAccess;
     using Dropthings.Model;
 

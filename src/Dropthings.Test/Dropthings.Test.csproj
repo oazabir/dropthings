@@ -84,10 +84,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\MembershipHelper.cs" />
-    <Compile Include="Helper\SetupHelper.cs" />
-    <Compile Include="Helper\WorkflowTest.cs" />
+    <Compile Include="Helper\SetupHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IntegrationTests\TestProfileProvider.cs" />
-    <Compile Include="IntegrationTests\TestVisit.cs" />
     <Compile Include="Plugin\AjaxRequestPlugin.cs" />
     <Compile Include="Plugin\ASPNETWebTestPlugin.cs" />
     <Compile Include="Plugin\AsyncPostbackRequestPlugin.cs" />
@@ -105,7 +105,6 @@
     <Compile Include="Rules\ExtractUpdatePanels.cs" />
     <Compile Include="Rules\RuleCheck.cs" />
     <Compile Include="Rules\RuleHelper.cs" />
-    <Compile Include="IntegrationTests\TestPageColumnChange.cs" />
     <Compile Include="Util\JSON.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,25 +122,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">
-      <Project>{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}</Project>
-      <Name>Dropthings.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DashboardDataAccess\Dropthings.DataAccess.csproj">
       <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
       <Name>Dropthings.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dropthings.Business.Activities\Dropthings.Business.Activities.csproj">
-      <Project>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</Project>
-      <Name>Dropthings.Business.Activities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dropthings.Business.Facade\Dropthings.Business.Facade.csproj">
       <Project>{514B9055-2EEF-4111-9CAC-F763120BB35D}</Project>
       <Name>Dropthings.Business.Facade</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj">
-      <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
-      <Name>Dropthings.Business.Workflows</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dropthings.Model\Dropthings.Model.csproj">
       <Project>{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}</Project>

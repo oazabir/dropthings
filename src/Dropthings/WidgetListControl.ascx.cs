@@ -16,7 +16,6 @@ using System.Web.UI.WebControls.WebParts;
 using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.Business.Container;
 using Dropthings.Business.Workflows;
 using Dropthings.Business.Workflows.WidgetWorkflows;
 using Dropthings.Business.Workflows.WidgetWorkflows.WorkflowArgs;
@@ -59,7 +58,8 @@ public partial class WidgetListControl : System.Web.UI.UserControl
                 List<Widget> widgets;// = Cache["Widgets"] as List<Widget>;
                 //   if (null == widgets)
                 {
-                    widgets = new DashboardFacade(Profile.UserName).GetWidgetList(Profile.UserName, Enumerations.WidgetTypeEnum.PersonalPage);
+                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                        widgets = facade.GetWidgetList(Profile.UserName, Enumerations.WidgetTypeEnum.PersonalPage);
                     //       Cache["Widgets"] = widgets;
                 }
                 return widgets;
@@ -69,7 +69,8 @@ public partial class WidgetListControl : System.Web.UI.UserControl
                 List<Widget> widgets = Cache["Widgets"] as List<Widget>;
                 if (null == widgets)
                 {
-                    widgets = new DashboardFacade(Profile.UserName).GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
+                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                        widgets = facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
                     Cache["Widgets"] = widgets;
                 }
                 return widgets;

@@ -328,9 +328,9 @@
       <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
       <Name>Dropthings.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dropthings.Business.Activities\Dropthings.Business.Activities.csproj">
-      <Project>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</Project>
-      <Name>Dropthings.Business.Activities</Name>
+    <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
+      <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
+      <Name>Dropthings.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />

@@ -6,8 +6,9 @@
     using System.Text;
 
     using Dropthings.DataAccess;
-    using Dropthings.Business.Activities;
+    
     using Dropthings.Util;
+    using Dropthings.Configuration;
 
     /// <summary>
     /// Facade subsystem for Pages, Columns, WidgetZones

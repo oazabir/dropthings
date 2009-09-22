@@ -35,10 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.Interception.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity.StaticFactory, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.StaticFactory.dll</HintPath>
@@ -82,9 +78,6 @@
     <Compile Include="Configuration.Facade.cs" />
     <Compile Include="Context\AppContext.cs" />
     <Compile Include="Context\SessionWrapper.cs" />
-    <Compile Include="DashboardFacade.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Facade.Configuration.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="Facade.Page.cs" />
@@ -104,21 +97,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">
-      <Project>{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}</Project>
-      <Name>Dropthings.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DashboardDataAccess\Dropthings.DataAccess.csproj">
       <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
       <Name>Dropthings.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dropthings.Business.Activities\Dropthings.Business.Activities.csproj">
-      <Project>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</Project>
-      <Name>Dropthings.Business.Activities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj">
-      <Project>{63C65FF9-E003-4074-9451-70D4EC3D7906}</Project>
-      <Name>Dropthings.Business.Workflows</Name>
+    <ProjectReference Include="..\Dropthings.Configuration\Dropthings.Configuration.csproj">
+      <Project>{A426C626-767E-454B-8D48-7D0289BADBAC}</Project>
+      <Name>Dropthings.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dropthings.Model\Dropthings.Model.csproj">
       <Project>{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}</Project>

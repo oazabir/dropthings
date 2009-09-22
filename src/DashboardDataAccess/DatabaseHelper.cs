@@ -309,7 +309,8 @@ namespace Dropthings.DataAccess
 
         public static void InDataContext(SubsystemEnum subsystem, bool nolock, DataContextDelegate d)
         {
-            AspectF.Define.Retry().Do(() =>
+            
+            AspectF.Define.Retry(ServiceLocator.Resolve<ILogger>()).Do(() =>
             {
                 using (var data = GetDataContext(subsystem, nolock))
                     d(data);
@@ -318,7 +319,7 @@ namespace Dropthings.DataAccess
 
         public static T InDataContext<T>(SubsystemEnum subsystem, bool nolock, Func<DropthingsDataContext, T> f)
         {
-            return AspectF.Define.Retry().Return<T>(() =>
+            return AspectF.Define.Retry(ServiceLocator.Resolve<ILogger>()).Return<T>(() =>
             {
                 using (var data = GetDataContext(subsystem, nolock))
                     return f(data);

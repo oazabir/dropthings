@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business", "DashboardBusiness\Dropthings.Business.csproj", "{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DataAccess", "DashboardDataAccess\Dropthings.DataAccess.csproj", "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\", "{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}"
@@ -18,7 +16,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\",
 		SccLocalPath = ""
 		SccProvider = ""
 		TargetFramework = "3.5"
-		ProjectReferences = "{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}|Dropthings.Business.dll;{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}|Dropthings.DataAccess.dll;{63C65FF9-E003-4074-9451-70D4EC3D7906}|Dropthings.Business.Workflows.dll;{514B9055-2EEF-4111-9CAC-F763120BB35D}|Dropthings.Business.Facade.dll;{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}|Dropthings.Business.Activities.dll;{739B0A68-33F2-4EC3-8087-C3177AE80E41}|Dropthings.Util.dll;{A5F19582-1F00-406F-A130-5BB7AC598FF7}|Dropthings.Widget.Framework.dll;{3A35E4B6-4CCB-4159-9E39-24438490F757}|Dropthings.Web.Util.dll;{91B72026-1980-46AD-89D0-C33DD411D66A}|Dropthings.Web.Framework.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}|Dropthings.Model.dll;"
+		ProjectReferences = "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}|Dropthings.DataAccess.dll;{514B9055-2EEF-4111-9CAC-F763120BB35D}|Dropthings.Business.Facade.dll;{739B0A68-33F2-4EC3-8087-C3177AE80E41}|Dropthings.Util.dll;{A5F19582-1F00-406F-A130-5BB7AC598FF7}|Dropthings.Widget.Framework.dll;{3A35E4B6-4CCB-4159-9E39-24438490F757}|Dropthings.Web.Util.dll;{91B72026-1980-46AD-89D0-C33DD411D66A}|Dropthings.Web.Framework.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}|Dropthings.Model.dll;{A426C626-767E-454B-8D48-7D0289BADBAC}|Dropthings.Configuration.dll;{93D36A52-6C2A-4147-9B89-D35B561F9052}|Dropthing.Silverlight.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Dropthings"
 		Debug.AspNetCompiler.PhysicalPath = "Dropthings\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Dropthings\"
@@ -43,10 +41,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthing.Silverlight", "Dr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test", "Dropthings.Test\Dropthings.Test.csproj", "{6368DD2E-C2A0-45B6-8D08-3F1E67572322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Workflows", "Dropthings.Business.Workflows\Dropthings.Business.Workflows.csproj", "{63C65FF9-E003-4074-9451-70D4EC3D7906}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Activities", "Dropthings.Business.Activities\Dropthings.Business.Activities.csproj", "{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade", "Dropthings.Business.Facade\Dropthings.Business.Facade.csproj", "{514B9055-2EEF-4111-9CAC-F763120BB35D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Web.Framework", "Dropthings.Web.Framework\Dropthings.Web.Framework.csproj", "{91B72026-1980-46AD-89D0-C33DD411D66A}"
@@ -65,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Util.UnitTests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DataAccess.UnitTest", "Dropthings.DataAccess.UnitTest\Dropthings.DataAccess.UnitTest.csproj", "{F66DC261-EE76-4591-BAFF-04791C5DAE3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Configuration", "Dropthings.Configuration\Dropthings.Configuration.csproj", "{A426C626-767E-454B-8D48-7D0289BADBAC}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dropthings.vsmdi
@@ -78,16 +74,6 @@ Global
 		Release|Mixed Platforms = Release|Mixed Platforms
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Release|.NET.ActiveCfg = Release|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -128,26 +114,6 @@ Global
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|.NET.ActiveCfg = Release|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{63C65FF9-E003-4074-9451-70D4EC3D7906}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|.NET.ActiveCfg = Release|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -238,6 +204,16 @@ Global
 		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F66DC261-EE76-4591-BAFF-04791C5DAE3E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Release|.NET.ActiveCfg = Release|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A426C626-767E-454B-8D48-7D0289BADBAC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

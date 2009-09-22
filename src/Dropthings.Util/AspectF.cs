@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace Dropthings.Util
 {
@@ -124,46 +125,46 @@ namespace Dropthings.Util
         }
 
         [DebuggerStepThrough]
-        public static AspectF Retry(this AspectF aspects)
-        {
-            return aspects.Combine((work) => 
-                Retry(1000, 1, (error) => DoNothing(error), DoNothing, work));
-        }
-
-        [DebuggerStepThrough]
-        public static AspectF Retry(this AspectF aspects, int retryDuration)
-        {
-            return aspects.Combine((work) => 
-                Retry(retryDuration, 1, (error) => DoNothing(error), DoNothing, work));
-        }
-
-        [DebuggerStepThrough]
-        public static AspectF Retry(this AspectF aspects, int retryDuration, 
-            Action<Exception> errorHandler)
-        {
-            return aspects.Combine((work) => 
-                Retry(retryDuration, 1, errorHandler, DoNothing, work));
-        }
-
-        [DebuggerStepThrough]
-        public static AspectF Retry(this AspectF aspects, int retryDuration, 
-            int retryCount, Action<Exception> errorHandler)
+        public static AspectF Retry(this AspectF aspects, ILogger logger)
         {
             return aspects.Combine((work) =>
-                Retry(retryDuration, retryCount, errorHandler, DoNothing, work));
+                Retry(1000, 1, (error) => DoNothing(error), DoNothing, work, logger));
+        }
+
+        [DebuggerStepThrough]
+        public static AspectF Retry(this AspectF aspects, int retryDuration, ILogger logger)
+        {
+            return aspects.Combine((work) =>
+                Retry(retryDuration, 1, (error) => DoNothing(error), DoNothing, work, logger));
         }
 
         [DebuggerStepThrough]
         public static AspectF Retry(this AspectF aspects, int retryDuration,
-            int retryCount, Action<Exception> errorHandler, Action retryFailed)
+            Action<Exception> errorHandler, ILogger logger)
         {
-            return aspects.Combine((work) => 
-                Retry(retryDuration, retryCount, errorHandler, retryFailed, work));
+            return aspects.Combine((work) =>
+                Retry(retryDuration, 1, errorHandler, DoNothing, work, logger));
         }
 
         [DebuggerStepThrough]
-        public static void Retry(int retryDuration, int retryCount, 
-            Action<Exception> errorHandler, Action retryFailed, Action work)
+        public static AspectF Retry(this AspectF aspects, int retryDuration,
+            int retryCount, Action<Exception> errorHandler, ILogger logger)
+        {
+            return aspects.Combine((work) =>
+                Retry(retryDuration, retryCount, errorHandler, DoNothing, work, logger));
+        }
+
+        [DebuggerStepThrough]
+        public static AspectF Retry(this AspectF aspects, int retryDuration,
+            int retryCount, Action<Exception> errorHandler, Action retryFailed, ILogger logger)
+        {
+            return aspects.Combine((work) => 
+                Retry(retryDuration, retryCount, errorHandler, retryFailed, work, logger));
+        }
+
+        [DebuggerStepThrough]
+        public static void Retry(int retryDuration, int retryCount,
+            Action<Exception> errorHandler, Action retryFailed, Action work, ILogger logger)
         {
             do
             {
@@ -173,6 +174,7 @@ namespace Dropthings.Util
                 }
                 catch (Exception x)
                 {
+                    logger.LogException(x);
                     errorHandler(x);
                     System.Threading.Thread.Sleep(retryDuration);
                 }
@@ -260,67 +262,80 @@ namespace Dropthings.Util
         }
 
         [DebuggerStepThrough]
-        public static AspectF Log(this AspectF aspect, TextWriter logWriter, 
+        public static AspectF Log(this AspectF aspect, ILogger logger, string[] categories,
             string logMessage, params object[] arg)
         {
             return aspect.Combine((work) =>
             {
-                logWriter.Write(DateTime.Now.ToUniversalTime().ToString());
-                logWriter.Write('\t');
-                logWriter.Write(logMessage, arg);
-                logWriter.Write(Environment.NewLine);
+                logger.Log(categories, logMessage);
 
                 work();
             });
         }
 
         [DebuggerStepThrough]
-        public static AspectF Log(this AspectF aspect, TextWriter logWriter, 
+        public static AspectF Log(this AspectF aspect, ILogger logger, 
+            string logMessage, params object[] arg)
+        {
+            return aspect.Combine((work) =>
+            {
+                logger.Log(string.Format(logMessage,arg));
+
+                work();
+            });
+        }
+
+
+        [DebuggerStepThrough]
+        public static AspectF Log(this AspectF aspect, ILogger logger, string[] categories,
             string beforeMessage, string afterMessage)
         {
             return aspect.Combine((work) =>
             {
-                logWriter.Write(DateTime.Now.ToUniversalTime().ToString());
-                logWriter.Write('\t');
-                logWriter.Write(beforeMessage);
-                logWriter.Write(Environment.NewLine);
+                logger.Log(categories, beforeMessage);
 
                 work();
 
-                logWriter.Write(DateTime.Now.ToUniversalTime().ToString());
-                logWriter.Write('\t');
-                logWriter.Write(afterMessage);
-                logWriter.Write(Environment.NewLine);
+                logger.Log(categories, afterMessage);
             });
         }
 
         [DebuggerStepThrough]
-        public static AspectF HowLong(this AspectF aspect, TextWriter logWriter, 
+        public static AspectF Log(this AspectF aspect, ILogger logger, 
+            string beforeMessage, string afterMessage)
+        {
+            return aspect.Combine((work) =>
+            {
+                logger.Log(beforeMessage);
+
+                work();
+
+                logger.Log(afterMessage);
+            });
+        }
+
+        [DebuggerStepThrough]
+        public static AspectF HowLong(this AspectF aspect, ILogger logger, 
             string startMessage, string endMessage)
         {
             return aspect.Combine((work) =>
             {
-                DateTime start = DateTime.Now.ToUniversalTime();
-                logWriter.Write(start.ToString());
-                logWriter.Write('\t');
-                logWriter.Write(startMessage);
-                logWriter.Write(Environment.NewLine);
+                DateTime start = DateTime.Now;
+                logger.Log(startMessage);
 
                 work();
 
                 DateTime end = DateTime.Now.ToUniversalTime();
                 TimeSpan duration = end - start;
-                logWriter.Write(end.ToString());
-                logWriter.Write('\t');
-                logWriter.Write(string.Format(endMessage, duration.TotalMilliseconds, 
+
+                logger.Log(string.Format(endMessage, duration.TotalMilliseconds, 
                     duration.TotalSeconds, duration.TotalMinutes, duration.TotalHours,
                     duration.TotalDays));
-                logWriter.Write(Environment.NewLine);
             });
         }
 
         [DebuggerStepThrough]
-        public static AspectF TrapLog(this AspectF aspect, TextWriter logger)
+        public static AspectF TrapLog(this AspectF aspect, ILogger logger)
         {
             return aspect.Combine((work) =>
             {
@@ -330,25 +345,13 @@ namespace Dropthings.Util
                 }
                 catch (Exception x)
                 {
-                    Exception current = x;
-                    int indent = 0;
-                    while (current != null)
-                    {
-                        string message = new string(Enumerable.Repeat('\t', indent).ToArray()) 
-                            + current.Message;
-                        Debug.WriteLine(message);
-                        logger.WriteLine(message);
-                        current = current.InnerException;
-                        indent++;
-                    }
-                    Debug.WriteLine(x.StackTrace);
-                    logger.WriteLine(x.StackTrace);
+                    logger.LogException(x);
                 }
             });
         }
 
         [DebuggerStepThrough]
-        public static AspectF TrapLogThrow(this AspectF aspect, TextWriter logger)
+        public static AspectF TrapLogThrow(this AspectF aspect, ILogger logger)
         {
             return aspect.Combine((work) =>
             {
@@ -358,19 +361,7 @@ namespace Dropthings.Util
                 }
                 catch (Exception x)
                 {
-                    Exception current = x;
-                    int indent = 0;
-                    while (current != null)
-                    {
-                        string message = new string(Enumerable.Repeat('\t', indent).ToArray()) 
-                            + current.Message;
-                        Debug.WriteLine(message);
-                        logger.WriteLine(message);
-                        current = current.InnerException;
-                        indent++;
-                    }
-                    Debug.WriteLine(x.StackTrace);
-                    logger.WriteLine(x.StackTrace);
+                    logger.LogException(x);
                     throw;
                 }
             });
