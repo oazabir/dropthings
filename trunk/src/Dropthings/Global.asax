@@ -1,7 +1,6 @@
 <%@ Application Language="C#" %>
 <%@ Import Namespace="Dropthings.Business" %>
 <%@ Import Namespace="Dropthings.Business.Workflows" %>
-<%@ Import Namespace="Dropthings.Business.Container" %>
 <%@ Import Namespace="System.Workflow.Runtime" %>
 <%@ Import Namespace="Dropthings.Business.Workflows.UserAccountWorkflow" %>
 <%@ Import Namespace="Dropthings.Business.Workflows.SystemWorkflows" %>
@@ -13,31 +12,12 @@
     const string APPLICATION_WORKFLOW_RUNTIME_KEY = "GlobalSynchronousWorkflowRuntime";
     void Application_Start(object sender, EventArgs e)
     {
-        // Code that runs on application startup
-
-        // -- Workflow way. Obselete.
-        // Create a global workflow runtime and store in Application context.
-        //System.Workflow.Runtime.WorkflowRuntime runtime = Dropthings.Business.Workflows.WorkflowHelper.CreateDefaultRuntime();
-        //Application[APPLICATION_WORKFLOW_RUNTIME_KEY] = runtime;
-
-        //// Setup default Dependencies for regular execution where all dependencies are real
-        //ServiceLocator.RegisterInstanceExternalLifetime<WorkflowRuntime>(runtime);
-        //ServiceLocator.RegisterTypePerThread<IWorkflowHelper, WorkflowHelper>();
         Dropthings.Business.Facade.Facade.BootStrap();
     }
 
     void Application_End(object sender, EventArgs e)
     {
-        //  Code that runs on application shutdown
-
-        // -- Workflow way. Obselete.
-        // Terminate the workflow runtime
-        //System.Workflow.Runtime.WorkflowRuntime runtime = Application[APPLICATION_WORKFLOW_RUNTIME_KEY] as System.Workflow.Runtime.WorkflowRuntime;
-        //if (null != runtime)
-        //    Dropthings.Business.Workflows.WorkflowHelper.TerminateDefaultRuntime(runtime);
-
-        // Teardown Dependency Containers
-        Dropthings.Business.Container.ServiceLocator.Dispose();
+        Dropthings.Util.ServiceLocator.Dispose();
     }
 
     void Application_Error(object sender, EventArgs e)

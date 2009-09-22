@@ -16,6 +16,8 @@
     using System.Workflow.Runtime;
 
     using Dropthings.DataAccess;
+    using Dropthings.Util;
+    using Dropthings.Utils;
 
     public partial class ActivateUserAccount : System.Workflow.ComponentModel.Activity
     {

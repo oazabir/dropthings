@@ -30,7 +30,7 @@ namespace Dropthings.Web.Framework
 
     using Dropthings.Widget.Framework;
     using Dropthings.Util;
-
+    
     /// <summary>
     /// Summary description for Proxy
     /// </summary>
@@ -68,7 +68,8 @@ namespace Dropthings.Web.Framework
         [ScriptMethod]
         public IAsyncResult BeginGetString(string url, int cacheDuration, AsyncCallback cb, object state)
         {
-            return AspectF.Define.Log(Logger.Writer, "BeginGetString Url: {0} cache: {1}", url, cacheDuration)
+            return AspectF.Define
+                .Log(ServiceLocator.Resolve<ILogger>(), "BeginGetString Url: {0} cache: {1}", url, cacheDuration)
                 .Return<IAsyncResult>(() =>
                 {
                     // See if the response from the URL is already cached on server
@@ -105,7 +106,7 @@ namespace Dropthings.Web.Framework
 
             return AspectF.Define
                 .MustBeNonNull(state)
-                .Log(Logger.Writer, "EndGetString Url: {0} cache: {1}", state.Url, state.CacheDuration)
+                .Log(ServiceLocator.Resolve<ILogger>(), "EndGetString Url: {0} cache: {1}", state.Url, state.CacheDuration)
                 .Return<string>(() =>
                 {   
                     MemoryStream responseBuffer = new MemoryStream();
@@ -255,7 +256,9 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = true)]
         public string GetString(string url, int cacheDuration)
         {
-            return AspectF.Define.MustBeNonNull(url).HowLong(Logger.Writer, "Begin:GetString " + url, "End:GetString " + url + " {0}")
+            return AspectF.Define
+                .MustBeNonNull(url)
+                .HowLong(ServiceLocator.Resolve<ILogger>(), "Begin:GetString " + url, "End:GetString " + url + " {0}")
                 .Return<string>(() =>
                 {
                     var cachedContent = Context.Cache[CACHE_KEY + url] as string;

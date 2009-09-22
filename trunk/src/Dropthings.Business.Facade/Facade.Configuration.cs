@@ -9,6 +9,7 @@
     using Dropthings.DataAccess;
     using Dropthings.Model;
     using System.Web.Security;
+    using Dropthings.Configuration;
 
     partial class Facade
     {

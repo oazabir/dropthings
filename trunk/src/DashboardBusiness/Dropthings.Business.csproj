@@ -82,12 +82,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\UserSettingTemplateElement.cs" />
-    <Compile Include="Configuration\UserSettingTemplateElementCollection.cs" />
-    <Compile Include="Configuration\UserSettingTemplateSection.cs" />
-    <Compile Include="Configuration\UserTemplateSetting.cs" />
-    <Compile Include="Container\BusinessContainer.cs" />
-    <Compile Include="Helpers\ShortGuid.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -109,6 +103,9 @@
       <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
       <Name>Dropthings.DataAccess</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows Workflow Foundation\v3.5\Workflow.Targets" />

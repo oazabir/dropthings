@@ -6,25 +6,33 @@ using Dropthings.Util;
 using System.IO;
 using System.Threading;
 using Xunit;
+using Moq;
 
 namespace Dropthings.Test.UnitTests.Dropthings.Util
 {
     public class AspectTest
     {
+        private ILogger MockLoggerForException(params Exception[] exceptions)
+        {
+            var logger = new Mock<ILogger>();
+            exceptions.Each(x => logger.Expect(l => l.LogException(x)).Verifiable());
+            return logger.Object;
+        }
         [Fact]
         public void TestRetry()
         {
             bool result = false;
             bool exceptionThrown = false;
 
+            var ex = new ApplicationException("Test exception");
             Assert.DoesNotThrow(() =>
                 {
-                    AspectF.Define.Retry().Do(() =>
+                    AspectF.Define.Retry(MockLoggerForException(ex)).Do(() =>
                     {
                         if (!exceptionThrown)
                         {
                             exceptionThrown = true;
-                            throw new ApplicationException("Test exception");
+                            throw ex;
                         }
                         else
                         {
@@ -45,15 +53,16 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
             DateTime secondCallAt = DateTime.Now;
             bool exceptionThrown = false;
 
+            var ex = new ApplicationException("Test exception");
             Assert.DoesNotThrow(() =>
                 {
-                    AspectF.Define.Retry(5000).Do(() =>
+                    AspectF.Define.Retry(5000, MockLoggerForException(ex)).Do(() =>
                     {
                         if (!exceptionThrown)
                         {
                             firstCallAt = DateTime.Now;
                             exceptionThrown = true;
-                            throw new ApplicationException("Test exception");
+                            throw ex;
                         }
                         else
                         {
@@ -79,29 +88,34 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
             bool expectedExceptionFound = false;
             bool allRetryFailed = false;
 
+            var ex1 = new ApplicationException("First exception");
+            var ex2 = new ApplicationException("Second exception");
+            var ex3 = new ApplicationException("Third exception");
+
             Assert.DoesNotThrow(() =>
                 {
                     AspectF.Define.Retry(5000, 2,
                         x => { expectedExceptionFound = x is ApplicationException; },
-                        () => { allRetryFailed = true; })
+                        () => { allRetryFailed = true; },
+                        MockLoggerForException(ex1, ex2, ex3))
                         .Do(() =>
                     {
                         if (!exceptionThrown)
                         {
                             firstCallAt = DateTime.Now;
                             exceptionThrown = true;
-                            throw new ApplicationException("First exception");
+                            throw ex1;
                         }
                         else if (!firstRetry)
                         {
                             secondCallAt = DateTime.Now;
                             firstRetry = true;
-                            throw new ApplicationException("Second exception");
+                            throw ex2;
                         }
                         else if (!secondRetry)
                         {
                             secondRetry = true;
-                            throw new ApplicationException("Third exception");
+                            throw ex3;
                         }
                     });
                 });
@@ -241,72 +255,76 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
         [Fact]
         public void TestLog()
         {
-            StringBuilder buffer = new StringBuilder();
-            StringWriter writer = new StringWriter(buffer);
-
+            var categories = new string[] { "Category1", "Category2" };
+            var logger1 = new Mock<ILogger>();
+            logger1.Expect(l => l.Log(categories, "Test Log 1")).Verifiable();
             // Attempt 1: Test one time logging
-            AspectF.Define.Log(writer, "Test Log 1").Do(AspectExtensions.DoNothing);
-
-            string logOutput = buffer.ToString();
-            Assert.True(logOutput.Contains("Test Log 1"), "Assert.Log did not produce the right log message");
-
-            DateTime dateOutputResult;
-            Assert.True(DateTime.TryParse(logOutput.Substring(0, logOutput.IndexOf('\t')), out dateOutputResult),
-                "Assert.Log did not produce date time in the beginning of log");
+            AspectF.Define
+                .Log(logger1.Object, categories, "Test Log 1")
+                .Do(AspectExtensions.DoNothing);
+            logger1.Verify();
 
             // Attempt 2: Test before and after logging
-            buffer.Length = 0;
-            AspectF.Define.Log(writer, "Before Log", "After Log")
+            var logger2 = new Mock<ILogger>();
+            logger2.Expect(l => l.Log(categories, "Before Log")).Verifiable();
+            logger2.Expect(l => l.Log(categories, "After Log")).Verifiable();
+            AspectF.Define
+                .Log(logger2.Object, categories, "Before Log", "After Log")
                 .Do(AspectExtensions.DoNothing);
-
-            int expectedContentLength =
-                DateTime.Now.ToUniversalTime().ToString().Length + "\t".Length + "Before Log".Length + Environment.NewLine.Length +
-                DateTime.Now.ToUniversalTime().ToString().Length + "\t".Length + "After Log".Length + Environment.NewLine.Length;
-            Assert.Equal(expectedContentLength, buffer.Length);                
+            logger2.VerifyAll();
         }
 
         [Fact]
         public void TestRetryAndLog()
         {
-            StringBuilder buffer = new StringBuilder();
-            StringWriter writer = new StringWriter(buffer);
-
             // Attempt 1: Test log and Retry together
             bool exceptionThrown = false;
             bool retried = false;
-            AspectF.Define.Log(writer, "TestRetryAndLog").Retry()
+
+            var logger = new Mock<ILogger>();
+            logger.Expect(l => l.Log("TestRetryAndLog")).Verifiable();
+
+            var ex = new ApplicationException("First exception thrown which should be ignored");
+            AspectF.Define
+                .Log(logger.Object, "TestRetryAndLog")
+                .Retry(MockLoggerForException(ex))
                 .Do(() => 
             {
                 if (!exceptionThrown)
                 {
                     exceptionThrown = true;
-                    throw new ApplicationException("First exception thrown which should be ignored");
+                    throw ex;
                 }
                 else
                 {
                     retried = true;
                 }
             });
+            logger.Verify();
 
             Assert.True(exceptionThrown, "Aspect.Retry did not call the function at all");
             Assert.True(retried, "Aspect.Retry did not retry when exception was thrown first time");
-            Assert.True(buffer.ToString().EndsWith("TestRetryAndLog" + Environment.NewLine));
-            
+         
             // Attempt 2: Test Log Before and After with Retry together            
-            AspectF.Define.Log(writer, "BeforeLog", "AfterLog").Retry()
+            var logger2 = new Mock<ILogger>();
+            logger2.Expect(l => l.Log("BeforeLog")).Verifiable();
+            logger2.Expect(l => l.Log("AfterLog")).Verifiable();
+            AspectF.Define
+                .Log(logger2.Object, "BeforeLog", "AfterLog")
+                .Retry(MockLoggerForException(ex))
                 .Do(() =>
                 {
                     if (!exceptionThrown)
                     {
                         exceptionThrown = true;
-                        throw new ApplicationException("First exception thrown which should be ignored");
+                        throw ex;
                     }
                     else
                     {
                         retried = true;
                     }
                 });
-
+            logger2.VerifyAll();
         }
 
         [Fact]
@@ -323,17 +341,19 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
         [Fact]
         public void TestAspectReturnWithOtherAspects()
         {
-            StringWriter writer = new StringWriter(new StringBuilder());
+            var logger = new Mock<ILogger>();
+            logger.Expect(l => l.Log("Test Logging")).Verifiable();
 
             int result = AspectF.Define
-                .Log(writer, "Test Logging")
-                .Retry(2)
+                .Log(logger.Object, "Test Logging")
+                .Retry(2, new Mock<ILogger>().Object)
                 .MustBeNonNull(1, DateTime.Now, string.Empty)
                 .Return<int>(() =>
                 {
                     return 1;
                 });
 
+            logger.VerifyAll();
             Assert.Equal(1, result);
         }
 
@@ -368,47 +388,41 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
         [Fact]
         public void TestTrapLog()
         {
-            StringBuilder buffer = new StringBuilder();
-            StringWriter writer = new StringWriter(buffer);
+            var exception = new ApplicationException("Parent Exception",
+                                new ApplicationException("Child Exception",
+                                    new ApplicationException("Grandchild Exception")));
+            var logger = new Mock<ILogger>();
+            logger.Expect(l => l.LogException(exception)).Verifiable();
 
             Assert.DoesNotThrow(() =>
                 {
-                    AspectF.Define.TrapLog(writer).Do(() =>
+                    AspectF.Define.TrapLog(logger.Object).Do(() =>
                         {
-                            throw new ApplicationException("Parent Exception",
-                                new ApplicationException("Child Exception",
-                                    new ApplicationException("Grandchild Exception")));
+                            throw exception;
                         });
                 });
-
-            string logOutput = buffer.ToString();
-
-            Assert.True(logOutput.Contains("Parent Exception"));
-            Assert.True(logOutput.Contains("Child Exception"));
-            Assert.True(logOutput.Contains("Grandchild Exception"));
+            logger.VerifyAll();            
         }
 
         [Fact]
         public void TestTrapLogThrow()
         {
-            StringBuilder buffer = new StringBuilder();
-            StringWriter writer = new StringWriter(buffer);
+            var exception = new ApplicationException("Parent Exception",
+                                new ApplicationException("Child Exception",
+                                    new ApplicationException("Grandchild Exception")));
+            var logger = new Mock<ILogger>();
+            logger.Expect(l => l.LogException(exception)).Verifiable();
 
+            
             Assert.Throws(typeof(ApplicationException), () =>
             {
-                AspectF.Define.TrapLogThrow(writer).Do(() =>
+                AspectF.Define.TrapLogThrow(logger.Object).Do(() =>
                 {
-                    throw new ApplicationException("Parent Exception",
-                        new ApplicationException("Child Exception",
-                            new ApplicationException("Grandchild Exception")));
+                    throw exception;
                 });
             });
 
-            string logOutput = buffer.ToString();
-
-            Assert.True(logOutput.Contains("Parent Exception"));
-            Assert.True(logOutput.Contains("Child Exception"));
-            Assert.True(logOutput.Contains("Grandchild Exception"));
+            logger.VerifyAll();            
         }
     }
 

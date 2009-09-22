@@ -17,9 +17,8 @@ namespace Dropthings.Business.Workflows
     using System.Workflow.Runtime;
     using System.Workflow.Runtime.Hosting;
 
-    using Dropthings.Business.Container;
-
     using Exceptions;
+    using Dropthings.Util;
 
     public class WorkflowHelper : Dropthings.Business.Workflows.IWorkflowHelper
     {

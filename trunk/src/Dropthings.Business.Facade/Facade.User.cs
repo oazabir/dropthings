@@ -6,12 +6,19 @@ using Dropthings.DataAccess;
 
 using System.Transactions;
 using System.Web.Security;
+using Dropthings.Configuration;
 
 namespace Dropthings.Business.Facade
 {
 	partial class Facade
     {
         #region Methods
+
+        public void UpdateAccount(string email, string userName)
+        {
+            
+        }
+
         public UserSetting GetUserSetting(Guid userGuid)
         {
             using (new TimedLog(userGuid.ToString(), "Activity: Get User Setting"))

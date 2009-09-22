@@ -6,7 +6,6 @@
     using System.Text;
 
     using Context;
-    using Business.Container;
     using DataAccess.Repository;
     using DataAccess;
     using Microsoft.Practices.Unity;
@@ -95,9 +94,10 @@
         public static void BootStrap()
         {
             AspectF.Define
-                .Log(Logger.Writer, "Register default types in Unity")
+                .Log(new EntLibLogger(), "Register default types in Unity")
                 .Do(() =>
             {
+                ServiceLocator.RegisterType<ILogger, EntLibLogger>();
                 ServiceLocator.RegisterType<IDropthingsDataContext, DropthingsDataContext2>();
                 ServiceLocator.InjectIntoConstructor<DropthingsDataContext2>(); // dummy injection for empty constructor
                 ServiceLocator.RegisterType<IColumnRepository, ColumnRepository>();
