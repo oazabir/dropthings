@@ -434,7 +434,9 @@
                     // Add Column
                     var insertedWidgetZone = this.widgetZoneRepository.Insert((newWidgetZone) =>
                     {
-                        string title = "Column " + (newColumnNo + 1);
+                        // OMAR: Fix provided in http://code.google.com/p/dropthings/issues/detail?id=42#makechanges
+                        //string title = "Column " + (newColumnNo + 1);
+                        string title = "Column " + (columnCounter + 2);
                         ObjectBuilder.BuildDefaultWidgetZone(newWidgetZone, title, title, 0);
                     });
 
@@ -443,7 +445,9 @@
                     {
                         var insertedColumn = this.columnRepository.Insert((newColumn) =>
                         {
-                            newColumn.ColumnNo = newColumnNo;
+                            // OMAR: Fix provided in http://code.google.com/p/dropthings/issues/detail?id=42#makechanges
+                            //newColumn.ColumnNo = newColumnNo;
+                            newColumn.ColumnNo = columnCounter + 1;
                             newColumn.ColumnWidth = newColumnWidth;
                             newColumn.WidgetZoneId = insertedWidgetZone.ID;
                             newColumn.PageId = userSetting.CurrentPageId;
