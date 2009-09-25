@@ -415,7 +415,7 @@
     <value>Bouton des paramètres cliqué</value>
   </data>
   <data name="SetupCompleteMessage" xml:space="preserve">
-    <value>Iinstallation terminée. Vous pouvez maintenant visiter le site</value>
+    <value>Installation terminée. Vous pouvez maintenant visiter le site</value>
   </data>
   <data name="Show" xml:space="preserve">
     <value>Voir</value>
