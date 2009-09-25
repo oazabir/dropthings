@@ -22,10 +22,6 @@ using System.Web.UI.WebControls.WebParts;
 using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.Business.Workflows;
-using Dropthings.Business.Workflows.EntryPointWorkflows;
-using Dropthings.Business.Workflows.TabWorkflows;
-using Dropthings.Business.Workflows.WidgetWorkflows;
 using Dropthings.DataAccess;
 using Page = Dropthings.DataAccess.Page;
 using Dropthings.Web.Framework;
@@ -103,17 +99,18 @@ public partial class _Default : BasePage
 
     protected override void CreateChildControls()
     {
+        var me = this;
         AspectF.Define
             .Retry(errors => errors.ToArray().Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
             .Log(Services.Get<ILogger>(), "User visit: " + Profile.UserName)
             .Do(() => {
-                base.CreateChildControls();
-                this.LoadUserPageSetup(false);
-                this.LoadAddStuff();
-                this.UserTabPage.LoadTabs(_Setup.CurrentUserId, _Setup.UserPages, _Setup.UserSharedPages, _Setup.CurrentPage);
-                this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
-                this.LockPageContent(_Setup.CurrentPage);
-                this.LoadOptionsForTemplateUser();
+                me.CreateChildControls();
+                me.LoadUserPageSetup(false);
+                me.LoadAddStuff();
+                me.UserTabPage.LoadTabs(_Setup.CurrentUserId, _Setup.UserPages, _Setup.UserSharedPages, _Setup.CurrentPage);
+                me.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
+                me.LockPageContent(_Setup.CurrentPage);
+                me.LoadOptionsForTemplateUser();
             });
     }
 
@@ -314,7 +311,7 @@ public partial class _Default : BasePage
     private void HideChangeSettingsPanel()
     {
         this.ChangePageSettingsPanel.Visible = false;
-        this.ChangePageTitleLinkButton.Text = "Change Settings";
+        this.ChangePageTitleLinkButton.Text = (String)GetGlobalResourceObject("SharedResources", "ChangeSettings");
     }
 
     private void LoadAddStuff()
@@ -390,7 +387,7 @@ public partial class _Default : BasePage
             this.DeleteTabLinkButton.Enabled = false;
 
         this.ChangePageSettingsPanel.Visible = true;
-        this.ChangePageTitleLinkButton.Text = "Hide Settings";
+        this.ChangePageTitleLinkButton.Text = (String)GetGlobalResourceObject("SharedResources", "HideSettings");
 
         this.NewTitleTextBox.Text = _Setup.CurrentPage.Title;
         this.TabLocked.Checked = _Setup.CurrentPage.IsLocked;

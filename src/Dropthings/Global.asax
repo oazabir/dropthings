@@ -1,9 +1,4 @@
 <%@ Application Language="C#" %>
-<%@ Import Namespace="Dropthings.Business" %>
-<%@ Import Namespace="Dropthings.Business.Workflows" %>
-<%@ Import Namespace="System.Workflow.Runtime" %>
-<%@ Import Namespace="Dropthings.Business.Workflows.UserAccountWorkflow" %>
-<%@ Import Namespace="Dropthings.Business.Workflows.SystemWorkflows" %>
 
 <script RunAt="server">
     // Copyright (c) Omar AL Zabir. All rights reserved.
