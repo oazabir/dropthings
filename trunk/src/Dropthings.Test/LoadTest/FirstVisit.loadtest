@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LoadTest Name="FirstVisit" Description="" Owner="" storage="d:\!work\dropthings\googlecode\trunk\src\dropthings.test\loadtest\firstvisit.loadtest" Priority="0" Enabled="true" CssProjectStructure="" CssIteration="" DeploymentItemsEditable="" WorkItemIds="" TraceLevel="None" CurrentRunConfig="Run Settings1" LoadTestPluginClass="" Id="6fbe562e-19f3-428f-addf-84e3c02ed817" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+<LoadTest Name="FirstVisit" Description="" Owner="" storage="c:\dropthings\dropthings\src\dropthings.test\loadtest\firstvisit.loadtest" Priority="0" Enabled="true" CssProjectStructure="" CssIteration="" DeploymentItemsEditable="" WorkItemIds="" TraceLevel="None" CurrentRunConfig="Run Settings1" LoadTestPluginClass="" Id="6fbe562e-19f3-428f-addf-84e3c02ed817" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
   <Scenarios>
     <Scenario Name="FirstVisitLoadTest" DelayBetweenIterations="1" PercentNewUsers="100" IPSwitching="false" TestMixType="PercentageOfTestsStarted">
       <ThinkProfile Value="0.2" Pattern="NormalDistribution" />

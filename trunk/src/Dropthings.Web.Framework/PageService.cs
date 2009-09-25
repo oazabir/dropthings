@@ -44,7 +44,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void ChangePageLayout(int newLayout)
         {
-            AspectF.Define.HowLong(ServiceLocator.Resolve<ILogger>(),
+            AspectF.Define.HowLong(Services.Get<ILogger>(),
                 "Begin: ChangePageLayout {0}".FormatWith(newLayout), "End: ChangePageLayout {0}")
                 .Do(() =>
                     {
@@ -59,7 +59,7 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
         public void MoveTab(int pageId, int orderNo)
         {
-            AspectF.Define.HowLong(ServiceLocator.Resolve<ILogger>(),
+            AspectF.Define.HowLong(Services.Get<ILogger>(),
                 "Begin: MoveTab {0} {1}".FormatWith(pageId, orderNo), "End: MoveTab {0}")
                 .Do(() =>
                     {

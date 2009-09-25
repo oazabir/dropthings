@@ -17,7 +17,7 @@
 
     void Application_End(object sender, EventArgs e)
     {
-        Dropthings.Util.ServiceLocator.Dispose();
+        Dropthings.Util.Services.Dispose();
     }
 
     void Application_Error(object sender, EventArgs e)

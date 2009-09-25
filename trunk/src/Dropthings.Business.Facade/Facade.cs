@@ -36,17 +36,17 @@
 
         public Facade(AppContext context) :
             this(context,
-            ServiceLocator.Resolve<IColumnRepository>(),
-            ServiceLocator.Resolve<IPageRepository>(),
-            ServiceLocator.Resolve<IUserRepository>(),
-            ServiceLocator.Resolve<IRoleRepository>(),
-            ServiceLocator.Resolve<IRoleTemplateRepository>(),
-            ServiceLocator.Resolve<ITokenRepository>(),
-            ServiceLocator.Resolve<IWidgetRepository>(),
-            ServiceLocator.Resolve<IWidgetInstanceRepository>(),
-            ServiceLocator.Resolve<IWidgetZoneRepository>(),
-            ServiceLocator.Resolve<IWidgetsInRolesRepository>(),
-            ServiceLocator.Resolve<IUserSettingRepository>())
+            Services.Get<IColumnRepository>(),
+            Services.Get<IPageRepository>(),
+            Services.Get<IUserRepository>(),
+            Services.Get<IRoleRepository>(),
+            Services.Get<IRoleTemplateRepository>(),
+            Services.Get<ITokenRepository>(),
+            Services.Get<IWidgetRepository>(),
+            Services.Get<IWidgetInstanceRepository>(),
+            Services.Get<IWidgetZoneRepository>(),
+            Services.Get<IWidgetsInRolesRepository>(),
+            Services.Get<IUserSettingRepository>())
         {
             this.Context = context;
         }
@@ -97,20 +97,20 @@
                 .Log(new EntLibLogger(), "Register default types in Unity")
                 .Do(() =>
             {
-                ServiceLocator.RegisterType<ILogger, EntLibLogger>();
-                ServiceLocator.RegisterType<IDropthingsDataContext, DropthingsDataContext2>();
-                ServiceLocator.InjectIntoConstructor<DropthingsDataContext2>(); // dummy injection for empty constructor
-                ServiceLocator.RegisterType<IColumnRepository, ColumnRepository>();
-                ServiceLocator.RegisterType<IPageRepository, PageRepository>();
-                ServiceLocator.RegisterType<IUserRepository, UserRepository>();
-                ServiceLocator.RegisterType<IRoleRepository, RoleRepository>();
-                ServiceLocator.RegisterType<IRoleTemplateRepository, RoleTemplateRepository>();
-                ServiceLocator.RegisterType<ITokenRepository, TokenRepository>();
-                ServiceLocator.RegisterType<IWidgetRepository, WidgetRepository>();
-                ServiceLocator.RegisterType<IWidgetInstanceRepository, WidgetInstanceRepository>();
-                ServiceLocator.RegisterType<IWidgetZoneRepository, WidgetZoneRepository>();
-                ServiceLocator.RegisterType<IWidgetsInRolesRepository, WidgetsInRolesRepository>();
-                ServiceLocator.RegisterType<IUserSettingRepository, UserSettingRepository>();
+                Services.RegisterType<ILogger, EntLibLogger>();
+                Services.RegisterType<IDropthingsDataContext, DropthingsDataContext2>();
+                Services.InjectIntoConstructor<DropthingsDataContext2>(); // dummy injection for empty constructor
+                Services.RegisterType<IColumnRepository, ColumnRepository>();
+                Services.RegisterType<IPageRepository, PageRepository>();
+                Services.RegisterType<IUserRepository, UserRepository>();
+                Services.RegisterType<IRoleRepository, RoleRepository>();
+                Services.RegisterType<IRoleTemplateRepository, RoleTemplateRepository>();
+                Services.RegisterType<ITokenRepository, TokenRepository>();
+                Services.RegisterType<IWidgetRepository, WidgetRepository>();
+                Services.RegisterType<IWidgetInstanceRepository, WidgetInstanceRepository>();
+                Services.RegisterType<IWidgetZoneRepository, WidgetZoneRepository>();
+                Services.RegisterType<IWidgetsInRolesRepository, WidgetsInRolesRepository>();
+                Services.RegisterType<IUserSettingRepository, UserSettingRepository>();
             });
         }
 
