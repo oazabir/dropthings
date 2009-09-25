@@ -35,6 +35,7 @@ using Dropthings.Widget.Framework;
 using Dropthings.Business.Facade;
 using Dropthings.Model;
 using Dropthings.Business.Facade.Context;
+using Dropthings.Util;
 
 public partial class _Default : BasePage
 {
@@ -102,8 +103,10 @@ public partial class _Default : BasePage
 
     protected override void CreateChildControls()
     {
-        TrapDatabaseException(() =>
-            {
+        AspectF.Define
+            .Retry(errors => errors.ToArray().Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
+            .Log(Services.Get<ILogger>(), "User visit: " + Profile.UserName)
+            .Do(() => {
                 base.CreateChildControls();
                 this.LoadUserPageSetup(false);
                 this.LoadAddStuff();
@@ -124,7 +127,7 @@ public partial class _Default : BasePage
 
     protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
     {
-        TrapDatabaseException(() =>
+        AspectF.Define.TrapLogThrow(Services.Get<ILogger>()).Do(() =>
             {
                 using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
                 {
@@ -158,7 +161,10 @@ public partial class _Default : BasePage
     {
         base.OnInit(e);
 
-        TrapDatabaseException(() =>
+        AspectF.Define
+            .Retry(errors => errors.ToArray().Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
+            .Log(Services.Get<ILogger>(), "OnInit: " + Profile.UserName)
+            .Do(() =>
             {
                 // Check if revisit is valid or not
                 if (!base.IsPostBack)
@@ -325,7 +331,9 @@ public partial class _Default : BasePage
         // If URL has the page title, load that page by default
         string pageTitle = (Request.Url.Query ?? string.Empty).TrimStart('?');
 
-        TrapDatabaseException(() =>
+        AspectF.Define
+            .Retry(Services.Get<ILogger>())
+            .Do(() =>
         {
             using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
             {
@@ -431,23 +439,6 @@ public partial class _Default : BasePage
         this.TabMaintanance.Checked = _Setup.CurrentPage.IsDownForMaintenance;
         this.serveAsStartPageOption.Visible = _Setup.CurrentPage.IsLocked && _Setup.IsRoleTemplateForRegisterUser;
         this.TabServeAsStartPage.Checked = _Setup.CurrentPage.ServeAsStartPageAfterLogin.GetValueOrDefault();
-    }
-
-    private void TrapDatabaseException(Action work)
-    {
-        try
-        {
-            work();
-        }
-        catch (Exception x)
-        {
-            Response.Write("<html>");
-            Response.Write("<h1>Error occured loading the page. Please ensure you have run the <a href='Setup.aspx'>Setup page</a>.</h1>");
-            Response.Write("<pre>");
-            Response.Write(x.ToString());
-            Response.Write("</pre>");
-            Response.Write("</html>");
-        }
     }
 
     private void LockPageContent(Page page)

@@ -31,6 +31,7 @@ namespace Dropthings.DataAccess
         public const string ApplicationID = "fd639154-299a-4a9d-b273-69dc28eb6388";
         public const string DEFAULT_CONNECTION_STRING_NAME = "DropthingsConnectionString";
 
+        internal static object _LockForConnectionStringMap = new object();
         internal static Dictionary<SubsystemEnum, string> _SubsystemConnectionStringMap = new Dictionary<SubsystemEnum, string>();
         internal static Dictionary<Type, TableDef> _TableDefCache = new Dictionary<Type, TableDef>();
 
@@ -310,7 +311,7 @@ namespace Dropthings.DataAccess
         public static void InDataContext(SubsystemEnum subsystem, bool nolock, DataContextDelegate d)
         {
             
-            AspectF.Define.Retry(ServiceLocator.Resolve<ILogger>()).Do(() =>
+            AspectF.Define.Retry(Services.Get<ILogger>()).Do(() =>
             {
                 using (var data = GetDataContext(subsystem, nolock))
                     d(data);
@@ -319,7 +320,7 @@ namespace Dropthings.DataAccess
 
         public static T InDataContext<T>(SubsystemEnum subsystem, bool nolock, Func<DropthingsDataContext, T> f)
         {
-            return AspectF.Define.Retry(ServiceLocator.Resolve<ILogger>()).Return<T>(() =>
+            return AspectF.Define.Retry(Services.Get<ILogger>()).Return<T>(() =>
             {
                 using (var data = GetDataContext(subsystem, nolock))
                     return f(data);
@@ -419,7 +420,7 @@ namespace Dropthings.DataAccess
             if (_SubsystemConnectionStringMap.ContainsKey(subsystem))
                 return _SubsystemConnectionStringMap[subsystem];
 
-            lock (_SubsystemConnectionStringMap)
+            lock (_LockForConnectionStringMap)
             {
                 if (_SubsystemConnectionStringMap.ContainsKey(subsystem))
                 {

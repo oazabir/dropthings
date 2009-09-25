@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using System.Collections;
 
 namespace Dropthings.Util
 {
@@ -128,14 +129,21 @@ namespace Dropthings.Util
         public static AspectF Retry(this AspectF aspects, ILogger logger)
         {
             return aspects.Combine((work) =>
-                Retry(1000, 1, (error) => DoNothing(error), DoNothing, work, logger));
+                Retry(1000, 1, (error) => DoNothing(error), x => DoNothing(), work, logger));
+        }
+
+        [DebuggerStepThrough]
+        public static AspectF Retry(this AspectF aspects, Action<IEnumerable<Exception>> failHandler, ILogger logger)
+        {
+            return aspects.Combine((work) =>
+                Retry(1000, 1, (error) => DoNothing(error), x => DoNothing(), work, logger));
         }
 
         [DebuggerStepThrough]
         public static AspectF Retry(this AspectF aspects, int retryDuration, ILogger logger)
         {
             return aspects.Combine((work) =>
-                Retry(retryDuration, 1, (error) => DoNothing(error), DoNothing, work, logger));
+                Retry(retryDuration, 1, (error) => DoNothing(error), x => DoNothing(), work, logger));
         }
 
         [DebuggerStepThrough]
@@ -143,7 +151,7 @@ namespace Dropthings.Util
             Action<Exception> errorHandler, ILogger logger)
         {
             return aspects.Combine((work) =>
-                Retry(retryDuration, 1, errorHandler, DoNothing, work, logger));
+                Retry(retryDuration, 1, errorHandler, x => DoNothing(), work, logger));
         }
 
         [DebuggerStepThrough]
@@ -151,12 +159,12 @@ namespace Dropthings.Util
             int retryCount, Action<Exception> errorHandler, ILogger logger)
         {
             return aspects.Combine((work) =>
-                Retry(retryDuration, retryCount, errorHandler, DoNothing, work, logger));
+                Retry(retryDuration, retryCount, errorHandler, x => DoNothing(), work, logger));
         }
 
         [DebuggerStepThrough]
         public static AspectF Retry(this AspectF aspects, int retryDuration,
-            int retryCount, Action<Exception> errorHandler, Action retryFailed, ILogger logger)
+            int retryCount, Action<Exception> errorHandler, Action<IEnumerable<Exception>> retryFailed, ILogger logger)
         {
             return aspects.Combine((work) => 
                 Retry(retryDuration, retryCount, errorHandler, retryFailed, work, logger));
@@ -164,22 +172,27 @@ namespace Dropthings.Util
 
         [DebuggerStepThrough]
         public static void Retry(int retryDuration, int retryCount,
-            Action<Exception> errorHandler, Action retryFailed, Action work, ILogger logger)
+            Action<Exception> errorHandler, Action<IEnumerable<Exception>> retryFailed, Action work, ILogger logger)
         {
+            List<Exception> errors = null;
             do
             {
                 try
                 {
                     work();
+                    return;
                 }
                 catch (Exception x)
                 {
+                    if (null == errors)
+                        errors = new List<Exception>();
+                    errors.Add(x);
                     logger.LogException(x);
                     errorHandler(x);
                     System.Threading.Thread.Sleep(retryDuration);
                 }
             } while (retryCount-- > 0);
-            retryFailed();
+            retryFailed(errors);
         }
 
         [DebuggerStepThrough]
