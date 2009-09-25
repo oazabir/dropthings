@@ -12,12 +12,14 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
 {
     public class AspectTest
     {
-        private ILogger MockLoggerForException(params Exception[] exceptions)
+        private Mock<ILogger> MockLoggerForException(params Exception[] exceptions)
         {
             var logger = new Mock<ILogger>();
-            exceptions.Each(x => logger.Expect(l => l.LogException(x)).Verifiable());
-            return logger.Object;
+            foreach (var x in exceptions)
+                logger.Expect(l => l.LogException(x)).Verifiable();
+            return logger;
         }
+
         [Fact]
         public void TestRetry()
         {
@@ -25,9 +27,11 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
             bool exceptionThrown = false;
 
             var ex = new ApplicationException("Test exception");
+            var mockLoggerForException = MockLoggerForException(ex);
+                    
             Assert.DoesNotThrow(() =>
                 {
-                    AspectF.Define.Retry(MockLoggerForException(ex)).Do(() =>
+                    AspectF.Define.Retry(mockLoggerForException.Object).Do(() =>
                     {
                         if (!exceptionThrown)
                         {
@@ -39,7 +43,9 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
                             result = true;
                         }
                     });
+
                 });
+            mockLoggerForException.VerifyAll();
 
             Assert.True(exceptionThrown, "Assert.Retry did not invoke the function at all");
             Assert.True(result, "Assert.Retry did not retry the function after exception was thrown");
@@ -54,9 +60,10 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
             bool exceptionThrown = false;
 
             var ex = new ApplicationException("Test exception");
+            var logger = MockLoggerForException(ex);
             Assert.DoesNotThrow(() =>
                 {
-                    AspectF.Define.Retry(5000, MockLoggerForException(ex)).Do(() =>
+                    AspectF.Define.Retry(5000, logger.Object).Do(() =>
                     {
                         if (!exceptionThrown)
                         {
@@ -71,6 +78,7 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
                         }
                     });
                 });
+            logger.VerifyAll();
 
             Assert.True(exceptionThrown, "Assert.Retry did not invoke the function at all");
             Assert.True(result, "Assert.Retry did not retry the function after exception was thrown");
@@ -92,12 +100,13 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
             var ex2 = new ApplicationException("Second exception");
             var ex3 = new ApplicationException("Third exception");
 
+            var logger = MockLoggerForException(ex1, ex2, ex3);
             Assert.DoesNotThrow(() =>
                 {
                     AspectF.Define.Retry(5000, 2,
-                        x => { expectedExceptionFound = x is ApplicationException; },
+                        x => { expectedExceptionFound = (x == ex1 || x == ex2 || x == ex3); },
                         errors => { allRetryFailed = true; },
-                        MockLoggerForException(ex1, ex2, ex3))
+                        logger.Object)
                         .Do(() =>
                     {
                         if (!exceptionThrown)
@@ -119,6 +128,7 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
                         }
                     });
                 });
+            logger.VerifyAll();
 
             Assert.True(exceptionThrown, "Assert.Retry did not invoke the function at all");
             Assert.True(firstRetry, "Assert.Retry did not retry the function after exception was thrown");
@@ -280,14 +290,14 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
             // Attempt 1: Test log and Retry together
             bool exceptionThrown = false;
             bool retried = false;
-
-            var logger = new Mock<ILogger>();
-            logger.Expect(l => l.Log("TestRetryAndLog")).Verifiable();
-
+            
             var ex = new ApplicationException("First exception thrown which should be ignored");
+            var logger = MockLoggerForException(ex);
+            logger.Expect(l => l.Log("TestRetryAndLog"));
+
             AspectF.Define
                 .Log(logger.Object, "TestRetryAndLog")
-                .Retry(MockLoggerForException(ex))
+                .Retry(logger.Object)
                 .Do(() => 
             {
                 if (!exceptionThrown)
@@ -300,18 +310,20 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
                     retried = true;
                 }
             });
-            logger.Verify();
+            logger.VerifyAll();
 
             Assert.True(exceptionThrown, "Aspect.Retry did not call the function at all");
             Assert.True(retried, "Aspect.Retry did not retry when exception was thrown first time");
          
             // Attempt 2: Test Log Before and After with Retry together            
-            var logger2 = new Mock<ILogger>();
-            logger2.Expect(l => l.Log("BeforeLog")).Verifiable();
-            logger2.Expect(l => l.Log("AfterLog")).Verifiable();
+            var logger2 = MockLoggerForException(ex);
+            logger2.Expect(l => l.Log("BeforeLog"));
+            logger2.Expect(l => l.Log("AfterLog"));
+
+            exceptionThrown = false;
             AspectF.Define
                 .Log(logger2.Object, "BeforeLog", "AfterLog")
-                .Retry(MockLoggerForException(ex))
+                .Retry(logger2.Object)
                 .Do(() =>
                 {
                     if (!exceptionThrown)
@@ -410,9 +422,7 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
             var exception = new ApplicationException("Parent Exception",
                                 new ApplicationException("Child Exception",
                                     new ApplicationException("Grandchild Exception")));
-            var logger = new Mock<ILogger>();
-            logger.Expect(l => l.LogException(exception)).Verifiable();
-
+            var logger = MockLoggerForException(exception);
             
             Assert.Throws(typeof(ApplicationException), () =>
             {

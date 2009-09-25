@@ -51,9 +51,10 @@ namespace Dropthings.Util
 
         public void LogException(Exception x)
         {
-            bool rethrow = ExceptionPolicy.HandleException(x, "Log Only");
+            Exception outException;
+            bool rethrow = ExceptionPolicy.HandleException(x, "Log Only", out outException);
             if (rethrow)
-                throw x;
+                throw outException;
         }
 
         #endregion
