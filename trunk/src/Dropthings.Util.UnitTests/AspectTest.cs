@@ -96,7 +96,7 @@ namespace Dropthings.Test.UnitTests.Dropthings.Util
                 {
                     AspectF.Define.Retry(5000, 2,
                         x => { expectedExceptionFound = x is ApplicationException; },
-                        () => { allRetryFailed = true; },
+                        errors => { allRetryFailed = true; },
                         MockLoggerForException(ex1, ex2, ex3))
                         .Do(() =>
                     {
