@@ -369,45 +369,6 @@ public partial class _Default : BasePage
                 Profile.Save();
             }
         });
-
-
-        // Workflow way -- obselete
-
-        //TrapDatabaseException(() =>
-        //{
-        //    if (Profile.IsAnonymous)
-        //    {
-        //        if (Profile.IsFirstVisit)
-        //        {
-        //            // First visit
-        //            Profile.IsFirstVisit = false;
-        //            Profile.Save();
-
-        //            //_Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-        //            //    new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName });
-        //            _Setup = new DashboardFacade(Profile.UserName).SetupNewUser(Profile.UserName);
-
-        //        }
-        //        else
-        //        {
-        //            _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-        //                new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = true });
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _Setup = WorkflowHelper.Run<UserVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-        //            new UserVisitWorkflowRequest { PageName = pageTitle, UserName = Profile.UserName, IsAnonymous = false });
-
-        //        // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
-        //        // to recrate the pages
-        //        if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
-        //        {
-        //            _Setup = WorkflowHelper.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-        //                new UserVisitWorkflowRequest { PageName = string.Empty, UserName = Profile.UserName, IsAnonymous = false });
-        //        }
-        //    }
-        //});
     }
 
     private void OnReloadPage(object sender, EventArgs e)
