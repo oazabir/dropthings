@@ -4,63 +4,88 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using OmarALZabir.AspectF;
+    using Dropthings.Util;
 
     public class WidgetInstanceRepository : Dropthings.DataAccess.Repository.IWidgetInstanceRepository
     {
         #region Fields
 
         private readonly IDropthingsDataContext _database;
+        private readonly ICacheResolver _cacheResolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public WidgetInstanceRepository(IDropthingsDataContext database)
+        public WidgetInstanceRepository(IDropthingsDataContext database, ICacheResolver cacheResolver)
         {
             this._database = database;
+            this._cacheResolver = cacheResolver;
         }
 
         #endregion Constructors
 
         #region Methods
 
-        public void Delete(int id)
+        private void RemoveWidgetInstanceCacheEntries(int widgetInstanceId)
         {
-            _database.DeleteByPK<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, id);
+            CacheSetup.CacheKeys.WidgetInstanceKeys(widgetInstanceId).Each(key => _cacheResolver.Remove(key));
         }
 
-        public void Delete(WidgetInstance page)
+        private void RemoveWidgetZoneCacheEntries(int widgetZoneId)
         {
-            _database.Delete<WidgetInstance>(DropthingsDataContext.SubsystemEnum.WidgetInstance, page);
+            CacheSetup.CacheKeys.WidgetZoneKeys(widgetZoneId).Each(key => _cacheResolver.Remove(key));
+        }
+
+        public void Delete(int id)
+        {
+            RemoveWidgetInstanceCacheEntries(id);
+            var widgetInstance = this.GetWidgetInstanceById(id);
+            if (null != widgetInstance)
+            {
+                RemoveWidgetZoneCacheEntries(widgetInstance.WidgetZoneId);
+                _database.DeleteByPK<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, id);
+            }
+        }
+
+        public void Delete(WidgetInstance wi)
+        {
+            RemoveWidgetInstanceCacheEntries(wi.Id);
+            RemoveWidgetZoneCacheEntries(wi.WidgetZoneId);
+            _database.Delete<WidgetInstance>(DropthingsDataContext.SubsystemEnum.WidgetInstance, wi);
         }
 
         public WidgetInstance GetWidgetInstanceById(int id)
         {
-            return _database.GetSingle<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, id, LinqQueries.CompiledQuery_GetWidgetInstanceById);
+            return AspectF.Define
+                .Cache<WidgetInstance>(_cacheResolver, CacheSetup.CacheKeys.WidgetInstance(id))
+                .Return<WidgetInstance>(() =>
+                    _database.GetSingle<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, id, LinqQueries.CompiledQuery_GetWidgetInstanceById));
         }
 
         public List<WidgetInstance> GetWidgetInstanceOnWidgetZoneAfterPosition(int widgetZoneId, int position)
         {
-            return _database.GetList<WidgetInstance, LinqQueries.WidgetZonePosition>(DropthingsDataContext.SubsystemEnum.WidgetInstance, new LinqQueries.WidgetZonePosition { Position = position, WidgetZoneId = widgetZoneId }, LinqQueries.CompiledQuery_GetWidgetInstanceOnWidgetZoneAfterPosition);
+            return this.GetWidgetInstancesByWidgetZoneId(widgetZoneId)
+                .Where(wi => wi.OrderNo > position).ToList();
         }
 
         public List<WidgetInstance> GetWidgetInstanceOnWidgetZoneFromPosition(int widgetZoneId, int position)
         {
-            return _database.GetList<WidgetInstance, LinqQueries.WidgetZonePosition>(DropthingsDataContext.SubsystemEnum.WidgetInstance, new LinqQueries.WidgetZonePosition { Position = position, WidgetZoneId = widgetZoneId }, LinqQueries.CompiledQuery_GetWidgetInstanceOnWidgetZoneFromPosition);
+            return this.GetWidgetInstancesByWidgetZoneId(widgetZoneId)
+                .Where(wi => wi.OrderNo >= position).ToList();
         }
 
         public string GetWidgetInstanceOwnerName(int widgetInstanceId)
         {
-            return _database.GetSingle<string, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceOwnerName);
-        }
-
-        public List<WidgetInstance> GetWidgetInstancesByPageId(int pageId)
-        {
-            return _database.GetList<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, pageId, LinqQueries.CompiledQuery_GetWidgetInstancesByPageId);
+            return AspectF.Define
+                .Cache<string>(_cacheResolver, CacheSetup.CacheKeys.WidgetInstanceOwnerName(widgetInstanceId))
+                .Return<string>(() =>
+                    _database.GetSingle<string, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceOwnerName));
         }
 
         public List<int> GetWidgetInstancesByRole(int widgetInstanceId, Guid roleId)
-        {
+        {            
             return _database.GetList<int, int, Guid>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetInstanceId, roleId, LinqQueries.CompiledQuery_GetWidgetInstancesByRole);
         }
 
@@ -71,17 +96,26 @@
 
         public List<WidgetInstance> GetWidgetInstancesByWidgetZoneId(int widgetZoneId)
         {
-            return _database.GetList<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetZoneId, LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId);
+            return AspectF.Define
+                .CacheList<WidgetInstance, List<WidgetInstance>>(_cacheResolver, CacheSetup.CacheKeys.WidgetInstancesInWidgetZone(widgetZoneId),
+                wi => CacheSetup.CacheKeys.WidgetInstance(wi.Id))
+                .Return<List<WidgetInstance>>(() =>
+                    _database.GetList<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetZoneId, LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneId));
         }
 
         public List<WidgetInstance> GetWidgetInstancesByWidgetZoneIdWithWidget(int widgetZoneId)
         {
-            return _database.GetList<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetZoneId, LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneIdWithWidget, LinqQueries.WidgetInstance_Options_With_Widget);
+            return AspectF.Define
+                .CacheList<WidgetInstance, List<WidgetInstance>>(_cacheResolver, CacheSetup.CacheKeys.WidgetInstancesInWidgetZoneWithWidget(widgetZoneId),
+                    wi => CacheSetup.CacheKeys.WidgetInstanceWithWidget(wi.Id))
+                .Return<List<WidgetInstance>>(() => _database.GetList<WidgetInstance, int>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetZoneId, LinqQueries.CompiledQuery_GetWidgetInstancesByWidgetZoneIdWithWidget, LinqQueries.WidgetInstance_Options_With_Widget));
         }
 
         public WidgetInstance Insert(Action<WidgetInstance> populate)
-        {
-            return _database.Insert<WidgetInstance>(DropthingsDataContext.SubsystemEnum.WidgetInstance, populate);
+        {            
+            var widgetInstance = _database.Insert<WidgetInstance>(DropthingsDataContext.SubsystemEnum.WidgetInstance, populate);
+            RemoveWidgetZoneCacheEntries(widgetInstance.WidgetZoneId);
+            return widgetInstance;
         }
 
         public void InsertList(List<Widget> widgets, Converter<Widget, WidgetInstance> populate)
@@ -89,13 +123,15 @@
             _database.InsertList<WidgetInstance, Widget>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgets.AsEnumerable<Widget>(), populate);
         }
 
-        public void Update(WidgetInstance page, Action<WidgetInstance> detach, Action<WidgetInstance> postAttachUpdate)
+        public void Update(WidgetInstance wi, Action<WidgetInstance> detach, Action<WidgetInstance> postAttachUpdate)
         {
-            _database.UpdateObject<WidgetInstance>(DropthingsDataContext.SubsystemEnum.WidgetInstance, page, detach, postAttachUpdate);
+            RemoveWidgetInstanceCacheEntries(wi.Id);
+            _database.UpdateObject<WidgetInstance>(DropthingsDataContext.SubsystemEnum.WidgetInstance, wi, detach, postAttachUpdate);
         }
 
-        public void UpdateList(List<WidgetInstance> widgetInstances, Action<WidgetInstance> detach, Action<WidgetInstance> postAttachUpdate)
+        public void UpdateList(IEnumerable<WidgetInstance> widgetInstances, Action<WidgetInstance> detach, Action<WidgetInstance> postAttachUpdate)
         {
+            widgetInstances.Each(wi => RemoveWidgetInstanceCacheEntries(wi.Id));
             _database.UpdateList<WidgetInstance>(DropthingsDataContext.SubsystemEnum.WidgetInstance, widgetInstances, detach, postAttachUpdate);
         }
 

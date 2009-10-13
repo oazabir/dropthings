@@ -52,25 +52,13 @@ public partial class WidgetListControl : System.Web.UI.UserControl
         {
             if (Roles.Enabled && Convert.ToBoolean(ConfigurationManager.AppSettings["EnableWidgetPermission"], CultureInfo.InvariantCulture))
             {
-                List<Widget> widgets;// = Cache["Widgets"] as List<Widget>;
-                //   if (null == widgets)
-                {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
-                        widgets = facade.GetWidgetList(Profile.UserName, Enumerations.WidgetTypeEnum.PersonalPage);
-                    //       Cache["Widgets"] = widgets;
-                }
-                return widgets;
+                using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    return facade.GetWidgetList(Profile.UserName, Enumerations.WidgetTypeEnum.PersonalPage);                
             }
             else
             {
-                List<Widget> widgets = Cache["Widgets"] as List<Widget>;
-                if (null == widgets)
-                {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
-                        widgets = facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
-                    Cache["Widgets"] = widgets;
-                }
-                return widgets;
+                using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    return facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
             }
         }
     }

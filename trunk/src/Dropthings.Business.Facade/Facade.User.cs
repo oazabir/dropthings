@@ -7,6 +7,8 @@ using Dropthings.DataAccess;
 using System.Transactions;
 using System.Web.Security;
 using Dropthings.Configuration;
+using OmarALZabir.AspectF;
+using Dropthings.Util;
 
 namespace Dropthings.Business.Facade
 {
@@ -19,27 +21,35 @@ namespace Dropthings.Business.Facade
             
         }
 
+        public MembershipUser GetUser(string userName)
+        {
+            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICacheResolver>(), CacheSetup.CacheKeys.UserFromUserName(userName))
+                .Return<MembershipUser>(() => Membership.GetUser(userName));
+        }
+        public MembershipUser GetUser(Guid userGuid)
+        {
+            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICacheResolver>(), CacheSetup.CacheKeys.UserFromUserGuid(userGuid))
+                .Return<MembershipUser>(() => Membership.GetUser(userGuid));
+        }
+
         public UserSetting GetUserSetting(Guid userGuid)
         {
-            using (new TimedLog(userGuid.ToString(), "Activity: Get User Setting"))
+            var userSetting = this.userSettingRepository.GetUserSettingByUserGuid(userGuid);
+
+            if (userSetting == default(UserSetting))
             {
-                var userSetting = this.userSettingRepository.GetUserSettingByUserGuid(userGuid);
+                // No setting saved before. Create default setting
 
-                if (userSetting == default(UserSetting))
-                {
-                    // No setting saved before. Create default setting
-
-                    userSetting = this.userSettingRepository.Insert(
-                        newSetting =>
-                        {
-                            newSetting.UserId = userGuid;
-                            newSetting.CreatedDate = DateTime.Now;
-                            newSetting.CurrentPageId = this.pageRepository.GetPageIdByUserGuid(userGuid).First();
-                        });
-                }
-
-                return userSetting;
+                userSetting = this.userSettingRepository.Insert(
+                    newSetting =>
+                    {
+                        newSetting.UserId = userGuid;
+                        newSetting.CreatedDate = DateTime.Now;
+                        newSetting.CurrentPageId = this.pageRepository.GetPageIdByUserGuid(userGuid).First();
+                    });
             }
+
+            return userSetting;        
         }
 
         public bool TransferOwnership(Guid userGuid, Guid userOldGuid)
@@ -48,7 +58,7 @@ namespace Dropthings.Business.Facade
 
             using (TransactionScope ts = new TransactionScope())
             {
-                List<Page> pages = this.pageRepository.GetPagesOfUser(userOldGuid);
+                IEnumerable<Page> pages = this.GetPagesOfUser(userOldGuid);
                 
                 this.pageRepository.UpdateList(pages, (page) =>
                 {
@@ -75,12 +85,12 @@ namespace Dropthings.Business.Facade
 
         public bool UserExists(string userName)
         {
-            return (this.userRepository.GetUserGuidFromUserName(userName) != default(Guid));
+            return (this.GetUserGuidFromUserName(userName) != default(Guid));
         }
 
         public void CreateTemplateUser(string email, bool isActivationRequired, string password, string requestedUserName, string roleName, string templateRoleName)
         {
-            var userGuid = this.userRepository.GetUserGuidFromUserName(requestedUserName);
+            var userGuid = this.GetUserGuidFromUserName(requestedUserName);
             if (userGuid.IsEmpty())
             {
                 var newUserGuid = CreateUser(requestedUserName, password, email);
@@ -111,6 +121,11 @@ namespace Dropthings.Business.Facade
             {
                 CreateTemplateUser(setting.UserName, false, setting.Password, setting.UserName, setting.RoleNames, setting.TemplateRoleName);
             }
+        }
+
+        public Guid GetUserGuidFromUserName(string userName)
+        {
+            return this.userRepository.GetUserGuidFromUserName(userName);
         }
 
         #endregion

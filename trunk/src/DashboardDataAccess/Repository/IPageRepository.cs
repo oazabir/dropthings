@@ -23,7 +23,7 @@
 
         System.Collections.Generic.List<Dropthings.DataAccess.Page> GetPagesOfUser(Guid userGuid);
 
-        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetLockedPagesOfUser(Guid userGuid, bool? isInMaintenenceMode);
+        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetLockedPagesOfUser(Guid userGuid, bool isInMaintenenceMode);
 
         System.Collections.Generic.List<Dropthings.DataAccess.Page> GetMaintenencePagesOfUser(Guid userGuid);
 
@@ -31,11 +31,7 @@
 
         void Update(Dropthings.DataAccess.Page page, Action<Dropthings.DataAccess.Page> detach, Action<Dropthings.DataAccess.Page> postAttachUpdate);
         
-        void UpdateList(List<Page> pages, Action<Page> detach, Action<Page> postAttachUpdate);
-
-        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetPagesOfUserAfterPosition(Guid userGuid, int position);
-
-        System.Collections.Generic.List<Dropthings.DataAccess.Page> GetPagesOfUserFromPosition(Guid userGuid, int position);
+        void UpdateList(IEnumerable<Page> pages, Action<Page> detach, Action<Page> postAttachUpdate);
 
         #endregion Methods
     }

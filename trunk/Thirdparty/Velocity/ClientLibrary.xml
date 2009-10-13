@@ -1,0 +1,682 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>ClientLibrary</name>
+	</assembly>
+	<members>
+		<member name="N:Microsoft.Data.Caching">
+			<summary>The <see cref="N:MIcrosoft.Data.Caching" /> namespace provides access to an in-memory application cache application for developing scalable, high-performance applications. This namespace can be used to cache any common language runtime (CLR) object and provides access through simple APIs.</summary>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCache">
+			<summary>The object that is used by cache-enabled applications for storing and retrieving objects from the cache cluster. An instance of this object is referred to as the cache client. </summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object)">
+			<summary>Adds an object to the cache.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Adds an object to the cache. This method enables associating tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+			<param name="tags">An array of <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> objects to associate with the cached object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object,System.String)">
+			<summary>Adds an object to a region in the cache.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+			<param name="region">The name of the region to save the object in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object,System.TimeSpan)">
+			<summary>Adds an object to the cache. This method provides the ability to specify when the object should be expired.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Adds an object to a region in the cache. This method enables associating tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+			<param name="tags">An array of <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> objects to associate with the cached object.</param>
+			<param name="region">The name of the region to save the object in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Adds an object to the cache. This method enables associating tags with the cached object and specifying when the object should be expired.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">An array of <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> objects to associate with the cached object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object,System.TimeSpan,System.String)">
+			<summary>Adds an object to a region in the cache. This method provides the ability to specify when the object should be expired.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="region">The name of the region to save the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Add(System.String,System.Object,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Adds an object to a region in the cache. This method enables associating tags with the cached object and specifying when the object should be expired.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">A unique value that is used to store and retrieve the object from the cache.</param>
+			<param name="value">The object saved to the cache cluster.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">An array of <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> objects to associate with the cached object.</param>
+			<param name="region">The name of the region to save the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.AddCacheLevelCallback(Microsoft.Data.Caching.DataCacheOperation,Microsoft.Data.Caching.DataCacheNotificationCallback)">
+			<summary>Adds a cache notification callback for cache operations occurring on all regions and items.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object used to identify the cache notification callback. </returns>
+			<param name="filter">The type of cache operation(s) that will trigger cache notifications.</param>
+			<param name="clientCallback">The name of the method you want to invoke when these notifications occur.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.AddFailureNotificationCallback(Microsoft.Data.Caching.DataCacheFailureNotificationCallback)">
+			<summary>Adds a failure notification callback, for notifications indicating that a client has missed one or more cache notifications.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object used to identify the cache notification callback.</returns>
+			<param name="failureCallback">The name of the method that you want to invoke when the failure notification occurs.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.AddItemLevelCallback(System.String,Microsoft.Data.Caching.DataCacheOperation,Microsoft.Data.Caching.DataCacheNotificationCallback)">
+			<summary>Adds a cache notification callback for cache operations occurring on one specific item that is not stored in a region.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object used to identify the cache notification callback.</returns>
+			<param name="key">The key used to store the object in the cache.</param>
+			<param name="filter">The type of cache operation(s) that will trigger cache notifications.</param>
+			<param name="clientCallback">The name of the method you want to invoke when these notifications occur.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.AddItemLevelCallback(System.String,Microsoft.Data.Caching.DataCacheOperation,Microsoft.Data.Caching.DataCacheNotificationCallback,System.String)">
+			<summary>Adds a cache notification callback for cache operations occurring on one specific item that is stored in region.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object used to identify the cache notification callback.</returns>
+			<param name="key">The key used to store the object in the cache.</param>
+			<param name="filter">The type of cache operation(s) that will trigger cache notifications.</param>
+			<param name="clientCallback">The name of the method you want to invoke when these notifications occur.</param>
+			<param name="regionName">The name of the region where the object is stored.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.AddRegionLevelCallback(System.String,Microsoft.Data.Caching.DataCacheOperation,Microsoft.Data.Caching.DataCacheNotificationCallback)">
+			<summary>Adds a cache notification callback for cache operations occurring on one specific region.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object used to identify the cache notification callback.</returns>
+			<param name="regionName">The name of the region for which the specified item or region operations can trigger cache notifications.</param>
+			<param name="filter">The type of cache operation(s) that will trigger cache notifications.</param>
+			<param name="clientCallback">The name of the method you want to invoke when these notifications occur.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.ClearRegion(System.String)">
+			<summary>Deletes all objects in the specified region.</summary>
+			<param name="region">The name of the region whose objects are removed.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.CreateRegion(System.String,System.Boolean)">
+			<summary>Creates a region and specifies if resident objects may be evicted.</summary>
+			<param name="region">The name of the region that is created.</param>
+			<param name="evictionOn">True if objects in the region can be evicted.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Get(System.String)">
+			<summary>Gets an object from the cache using the specified key.</summary>
+			<returns>The object that was cached by using the specified key. Null is returned if the key does not exist.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Get(System.String,Microsoft.Data.Caching.DataCacheItemVersion@)">
+			<summary>Gets an object from the cache using the specified key. You may also provide the version to obtain the specific version of a key, if that version is still the most current in the cache.</summary>
+			<returns>The object that was cached by using the specified key. Null is returned if the key does not exist. Even if the key does exist, null may also be returned because the object has been updated to a new version.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="version">The version of the desired object. If this parameter is null, the version of the current object is retrieved.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Get(System.String,System.String)">
+			<summary>Gets an object from the specified region by using the specified key.</summary>
+			<returns>The object that was cached by using the specified key. Null is returned if the key does not exist.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Get(System.String,Microsoft.Data.Caching.DataCacheItemVersion@,System.String)">
+			<summary>Gets an object from the specified region by using the specified key. You may also provide the version to obtain the specific version of a key, if that version is still the most current in the region.</summary>
+			<returns>The object that was cached by using the specified key. Null is returned if the key does not exist. Even if the key does exist, null may also be returned because the object has been updated to a new version.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="version">The version of the desired object. If this parameter is null, the version of the current object is retrieved.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetAndLock(System.String,System.TimeSpan,Microsoft.Data.Caching.DataCacheLockHandle@)">
+			<summary>Returns and locks the cached object (if present).</summary>
+			<returns>The object that was cached by using the specified key. Null is returned if the object has already been locked or the key does not exist.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="timeout">A non-zero value indicating how many minutes the object remains locked.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object required to unlock the object. The lockHandle output parameter is passed by reference.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetAndLock(System.String,System.TimeSpan,Microsoft.Data.Caching.DataCacheLockHandle@,System.String)">
+			<summary>Returns and locks the cached object (if present). For objects stored in regions.</summary>
+			<returns>The object that was cached by using the specified key. Null is returned if the object has already been locked or the key does not exist.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="timeout">A non-zero value indicating how many minutes the object remains locked.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object required to unlock the object. The lockHandle output parameter is passed by reference.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetCacheItem(System.String)">
+			<summary>Gets a <see cref="T:Microsoft.Data.Caching.DataCacheItem" /> object to retrieve all information associated with your cached object in the cluster.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItem" /> object that contains all information associated with your cached object. Null is returned if the key does not exist.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetCacheItem(System.String,System.String)">
+			<summary>Gets a <see cref="T:Microsoft.Data.Caching.DataCacheItem" /> object to retrieve all information associated with your cached object in the cluster. For objects stored in regions.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItem" /> object that contains all information associated with your cached object. Null is returned if the key does not exist.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetIfNewer(System.String,Microsoft.Data.Caching.DataCacheItemVersion@)">
+			<summary>Gets an object from the cache, but only if a newer version of the object resides in the cache.</summary>
+			<returns>If the version in the cache differs from the version parameter, the corresponding cached object is returned. If the version in the cache is the same as the version parameter, null is returned.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache. If this parameter is null, an exception is thrown.</param>
+			<param name="version">The version of the desired object, passed by reference. If this parameter is null, an exception is thrown.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetIfNewer(System.String,Microsoft.Data.Caching.DataCacheItemVersion@,System.String)">
+			<summary>Gets an object from the specified region, but only if a newer version of the object resides in the region. </summary>
+			<returns>If the version in the region differs from the version parameter, the corresponding cached object is returned. If the version in the region is the same as the version parameter, null is returned.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache. If this parameter is null, an exception is thrown.</param>
+			<param name="version">The version of the desired object, passed by reference. If this parameter is null, an exception is thrown.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetObjectsByAllTags(System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Gets an enumerable list of all cached objects in the specified region that have all the same tags in common.</summary>
+			<returns>An enumerable list of all cached objects in the specified region that have all the same tags in common. Null is returned if no objects in the specified region have all the tags specified.</returns>
+			<param name="tags">A list of tags for which to search.</param>
+			<param name="region">The name of the region to search. Tags are not supported outside regions. Therefore, a region name is required.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetObjectsByAnyTag(System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Gets an enumerable list of all cached objects in the specified region that have any of the same tags in common.</summary>
+			<returns>An enumerable list of all cached objects in the specified region that have any of the same tags in common. Null is returned if no objects in the specified region have any of the tags specified.</returns>
+			<param name="tags">A list of tags for which to search.</param>
+			<param name="region">The name of the region to search. Tags are not supported outside regions. Therefore, a region name is required.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetObjectsByTag(Microsoft.Data.Caching.DataCacheTag,System.String)">
+			<summary>Gets an enumerable list of all cached objects in the specified region that have the specified tag.</summary>
+			<returns>An enumerable list of all cached objects in the specified region that have the specified tag. Null is returned if no objects in the specified region have the tag specified.</returns>
+			<param name="tag">The tag for which to search.</param>
+			<param name="region">The name of the region to search. Tags are not supported outside regions. Therefore, a region name is required.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.GetObjectsInRegion(System.String)">
+			<summary>Gets an enumerable list of all cached objects in the specified region.</summary>
+			<returns>An enumerable list of all cached objects in the specified region.</returns>
+			<param name="region">The name of the region for which to return a list of all resident objects.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object)">
+			<summary>Adds or replaces an object in the cache. </summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion)">
+			<summary>Adds or replaces an object in the cache if it is at the specified version.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Adds or replaces an object in the cache. Associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,System.String)">
+			<summary>Adds or replaces an object in the specified region.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,System.TimeSpan)">
+			<summary>Adds or replaces an object in the cache. Specifies the timeout value of the cached object. </summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Adds or replaces an object in the cache if it is at the specified version. Associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion,System.String)">
+			<summary>Adds or replaces an object in the specified region if it is at the specified version.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion,System.TimeSpan)">
+			<summary>Adds or replaces an object in the cache if it is at the specified version. Specifies the timeout value of the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Adds or replaces an object in the specified region. Associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Adds or replaces an object in the cache. Specifies the timeout value and associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,System.TimeSpan,System.String)">
+			<summary>Adds or replaces an object in the specified region. Specifies the timeout value of the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Adds or replaces an object in the specified region if it is at the specified version. Associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Adds or replaces an object in the cache if it is at the specified version. Specifies the timeout value and associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion,System.TimeSpan,System.String)">
+			<summary>Adds or replaces an object in the specified region if it is at the specified version. Specifies the timeout value of the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Adds or replaces an object in the specified region. Specifies the timeout value and associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Put(System.String,System.Object,Microsoft.Data.Caching.DataCacheItemVersion,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Adds or replaces an object in the specified region if it is at the specified version. Specifies the timeout value and associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the object saved to the cache under the key value.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="oldVersion">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be replaced.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle)">
+			<summary>Replaces and unlocks an object in the cache.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Replaces and unlocks an object in the cache. Associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle,System.String)">
+			<summary>Replaces and unlocks an object in the specified region.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle,System.TimeSpan)">
+			<summary>Replaces and unlocks an object in the cache. Specifies the timeout value of the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Replaces and unlocks an object in the specified region. Associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag})">
+			<summary>Replaces and unlocks an object in the cache. Specifies the timeout value and associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.</returns>
+			<param name="key">The unique value that is used to identify the object in the cache.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle,System.TimeSpan,System.String)">
+			<summary>Replaces and unlocks an object in the specified region. Specifies the timeout value of the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.The timeout value associated with the cached object overrides expiration settings specified in the named cache configuration. For more information, see Expiration and Eviction (Velocity).</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.PutAndUnlock(System.String,System.Object,Microsoft.Data.Caching.DataCacheLockHandle,System.TimeSpan,System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheTag},System.String)">
+			<summary>Replaces and unlocks an object in the specified region. Specifies the timeout value and associates tags with the cached object.</summary>
+			<returns>A <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object after it has been updated by this method. If the lockHandle parameter is not equal to the <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object obtained from the method that is used to lock the object, null is returned and the object is not updated.</returns>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="value">The object to add or replace.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="tags">A list of tags to associate with the object.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Remove(System.String)">
+			<summary>Removes an object from the cache.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Remove(System.String,Microsoft.Data.Caching.DataCacheItemVersion)">
+			<summary>Removes an object from the cache if it is at the specified version.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="version">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be removed.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Remove(System.String,System.String)">
+			<summary>Removes an object from the specified region.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Remove(System.String,Microsoft.Data.Caching.DataCacheItemVersion,System.String)">
+			<summary>Removes an object from the specified region if it is at the specified version.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="version">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object that represents the version of the cached object that is to be removed.</param>
+			<param name="region">The name of the region the object resides in.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.RemoveCallback(Microsoft.Data.Caching.DataCacheNotificationDescriptor)">
+			<summary>Removes a cache notification callback.</summary>
+			<param name="nd">The <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object that identifies the callback that should be removed.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.RemoveRegion(System.String)">
+			<summary>Deletes a region. All cached objects inside the region are also removed.</summary>
+			<param name="region">The name of the region.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.ResetObjectTimeout(System.String,System.TimeSpan)">
+			<summary>Resets the object timeout value, defining how long objects reside in the cache before expiring. The value specified for the object overrides the default settings for the cache.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="newTimeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.ResetObjectTimeout(System.String,System.TimeSpan,System.String)">
+			<summary>Resets the object timeout value, defining how long objects reside in the region before expiring. The value specified for the object overrides the default settings for the cache.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="newTimeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Unlock(System.String,Microsoft.Data.Caching.DataCacheLockHandle)">
+			<summary>Releases objects locked in the cache. This method supports pessimistic concurrency by making sure that the appropriate <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> is used for unlocking the object.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Unlock(System.String,Microsoft.Data.Caching.DataCacheLockHandle,System.String)">
+			<summary>Releases objects locked in the specified region. This method supports pessimistic concurrency by making sure that the appropriate <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> is used for unlocking the object.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Unlock(System.String,Microsoft.Data.Caching.DataCacheLockHandle,System.TimeSpan)">
+			<summary>Releases objects locked in the cache. This method supports pessimistic concurrency by making sure that the appropriate <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> is used for unlocking the object. Specifies a new timeout value for the cached object.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCache.Unlock(System.String,Microsoft.Data.Caching.DataCacheLockHandle,System.TimeSpan,System.String)">
+			<summary>Releases objects locked in the specified region. This method supports pessimistic concurrency by making sure that the appropriate <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> is used for unlocking the object. Specifies a new timeout value for the cached object.</summary>
+			<param name="key">The unique value that is used to identify the object in the region.</param>
+			<param name="lockHandle">The <see cref="T:Microsoft.Data.Caching.DataCacheLockHandle" /> object that was returned when the object was locked.</param>
+			<param name="timeout">A non-zero value that is used to specify how many minutes the object should reside in the cache before expiration.</param>
+			<param name="region">The name of the region where the object resides.</param>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCache.Item(System.String)">
+			<summary>Allows for the use of array notation to access cached objects.</summary>
+			<returns>A deserialized object that was saved to the cache cluster that uses the key.</returns>
+			<param name="key">The key that is used to save the cached object.</param>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheFactory">
+			<summary>Provides methods to return <see cref="T:Microsoft.Data.Caching.DataCache" /> objects that are mapped to a named cache. This class also enables programmatic configuration of the cache client.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.#ctor">
+			<summary>Used for configuring a cache client based on the application configuration file.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.#ctor(Microsoft.Data.Caching.DataCacheServerEndpoint[],System.Boolean,System.Boolean)">
+			<summary>Used for configuring a cache client programmatically, based on the parameter values provided.</summary>
+			<param name="servers">The cache host configuration for the cache client, for an array of <see cref="T:Microsoft.Data.Caching.DataCacheServerEndpoint" /> objects.</param>
+			<param name="routingClient">True when the <see cref="M:Microsoft.Data.Caching.DataCacheFactory.GetCache(System.String)" /> method returns routing clients; otherwise, it returns simple clients.</param>
+			<param name="localCache">True when local cache is enabled on the cache client; otherwise, local cache is disabled.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.#ctor(Microsoft.Data.Caching.DataCacheServerEndpoint[],System.Boolean,System.Boolean,Microsoft.Data.Caching.DataCacheLocalCacheSyncPolicy,System.Int32,System.Int32)">
+			<summary>Used for configuring a cache client programmatically, based on the parameter values provided. Additional parameters provided for working with cache notifications.</summary>
+			<param name="servers">The cache host configuration for the cache client, for an array of <see cref="T:Microsoft.Data.Caching.DataCacheServerEndpoint" /> objects.</param>
+			<param name="routingClient">True when the <see cref="M:Microsoft.Data.Caching.DataCacheFactory.GetCache(System.String)" /> method returns routing clients; otherwise, it returns simple clients.</param>
+			<param name="localCache">True when local cache is enabled on the cache client; otherwise, local cache is disabled.</param>
+			<param name="syncPolicy">Specifies the way locally cached objects should be invalidated, as defined by the <see cref="T:Microsoft.Data.Caching.LocalCacheSyncPolicy" /> enumeration.</param>
+			<param name="localCacheTimeout">The number of seconds that objects will remain in local cache before they are invalidated. Not applicable to notification-based invalidation. For more information, see Expiration and Eviction (Velocity).</param>
+			<param name="pollInterval">The interval, in seconds, in which the cache client checks with the cache cluster for new notifications. Default value is 300 seconds. For more information, see Cache Notifications (Velocity).</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.CreateLogSinks(System.Collections.Generic.List{Microsoft.Data.Caching.DataCacheLogSink})">
+			<summary>Allows you to set the log levels on one or more log sinks for the cache client.</summary>
+			<param name="sinkList">Log level settings for one or more log sinks.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.DisableLogSinks">
+			<summary>Disables all log sinks on the cache client.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.Dispose">
+			<summary>Closes the <see cref="T:Microsoft.Data.Caching.DataCacheFactory" /> object and releases all associated resources.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.EnableAllAvailableSinks">
+			<summary>Enables all available log sinks on the cache client, with the EventTrace level equal to Warning.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.GetCache(System.String)">
+			<summary>Returns the cache client, an instance of the <see cref="T:Microsoft.Data.Caching.DataCache" /> object.</summary>
+			<returns>The cache client, an instance of the <see cref="T:Microsoft.Data.Caching.DataCache" /> object.</returns>
+			<param name="cacheName">The named cache to use for cache operations.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheFactory.GetDefaultCache">
+			<summary>Returns the cache client corresponding to the default cache; an instance of the <see cref="T:Microsoft.Data.Caching.DataCache" /> object.</summary>
+			<returns>The cache client, an instance of the <see cref="T:Microsoft.Data.Caching.DataCache" /> object.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheFactory.Timeout">
+			<summary>The duration of time, in milliseconds, that the cache client will wait to communicate with the cache cluster before it throws a timeout exception.</summary>
+			<returns>A System.Timespan object that represents the duration of time, in milliseconds, that the cache client will wait to communicate with the cache cluster before it throws a timeout exception.</returns>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheFailureNotificationCallback">
+			<summary>Specifies the parameters required for a method to be invoked by a failure notification when the cache client misses cache notifications. </summary>
+			<param name="cacheName">The name of the cache associated with the missing notifications.</param>
+			<param name="nd">The <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object associated with the failure notification that invoked the delegate method.</param>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheLocalCacheSyncPolicy">
+			<summary>Specifies the way locally cached objects should be invalidated.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheLocalCacheSyncPolicy.NotificationBased">
+			<summary>Specifies that objects will stay in local cache until they are automatically invalidated by a cache notification.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheLocalCacheSyncPolicy.TimeoutBased">
+			<summary>Specifies that objects will stay in local cache until their lifetime reaches the localCacheTimeout duration specified in the <see cref="Overload:Microsoft.Data.Caching.DataCacheCacheFactory.#ctor" /> constructor.</summary>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheNotificationCallback">
+			<summary>Specifies the parameters required for a method to be invoked by a cache notification.</summary>
+			<param name="CacheName">The name of the cache associated with the cache operation.</param>
+			<param name="regionName">The name of the region associated with the cache operation. A zero-length string indicates that a specific region is not associated with the cache operation.</param>
+			<param name="key">The name of the key associated with the cache operation. A zero-length string indicates that a specific cached item is not associated with the cache operation.</param>
+			<param name="version">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> of the cached object associated with the cache operation that triggered the notification. A null version indicates that a specific cached item is not associated with the cache operation.</param>
+			<param name="cacheOperation">The <see cref="T:Microsoft.Data.Caching.DataCacheOperation" /> enumeration specifying which cache event triggered the cache notification.</param>
+			<param name="nd">The <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object associated with the cache notification that invoked the delegate method.</param>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor">
+			<summary>Identifies a cache notification callback. This identifier is required to remove the corresponding cache notification callback.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheNotificationDescriptor.ToString">
+			<summary>Creates a copy of the <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object.</summary>
+			<returns>A string value representing the <see cref="P:Microsoft.Data.Caching.DataCacheNotificationDescriptor.CacheName" /> and <see cref="P:Microsoft.Data.Caching.DataCacheNotificationDescriptor.DelegateID" /> property values.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheNotificationDescriptor.CacheName">
+			<summary>he name of the cache triggering the cache notification.</summary>
+			<returns>A string value represents the name of the cache triggering the cache notification.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheNotificationDescriptor.DelegateID">
+			<summary>Identifier for the <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> object. Used to distinguish between <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> objects.</summary>
+			<returns>A System.Int64 value used to identify <see cref="T:Microsoft.Data.Caching.DataCacheNotificationDescriptor" /> objects.</returns>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheOperation">
+			<summary>An enumeration used to specify specific item or region events that can trigger a cache notification.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheOperation.AddItem">
+			<summary>Indicates that an object was added to the cache.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheOperation.ClearRegion">
+			<summary>Indicates that a region in the cache was cleared with the <see cref="M:Microsoft.Data.Caching.DataCache.ClearRegion(System.String)" /> method.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheOperation.CreateRegion">
+			<summary>Indicates that a region in the cache was created with the <see cref="M:Microsoft.Data.Caching.DataCache.CreateRegion(System.String,System.Boolean)" /> method.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheOperation.RemoveItem">
+			<summary>Indicates that an object was removed from the cache.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheOperation.RemoveRegion">
+			<summary>Indicates that a region in the cache was removed with the <see cref="M:Microsoft.Data.Caching.DataCache.RemoveRegion(System.String)" /> method.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheOperation.ReplaceItem">
+			<summary>Indicates that an object was replaced in the cache.</summary>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheServerEndpoint">
+			<summary>Used to specify an individual cache host when programmatically configuring the cache client.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheServerEndpoint.#ctor(System.String,System.Int32,System.String)">
+			<summary>Used to define a cache host in the cache cluster for programmatic configuration of the cache client.</summary>
+			<param name="hostName">The computer name of the cache server.</param>
+			<param name="cachePort">The cache port number of the cache host.</param>
+			<param name="cacheHostName">The Windows service name of the cache host service that is running on the cache server.</param>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheServerEndpoint.CacheHostName">
+			<summary>The Windows service name of the cache host service that is  running on the cache server.</summary>
+			<returns>A string representing the Windows service name of the cache host service that is running on the cache server. The installation default value is DistributedCacheService.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheServerEndpoint.CachePort">
+			<summary>The cache port on the cache server.</summary>
+			<returns>A System.Int32 value that represents the cache port number on the cache server.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheServerEndpoint.HostName">
+			<summary>The computer name of the cache server.</summary>
+			<returns>A string representing the computer name of the cache server.</returns>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheSessionStoreProvider">
+			<summary>A session storage provider that enables Web applications to store session-state data to a distributed cache system.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.#ctor">
+			<summary>Initializes a new instance of the <see cref="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider" /> class.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.CreateNewStoreData(System.Web.HttpContext,System.Int32)">
+			<summary>Creates a new data storage object for the current request.</summary>
+			<returns>A <see cref="T:System.Web.SessionState.SessionStateStoreData" /> object, used for storing session data in the distributed cache.</returns>
+			<param name="context">The HttpContext for the current request.</param>
+			<param name="timeout">The session state Timeout value for the new <see cref="T:System.Web.SessionState.SessionStateStoreData" /> object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.CreateUninitializedItem(System.Web.HttpContext,System.String,System.Int32)">
+			<summary>Adds a new session state to the distributed cache.</summary>
+			<param name="context">The HttpContext for the current request.</param>
+			<param name="id">The session identifier for the current request.</param>
+			<param name="timeout">The session Timeout for the current request.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.Dispose">
+			<summary>Releases all resources used by the <see cref="T:Microsoft.Data.Caching.DataCacheSessionStoreProvider" /> class.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.EndRequest(System.Web.HttpContext)">
+			<summary>Called by the <see cref="T:System.Web.SessionState.SessionStateModule" /> class at the end of a request.</summary>
+			<param name="context">The HttpContext for the current request.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.GetItem(System.Web.HttpContext,System.String,System.Boolean@,System.TimeSpan@,System.Object@,System.Web.SessionState.SessionStateActions@)">
+			<summary>Returns read-only session-state data from the cache.</summary>
+			<returns>A SessionStateStoreData object populated with session values and information from the cache.</returns>
+			<param name="context">The HttpContext of the current request.</param>
+			<param name="id">The session identifier for the current request.</param>
+			<param name="locked">When this method returns, contains a Boolean value that is set to true if the requested session item is locked in the cache; otherwise, false.</param>
+			<param name="lockAge">When this method returns, contains a TimeSpan object that is set to the period of time that an item in the cache has been locked.</param>
+			<param name="lockId">When this method returns, contains an object that is set to the lock identifier for the current request. </param>
+			<param name="actions">When this method returns, contains one of the SessionStateActions values. This indicates whether the current session is an uninitialized, cookieless session.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.GetItemExclusive(System.Web.HttpContext,System.String,System.Boolean@,System.TimeSpan@,System.Object@,System.Web.SessionState.SessionStateActions@)">
+			<summary>Returns and locks the read-only session-state data from the cache. </summary>
+			<returns>A SessionStateStoreData object populated with session values and information from the cache.</returns>
+			<param name="context">The HttpContext of the current request.</param>
+			<param name="id">The session identifier for the current request.</param>
+			<param name="locked">When this method returns, contains a Boolean value that is set to true if a lock in the cache is successfully obtained; otherwise, false.</param>
+			<param name="lockAge">When this method returns, contains a TimeSpan object that is set to the period of time that an item in the cache has been locked.</param>
+			<param name="lockId">When this method returns, contains an object that is set to the lock identifier for the current request. </param>
+			<param name="actions">When this method returns, contains one of the SessionStateActions values. This indicates whether the current session is an uninitialized, cookieless session.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+			<summary>Initializes the distributed cache provider.</summary>
+			<param name="name">The name of the application.</param>
+			<param name="config">The configuration details specified in the application configuration file for cacheName and regionName.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.InitializeRequest(System.Web.HttpContext)">
+			<summary>Called by the SessionStateModule object for per-request initialization.</summary>
+			<param name="context">The HttpContext for the current request.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.ReleaseItemExclusive(System.Web.HttpContext,System.String,System.Object)">
+			<summary>Releases a lock on the session data in the cache.</summary>
+			<param name="context">The HttpContext of the current request.</param>
+			<param name="id">The session identifier of the current request.</param>
+			<param name="lockId">The lock identifier of the current request.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.RemoveItem(System.Web.HttpContext,System.String,System.Object,System.Web.SessionState.SessionStateStoreData)">
+			<summary>Deletes session data from the cache.</summary>
+			<param name="context">The HttpContext of the current request.</param>
+			<param name="id">The session identifier of the current request.</param>
+			<param name="lockId">The lock identifier of the current request.</param>
+			<param name="item">The SessionStateStoreData that represents the item to delete from the cache.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.ResetItemTimeout(System.Web.HttpContext,System.String)">
+			<summary>Updates the expiration date and time of session data in the cache.</summary>
+			<param name="context">The HttpContext of the current request.</param>
+			<param name="id">The session identifier of the current request.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.SetAndReleaseItemExclusive(System.Web.HttpContext,System.String,System.Web.SessionState.SessionStateStoreData,System.Object,System.Boolean)">
+			<summary>Updates the session item information in the cache with values from the current request and clears the lock on the session item.</summary>
+			<param name="context">The HttpContext of the current request.</param>
+			<param name="id">The session identifier of the current request.</param>
+			<param name="item">The SessionStateStoreData object that contains the current session values to be stored.</param>
+			<param name="lockId">The lock identifier for the current request.</param>
+			<param name="newItem">If true, identifies the session item as a new item if true; otherwise, identifies the session item as an existing item.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheSessionStoreProvider.SetItemExpireCallback(System.Web.SessionState.SessionStateItemExpireCallback)">
+			<summary>Sets a reference to the SessionStateItemExpireCallback delegate for the Session_OnEnd event defined in the Global.asax file.</summary>
+			<returns>Cache does not support notification of the expiration; therefore this method always returns false.</returns>
+			<param name="expireCallback">The SessionStateItemExpireCallback delegate for the Session_OnEnd event defined in the Global.asax file.</param>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheSessionStoreProvider.ApplicationName">
+			<summary>The name of the application, used to differentiate sessions in the cache cluster.</summary>
+			<returns>A string value that represents the name of the application that uses the distributed cache to store session state.</returns>
+		</member>
+	</members>
+</doc>

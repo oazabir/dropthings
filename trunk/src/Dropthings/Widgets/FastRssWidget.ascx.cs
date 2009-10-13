@@ -133,7 +133,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 
     private string GetCachedJSON()
     {
-        if (ProxyAsync.IsUrlInCache(Cache, this.Url))
+        if (ProxyAsync.IsUrlInCache(this.Url))
         {
             var cachedRSS = new ProxyAsync().GetRss(this.Url, this.Count, 10);
             string json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(cachedRSS);

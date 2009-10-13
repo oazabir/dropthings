@@ -27,6 +27,7 @@ namespace Dropthings.Web.Framework
 
     using Dropthings.Widget.Framework;
     using Dropthings.Util;
+    using OmarALZabir.AspectF;
     
     [WebService(Namespace = "http://www.dropthings.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]

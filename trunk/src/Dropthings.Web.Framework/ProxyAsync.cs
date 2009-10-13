@@ -30,6 +30,7 @@ namespace Dropthings.Web.Framework
 
     using Dropthings.Widget.Framework;
     using Dropthings.Util;
+    using OmarALZabir.AspectF;
     
     /// <summary>
     /// Summary description for Proxy
@@ -59,9 +60,9 @@ namespace Dropthings.Web.Framework
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true)]
-        public static bool IsUrlInCache(Cache cache, string url)
+        public static bool IsUrlInCache(string url)
         {
-            var data = cache[CACHE_KEY + url];
+            var data = Services.Get<ICacheResolver>().Get(CACHE_KEY + url);
             return (null != data);
         }
 
@@ -73,7 +74,7 @@ namespace Dropthings.Web.Framework
                 .Return<IAsyncResult>(() =>
                 {
                     // See if the response from the URL is already cached on server
-                    string cachedContent = Context.Cache[CACHE_KEY + url] as string;
+                    string cachedContent = Services.Get<ICacheResolver>().Get(CACHE_KEY + url) as string;
                     if (!string.IsNullOrEmpty(cachedContent))
                     {
                         this.CacheResponse(Context, cacheDuration);
@@ -159,10 +160,7 @@ namespace Dropthings.Web.Framework
                             {
                                 string content = reader.ReadToEnd();
 
-                                state.Context.Cache.Insert(CACHE_KEY + state.Url, content, null,
-                                Cache.NoAbsoluteExpiration,
-                                TimeSpan.FromMinutes(state.CacheDuration),
-                                CacheItemPriority.Normal, null);
+                                Services.Get<ICacheResolver>().Add(CACHE_KEY + state.Url, content);
                             }
 
                             state.Context.Response.Flush();
@@ -183,11 +181,11 @@ namespace Dropthings.Web.Framework
         [ScriptMethod(UseHttpGet = true)]
         public object GetRss(string url, int count, int cacheDuration)
         {
-            var feed = Context.Cache[CACHE_KEY + url] as XElement;
+            var feed = Services.Get<ICacheResolver>().Get(CACHE_KEY + url) as XElement;
             if (feed == null)
             {
                 // We have failed to load the RSS before. So, let's not try again.
-                if (string.Empty == (Context.Cache[CACHE_KEY + url] as string)) return null;
+                if (string.Empty == (Services.Get<ICacheResolver>().Get(CACHE_KEY + url) as string)) return null;
 
                 try
                 {
@@ -203,7 +201,7 @@ namespace Dropthings.Web.Framework
                     }
 
                     if (feed == null) return null;
-                    Context.Cache.Add(CACHE_KEY + url, feed, null, DateTime.Now.AddMinutes(15), Cache.NoSlidingExpiration, CacheItemPriority.Normal, null);
+                    Services.Get<ICacheResolver>().Add(CACHE_KEY + url, feed);
 
                 }
                 catch(Exception x)
@@ -211,7 +209,7 @@ namespace Dropthings.Web.Framework
                     Debug.WriteLine(x.ToString());
                     // Let's remember that we failed to load this RSS feed and we will not try to load it again
                     // in next 15 mins
-                    Context.Cache.Insert(CACHE_KEY + url, string.Empty, null, DateTime.Now.AddMinutes(15), Cache.NoSlidingExpiration);
+                    Services.Get<ICacheResolver>().Add(CACHE_KEY + url, string.Empty);
                     return null;
                 }
             }
@@ -261,16 +259,13 @@ namespace Dropthings.Web.Framework
                 .HowLong(Services.Get<ILogger>(), "Begin:GetString " + url, "End:GetString " + url + " {0}")
                 .Return<string>(() =>
                 {
-                    var cachedContent = Context.Cache[CACHE_KEY + url] as string;
+                    var cachedContent = Services.Get<ICacheResolver>().Get(CACHE_KEY + url) as string;
                     if (null != cachedContent) return cachedContent;
 
                     using (WebClient client = new WebClient())
                     {
                         var content = client.DownloadString(url);
-                        Context.Cache.Insert(CACHE_KEY + url, content, null,
-                                Cache.NoAbsoluteExpiration,
-                                TimeSpan.FromMinutes(cacheDuration),
-                                CacheItemPriority.Normal, null);
+                        Services.Get<ICacheResolver>().Add(CACHE_KEY + url, content);
                         return content;
                     }
                 });

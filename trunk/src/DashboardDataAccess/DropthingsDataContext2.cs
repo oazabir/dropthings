@@ -16,7 +16,8 @@
         {
         }
 
-        public DropthingsDataContext2() : base(DatabaseHelper.GetConnectionString(DEFAULT_CONNECTION_STRING_NAME))
+        public DropthingsDataContext2()
+            : this(DropthingsDataContext.GetConnectionString())
         {
         }
 

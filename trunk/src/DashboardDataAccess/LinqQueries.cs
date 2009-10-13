@@ -261,21 +261,21 @@ namespace Dropthings.DataAccess
         public static readonly Func<DropthingsDataContext, string, IQueryable<Guid>> CompiledQuery_GetUserGuidFromUserName =
             CompiledQuery.Compile<DropthingsDataContext, string, IQueryable<Guid>>((dc, userName) =>
                 from u in dc.aspnet_Users
-                where u.LoweredUserName == userName && u.ApplicationId == DatabaseHelper.ApplicationGuid
+                where u.LoweredUserName == userName && u.ApplicationId == DropthingsDataContext.ApplicationGuid
                 select u.UserId
             );
 
         public static readonly Func<DropthingsDataContext, string, IQueryable<aspnet_User>> CompiledQuery_GetUserFromUserName =
             CompiledQuery.Compile<DropthingsDataContext, string, IQueryable<aspnet_User>>((dc, userName) =>
                 from u in dc.aspnet_Users
-                where u.LoweredUserName == userName && u.ApplicationId == DatabaseHelper.ApplicationGuid
+                where u.LoweredUserName == userName && u.ApplicationId == DropthingsDataContext.ApplicationGuid
                 select u
             );
 
         public static readonly Func<DropthingsDataContext, Guid, IQueryable<aspnet_User>> CompiledQuery_GetUserByUserGuid =
             CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<aspnet_User>>((dc, userGuid) =>
                 from u in dc.aspnet_Users
-                where u.UserId == userGuid && u.ApplicationId == DatabaseHelper.ApplicationGuid
+                where u.UserId == userGuid && u.ApplicationId == DropthingsDataContext.ApplicationGuid
                 select u
             );
 

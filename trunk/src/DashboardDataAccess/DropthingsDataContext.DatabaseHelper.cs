@@ -15,11 +15,11 @@
     {
         #region Fields
 
-        public readonly Guid ApplicationGuid = new Guid(ApplicationID);
+        internal const string ApplicationID = "fd639154-299a-4a9d-b273-69dc28eb6388";
+        internal static readonly Guid ApplicationGuid = new Guid(ApplicationID);
+        internal const string DEFAULT_CONNECTION_STRING_NAME = "DropthingsConnectionString";
 
-        public const string ApplicationID = "fd639154-299a-4a9d-b273-69dc28eb6388";
-        public const string DEFAULT_CONNECTION_STRING_NAME = "DropthingsConnectionString";
-
+        internal static object _LockForConnectionStringMap = new object();        
         private static Dictionary<SubsystemEnum, string> _SubsystemConnectionStringMap = new Dictionary<SubsystemEnum, string>();
         private static Dictionary<Type, TableDef> _TableDefCache = new Dictionary<Type, TableDef>();
 
@@ -326,7 +326,7 @@
         {
             return GetQueryResult<TSource, TSource>(subsystem,
                 func,
-                (query) => query.SingleOrDefault<TSource>());
+                (query) => query.FirstOrDefault<TSource>());
         }
 
         public TSource GetSingle<TSource, TArg0>(
@@ -336,7 +336,7 @@
         {
             return GetQueryResult<TSource, TArg0, TSource>(subsystem,
                 arg0, func,
-                (query) => query.SingleOrDefault<TSource>());
+                (query) => query.FirstOrDefault<TSource>());
         }
 
         public TSource GetSingle<TSource, TArg0, TArg1>(
@@ -346,7 +346,7 @@
         {
             return GetQueryResult<TSource, TArg0, TArg1, TSource>(subsystem,
                 arg0, arg1, func,
-                (query) => query.SingleOrDefault<TSource>());
+                (query) => query.FirstOrDefault<TSource>());
         }
 
         public TSource GetSingle<TSource, TArg0, TArg1, TArg2>(
@@ -357,7 +357,7 @@
             return GetQueryResult<TSource, TArg0, TArg1, TArg2, TSource>(subsystem,
                 arg0, arg1, arg2,
                 func,
-                (query) => query.SingleOrDefault<TSource>());
+                (query) => query.FirstOrDefault<TSource>());
         }
 
         public void InDataContext(SubsystemEnum subsystem, bool nolock, DataContextDelegate d)
@@ -406,7 +406,7 @@
             });
         }
 
-        public void UpdateList<TEntity>(SubsystemEnum subsystem, IList<TEntity> list,
+        public void UpdateList<TEntity>(SubsystemEnum subsystem, IEnumerable<TEntity> list,
             Action<TEntity> detach,
             Action<TEntity> postAttachUpdate)
             where TEntity : class
@@ -458,17 +458,26 @@
         /// otherwise use the first connection string as the default for the subsystem 
         /// Connection string name must be in this format: SubsystemNameConnectionString           
         /// </summary>
-        /// <param name="subsystem"></param>
         /// <returns></returns>
-        internal string GetConnectionString(SubsystemEnum subsystem)
+        public static string GetConnectionString()
         {
-            if (_SubsystemConnectionStringMap.ContainsKey(subsystem))
-                return _SubsystemConnectionStringMap[subsystem];
+            return ConfigurationManager.ConnectionStrings[DEFAULT_CONNECTION_STRING_NAME].ConnectionString;
 
-            var connectionStringSetting = ConfigurationManager.ConnectionStrings[subsystem.ToString() + "ConnectionString"] ??
-                ConfigurationManager.ConnectionStrings[DEFAULT_CONNECTION_STRING_NAME];
-            _SubsystemConnectionStringMap.Add(subsystem, connectionStringSetting.ConnectionString);
-            return connectionStringSetting.ConnectionString;
+            //if (_SubsystemConnectionStringMap.ContainsKey(subsystem))
+            //    return _SubsystemConnectionStringMap[subsystem];
+
+            //lock (_LockForConnectionStringMap)
+            //{
+            //    if (_SubsystemConnectionStringMap.ContainsKey(subsystem))
+            //        return _SubsystemConnectionStringMap[subsystem];
+            //    else
+            //    {
+            //        var connectionStringSetting = ConfigurationManager.ConnectionStrings[subsystem.ToString() + "ConnectionString"] ??
+            //            ConfigurationManager.ConnectionStrings[DEFAULT_CONNECTION_STRING_NAME];
+            //        _SubsystemConnectionStringMap.Add(subsystem, connectionStringSetting.ConnectionString);
+            //        return connectionStringSetting.ConnectionString;
+            //    }
+            //}
         }
 
         /// <summary>
@@ -476,9 +485,9 @@
         /// </summary>
         /// <param name="subsystem"></param>
         /// <returns></returns>
-        internal DropthingsDataContext2 GetDataContext(SubsystemEnum subsystem, bool nolock)
+        internal static DropthingsDataContext2 GetDataContext(SubsystemEnum subsystem, bool nolock)
         {
-            var context = new DropthingsDataContext2(GetConnectionString(subsystem));
+            var context = new DropthingsDataContext2(GetConnectionString());
             context.Log = new DebugStreamWriter();
             context.DeferredLoadingEnabled = false;
 

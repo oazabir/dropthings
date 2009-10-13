@@ -32,6 +32,7 @@ using Dropthings.Business.Facade;
 using Dropthings.Model;
 using Dropthings.Business.Facade.Context;
 using Dropthings.Util;
+using OmarALZabir.AspectF;
 
 public partial class _Default : BasePage
 {
@@ -97,14 +98,20 @@ public partial class _Default : BasePage
             this.ShowChangeSettingsPanel();
     }
 
+    private void CallBaseCreateChildControl()
+    {
+        base.CreateChildControls();
+    }
+
     protected override void CreateChildControls()
     {
         var me = this;
+        
         AspectF.Define
             .Retry(errors => errors.ToArray().Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
             .Log(Services.Get<ILogger>(), "User visit: " + Profile.UserName)
             .Do(() => {
-                me.CreateChildControls();
+                me.CallBaseCreateChildControl();
                 me.LoadUserPageSetup(false);
                 me.LoadAddStuff();
                 me.UserTabPage.LoadTabs(_Setup.CurrentUserId, _Setup.UserPages, _Setup.UserSharedPages, _Setup.CurrentPage);
@@ -129,7 +136,6 @@ public partial class _Default : BasePage
                 using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
                 {
                     var newCurrentPage = facade.DeletePage(_Setup.CurrentPage.ID);
-                    Context.Cache.Remove(Profile.UserName);
                     RedirectToTab(newCurrentPage);
                 }
             });
@@ -196,28 +202,6 @@ public partial class _Default : BasePage
         if (this.AddContentPanel.Visible)
             ScriptManager.RegisterStartupScript(this.AddContentPanel, typeof(Panel), "ShowAddContentPanel" + DateTime.Now.Ticks.ToString(),
                 "DropthingsUI.showWidgetGallery();", true);
-
-//        if (!Page.IsPostBack)
-//            ScriptManager.RegisterStartupScript(this, typeof(Page), "OverrideIsScriptLoaded", @"
-//                if(typeof(Sys)!=='undefined')
-//                {
-//                    if(typeof(Sys._ScriptLoader) !== 'undefined')
-//                    {
-//                        Sys._ScriptLoader.isScriptLoaded = function Sys$_ScriptLoader$isScriptLoaded(scriptSrc)
-//                        {
-//                            var dummyScript = document.createElement('script');
-//                            dummyScript.src = scriptSrc;
-//                            var fullUrl = dummyScript.src;
-//                            var result = Array.contains(Sys._ScriptLoader._getLoadedScripts(), fullUrl);
-//                            if (result === true) return true;
-//                            result = Array.contains(window._combinedScripts, fullUrl);
-//                            if (result === true) return true;
-//                            var scriptTags = document.getElementsByTagName('script');
-//                            for(var i = 0; i < scriptTags.length; i ++ ) if (scriptTags[i].src == fullUrl) return true;
-//                            return false;
-//                        }
-//                    }
-//                }", true);
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -354,7 +338,7 @@ public partial class _Default : BasePage
 
                     // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
                     // to recrate the pages
-                    if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count == 0)
+                    if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count() == 0)
                     {
                         _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                     }
@@ -383,7 +367,7 @@ public partial class _Default : BasePage
     private void ShowChangeSettingsPanel()
     {
         //if tab counts 1 or less deleting disabled
-        if (_Setup.UserPages.Count <= 1)
+        if (_Setup.UserPages.Count() <= 1)
             this.DeleteTabLinkButton.Enabled = false;
 
         this.ChangePageSettingsPanel.Visible = true;

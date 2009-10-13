@@ -11,6 +11,8 @@
     using System.Configuration;
     using Dropthings.Utils;
     using Dropthings.Configuration;
+    using Dropthings.Util;
+    using OmarALZabir.AspectF;
 
     partial class Facade
     {
@@ -46,22 +48,21 @@
 
                     for (int i = 0; i < roles.Length; i++)
                     {
+                        string roleName = roles[i];
                         if (!System.Web.Security.Roles.RoleExists(roles[i]))
                         {
-                            if (!Roles.RoleExists(roles[i]))
+                            if (!Roles.RoleExists(roleName))
                             {
-                                Roles.CreateRole(roles[i]);
+                                Roles.CreateRole(roleName);
 
-                                var aspnet_Role = DatabaseHelper.GetSingle<aspnet_Role, string>(DatabaseHelper.SubsystemEnum.User, roles[i], LinqQueries.CompiledQuery_GetRoleByRoleName);
-                                var defaultWidgets = DatabaseHelper.GetList<Widget, bool>(DatabaseHelper.SubsystemEnum.Widget,
-                                    true, LinqQueries.CompiledQuery_GetWidgetByIsDefault);
-
+                                var aspnet_Role = this.roleRepository.GetRoleByRoleName(roles[i]);
+                                var defaultWidgets = this.widgetRepository.GetWidgetByIsDefault(true);
+                                    
                                 if (defaultWidgets != null && defaultWidgets.Count > 0)
                                 {
                                     foreach (var defaultWidget in defaultWidgets)
                                     {
-                                        DatabaseHelper.Insert<WidgetsInRole>(DatabaseHelper.SubsystemEnum.Widget,
-                                           (newWidgetsInRole) =>
+                                        this.widgetsInRolesRepository.Insert((newWidgetsInRole) =>
                                            {
                                                newWidgetsInRole.WidgetId = defaultWidget.ID;
                                                newWidgetsInRole.RoleId = aspnet_Role.RoleId;
@@ -86,7 +87,7 @@
 
             ShortGuid shortGuid = insertedToken.UniqueID;
 
-            MembershipUser newUser = Membership.GetUser(email);
+            MembershipUser newUser = this.GetUser(email);
             newUser.IsApproved = false;
             Membership.UpdateUser(newUser);
 
@@ -100,7 +101,7 @@
 
             if (token != default(Token))
             {
-                var user = Membership.GetUser(token.UserName);
+                var user = this.GetUser(token.UserName);
 
                 if (user != null)
                 {
@@ -120,7 +121,7 @@
             
             if (!string.IsNullOrEmpty(userName))
             {
-                var user = Membership.GetUser(userName, false);
+                var user = this.GetUser(userName);
                 newPassword = user.ResetPassword();
             }
 
@@ -139,15 +140,13 @@
 
             int priority = RoleTemplates.Count == 0 ? 0 : RoleTemplates.Max(r => r.Priority);
 
-            var aspnet_Role = DatabaseHelper.GetSingle<aspnet_Role, string>(DatabaseHelper.SubsystemEnum.User,
-                    templateRoleName, LinqQueries.CompiledQuery_GetRoleByRoleName);
+            var aspnet_Role = this.roleRepository.GetRoleByRoleName(templateRoleName);
 
-            var RoleTemplate = DatabaseHelper.GetSingle<RoleTemplate, string>(DatabaseHelper.SubsystemEnum.User,
-                templateRoleName, LinqQueries.CompiledQuery_GetRoleTemplateByRoleName);
-
+            var RoleTemplate = this.roleTemplateRepository.GetRoleTemplateByRoleName(templateRoleName);
+            
             if (RoleTemplate == null)
             {
-                var insertedRoleTemplate = DatabaseHelper.Insert<RoleTemplate>(DatabaseHelper.SubsystemEnum.User, (newRoleTemplate) =>
+                var insertedRoleTemplate = this.roleTemplateRepository.Insert((newRoleTemplate) =>
                 {
                     newRoleTemplate.RoleId = aspnet_Role.RoleId;
                     newRoleTemplate.TemplateUserId = userGuid;
@@ -172,14 +171,14 @@
                 if (!roleTemplate.TemplateUserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    var templateUserPages = this.pageRepository.GetPagesOfUser(roleTemplate.TemplateUserId);
-                    templateUserPages.Each(templatePage =>
+                    var templateUserPages = this.GetPagesOfUser(roleTemplate.TemplateUserId);
+                    foreach (Page templatePage in templateUserPages)
                     {
                         if (!templatePage.IsLocked)
                         {
                             ClonePage(userGuid, templatePage);
                         }
-                    });
+                    }
                 }
             }
             else
@@ -209,19 +208,14 @@
             if (pageId > 0)
             {
                 // Get the user who is the owner of the page. Then see if the current user is the same
-                var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.Page,
-                    pageId, LinqQueries.CompiledQuery_GetPageOwnerName);
+                var ownerName = this.pageRepository.GetPageOwnerName(pageId);
 
                 if (!Context.CurrentUserName.ToLower().Equals(ownerName))
                     throw new ApplicationException(string.Format("User {0} is not the owner of the page {1}", Context.CurrentUserName, pageId));
             }
             else if (widgetZoneId > 0)
             {
-                // Get the user who is the owner of the widget. Then see if the current user is the same
-                var owners = DatabaseHelper.GetList<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    widgetZoneId, LinqQueries.CompiledQuery_GetWidgetZoneOwnerName);
-                var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                   widgetZoneId, LinqQueries.CompiledQuery_GetWidgetZoneOwnerName);
+                var ownerName = this.widgetZoneRepository.GetWidgetZoneOwnerName(widgetZoneId);
 
                 if (!Context.CurrentUserName.ToLower().Equals(ownerName))
                     throw new ApplicationException(string.Format("User {0} is not the owner of the widget zone {1}", Context.CurrentUserName, widgetInstanceId));
@@ -230,8 +224,7 @@
             else if (widgetInstanceId > 0)
             {
                 // Get the user who is the owner of the widget. Then see if the current user is the same
-                var ownerName = DatabaseHelper.GetSingle<string, int>(DatabaseHelper.SubsystemEnum.WidgetInstance,
-                    widgetInstanceId, LinqQueries.CompiledQuery_GetWidgetInstanceOwnerName);
+                var ownerName = this.GetWidgetInstanceOwnerName(widgetInstanceId);
 
                 if (!Context.CurrentUserName.ToLower().Equals(ownerName))
                     throw new ApplicationException(string.Format("User {0} is not the owner of the widget instance {1}", Context.CurrentUserName, widgetInstanceId));
@@ -276,6 +269,10 @@
                             }
                             else if ((!isEnable) && existingWidgetsInRole != null)
                             {
+                                // OMAR: This is going to bring the site down. This call will return
+                                // a very large number of widget instance, may be all of them from database.
+                                // This needs to be done entirely from a stored procedure and the SP needs
+                                // to do the operation in small batches to prevent database locks.
                                 var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetAndRole(existingWidgetsInRole.WidgetId, existingWidgetsInRole.RoleId);
 
                                 foreach (var widgetInstance in widgetInstances)
@@ -284,17 +281,7 @@
 
                                     if (widgetInstanceForOtherRole == null || widgetInstanceForOtherRole.Count == 0)
                                     {
-                                        this.widgetInstanceRepository.Delete(widgetInstance);
-
-                                        var list = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneId(widgetInstance.WidgetZoneId);
-
-                                        int orderNo = 0;
-                                        foreach (WidgetInstance wi in list)
-                                        {
-                                            wi.OrderNo = orderNo++;
-                                        }
-
-                                        this.widgetInstanceRepository.UpdateList(list, null, null);
+                                        this.DeleteWidgetInstance(widgetInstance.Id);
                                     }
                                 }
 

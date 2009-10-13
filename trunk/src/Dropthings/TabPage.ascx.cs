@@ -31,7 +31,7 @@ public partial class TabPage : System.Web.UI.UserControl
         get; set;
     }
 
-    public List<Dropthings.DataAccess.Page> Pages
+    public IEnumerable<Dropthings.DataAccess.Page> Pages
     {
         get; set;
     }
@@ -52,7 +52,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
     #region Methods
 
-    public void LoadTabs(Guid currentUserId, List<Dropthings.DataAccess.Page> pages, List<Dropthings.DataAccess.Page> sharedPages, Dropthings.DataAccess.Page page)
+    public void LoadTabs(Guid currentUserId, IEnumerable<Dropthings.DataAccess.Page> pages, List<Dropthings.DataAccess.Page> sharedPages, Dropthings.DataAccess.Page page)
     {
         this.CurrentPage = page;
         this.Pages = pages;
@@ -103,7 +103,7 @@ public partial class TabPage : System.Web.UI.UserControl
     {
         tabList.Controls.Clear();
 
-        var viewablePages = this.Pages;
+        var viewablePages = this.Pages.ToList();
 
         if (this.LockedPages != null)
         {

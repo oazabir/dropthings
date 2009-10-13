@@ -9,6 +9,7 @@
     
     using Dropthings.Util;
     using Dropthings.Configuration;
+    using OmarALZabir.AspectF;
 
     /// <summary>
     /// Facade subsystem for Pages, Columns, WidgetZones
@@ -16,6 +17,16 @@
     partial class Facade
     {
         #region Methods
+
+        public Page GetPage(int pageId)
+        {
+            return this.pageRepository.GetPageById(pageId);
+        }
+
+        public IEnumerable<Page> GetPagesOfUser(Guid userGuid)
+        {
+            return this.pageRepository.GetPagesOfUser(userGuid);
+        }
 
         public List<Column> GetColumnsInPage(int pageId)
         {
@@ -32,16 +43,18 @@
                 newWidgetZone.UniqueID = Guid.NewGuid().ToString();
             });
 
-            var widgetInstancesToClone = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneId(widgetZoneToClone.ID);
+            var widgetInstancesToClone = this.GetWidgetInstancesInZone(widgetZoneToClone.ID);
             widgetInstancesToClone.Each(widgetInstanceToClone => CloneWidgetInstance(clonedWidgetZone.ID, widgetInstanceToClone));                
 
-            return this.columnRepository.Insert((col) =>
+            var newColumn = this.columnRepository.Insert((col) =>
             {
                 col.PageId = clonedPage.ID;
                 col.WidgetZoneId = clonedWidgetZone.ID;
                 col.ColumnNo = columnToClone.ColumnNo;
                 col.ColumnWidth = columnToClone.ColumnWidth;
             });
+            
+            return newColumn;
         }
 
         public Page CreatePage(Guid userGuid, string title, string layoutType, int toOrder)
@@ -73,7 +86,7 @@
                     column.PageId = insertedPage.ID;
                 });
             }
-
+            
             ReorderPagesOfUser();
 
             return SetCurrentPage(userGuid, page.ID);
@@ -81,7 +94,7 @@
 
         public Page CreatePage(string title, string layoutType)
         {
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName); 
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName); 
             return CreatePage(userGuid, title, layoutType, 9999);
         }
 
@@ -104,7 +117,7 @@
 
                 ReorderPagesOfUser();
 
-                var columns = this.columnRepository.GetColumnsByPageId(pageToClone.ID);
+                var columns = this.GetColumnsInPage(pageToClone.ID);
                 columns.Each(columnToClone => CloneColumn(clonedPage, columnToClone));
 
                 return clonedPage;
@@ -115,7 +128,7 @@
 
         public WidgetInstance CloneWidgetInstance(int widgetZoneId, WidgetInstance wiToClone)
         {
-            return this.widgetInstanceRepository.Insert((wi) =>
+            var newWidgetInstance = this.widgetInstanceRepository.Insert((wi) =>
             {
                 wi.CreatedDate = wiToClone.CreatedDate;
                 wi.Expanded = wiToClone.Expanded;
@@ -130,7 +143,9 @@
                 wi.WidgetId = wiToClone.WidgetId;
                 wi.WidgetZoneId = widgetZoneId;
                 wi.Width = wiToClone.Width;
-            });
+            });           
+
+            return newWidgetInstance;
         }
 
         public Page SetCurrentPage(Guid userGuid, int currentPageId)
@@ -143,7 +158,7 @@
         public Page DecideCurrentPage(Guid userGuid, string pageTitle, int currentPageId, bool? isAnonymous, bool? isFirstVisitAfterLogin)
         {
             Page currentPage = null;
-            var pages = this.pageRepository.GetPagesOfUser(userGuid);
+            var pages = this.GetPagesOfUser(userGuid);
             List<Page> sharedPages = null;
             RoleTemplate roleTemplate = null;
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
@@ -220,16 +235,16 @@
 
             // If there's no such page, then the first page user has will be the current
             // page. This happens when a page is deleted.
-            currentPage = (currentPageId == 0) ? pages[0] : this.pageRepository.GetPageById(currentPageId);
+            currentPage = (currentPageId == 0) ? pages.First() : this.GetPage(currentPageId);
 
             return currentPage;
         }
 
         public string DecideUniquePageName()
         {
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
-            List<Page> pages = DatabaseHelper.GetList<Page, Guid>(DatabaseHelper.SubsystemEnum.Page, userGuid, LinqQueries.CompiledQuery_GetPagesByUserId);
-
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
+            List<Page> pages = this.GetPagesOfUser(userGuid).ToList();
+            
             string uniqueNamePrefix = DEFAULT_FIRST_PAGE_NAME;
             string pageUniqueName = uniqueNamePrefix;
             for (int counter = 0; counter < 100; counter++)
@@ -249,12 +264,12 @@
         public bool ChangePageName(string title)
         {
             var success = false;
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
-                var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+                var currentPage = this.GetPage(userSetting.CurrentPageId);
 
                 this.pageRepository.Update(currentPage, (page) =>
                 {
@@ -270,12 +285,12 @@
         public bool LockPage()
         {
             var success = false;
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
-                var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+                var currentPage = this.GetPage(userSetting.CurrentPageId);
 
                 this.pageRepository.Update(currentPage, (page) =>
                 {
@@ -292,12 +307,12 @@
         public bool UnLockPage()
         {
             var success = false;
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
-                var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+                var currentPage = this.GetPage(userSetting.CurrentPageId);
 
                 this.pageRepository.Update(currentPage, (page) =>
                 {
@@ -315,12 +330,12 @@
         public bool ChangePageMaintenenceStatus(bool isInMaintenenceMode)
         {
             var success = false;
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
-                var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+                var currentPage = this.GetPage(userSetting.CurrentPageId);
 
                 this.pageRepository.Update(currentPage, (page) =>
                 {
@@ -341,7 +356,7 @@
         public bool ChangeServeAsStartPageAfterLoginStatus(bool shouldServeAsStartPage)
         {
             var success = false;
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
@@ -361,10 +376,11 @@
                 }
 
                 //change the overridable start page status
-                this.pageRepository.Update(this.pageRepository.GetPageById(userSetting.CurrentPageId), (page) =>
+                this.pageRepository.Update(this.GetPage(userSetting.CurrentPageId), (page) =>
                 {
-                    page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;
+                    page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;                    
                 }, null);
+                
 
                 success = true;
             }
@@ -387,26 +403,32 @@
                 widgetZone = this.widgetZoneRepository.GetWidgetZoneById(columnToDelete.WidgetZoneId);
             }
 
-            var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneId(widgetZone.ID);
+            var widgetInstances = this.GetWidgetInstancesInZone(widgetZone.ID);
             widgetInstances.Each((widgetInstance) => this.widgetInstanceRepository.Delete(widgetInstance.Id));
+
             this.columnRepository.Delete(columnId);
             this.widgetZoneRepository.Delete(widgetZone.ID);
         }
 
         public Page DeletePage(int pageId)
         {
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
-            var columns = this.columnRepository.GetColumnsByPageId(pageId);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
+            
+            var columns = this.GetColumnsInPage(pageId);
             columns.Each((column) => DeleteColumn(pageId, column.ID, column.ColumnNo));
+
             this.pageRepository.Delete(pageId);
+            
             var currentPage = DecideCurrentPage(userGuid, string.Empty, 0, null, null);   // 0 - since current page has been deleted.
+
             ReorderPagesOfUser();
+
             return SetCurrentPage(userGuid, currentPage.ID);
         }
 
         public void ModifyPageLayout(int newLayout)
         {
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
             var newColumnDefs = Page.GetColumnWidths(newLayout);
             var existingColumns = GetColumnsInPage(userSetting.CurrentPageId);
@@ -441,34 +463,27 @@
                     });
 
 
-                    try
+                    var insertedColumn = this.columnRepository.Insert((newColumn) =>
                     {
-                        var insertedColumn = this.columnRepository.Insert((newColumn) =>
-                        {
-                            // OMAR: Fix provided in http://code.google.com/p/dropthings/issues/detail?id=42#makechanges
-                            //newColumn.ColumnNo = newColumnNo;
-                            newColumn.ColumnNo = columnCounter + 1;
-                            newColumn.ColumnWidth = newColumnWidth;
-                            newColumn.WidgetZoneId = insertedWidgetZone.ID;
-                            newColumn.PageId = userSetting.CurrentPageId;
-                        });
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-
+                        // OMAR: Fix provided in http://code.google.com/p/dropthings/issues/detail?id=42#makechanges
+                        //newColumn.ColumnNo = newColumnNo;
+                        newColumn.ColumnNo = columnCounter + 1;
+                        newColumn.ColumnWidth = newColumnWidth;
+                        newColumn.WidgetZoneId = insertedWidgetZone.ID;
+                        newColumn.PageId = userSetting.CurrentPageId;
+                    });
+                    
                     ++columnCounter;
                 }
             }
 
-            var columns = GetColumnsInPage(userSetting.CurrentPageId);
+            var columns = this.columnRepository.GetColumnsByPageId(userSetting.CurrentPageId);
             this.columnRepository.UpdateList(columns, (column) =>
             {
                 column.ColumnWidth = newColumnDefs[column.ColumnNo];
             }, null);
 
-            var currentPage = this.pageRepository.GetPageById(userSetting.CurrentPageId);
+            var currentPage = this.GetPage(userSetting.CurrentPageId);
             this.pageRepository.Update(currentPage, (page) =>
             {
                 page.LayoutType = newLayout;
@@ -486,12 +501,15 @@
 
         public void PushDownPages(int pageId, int toOrderNo)
         {
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
-            var isMovingDown = toOrderNo > (pageId > 0 ? this.pageRepository.GetPageById(pageId).OrderNo.GetValueOrDefault() : 0);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
+            var isMovingDown = toOrderNo > (pageId > 0 ? 
+                this.GetPage(pageId).OrderNo.GetValueOrDefault() 
+                : 0);
 
-            List<Page> list = null;
+            IEnumerable<Page> list = this.pageRepository.GetPagesOfUser(userGuid)
+                .Where(page => (isMovingDown ? page.OrderNo > toOrderNo : page.OrderNo >= toOrderNo));
 
-            list = isMovingDown ? this.pageRepository.GetPagesOfUserAfterPosition(userGuid, toOrderNo) : this.pageRepository.GetPagesOfUserFromPosition(userGuid, toOrderNo);
+            //list = isMovingDown ? this.pageRepository.GetPagesOfUserAfterPosition(userGuid, toOrderNo) : this.pageRepository.GetPagesOfUserFromPosition(userGuid, toOrderNo);
 
             int orderNo = toOrderNo + 1;
             foreach (Page item in list)
@@ -504,17 +522,17 @@
 
         public void ChangePagePosition(int pageId, int orderNo)
         {
-            this.pageRepository.Update(this.pageRepository.GetPageById(pageId), (p) =>
+            this.pageRepository.Update(this.GetPage(pageId), (page) =>
             {
-                p.OrderNo = orderNo > p.OrderNo.GetValueOrDefault() ? orderNo + 1 : orderNo;
+                page.OrderNo = orderNo > page.OrderNo.GetValueOrDefault() ? orderNo + 1 : orderNo;
             }, null);
         }
 
         public void ReorderPagesOfUser()
         {
-            var userGuid = this.userRepository.GetUserGuidFromUserName(Context.CurrentUserName);
+            var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
 
-            var list = this.pageRepository.GetPagesOfUser(userGuid);
+            var list = this.GetPagesOfUser(userGuid);
 
             int orderNo = 0;
             foreach (Page page in list)

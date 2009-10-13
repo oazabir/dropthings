@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="OmarALZabir.AspectF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\AspectF\OmarALZabir.AspectF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -54,6 +58,9 @@
     </Reference>
     <Reference Include="System.Data.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -76,7 +83,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DropthingsDataContext.dbml</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DropthingsDataContext2.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="LinqQueries.cs" />
@@ -88,7 +94,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\TimedLog.cs" />
     <Compile Include="ObjectExtensions\UserSetting.cs" />
     <Compile Include="ObjectExtensions\WidgetInstance.cs" />
     <Compile Include="DropthingsDataContext.DatabaseHelper.cs" />

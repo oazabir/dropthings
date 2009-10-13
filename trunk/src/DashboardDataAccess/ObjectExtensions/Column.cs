@@ -10,10 +10,11 @@
     {
         #region Methods
 
-        public void Detach()
+        public Column Detach()
         {
             this._Page = default(EntityRef<Page>);
             this._WidgetZone = default(EntityRef<WidgetZone>);
+            return this;
         }
 
         #endregion Methods

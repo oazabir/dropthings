@@ -4,20 +4,23 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using OmarALZabir.AspectF;
 
     public class WidgetsInRolesRepository : Dropthings.DataAccess.Repository.IWidgetsInRolesRepository
     {
         #region Fields
 
         private readonly IDropthingsDataContext _database;
+        private readonly ICacheResolver _cacheResolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public WidgetsInRolesRepository(IDropthingsDataContext database)
+        public WidgetsInRolesRepository(IDropthingsDataContext database, ICacheResolver cacheResolver)
         {
             this._database = database;
+            this._cacheResolver = cacheResolver;
         }
 
         #endregion Constructors

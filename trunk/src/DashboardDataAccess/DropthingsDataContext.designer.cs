@@ -18,6 +18,7 @@ namespace Dropthings.DataAccess
 	using System.Reflection;
 	using System.Linq;
 	using System.Linq.Expressions;
+	using System.Runtime.Serialization;
 	using System.ComponentModel;
 	using System;
 	
@@ -196,6 +197,7 @@ namespace Dropthings.DataAccess
 	}
 	
 	[Table(Name="dbo.WidgetZone")]
+	[DataContract()]
 	public partial class WidgetZone : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -213,6 +215,8 @@ namespace Dropthings.DataAccess
 		
 		private EntitySet<Column> _Columns;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -229,12 +233,11 @@ namespace Dropthings.DataAccess
 		
 		public WidgetZone()
 		{
-			this._WidgetInstances = new EntitySet<WidgetInstance>(new Action<WidgetInstance>(this.attach_WidgetInstances), new Action<WidgetInstance>(this.detach_WidgetInstances));
-			this._Columns = new EntitySet<Column>(new Action<Column>(this.attach_Columns), new Action<Column>(this.detach_Columns));
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[DataMember(Order=1)]
 		public int ID
 		{
 			get
@@ -255,6 +258,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Title", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		[DataMember(Order=2)]
 		public string Title
 		{
 			get
@@ -275,6 +279,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_UniqueID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[DataMember(Order=3)]
 		public string UniqueID
 		{
 			get
@@ -295,6 +300,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_OrderNo", DbType="Int NOT NULL")]
+		[DataMember(Order=4)]
 		public int OrderNo
 		{
 			get
@@ -315,10 +321,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="WidgetZone_WidgetInstance", Storage="_WidgetInstances", ThisKey="ID", OtherKey="WidgetZoneId")]
+		[DataMember(Order=5, EmitDefaultValue=false)]
 		public EntitySet<WidgetInstance> WidgetInstances
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._WidgetInstances.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._WidgetInstances;
 			}
 			set
@@ -328,10 +340,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="WidgetZone_Column", Storage="_Columns", ThisKey="ID", OtherKey="WidgetZoneId")]
+		[DataMember(Order=6, EmitDefaultValue=false)]
 		public EntitySet<Column> Columns
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._Columns.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._Columns;
 			}
 			set
@@ -383,9 +401,38 @@ namespace Dropthings.DataAccess
 			this.SendPropertyChanging();
 			entity.WidgetZone = null;
 		}
+		
+		private void Initialize()
+		{
+			this._WidgetInstances = new EntitySet<WidgetInstance>(new Action<WidgetInstance>(this.attach_WidgetInstances), new Action<WidgetInstance>(this.detach_WidgetInstances));
+			this._Columns = new EntitySet<Column>(new Action<Column>(this.attach_Columns), new Action<Column>(this.detach_Columns));
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[OnSerializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[OnSerialized()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[Table(Name="dbo.UserSetting")]
+	[DataContract()]
 	public partial class UserSetting : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -417,11 +464,11 @@ namespace Dropthings.DataAccess
 		
 		public UserSetting()
 		{
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=1)]
 		public System.Guid UserId
 		{
 			get
@@ -446,6 +493,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_CurrentPageId", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=2)]
 		public int CurrentPageId
 		{
 			get
@@ -466,6 +514,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_CreatedDate", DbType="DateTime NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=3)]
 		public System.DateTime CreatedDate
 		{
 			get
@@ -486,6 +535,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Timestamp", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=4)]
 		public System.Data.Linq.Binary Timestamp
 		{
 			get
@@ -558,9 +608,23 @@ namespace Dropthings.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[Table(Name="dbo.Token")]
+	[DataContract()]
 	public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -596,11 +660,11 @@ namespace Dropthings.DataAccess
 		
 		public Token()
 		{
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=1)]
 		public int ID
 		{
 			get
@@ -621,6 +685,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_UniqueID", DbType="UniqueIdentifier NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=2)]
 		public System.Guid UniqueID
 		{
 			get
@@ -641,6 +706,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=3)]
 		public System.Guid UserId
 		{
 			get
@@ -665,6 +731,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_UserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=4)]
 		public string UserName
 		{
 			get
@@ -685,6 +752,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastUpdated", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=5)]
 		public System.Data.Linq.Binary LastUpdated
 		{
 			get
@@ -757,9 +825,23 @@ namespace Dropthings.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[Table(Name="dbo.WidgetInstance")]
+	[DataContract()]
 	public partial class WidgetInstance : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -833,12 +915,11 @@ namespace Dropthings.DataAccess
 		
 		public WidgetInstance()
 		{
-			this._WidgetZone = default(EntityRef<WidgetZone>);
-			this._Widget = default(EntityRef<Widget>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=1)]
 		public int Id
 		{
 			get
@@ -859,6 +940,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_WidgetZoneId", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=2)]
 		public int WidgetZoneId
 		{
 			get
@@ -883,6 +965,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_WidgetId", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=3)]
 		public int WidgetId
 		{
 			get
@@ -907,6 +990,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_OrderNo", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=4)]
 		public int OrderNo
 		{
 			get
@@ -927,6 +1011,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Expanded", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=5)]
 		public bool Expanded
 		{
 			get
@@ -947,6 +1032,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Maximized", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=6)]
 		public bool Maximized
 		{
 			get
@@ -967,6 +1053,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Resized", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=7)]
 		public bool Resized
 		{
 			get
@@ -987,6 +1074,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Width", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=8)]
 		public int Width
 		{
 			get
@@ -1007,6 +1095,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Height", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=9)]
 		public int Height
 		{
 			get
@@ -1027,6 +1116,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Title", DbType="NVarChar(255) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=10)]
 		public string Title
 		{
 			get
@@ -1047,6 +1137,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_State", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=11)]
 		public string State
 		{
 			get
@@ -1067,6 +1158,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_VersionNo", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=12)]
 		public int VersionNo
 		{
 			get
@@ -1087,6 +1179,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_CreatedDate", DbType="DateTime NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=13)]
 		public System.DateTime CreatedDate
 		{
 			get
@@ -1107,6 +1200,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastUpdate", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=14)]
 		public System.Data.Linq.Binary LastUpdate
 		{
 			get
@@ -1213,9 +1307,24 @@ namespace Dropthings.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._WidgetZone = default(EntityRef<WidgetZone>);
+			this._Widget = default(EntityRef<Widget>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[Table(Name="dbo.Widget")]
+	[DataContract()]
 	public partial class Widget : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -1253,6 +1362,8 @@ namespace Dropthings.DataAccess
 		
 		private EntitySet<WidgetsInRole> _WidgetsInRoles;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1289,12 +1400,11 @@ namespace Dropthings.DataAccess
 		
 		public Widget()
 		{
-			this._WidgetInstances = new EntitySet<WidgetInstance>(new Action<WidgetInstance>(this.attach_WidgetInstances), new Action<WidgetInstance>(this.detach_WidgetInstances));
-			this._WidgetsInRoles = new EntitySet<WidgetsInRole>(new Action<WidgetsInRole>(this.attach_WidgetsInRoles), new Action<WidgetsInRole>(this.detach_WidgetsInRoles));
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=1)]
 		public int ID
 		{
 			get
@@ -1315,6 +1425,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Name", DbType="NVarChar(255) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=2)]
 		public string Name
 		{
 			get
@@ -1335,6 +1446,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Url", DbType="NVarChar(255) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=3)]
 		public string Url
 		{
 			get
@@ -1355,6 +1467,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Description", DbType="NVarChar(255) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=4)]
 		public string Description
 		{
 			get
@@ -1375,6 +1488,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_DefaultState", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=5)]
 		public string DefaultState
 		{
 			get
@@ -1395,6 +1509,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Icon", DbType="VarChar(255) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=6)]
 		public string Icon
 		{
 			get
@@ -1415,6 +1530,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_OrderNo", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=7)]
 		public int OrderNo
 		{
 			get
@@ -1435,6 +1551,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_RoleName", DbType="VarChar(255) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=8)]
 		public string RoleName
 		{
 			get
@@ -1455,6 +1572,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_IsLocked", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=9)]
 		public bool IsLocked
 		{
 			get
@@ -1475,6 +1593,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_IsDefault", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=10)]
 		public bool IsDefault
 		{
 			get
@@ -1495,6 +1614,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_CreatedDate", DbType="DateTime NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=11)]
 		public System.DateTime CreatedDate
 		{
 			get
@@ -1515,6 +1635,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_VersionNo", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=12)]
 		public int VersionNo
 		{
 			get
@@ -1535,6 +1656,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastUpdate", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=13)]
 		public System.Data.Linq.Binary LastUpdate
 		{
 			get
@@ -1555,6 +1677,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_WidgetType", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=14)]
 		public int WidgetType
 		{
 			get
@@ -1575,10 +1698,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="Widget_WidgetInstance", Storage="_WidgetInstances", ThisKey="ID", OtherKey="WidgetId")]
+		[DataMember(Order=15, EmitDefaultValue=false)]
 		public EntitySet<WidgetInstance> WidgetInstances
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._WidgetInstances.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._WidgetInstances;
 			}
 			set
@@ -1588,10 +1717,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="Widget_WidgetsInRole", Storage="_WidgetsInRoles", ThisKey="ID", OtherKey="WidgetId")]
+		[DataMember(Order=16, EmitDefaultValue=false)]
 		public EntitySet<WidgetsInRole> WidgetsInRoles
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._WidgetsInRoles.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._WidgetsInRoles;
 			}
 			set
@@ -1643,9 +1778,38 @@ namespace Dropthings.DataAccess
 			this.SendPropertyChanging();
 			entity.Widget = null;
 		}
+		
+		private void Initialize()
+		{
+			this._WidgetInstances = new EntitySet<WidgetInstance>(new Action<WidgetInstance>(this.attach_WidgetInstances), new Action<WidgetInstance>(this.detach_WidgetInstances));
+			this._WidgetsInRoles = new EntitySet<WidgetsInRole>(new Action<WidgetsInRole>(this.attach_WidgetsInRoles), new Action<WidgetsInRole>(this.detach_WidgetsInRoles));
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[OnSerializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[OnSerialized()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[Table(Name="dbo.aspnet_Roles")]
+	[DataContract()]
 	public partial class aspnet_Role : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -1667,6 +1831,8 @@ namespace Dropthings.DataAccess
 		
 		private EntitySet<WidgetsInRole> _WidgetsInRoles;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1685,13 +1851,11 @@ namespace Dropthings.DataAccess
 		
 		public aspnet_Role()
 		{
-			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
-			this._RoleTemplates = new EntitySet<RoleTemplate>(new Action<RoleTemplate>(this.attach_RoleTemplates), new Action<RoleTemplate>(this.detach_RoleTemplates));
-			this._WidgetsInRoles = new EntitySet<WidgetsInRole>(new Action<WidgetsInRole>(this.attach_WidgetsInRoles), new Action<WidgetsInRole>(this.detach_WidgetsInRoles));
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_ApplicationId", DbType="UniqueIdentifier NOT NULL")]
+		[DataMember(Order=1)]
 		public System.Guid ApplicationId
 		{
 			get
@@ -1712,6 +1876,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[DataMember(Order=2)]
 		public System.Guid RoleId
 		{
 			get
@@ -1732,6 +1897,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_RoleName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		[DataMember(Order=3)]
 		public string RoleName
 		{
 			get
@@ -1752,6 +1918,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LoweredRoleName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		[DataMember(Order=4)]
 		public string LoweredRoleName
 		{
 			get
@@ -1772,6 +1939,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Description", DbType="NVarChar(256)")]
+		[DataMember(Order=5)]
 		public string Description
 		{
 			get
@@ -1792,10 +1960,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_Role_aspnet_UsersInRole", Storage="_aspnet_UsersInRoles", ThisKey="RoleId", OtherKey="RoleId")]
+		[DataMember(Order=6, EmitDefaultValue=false)]
 		public EntitySet<aspnet_UsersInRole> aspnet_UsersInRoles
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._aspnet_UsersInRoles.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._aspnet_UsersInRoles;
 			}
 			set
@@ -1805,10 +1979,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_Role_RoleTemplate", Storage="_RoleTemplates", ThisKey="RoleId", OtherKey="RoleId")]
+		[DataMember(Order=7, EmitDefaultValue=false)]
 		public EntitySet<RoleTemplate> RoleTemplates
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._RoleTemplates.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._RoleTemplates;
 			}
 			set
@@ -1818,10 +1998,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_Role_WidgetsInRole", Storage="_WidgetsInRoles", ThisKey="RoleId", OtherKey="RoleId")]
+		[DataMember(Order=8, EmitDefaultValue=false)]
 		public EntitySet<WidgetsInRole> WidgetsInRoles
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._WidgetsInRoles.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._WidgetsInRoles;
 			}
 			set
@@ -1885,9 +2071,39 @@ namespace Dropthings.DataAccess
 			this.SendPropertyChanging();
 			entity.aspnet_Role = null;
 		}
+		
+		private void Initialize()
+		{
+			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
+			this._RoleTemplates = new EntitySet<RoleTemplate>(new Action<RoleTemplate>(this.attach_RoleTemplates), new Action<RoleTemplate>(this.detach_RoleTemplates));
+			this._WidgetsInRoles = new EntitySet<WidgetsInRole>(new Action<WidgetsInRole>(this.attach_WidgetsInRoles), new Action<WidgetsInRole>(this.detach_WidgetsInRoles));
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[OnSerializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[OnSerialized()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[Table(Name="dbo.aspnet_UsersInRoles")]
+	[DataContract()]
 	public partial class aspnet_UsersInRole : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -1913,12 +2129,11 @@ namespace Dropthings.DataAccess
 		
 		public aspnet_UsersInRole()
 		{
-			this._aspnet_Role = default(EntityRef<aspnet_Role>);
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[DataMember(Order=1)]
 		public System.Guid UserId
 		{
 			get
@@ -1943,6 +2158,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[DataMember(Order=2)]
 		public System.Guid RoleId
 		{
 			get
@@ -2053,9 +2269,24 @@ namespace Dropthings.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._aspnet_Role = default(EntityRef<aspnet_Role>);
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[Table(Name="dbo.RoleTemplate")]
+	[DataContract()]
 	public partial class RoleTemplate : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2089,12 +2320,11 @@ namespace Dropthings.DataAccess
 		
 		public RoleTemplate()
 		{
-			this._aspnet_Role = default(EntityRef<aspnet_Role>);
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[DataMember(Order=1)]
 		public int Id
 		{
 			get
@@ -2115,6 +2345,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL")]
+		[DataMember(Order=2)]
 		public System.Guid RoleId
 		{
 			get
@@ -2139,6 +2370,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_TemplateUserId", DbType="UniqueIdentifier NOT NULL")]
+		[DataMember(Order=3)]
 		public System.Guid TemplateUserId
 		{
 			get
@@ -2163,6 +2395,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Priority", DbType="Int NOT NULL")]
+		[DataMember(Order=4)]
 		public int Priority
 		{
 			get
@@ -2269,9 +2502,24 @@ namespace Dropthings.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._aspnet_Role = default(EntityRef<aspnet_Role>);
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[Table(Name="dbo.[Column]")]
+	[DataContract()]
 	public partial class Column : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2313,12 +2561,11 @@ namespace Dropthings.DataAccess
 		
 		public Column()
 		{
-			this._WidgetZone = default(EntityRef<WidgetZone>);
-			this._Page = default(EntityRef<Page>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=1)]
 		public int ID
 		{
 			get
@@ -2339,6 +2586,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_PageId", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=2)]
 		public int PageId
 		{
 			get
@@ -2363,6 +2611,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_WidgetZoneId", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=3)]
 		public int WidgetZoneId
 		{
 			get
@@ -2387,6 +2636,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_ColumnNo", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=4)]
 		public int ColumnNo
 		{
 			get
@@ -2407,6 +2657,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_ColumnWidth", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=5)]
 		public int ColumnWidth
 		{
 			get
@@ -2427,6 +2678,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastUpdated", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=6)]
 		public System.Data.Linq.Binary LastUpdated
 		{
 			get
@@ -2533,9 +2785,24 @@ namespace Dropthings.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._WidgetZone = default(EntityRef<WidgetZone>);
+			this._Page = default(EntityRef<Page>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[Table(Name="dbo.WidgetsInRoles")]
+	[DataContract()]
 	public partial class WidgetsInRole : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2565,12 +2832,11 @@ namespace Dropthings.DataAccess
 		
 		public WidgetsInRole()
 		{
-			this._aspnet_Role = default(EntityRef<aspnet_Role>);
-			this._Widget = default(EntityRef<Widget>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[DataMember(Order=1)]
 		public int Id
 		{
 			get
@@ -2591,6 +2857,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_WidgetId", DbType="Int NOT NULL")]
+		[DataMember(Order=2)]
 		public int WidgetId
 		{
 			get
@@ -2615,6 +2882,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL")]
+		[DataMember(Order=3)]
 		public System.Guid RoleId
 		{
 			get
@@ -2725,9 +2993,24 @@ namespace Dropthings.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._aspnet_Role = default(EntityRef<aspnet_Role>);
+			this._Widget = default(EntityRef<Widget>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[Table(Name="dbo.aspnet_Users")]
+	[DataContract()]
 	public partial class aspnet_User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2757,6 +3040,8 @@ namespace Dropthings.DataAccess
 		
 		private EntitySet<Page> _Pages;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2779,15 +3064,11 @@ namespace Dropthings.DataAccess
 		
 		public aspnet_User()
 		{
-			this._UserSetting = default(EntityRef<UserSetting>);
-			this._Tokens = new EntitySet<Token>(new Action<Token>(this.attach_Tokens), new Action<Token>(this.detach_Tokens));
-			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
-			this._RoleTemplates = new EntitySet<RoleTemplate>(new Action<RoleTemplate>(this.attach_RoleTemplates), new Action<RoleTemplate>(this.detach_RoleTemplates));
-			this._Pages = new EntitySet<Page>(new Action<Page>(this.attach_Pages), new Action<Page>(this.detach_Pages));
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[Column(Storage="_ApplicationId", DbType="UniqueIdentifier NOT NULL")]
+		[DataMember(Order=1)]
 		public System.Guid ApplicationId
 		{
 			get
@@ -2808,6 +3089,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[DataMember(Order=2)]
 		public System.Guid UserId
 		{
 			get
@@ -2828,6 +3110,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_UserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		[DataMember(Order=3)]
 		public string UserName
 		{
 			get
@@ -2848,6 +3131,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LoweredUserName", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		[DataMember(Order=4)]
 		public string LoweredUserName
 		{
 			get
@@ -2868,6 +3152,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_MobileAlias", DbType="NVarChar(16)")]
+		[DataMember(Order=5)]
 		public string MobileAlias
 		{
 			get
@@ -2888,6 +3173,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_IsAnonymous", DbType="Bit NOT NULL")]
+		[DataMember(Order=6)]
 		public bool IsAnonymous
 		{
 			get
@@ -2908,6 +3194,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastActivityDate", DbType="DateTime NOT NULL")]
+		[DataMember(Order=7)]
 		public System.DateTime LastActivityDate
 		{
 			get
@@ -2928,10 +3215,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_User_UserSetting", Storage="_UserSetting", ThisKey="UserId", OtherKey="UserId", IsUnique=true, IsForeignKey=false)]
+		[DataMember(Order=8, EmitDefaultValue=false)]
 		public UserSetting UserSetting
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserSetting.HasLoadedOrAssignedValue == false)))
+				{
+					return null;
+				}
 				return this._UserSetting.Entity;
 			}
 			set
@@ -2957,10 +3250,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_User_Token", Storage="_Tokens", ThisKey="UserId", OtherKey="UserId")]
+		[DataMember(Order=9, EmitDefaultValue=false)]
 		public EntitySet<Token> Tokens
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._Tokens.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._Tokens;
 			}
 			set
@@ -2970,10 +3269,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_User_aspnet_UsersInRole", Storage="_aspnet_UsersInRoles", ThisKey="UserId", OtherKey="UserId")]
+		[DataMember(Order=10, EmitDefaultValue=false)]
 		public EntitySet<aspnet_UsersInRole> aspnet_UsersInRoles
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._aspnet_UsersInRoles.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._aspnet_UsersInRoles;
 			}
 			set
@@ -2983,10 +3288,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_User_RoleTemplate", Storage="_RoleTemplates", ThisKey="UserId", OtherKey="TemplateUserId")]
+		[DataMember(Order=11, EmitDefaultValue=false)]
 		public EntitySet<RoleTemplate> RoleTemplates
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._RoleTemplates.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._RoleTemplates;
 			}
 			set
@@ -2996,10 +3307,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="aspnet_User_Page", Storage="_Pages", ThisKey="UserId", OtherKey="UserId")]
+		[DataMember(Order=12, EmitDefaultValue=false)]
 		public EntitySet<Page> Pages
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._Pages.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._Pages;
 			}
 			set
@@ -3075,9 +3392,41 @@ namespace Dropthings.DataAccess
 			this.SendPropertyChanging();
 			entity.aspnet_User = null;
 		}
+		
+		private void Initialize()
+		{
+			this._UserSetting = default(EntityRef<UserSetting>);
+			this._Tokens = new EntitySet<Token>(new Action<Token>(this.attach_Tokens), new Action<Token>(this.detach_Tokens));
+			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
+			this._RoleTemplates = new EntitySet<RoleTemplate>(new Action<RoleTemplate>(this.attach_RoleTemplates), new Action<RoleTemplate>(this.detach_RoleTemplates));
+			this._Pages = new EntitySet<Page>(new Action<Page>(this.attach_Pages), new Action<Page>(this.detach_Pages));
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[OnSerializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[OnSerialized()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[Table(Name="dbo.Page")]
+	[DataContract()]
 	public partial class Page : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -3117,6 +3466,8 @@ namespace Dropthings.DataAccess
 		
 		private EntityRef<aspnet_User> _aspnet_User;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3155,12 +3506,11 @@ namespace Dropthings.DataAccess
 		
 		public Page()
 		{
-			this._Columns = new EntitySet<Column>(new Action<Column>(this.attach_Columns), new Action<Column>(this.detach_Columns));
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			OnCreated();
+			this.Initialize();
 		}
 		
-		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true, UpdateCheck=UpdateCheck.Never)]
+		[Column(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[DataMember(Order=1)]
 		public int ID
 		{
 			get
@@ -3181,6 +3531,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_Title", DbType="NVarChar(255) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=2)]
 		public string Title
 		{
 			get
@@ -3200,7 +3551,8 @@ namespace Dropthings.DataAccess
 			}
 		}
 		
-		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[Column(Storage="_UserId", DbType="UniqueIdentifier NOT NULL")]
+		[DataMember(Order=3)]
 		public System.Guid UserId
 		{
 			get
@@ -3225,6 +3577,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_CreatedDate", DbType="DateTime NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=4)]
 		public System.DateTime CreatedDate
 		{
 			get
@@ -3244,7 +3597,8 @@ namespace Dropthings.DataAccess
 			}
 		}
 		
-		[Column(Storage="_VersionNo", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[Column(Storage="_VersionNo", DbType="Int NOT NULL")]
+		[DataMember(Order=5)]
 		public int VersionNo
 		{
 			get
@@ -3265,6 +3619,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LayoutType", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=6)]
 		public int LayoutType
 		{
 			get
@@ -3285,6 +3640,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_PageType", DbType="Int NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=7)]
 		public Enumerations.PageTypeEnum PageType
 		{
 			get
@@ -3305,6 +3661,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_ColumnCount", DbType="Int NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=8)]
 		public int ColumnCount
 		{
 			get
@@ -3325,6 +3682,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastUpdated", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=9)]
 		public System.Data.Linq.Binary LastUpdated
 		{
 			get
@@ -3345,6 +3703,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_IsLocked", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=10)]
 		public bool IsLocked
 		{
 			get
@@ -3365,6 +3724,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastLockedStatusChangedAt", DbType="DateTime", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=11)]
 		public System.Nullable<System.DateTime> LastLockedStatusChangedAt
 		{
 			get
@@ -3385,6 +3745,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_IsDownForMaintenance", DbType="Bit NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=12)]
 		public bool IsDownForMaintenance
 		{
 			get
@@ -3405,6 +3766,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_LastDownForMaintenanceAt", DbType="DateTime", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=13)]
 		public System.Nullable<System.DateTime> LastDownForMaintenanceAt
 		{
 			get
@@ -3425,6 +3787,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_ServeAsStartPageAfterLogin", DbType="Bit", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=14)]
 		public System.Nullable<bool> ServeAsStartPageAfterLogin
 		{
 			get
@@ -3445,6 +3808,7 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Column(Storage="_OrderNo", DbType="Int", UpdateCheck=UpdateCheck.Never)]
+		[DataMember(Order=15)]
 		public System.Nullable<int> OrderNo
 		{
 			get
@@ -3465,10 +3829,16 @@ namespace Dropthings.DataAccess
 		}
 		
 		[Association(Name="Page_Column", Storage="_Columns", ThisKey="ID", OtherKey="PageId")]
+		[DataMember(Order=16, EmitDefaultValue=false)]
 		public EntitySet<Column> Columns
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._Columns.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._Columns;
 			}
 			set
@@ -3541,6 +3911,34 @@ namespace Dropthings.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.Page = null;
+		}
+		
+		private void Initialize()
+		{
+			this._Columns = new EntitySet<Column>(new Action<Column>(this.attach_Columns), new Action<Column>(this.detach_Columns));
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			OnCreated();
+		}
+		
+		[OnDeserializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[OnSerializing()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[OnSerialized()]
+		[System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
 		}
 	}
 }

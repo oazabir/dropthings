@@ -14,6 +14,7 @@ namespace Dropthings.Web.Framework
     using Dropthings.Business.Facade;
     using Dropthings.Business.Facade.Context;
     using Dropthings.Util;
+    using OmarALZabir.AspectF;
     
     /// <summary>
     /// Summary description for WidgetService
@@ -167,7 +168,6 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId)
                 .Do(() =>
                 {
-
                     using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
                     {
                         facade.MaximizeWidget(widgetId, true);
@@ -186,9 +186,7 @@ namespace Dropthings.Web.Framework
                     using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
                     {
                         facade.MoveWidgetInstance(instanceId, toZoneId, toRow);
-                    }
-
-                    
+                    }                    
                 });
         }
 

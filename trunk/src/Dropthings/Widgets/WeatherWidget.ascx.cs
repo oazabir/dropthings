@@ -12,6 +12,8 @@ using System.Xml;
 
 using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets;
+using Dropthings.Util;
+using OmarALZabir.AspectF;
 
 public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
 {
@@ -39,7 +41,7 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
     {
         string url = weatherLocation + zipCode;
 
-        XmlDocument doc = Cache[url] as XmlDocument ?? (new XmlDocument());
+        XmlDocument doc = Services.Get<ICacheResolver>().Get(url) as XmlDocument ?? (new XmlDocument());
         try
         {
             if (!doc.HasChildNodes) doc.Load(url);
@@ -48,7 +50,8 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
         {
             return string.Empty;
         }
-        if (null == Cache[url]) Cache[url] = doc;
+        if (null == Services.Get<ICacheResolver>().Get(url))
+            Services.Get<ICacheResolver>().Add(url, doc);
 
         XmlElement root = doc.DocumentElement;
         XmlNodeList nodes = root.SelectNodes("/rss/channel/item");
