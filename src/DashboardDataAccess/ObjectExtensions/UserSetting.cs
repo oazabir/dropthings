@@ -10,12 +10,14 @@
     {
         #region Methods
 
-        public void Detach()
+        public UserSetting Detach()
         {
             this.PropertyChanged = null;
             this.PropertyChanging = null;
 
             this._aspnet_User = default(EntityRef<aspnet_User>);
+
+            return this;
         }
 
         #endregion Methods

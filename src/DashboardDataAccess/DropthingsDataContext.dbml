@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Database Name="dropthings" Class="DropthingsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+<Database Name="dropthings" Class="DropthingsDataContext" Serialization="Unidirectional" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=E:\Development\OpenSource\DT2\dropthings\src\Dropthings\App_Data\dropthings.mdf;Integrated Security=True;User Instance=True" SettingsObjectName="Dropthings.DataAccess.Properties.Settings" SettingsPropertyName="dropthingsConnectionString6" Provider="System.Data.SqlClient" />
   <Table Name="dbo.WidgetZone" Member="WidgetZones">
     <Type Name="WidgetZone">
@@ -139,11 +139,11 @@
   </Table>
   <Table Name="dbo.Page" Member="Pages">
     <Type Name="Page">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" />
       <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" UpdateCheck="Always" />
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="VersionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="VersionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" UpdateCheck="Always" />
       <Column Name="LayoutType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="PageType" Type="Enumerations.PageTypeEnum" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ColumnCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />

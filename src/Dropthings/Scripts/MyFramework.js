@@ -268,12 +268,14 @@ var DropthingsUI = {
                     //new item has been dropped into the sortable list
                     var widgetId = ui.item.attr('id').match(/\d+/);
 
-                    // OMAR: Create a summy widget placeholder while the real widget loads
+                    // OMAR: Create a dummy widget placeholder while the real widget loads
                     var templateData = { title: $(ui.item).text() };
                     var widgetTemplateNode = $("#new_widget_template").clone();
                     widgetTemplateNode.drink(templateData);
-                    widgetTemplateNode.insertBefore(ui.item);
+                    widgetTemplateNode.insertAfter(ui.item);
 
+                    ui.item.remove();
+                    
                     DropthingsUI.Actions.onWidgetAdd(widgetId[0], containerId, position,
                         function() {
                             DropthingsUI.updateWidgetZone(widgetZone);

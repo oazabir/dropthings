@@ -13,13 +13,11 @@
 
         Dropthings.DataAccess.WidgetInstance GetWidgetInstanceById(int id);
 
-        System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance> GetWidgetInstanceOnWidgetZoneAfterPosition(int widgetZoneId, int position);
+        //System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance> GetWidgetInstanceOnWidgetZoneAfterPosition(int widgetZoneId, int position);
 
-        System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance> GetWidgetInstanceOnWidgetZoneFromPosition(int widgetZoneId, int position);
+        //System.Collections.Generic.List<Dropthings.DataAccess.WidgetInstance> GetWidgetInstanceOnWidgetZoneFromPosition(int widgetZoneId, int position);
 
         string GetWidgetInstanceOwnerName(int widgetInstanceId);
-
-        List<Dropthings.DataAccess.WidgetInstance> GetWidgetInstancesByPageId(int pageId);
 
         System.Collections.Generic.List<int> GetWidgetInstancesByRole(int widgetInstanceId, Guid roleId);
 
@@ -35,7 +33,7 @@
 
         void Update(WidgetInstance page, Action<WidgetInstance> detach, Action<WidgetInstance> postAttachUpdate);
 
-        void UpdateList(List<WidgetInstance> widgetInstances, Action<WidgetInstance> detach, Action<WidgetInstance> postAttachUpdate);
+        void UpdateList(IEnumerable<WidgetInstance> widgetInstances, Action<WidgetInstance> detach, Action<WidgetInstance> postAttachUpdate);
 
         #endregion Methods
     }

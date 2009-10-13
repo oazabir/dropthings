@@ -39,6 +39,10 @@
 
     protected void Application_BeginRequest(object sender, EventArgs e)
     {
+        // Simulate internet latency on local browsing
+        if (Request.IsLocal)
+            System.Threading.Thread.Sleep(100);
+        
         if (Request.HttpMethod == "GET")
         {
             if (Request.AppRelativeCurrentExecutionFilePath.EndsWith(".aspx"))

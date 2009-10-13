@@ -10,6 +10,7 @@
     using DataAccess;
     using Microsoft.Practices.Unity;
     using Dropthings.Util;
+    using OmarALZabir.AspectF;
 
     /// <summary>
     /// Summary description for FacadeBase
@@ -97,20 +98,26 @@
                 .Log(new EntLibLogger(), "Register default types in Unity")
                 .Do(() =>
             {
+                CacheSetup.Register();
                 Services.RegisterType<ILogger, EntLibLogger>();
-                Services.RegisterType<IDropthingsDataContext, DropthingsDataContext2>();
-                Services.InjectIntoConstructor<DropthingsDataContext2>(); // dummy injection for empty constructor
-                Services.RegisterType<IColumnRepository, ColumnRepository>();
-                Services.RegisterType<IPageRepository, PageRepository>();
-                Services.RegisterType<IUserRepository, UserRepository>();
-                Services.RegisterType<IRoleRepository, RoleRepository>();
-                Services.RegisterType<IRoleTemplateRepository, RoleTemplateRepository>();
-                Services.RegisterType<ITokenRepository, TokenRepository>();
-                Services.RegisterType<IWidgetRepository, WidgetRepository>();
-                Services.RegisterType<IWidgetInstanceRepository, WidgetInstanceRepository>();
-                Services.RegisterType<IWidgetZoneRepository, WidgetZoneRepository>();
-                Services.RegisterType<IWidgetsInRolesRepository, WidgetsInRolesRepository>();
-                Services.RegisterType<IUserSettingRepository, UserSettingRepository>();
+
+                var dalConstructor = new InjectionConstructor(
+                        new ResolvedParameter<IDropthingsDataContext>(),
+                        new ResolvedParameter<ICacheResolver>());
+
+                Services.RegisterType<IDropthingsDataContext, DropthingsDataContext2>(
+                    new InjectionConstructor(DropthingsDataContext.GetConnectionString()));
+                Services.RegisterType<IColumnRepository, ColumnRepository>(dalConstructor);
+                Services.RegisterType<IPageRepository, PageRepository>(dalConstructor);
+                Services.RegisterType<IUserRepository, UserRepository>(dalConstructor);
+                Services.RegisterType<IRoleRepository, RoleRepository>(dalConstructor);
+                Services.RegisterType<IRoleTemplateRepository, RoleTemplateRepository>(dalConstructor);
+                Services.RegisterType<ITokenRepository, TokenRepository>(dalConstructor);
+                Services.RegisterType<IWidgetRepository, WidgetRepository>(dalConstructor);
+                Services.RegisterType<IWidgetInstanceRepository, WidgetInstanceRepository>(dalConstructor);
+                Services.RegisterType<IWidgetZoneRepository, WidgetZoneRepository>(dalConstructor);
+                Services.RegisterType<IWidgetsInRolesRepository, WidgetsInRolesRepository>(dalConstructor);
+                Services.RegisterType<IUserSettingRepository, UserSettingRepository>(dalConstructor);
             });
         }
 

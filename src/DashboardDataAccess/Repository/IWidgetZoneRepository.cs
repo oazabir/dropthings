@@ -18,6 +18,8 @@
 
         void Update(WidgetZone page, Action<WidgetZone> detach, Action<WidgetZone> postAttachUpdate);
 
+        string GetWidgetZoneOwnerName(int widgetZoneId);
+
         #endregion Methods
     }
 }

@@ -31,6 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CacheBaseLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\Velocity\CacheBaseLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CASBase, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\Velocity\CASBase.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\Velocity\ClientLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FabricCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\Velocity\FabricCommon.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
@@ -63,6 +79,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\EntLib\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="OmarALZabir.AspectF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\AspectF\OmarALZabir.AspectF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -78,16 +98,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspectF.cs" />
+    <Compile Include="CacheSetup.cs" />
     <Compile Include="DebugStreamWriter.cs" />
     <Compile Include="DynamicCalls.cs" />
+    <Compile Include="EntlibCacheResolver.cs" />
     <Compile Include="EntLibLogger.cs" />
     <Compile Include="ExtensionFunctions.cs" />
-    <Compile Include="ILogger.cs" />
     <Compile Include="NameObjectCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services.cs" />
     <Compile Include="ShortGuid.cs" />
+    <Compile Include="VelocityCacheResolver.cs" />
     <Compile Include="WeakReference.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

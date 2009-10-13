@@ -51,7 +51,7 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         get; set;
     }
 
-    public List<WidgetInstance> WidgetInstances
+    public IEnumerable<WidgetInstance> WidgetInstances
     {
         get; set;
     }
@@ -85,18 +85,10 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         this.WidgetHolderPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
         //this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
 
-        List<WidgetInstance> list;
         using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
         {
-            list = facade.GetWidgetInstancesInZone(WidgetZoneId);
+            this.WidgetInstances = facade.GetWidgetInstancesInZone(WidgetZoneId);
         }
-
-        // -- Workflow way. Obselete.
-        //var response = WorkflowHelper.Run<LoadWidgetInstancesInZoneWorkflow, LoadWidgetInstancesInZoneRequest, LoadWidgetInstancesInZoneResponse>(
-        //                new LoadWidgetInstancesInZoneRequest { WidgetZoneId = this.WidgetZoneId, UserName = this.UserName }
-        //            );
-
-        this.WidgetInstances = list;
 
         var controlsToDelete = new List<Control>();
         foreach (Control control in this.WidgetZoneUpdatePanel.ContentTemplateContainer.Controls)
@@ -105,11 +97,11 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         controlsToDelete.ForEach((c) => this.WidgetZoneUpdatePanel.ContentTemplateContainer.Controls.Remove(c));
 
         List<IWidgetHost> widgetHosts = new List<IWidgetHost>();
-        foreach (WidgetInstance instance in this.WidgetInstances)
+        this.WidgetInstances.Each(instance =>
         {
             var widget = LoadControl(this.WidgetContainerPath) as Control;
             widget.ID = "WidgetContainer" + instance.Id.ToString();
-            
+
             var widgetHost = widget as IWidgetHost;
             widgetHost.WidgetInstance = instance;
             widgetHost.IsLocked = this.IsLocked;
@@ -120,7 +112,7 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
             this.WidgetHolderPanel.Controls.Add(widget);
 
             widgetHosts.Add(widgetHost);
-        }
+        });
 
         return widgetHosts;
     }

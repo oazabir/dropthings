@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Collections.Generic;
 
     public interface IDropthingsDataContext
     {
@@ -134,7 +135,7 @@
             where TEntity : class
             where TSomething : class;
 
-        void UpdateList<TEntity>(DropthingsDataContext.SubsystemEnum subsystem, System.Collections.Generic.IList<TEntity> list, Action<TEntity> detach, Action<TEntity> postAttachUpdate)
+        void UpdateList<TEntity>(DropthingsDataContext.SubsystemEnum subsystem, IEnumerable<TEntity> list, Action<TEntity> detach, Action<TEntity> postAttachUpdate)
             where TEntity : class;
 
         void UpdateObject<TEntity>(DropthingsDataContext.SubsystemEnum subsystem, TEntity obj, Action<TEntity> detach, Action<TEntity> postAttachUpdate)

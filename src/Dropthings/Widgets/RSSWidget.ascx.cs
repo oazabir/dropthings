@@ -125,7 +125,7 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
     {
         // If we already have the URL in cache, then we can directly render it instead of fetching the content
         // after a async postback
-        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(Cache, this.Url) )
+        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(this.Url) )
             this.LoadRSSView(sender, e);
     }
 
@@ -144,58 +144,6 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
     {
         string url = State.Element("url").Value;
         int count = State.Element("count") == null ? 3 : int.Parse( State.Element("count").Value );
-
-        /*
-        var feed = Cache[url] as XElement;
-        if( feed == null )
-        {
-            if( Cache[url] == string.Empty ) return;
-            try
-            {
-                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-
-                request.Timeout = 15000;
-                using( WebResponse response = request.GetResponse() )
-                {
-                    XmlTextReader reader = new XmlTextReader( response.GetResponseStream() );
-
-                    feed = XElement.Load(reader);
-
-                    if( feed == null ) return;
-
-                    Cache.Insert(url, feed, null, DateTime.MaxValue, TimeSpan.FromMinutes(15));
-                }
-
-            }
-            catch
-            {
-                Cache[url] = string.Empty;
-                return;
-            }
-        }
-
-        XNamespace ns = "http://www.w3.org/2005/Atom";
-
-        // see if RSS or Atom
-        if( feed.Element("channel" ) != null )
-            FeedList.DataSource = (from item in feed.Element("channel").Elements("item")
-                              select new
-                              {
-                                  title = item.Element("title").Value,
-                                  link = item.Element("link").Value,
-                                  description = item.Element("description").Value
-                              }).Take(this.Count);
-
-        else if( feed.Element(ns + "entry") != null )
-            FeedList.DataSource = (from item in feed.Elements(ns + "entry")
-                              select new
-                              {
-                                  title = item.Element(ns + "title").Value,
-                                  link = item.Element(ns + "link").Attribute("href").Value,
-                                  description = item.Element(ns + "content").Value
-                              }).Take(this.Count);
-
-        */
 
         using (var proxy = new Dropthings.Web.Framework.ProxyAsync())
         {

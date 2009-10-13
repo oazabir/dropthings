@@ -8,6 +8,8 @@ using System.Web;
 using System.Net;
 
 using Dropthings.Web.Util;
+using Dropthings.Util;
+using OmarALZabir.AspectF;
 
 public class Scripts : IHttpHandler {
     
@@ -27,7 +29,7 @@ public class Scripts : IHttpHandler {
 
         byte[] encodedBytes;
 
-        if (context.Cache[setInfo] == null)
+        if (Services.Get<ICacheResolver>().Get(setInfo) == null)
         {
             // Find the set
             UrlMapSet set = CombineScripts.LoadSets().Find(
@@ -96,12 +98,11 @@ public class Scripts : IHttpHandler {
 
             string responseString = buffer.ToString();
             encodedBytes = context.Request.ContentEncoding.GetBytes(responseString);
-            //context.Cache.Add(setInfo, encodedBytes, null, DateTime.MaxValue,
-            //    TimeSpan.FromDays(1), System.Web.Caching.CacheItemPriority.Normal, null);
+            Services.Get<ICacheResolver>().Add(setInfo, encodedBytes);
         }
         else
         {
-            encodedBytes = context.Cache[setInfo] as byte[];
+            encodedBytes = Services.Get<ICacheResolver>().Get(setInfo) as byte[];
         }
         
         context.Response.ContentType = "text/javascript";

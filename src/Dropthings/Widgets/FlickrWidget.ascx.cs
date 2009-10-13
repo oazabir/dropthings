@@ -163,7 +163,7 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(Cache, this.GetPhotoUrl()))
+        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(this.GetPhotoUrl()))
             this.LoadPhotoView(this, e);
     }
 

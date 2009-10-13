@@ -4,20 +4,23 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using OmarALZabir.AspectF;
 
     public class TokenRepository : Dropthings.DataAccess.Repository.ITokenRepository
     {
         #region Fields
 
         private readonly IDropthingsDataContext _database;
+        private readonly ICacheResolver _cacheResolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public TokenRepository(IDropthingsDataContext database)
+        public TokenRepository(IDropthingsDataContext database, ICacheResolver cacheResolver)
         {
             this._database = database;
+            this._cacheResolver = cacheResolver;
         }
 
         #endregion Constructors

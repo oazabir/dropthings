@@ -179,16 +179,18 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
     {
         this.PhotoTag = this.CustomTagTextBox.Text;
         this.SaveState();
+        settingsPanel.Visible = true;
     }
 
     protected void photoTypeRadio_CheckedChanged(object sender, EventArgs e)
     {
+        settingsPanel.Visible = true;
         this.SaveState();
     }
 
     private string GetCachedJSON()
     {
-        if (ProxyAsync.IsUrlInCache(Cache, this.GetPhotoUrl()))
+        if (ProxyAsync.IsUrlInCache(this.GetPhotoUrl()))
         {
             var cachedString = new ProxyAsync().GetString(this.GetPhotoUrl(), 10);
             string json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(cachedString);

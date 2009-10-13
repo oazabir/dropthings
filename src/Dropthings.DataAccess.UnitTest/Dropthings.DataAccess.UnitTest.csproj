@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\Moq\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="OmarALZabir.AspectF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\AspectF\OmarALZabir.AspectF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -68,6 +72,10 @@
     <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
       <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
       <Name>Dropthings.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xUnit.Subspec\xUnit.Subspec.csproj">
+      <Project>{FBE087E3-A830-485B-BD8F-620B5BB83DB7}</Project>
+      <Name>xUnit.Subspec</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

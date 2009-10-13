@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.IO.Compression;
+using Dropthings.Util;
+using OmarALZabir.AspectF;
 
 public class CssHandler : IHttpHandler {
     
@@ -69,9 +71,9 @@ public class CssHandler : IHttpHandler {
                 
                 // Cache and generate response
                 byte[] responseBytes = memoryStream.ToArray();
-                context.Cache.Insert(GetCacheKey(themeName, version, isCompressed), 
-                    responseBytes, null, System.Web.Caching.Cache.NoAbsoluteExpiration, 
-                    CACHE_DURATION);
+                Services.Get<ICacheResolver>().Add(
+                    GetCacheKey(themeName, version, isCompressed), 
+                    responseBytes);
 
                 this.WriteBytes(responseBytes, context, isCompressed);
             }
@@ -110,8 +112,8 @@ public class CssHandler : IHttpHandler {
     private bool WriteFromCache(HttpContext context, string themeName, 
         string version, bool isCompressed)
     {
-        byte[] responseBytes = context.Cache[GetCacheKey(themeName, 
-            version, isCompressed)] as byte[];
+        byte[] responseBytes = Services.Get<ICacheResolver>().Get(GetCacheKey(themeName, 
+            version, isCompressed)) as byte[];
 
         if (null == responseBytes) return false;
 

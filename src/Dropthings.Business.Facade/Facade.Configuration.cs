@@ -10,6 +10,8 @@
     using Dropthings.Model;
     using System.Web.Security;
     using Dropthings.Configuration;
+    using OmarALZabir.AspectF;
+    using Dropthings.Util;
 
     partial class Facade
     {
@@ -27,11 +29,12 @@
             }
 
             return template;
+
         }
 
         public bool CheckRoleTemplateIsRegisterUserTemplate(RoleTemplate template)
         {
-            MembershipUser user = Membership.GetUser(template.TemplateUserId);
+            MembershipUser user = this.GetUser(template.TemplateUserId);
 
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 
@@ -40,7 +43,7 @@
 
         public bool CheckRoleTemplateIsAnonymousUserTemplate(RoleTemplate template)
         {
-            MembershipUser user = Membership.GetUser(template.TemplateUserId);
+            MembershipUser user = this.GetUser(template.TemplateUserId);
 
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 
@@ -49,22 +52,26 @@
 
         public UserTemplateSetting GetUserSettingTemplate()
         {
-            UserSettingTemplateSettingsSection settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);
-            var setting = new UserTemplateSetting
-            {
-                CloneAnonProfileEnabled = settings.CloneAnonProfileEnabled,
-                CloneRegisteredProfileEnabled = settings.CloneRegisteredProfileEnabled,
-                AnonUserSettingTemplate = settings.UserSettingTemplates[UserSettingTemplateSettingsSection.AnonTemplateKey],
-                RegisteredUserSettingTemplate = settings.UserSettingTemplates[UserSettingTemplateSettingsSection.RegTemplateKey],
-                AllUserSettingTemplate = new List<UserSettingTemplateElement>()
-            };
+            return AspectF.Define.Cache<UserTemplateSetting>(Services.Get<ICacheResolver>(), CacheSetup.CacheKeys.UserTemplateSetting())
+                .Return<UserTemplateSetting>(() =>
+                    {
+                        UserSettingTemplateSettingsSection settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);
+                        var setting = new UserTemplateSetting
+                        {
+                            CloneAnonProfileEnabled = settings.CloneAnonProfileEnabled,
+                            CloneRegisteredProfileEnabled = settings.CloneRegisteredProfileEnabled,
+                            AnonUserSettingTemplate = settings.UserSettingTemplates[UserSettingTemplateSettingsSection.AnonTemplateKey],
+                            RegisteredUserSettingTemplate = settings.UserSettingTemplates[UserSettingTemplateSettingsSection.RegTemplateKey],
+                            AllUserSettingTemplate = new List<UserSettingTemplateElement>()
+                        };
 
-            foreach (UserSettingTemplateElement element in settings.UserSettingTemplates)
-            {
-                setting.AllUserSettingTemplate.Add(element);
-            }
+                        foreach (UserSettingTemplateElement element in settings.UserSettingTemplates)
+                        {
+                            setting.AllUserSettingTemplate.Add(element);
+                        }
 
-            return setting;
+                        return setting;
+                    });
         }
 
         #endregion Methods

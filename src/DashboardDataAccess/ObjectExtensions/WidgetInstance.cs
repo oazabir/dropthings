@@ -17,13 +17,15 @@ namespace Dropthings.DataAccess
     {
         #region Methods
 
-        public void Detach()
+        public WidgetInstance Detach()
         {
             this.PropertyChanged = null;
             this.PropertyChanging = null;
 
             this._WidgetZone = default(EntityRef<WidgetZone>);
             this._Widget = default(EntityRef<Widget>);
+
+            return this;
         }
 
         #endregion Methods

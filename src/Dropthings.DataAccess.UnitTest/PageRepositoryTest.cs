@@ -10,6 +10,10 @@
     using Moq;
 
     using Xunit;
+    using SubSpec;
+    using Dropthings.Util;
+    using OmarALZabir.AspectF;
+    using System.Collections;
 
     public class PageRepositoryTest
     {
@@ -23,71 +27,179 @@
 
         #region Methods
 
-        [Fact]
-        public void GetPageIdByUserGuid()
-        {
-            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database) =>
+        [Specification]
+        public void GetPageIdByUserGuid_should_return_a_list_of_pageId_from_database_if_not_already_cached_and_then_cache_it()
+        {            
+            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
             {
-                List<int> pageIds = new List<int>();
-                pageIds.Add(1);
-                pageIds.Add(2);
+                Guid userId = Guid.Empty;
 
-                database.Expect<List<int>>(d => d.GetList<int, Guid>(DropthingsDataContext.SubsystemEnum.Page, Guid.Empty, LinqQueries.CompiledQuery_GetPageIdByUserGuid))
-                    .Returns(pageIds);
-
-                var returnedPageIds = pageRepository.GetPageIdByUserGuid(Guid.Empty);
-
-                Assert.Equal<int>(2, returnedPageIds.Count);
-                Assert.Equal<int>(1, returnedPageIds[0]);
-                Assert.Equal<int>(2, returnedPageIds[1]);
-            });
-        }
-
-        [Fact]
-        public void GetPageOwnerName_Should_Return_UserName_Given_PageId()
-        {
-            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database) =>
-            {
-                database.Expect<string>(d => d.GetSingle<string, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageOwnerName))
-                    .Returns("some user name");
-
-                var userName = pageRepository.GetPageOwnerName(1);
-                Assert.Equal<string>("some user name", userName);
-            });
-        }
-
-        [Fact]
-        public void GetPage_Should_Return_A_Page()
-        {
-            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database) =>
-            {
-                database
-                    .Expect<Page>(d => d.GetSingle<Page, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageById))
-                    .Returns(new Page() { ID = 1, Title = "Test Page", ColumnCount = 3, LayoutType = 3, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
-
-                var page = pageRepository.GetPageById(1);
-
-                Assert.Equal<int>(1, page.ID);
-            });
-        }
-
-        [Fact]
-        public void GetPagesOfUser_Should_Return_List_Of_Pages()
-        {
-            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database) =>
-            {
                 List<Page> userPages = new List<Page>();
-                userPages.Add(new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
-                userPages.Add(new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
+                userPages.Add(new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
+                userPages.Add(new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
 
                 database.Expect<List<Page>>(d => d.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, Guid.Empty, LinqQueries.CompiledQuery_GetPagesByUserId))
                     .Returns(userPages);
 
-                var pages = pageRepository.GetPagesOfUser(Guid.Empty);
+                List<int> pageIds = userPages.Select(p => p.ID).ToList();
 
-                Assert.Equal<int>(2, pages.Count);
-                Assert.Equal<int>(1, pages[0].ID);
-                Assert.Equal<int>(2, pages[1].ID);
+                var returnedPageIds = default(List<int>);
+
+                "Given PageRepository and empty cache".Context(() =>
+                {
+                    // cache is empty
+                    cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
+                    // allow storing anything in cache
+                    cache.Expect(c => c.Add(It.IsAny<string>(), It.IsAny<object>()));
+                    cache.Expect(c => c.Set(It.IsAny<string>(), It.IsAny<object>()));
+                });
+
+                "when GetpageIdByUserGuid is called with a userId".Do(() => 
+                { 
+                    returnedPageIds = pageRepository.GetPageIdByUserGuid(userId); 
+                });                
+
+                "it looks up in the cache and finds not in cache".Assert(() => 
+                    cache.VerifyAll());
+                
+
+                "it returns a collection of pageId from database".Assert(() => 
+                {
+                    database.VerifyAll();
+                    Assert.Equal<int>(2, returnedPageIds.Count);                    
+                });
+
+                "it returns the pages in exact order as it is returned from database".Assert(() =>
+                {
+                    Assert.Equal<int>(1, returnedPageIds[0]);
+                    Assert.Equal<int>(2, returnedPageIds[1]);                        
+                });                
+            });
+        }
+
+        [Specification]
+        public void GetPageOwnerName_Should_Return_UserName_Given_PageId_from_database_if_not_already_cached()
+        {
+            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
+            {
+                const string ownerName = "some user name";
+                const int pageId = 1;
+                database.Expect<string>(d => d.GetSingle<string, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageOwnerName))
+                    .Returns(ownerName);
+
+                var userName = default(string);
+
+                "Given PageRepository and empty cache".Context(() => 
+                    {
+                        // cache is empty
+                        cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
+                        // ensure the page owner name is cached after loading from database
+                        cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheSetup.CacheKeys.PageOwnerName(pageId)),
+                            It.Is<string>(cacheOwnerName => cacheOwnerName == ownerName))).AtMostOnce().Verifiable();
+                    });
+
+                "when GetPageOwenerName is called with a PageId".Do(() =>
+                {
+                    userName = pageRepository.GetPageOwnerName(pageId);
+                });
+
+                "it looks up in the cache first and find nothing and then it caches the owner name".Assert(() =>
+                    cache.Verify());
+
+                "it returns the owner name of the page".Assert(() =>
+                {
+                    database.VerifyAll();
+                    Assert.Equal<string>("some user name", userName);
+                });
+            });
+        }
+
+        [Specification]
+        public void GetPage_Should_Return_A_Page_from_database_when_cache_is_empty_and_then_caches_it()
+        {
+            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
+            {
+                const int pageId = 1;
+                var page = default(Page);
+                var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+
+                database
+                    .Expect<Page>(d => d.GetSingle<Page, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageById))
+                    .Returns(samplePage);
+
+                "Given PageRepository and empty cache".Context(() =>
+                    {
+                        // cache is empty
+                        cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));                        
+                        // It will cache the Page object afte loading from database
+                        cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheSetup.CacheKeys.PageId(pageId)), 
+                            It.Is<Page>(cachePage => object.ReferenceEquals(cachePage, samplePage)))).AtMostOnce().Verifiable();
+                    });
+
+                "when GetPageById is called".Do(() =>
+                    page = pageRepository.GetPageById(1));
+
+                "it checks in the cache first and finds nothing and then caches it".Assert(() =>
+                    cache.VerifyAll());
+
+                "it loads the page from database".Assert(() =>
+                    database.VerifyAll());
+
+                "it returns the page as expected".Assert(() =>
+                    {
+                        Assert.Equal<int>(pageId, page.ID);
+                    });
+            });
+        }
+
+        [Specification]
+        public void GetPagesOfUser_Should_Return_List_Of_Pages()
+        {
+            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
+            {
+                Guid userId = Guid.NewGuid();
+
+                List<Page> userPages = new List<Page>();
+                var page1 = new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+                var page2 = new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+                userPages.Add(page1);
+                userPages.Add(page2);
+
+                database.Expect<List<Page>>(d => d.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userId, LinqQueries.CompiledQuery_GetPagesByUserId))
+                    .Returns(userPages);
+
+                var cacheMap = new Dictionary<string, object>();
+                var collectionKey = CacheSetup.CacheKeys.PagesOfUser(userId);
+                cacheMap.Add(collectionKey, userPages);
+                cacheMap.Add(CacheSetup.CacheKeys.PageId(1), page1);
+                cacheMap.Add(CacheSetup.CacheKeys.PageId(2), page2);
+
+                "Given PageRepository and Empty cache".Context(() =>
+                    {
+                        cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
+                        cache.Expect(c => c.Add(collectionKey, userPages)).Verifiable();
+                        cache.Expect(c =>
+                                c.Set(It.Is<string>(cacheKey => cacheMap.ContainsKey(cacheKey)),
+                                    It.Is<object>(cacheValue => cacheMap.Values.Contains(cacheValue))))
+                            .Verifiable();
+                    });
+
+                var pages = default(List<Page>);
+
+                "when GetPagesOfUser is called".Do(() =>
+                    pages = pageRepository.GetPagesOfUser(userId));
+
+                "it first looks into cache for the pages and finds nothing and then it caches it".Assert(() =>
+                    cache.VerifyAll());
+
+                "it loads the pages from database".Assert(() =>
+                    database.VerifyAll());
+
+                "it returns the pages of the user".Assert(() =>
+                {
+                    Assert.Equal<int>(userPages.Count, pages.Count);
+                    pages.Each(page => Assert.Equal(userId, page.UserId));
+                });
             });
         }
 

@@ -52,13 +52,15 @@ namespace Dropthings.DataAccess
             return columnWidths;
         }
 
-        public void Detach()
+        public Page Detach()
         {
             this.PropertyChanged = null;
             this.PropertyChanging = null;
 
             this._Columns = new EntitySet<Column>(new Action<Column>(this.attach_Columns), new Action<Column>(this.detach_Columns));
             this._aspnet_User = default(EntityRef<aspnet_User>);
+
+            return this;
         }
 
         #endregion Methods

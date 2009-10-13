@@ -7,8 +7,10 @@
     using System.Text;
 
     using Dropthings.DataAccess.Repository;
+    using Dropthings.Util;
 
     using Moq;
+    using OmarALZabir.AspectF;
 
     internal class RepositoryHelper
     {
@@ -22,19 +24,30 @@
         }
 
         [DebuggerStepThrough]
-        public static void UseRepository<TRepository>(Action<TRepository, Mock<IDropthingsDataContext>> callback)
-            where TRepository : class
+        public static void UseCache(Action<Mock<ICacheResolver>> callback)
         {
-            UseDatabase((database) => callback(
-                Activator.CreateInstance(typeof(TRepository), database.Object) as TRepository,
-                database));
+            Mock<ICacheResolver> cacheResolver = new Mock<ICacheResolver>();
+            callback(cacheResolver);
         }
 
         [DebuggerStepThrough]
-        public static void UseRepository<TRepository>(Mock<IDropthingsDataContext> database, Action<TRepository> callback)
+        public static void UseRepository<TRepository>(Action<TRepository, Mock<IDropthingsDataContext>, Mock<ICacheResolver>> callback)
             where TRepository : class
         {
-            callback(Activator.CreateInstance(typeof(TRepository), database.Object) as TRepository);
+            UseDatabase((database) => 
+                UseCache((cache) =>
+                    callback(
+                        Activator.CreateInstance(typeof(TRepository), database.Object, cache.Object) as TRepository,
+                        database,
+                        cache)
+                    ));
+        }
+
+        [DebuggerStepThrough]
+        public static void UseRepository<TRepository>(Mock<IDropthingsDataContext> database, Mock<ICacheResolver> cacheResolver, Action<TRepository> callback)
+            where TRepository : class
+        {
+            callback(Activator.CreateInstance(typeof(TRepository), database.Object, cacheResolver.Object) as TRepository);
         }
 
         #endregion Methods

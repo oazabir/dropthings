@@ -12,8 +12,6 @@
 
         Guid GetUserGuidFromUserName(string userName);
 
-        Dropthings.DataAccess.UserSetting GetUserSettingByUserGuid(Guid userGuid);
-
         #endregion Methods
     }
 }

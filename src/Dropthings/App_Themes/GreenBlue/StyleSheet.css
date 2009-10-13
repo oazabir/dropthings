@@ -17,7 +17,7 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 #search_bar { background:#B2DD80; width:100%; padding: 5px 0px 5px 0px; clear:both; overflow: auto; width: 100% }
 	#search_bar_wrapper { margin: 5px }
 	#google_search { float: left; margin-right: 20px;  }
-		#google_search img { float: left; margin-right: 5px; }
+	    #google_search img { float: left; margin-right: 5px; width: 64px; height: 26px; }
 		#google_search input { float: left; margin-right: 5px }
 		#google_search input#query { width: 500px }
 		
@@ -42,9 +42,9 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 	.tabwrap{width:98%;overflow:hidden;position:relative;}
 	ul.tabs { list-style-type: none; margin: 0px; padding: 0px; width:5000px;}
 	ul.tab-strip{width:5000px;zoom:1;}
-		li.tab { float: left; margin: 0px 10px 0px 0px; height: 30px; }
+		li.tab { float: left; margin: 0px 10px 0px 0px; height: 30px; cursor: move }
 		li.tab div.tab_wrapper { padding: 5px 20px 5px 15px; overflow:hidden;}
-		li.tab a { font-size: 10pt; margin: 5px 5px 0px 50x; overflow:hidden; text-overflow:ellipsis;}
+		li.tab a { font-size: 10pt; margin: 5px 5px 0px 50x; overflow:hidden; text-overflow:ellipsis; cursor:hand; cursor:pointer}
 		li.tab span { font-size: 10pt; margin: 5px 5px 0px 50x; font-weight: bold; color: dimgray}
 
 	.tab-scrolling .tabwrap{}
@@ -168,7 +168,7 @@ body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 2
 .addcontent_message { font-weight: bold; float: left; }
 .addcontent_navigation { float: right; font-weight: bold }
 
-#WidgetDataList { clear: both; margin-top: 20px }
+.widget_list { clear: both; margin-top: 20px }
 
 .smalltext, .smalltext a { font-size: 90%; }
 

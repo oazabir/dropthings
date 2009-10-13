@@ -29,6 +29,21 @@ public static class ExtensionFunctions
     }
 
     [DebuggerStepThrough]
+    public static void Each<T>(this IEnumerable<T> list, Action<T, int> act)
+    {
+        int counter = 0;
+        foreach (T item in list)
+            act(item, counter++);
+    }
+
+    [DebuggerStepThrough]
+    public static void Each<T>(this IEnumerable<T> list, Action<T> act)
+    {
+        foreach (T item in list)
+            act(item);
+    }
+
+    [DebuggerStepThrough]
     public static void Each<T>(this IList<T> list, Action<T, int> act)
     {
         int counter = 0;

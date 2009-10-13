@@ -25,7 +25,7 @@
             var response = new Facade(new AppContext(Guid.NewGuid().ToString(), userName)).FirstVisitHomePage(userName, string.Empty, true, false);
 
             Assert.IsNotNull(response.CurrentPage, "First time visit did not create pages");
-            Assert.AreNotEqual(0, response.UserPages.Count, "No page returned");
+            Assert.AreNotEqual(0, response.UserPages.Count(), "No page returned");
             Assert.IsNotNull(response.UserSetting, "User setting not returned");
 
             try
@@ -46,7 +46,7 @@
             {
                 var response = facade.FirstVisitHomePage(userName, string.Empty, true, false);
                 Assert.IsNotNull(response.CurrentPage, "First time visit did not create pages");
-                Assert.AreNotEqual(0, response.UserPages.Count, "No page returned");
+                Assert.AreNotEqual(0, response.UserPages.Count(), "No page returned");
                 Assert.IsNotNull(response.UserSetting, "User setting not returned");
 
                 try
