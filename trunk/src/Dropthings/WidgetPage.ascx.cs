@@ -102,7 +102,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
         this.Controls.Clear();
 
         List<Column> columns;
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             columns = facade.GetColumnsInPage(CurrentPage.ID);
         }

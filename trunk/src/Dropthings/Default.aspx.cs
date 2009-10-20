@@ -133,7 +133,7 @@ public partial class _Default : BasePage
     {
         AspectF.Define.TrapLogThrow(Services.Get<ILogger>()).Do(() =>
             {
-                using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                using (var facade = new Facade(AppContext.GetContext(Context)))
                 {
                     var newCurrentPage = facade.DeletePage(_Setup.CurrentPage.ID);
                     RedirectToTab(newCurrentPage);
@@ -214,7 +214,7 @@ public partial class _Default : BasePage
 
         if (newTitle != _Setup.CurrentPage.Title)
         {
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
             {
                 facade.ChangePageName(newTitle);
             }
@@ -231,7 +231,7 @@ public partial class _Default : BasePage
 
         if (isLocked != _Setup.CurrentPage.IsLocked)
         {
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
             {
                 if(isLocked)
                 {
@@ -255,7 +255,7 @@ public partial class _Default : BasePage
 
         if (isInMaintenenceModeLocked != _Setup.CurrentPage.IsDownForMaintenance)
         {
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
             {
                 facade.ChangePageMaintenenceStatus(isInMaintenenceModeLocked);
             }
@@ -272,7 +272,7 @@ public partial class _Default : BasePage
 
         if (shouldServeAsStartPage != _Setup.CurrentPage.ServeAsStartPageAfterLogin.GetValueOrDefault())
         {
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
             {
                 facade.ChangeServeAsStartPageAfterLoginStatus(shouldServeAsStartPage);
             }
@@ -316,7 +316,7 @@ public partial class _Default : BasePage
             .Retry(Services.Get<ILogger>())
             .Do(() =>
         {
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
             {
                 if (Profile.IsAnonymous)
                 {

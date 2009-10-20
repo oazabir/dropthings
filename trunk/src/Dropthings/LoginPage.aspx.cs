@@ -55,7 +55,7 @@ public partial class LoginPage : System.Web.UI.Page
             bool activationRequired = Convert.ToBoolean(ConfigurationManager.AppSettings["ActivationRequired"]);
 
             RegisterUserResponse registerUserResponse = null;
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
             {
                 registerUserResponse = facade.RegisterUser(Email.Text, Password.Text, Email.Text, activationRequired);
             }
@@ -119,7 +119,7 @@ public partial class LoginPage : System.Web.UI.Page
         {
             string newPassword = string.Empty;
 
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
             {
                 newPassword = facade.ResetPassword(ForgotEmail.Text.Trim());
             }

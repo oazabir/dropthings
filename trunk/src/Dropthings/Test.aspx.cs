@@ -21,7 +21,7 @@ public partial class Test : System.Web.UI.Page
                 throw new ApplicationException("This is a test exception");
             });
 
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             Guid guid1 = facade.GetUserGuidFromUserName(Profile.UserName);
             Guid guid2 = facade.GetUserGuidFromUserName(Profile.UserName);

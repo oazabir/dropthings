@@ -17,7 +17,7 @@
             set;
         }
 
-        public IEnumerable<Page> UserPages
+        public List<Page> UserPages
         {
             get;
             set;

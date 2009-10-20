@@ -1097,6 +1097,7 @@ var WidgetPermission =
             $('#progress').show();
     }
 };
+
 function pageUnload() {
 
 }

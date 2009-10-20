@@ -256,7 +256,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     {
         (this as IWidgetHost).Expand();
 
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             this.WidgetInstance = facade.MaximizeWidget(this.WidgetInstance.Id, true);
         }
@@ -269,7 +269,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Restore()
     {
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             this.WidgetInstance = facade.MaximizeWidget(this.WidgetInstance.Id, false);
         }
@@ -282,7 +282,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Expand()
     {
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             this.WidgetInstance = facade.ExpandWidget(this.WidgetInstance.Id, true);
         }
@@ -296,7 +296,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Collaspe()
     {
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             this.WidgetInstance = facade.ExpandWidget(this.WidgetInstance.Id, false);
         }
@@ -311,7 +311,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.Close()
     {
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             facade.DeleteWidgetInstance(this.WidgetInstance.Id);
         }
@@ -328,7 +328,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     void IWidgetHost.SaveState(string state)
     {
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             this.WidgetInstance = facade.SaveWidgetInstanceState(this._WidgetInstance.Id, state);
         }

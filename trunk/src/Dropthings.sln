@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Configuration", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnit.Subspec", "xUnit.Subspec\xUnit.Subspec.csproj", "{FBE087E3-A830-485B-BD8F-620B5BB83DB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade.Tests", "Dropthings.Business.Facade.Tests\Dropthings.Business.Facade.Tests.csproj", "{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 6
@@ -237,6 +239,16 @@ Global
 		{FBE087E3-A830-485B-BD8F-620B5BB83DB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBE087E3-A830-485B-BD8F-620B5BB83DB7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FBE087E3-A830-485B-BD8F-620B5BB83DB7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

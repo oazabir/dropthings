@@ -62,7 +62,7 @@ public partial class ManageWidgetPermissionPage : System.Web.UI.Page
 
     protected bool IsWidgetInRole(int widgetId, string roleName)
     {
-        using(var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using(var facade = new Facade(AppContext.GetContext(Context)))
             return facade.IsWidgetInRole(widgetId, roleName);
     }
 
@@ -70,7 +70,7 @@ public partial class ManageWidgetPermissionPage : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (var facade = new Facade(AppContext.GetContext(Context)))
                 this.Widgets = facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
         }
     }

@@ -101,7 +101,7 @@ public partial class ManageAccountPage : BasePage
             //WorkflowHelper.Run<UpdateAccountWorkflow,UpdateAccountWorkflowRequest,UpdateAccountWorkflowResponse>(
             //                new UpdateAccountWorkflowRequest { Email = EmailTextbox.Text.Trim(), UserName = Profile.UserName }
             //            );
-            using (Facade facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+            using (Facade facade = new Facade(AppContext.GetContext(Context)))
             {
                 facade.UpdateAccount(EmailTextbox.Text.Trim(), Profile.UserName);
             }
