@@ -23,7 +23,7 @@
             return this.pageRepository.GetPageById(pageId);
         }
 
-        public IEnumerable<Page> GetPagesOfUser(Guid userGuid)
+        public List<Page> GetPagesOfUser(Guid userGuid)
         {
             return this.pageRepository.GetPagesOfUser(userGuid);
         }

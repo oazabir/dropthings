@@ -1,4 +1,5 @@
 <%@ Application Language="C#" %>
+<%@ Import Namespace="Dropthings.Business.Facade.Context" %>
 
 <script RunAt="server">
     // Copyright (c) Omar AL Zabir. All rights reserved.
@@ -57,6 +58,16 @@
         }
     }
 
-    
+
+    protected void Application_AuthenticateRequest(object sender, EventArgs e)
+    {
+        
+    }
+
+    protected void Application_PreRequestHandlerExecute(object sender, EventArgs e)
+    {
+        // setup AppContext for this http request
+        var context = new AppContext(Context, string.Empty, Profile.UserName);
+    }
 </script>
 

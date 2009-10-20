@@ -92,7 +92,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
         //RedirectToTab(response.NewPage);
 
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             var page = facade.CreatePage(string.Empty, null);
             RedirectToTab(page);

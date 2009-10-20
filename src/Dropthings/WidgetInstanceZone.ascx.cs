@@ -85,7 +85,7 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         this.WidgetHolderPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
         //this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
 
-        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+        using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             this.WidgetInstances = facade.GetWidgetInstancesInZone(WidgetZoneId);
         }

@@ -98,7 +98,7 @@
                             It.Is<string>(cacheOwnerName => cacheOwnerName == ownerName))).AtMostOnce().Verifiable();
                     });
 
-                "when GetPageOwenerName is called with a PageId".Do(() =>
+                "when GetPageOwnerName is called with a PageId".Do(() =>
                 {
                     userName = pageRepository.GetPageOwnerName(pageId);
                 });
@@ -177,7 +177,7 @@
                 "Given PageRepository and Empty cache".Context(() =>
                     {
                         cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
-                        cache.Expect(c => c.Add(collectionKey, userPages)).Verifiable();
+                        cache.Expect(c => c.Add(collectionKey, It.IsAny<List<Page>>())).Verifiable();
                         cache.Expect(c =>
                                 c.Set(It.Is<string>(cacheKey => cacheMap.ContainsKey(cacheKey)),
                                     It.Is<object>(cacheValue => cacheMap.Values.Contains(cacheValue))))

@@ -201,7 +201,7 @@ namespace Dropthings.Web.Framework
                     }
 
                     if (feed == null) return null;
-                    Services.Get<ICacheResolver>().Add(CACHE_KEY + url, feed);
+                    Services.Get<ICacheResolver>().Add(CACHE_KEY + url, feed, TimeSpan.FromMinutes(15));
 
                 }
                 catch(Exception x)
@@ -209,7 +209,7 @@ namespace Dropthings.Web.Framework
                     Debug.WriteLine(x.ToString());
                     // Let's remember that we failed to load this RSS feed and we will not try to load it again
                     // in next 15 mins
-                    Services.Get<ICacheResolver>().Add(CACHE_KEY + url, string.Empty);
+                    Services.Get<ICacheResolver>().Add(CACHE_KEY + url, string.Empty, TimeSpan.FromMinutes(15));
                     return null;
                 }
             }
@@ -257,15 +257,12 @@ namespace Dropthings.Web.Framework
             return AspectF.Define
                 .MustBeNonNull(url)
                 .HowLong(Services.Get<ILogger>(), "Begin:GetString " + url, "End:GetString " + url + " {0}")
+                .Cache<string>(Services.Get<ICacheResolver>(), CACHE_KEY + url)
                 .Return<string>(() =>
                 {
-                    var cachedContent = Services.Get<ICacheResolver>().Get(CACHE_KEY + url) as string;
-                    if (null != cachedContent) return cachedContent;
-
                     using (WebClient client = new WebClient())
                     {
                         var content = client.DownloadString(url);
-                        Services.Get<ICacheResolver>().Add(CACHE_KEY + url, content);
                         return content;
                     }
                 });

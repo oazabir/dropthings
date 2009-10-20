@@ -9,6 +9,7 @@
     using System.Web;
 
     using Dropthings.Util;
+    using System.Diagnostics;
 
     public class AppContext : IDisposable
     {
@@ -70,15 +71,21 @@
                 else
                 {
                     // Web Mode
-                    AppContext context = HttpContext.Current.Items[HTTP_CONTEXT_KEY] as AppContext;
-                    if (null == context)
-                    {
-                        HttpContext.Current.Items[HTTP_CONTEXT_KEY] = context;
-                    }
-
-                    return context;
+                    return GetContext(HttpContext.Current);
                 }
             }
+        }
+
+        public static AppContext GetContext(HttpContext httpContext)
+        {
+            
+            AppContext context = httpContext.Items[HTTP_CONTEXT_KEY] as AppContext;
+            if (null == context)
+            {
+                httpContext.Items[HTTP_CONTEXT_KEY] = context;
+            }
+
+            return context;
         }
 
         public NameObjectCollectionBase Application
@@ -117,8 +124,16 @@
         {
             foreach (object item in this._Items.Values)
             {
-                if (item is IDisposable)
-                    ((IDisposable)item).Dispose();
+                if (item != this)
+                    if (item is IDisposable)
+                        try
+                        {
+                            ((IDisposable)item).Dispose();
+                        }
+                        catch (Exception x)
+                        {
+                            Debug.WriteLine(x);
+                        }
             }
 
             _Disposed = true;
