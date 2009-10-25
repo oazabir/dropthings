@@ -102,6 +102,13 @@ public static class ExtensionFunctions
         return builder.ToString();
     }
 
+    public static string ToXml(this XmlDocument doc)
+    {
+        var buffer = new StringBuilder(1000);
+        doc.WriteContentTo(new XmlTextWriter(new StringWriter(buffer)));
+        return buffer.ToString();
+    }
+
     public static bool HasItems<T>(this List<T> list)
     {
         return (list != null) && (list.Count > 0);
