@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 13.625" name="Dashboard">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 11.75" name="Dashboard">
   <DataContextMoniker Name="/DropthingsDataContext" />
   <nestedChildShapes>
-    <classShape Id="51fdbda3-0652-49cf-b857-28285f1221f0" absoluteBounds="3.375, 11.625, 2, 1.5785953776041666">
+    <classShape Id="51fdbda3-0652-49cf-b857-28285f1221f0" absoluteBounds="6, 9.375, 2, 1.5785953776041666">
       <DataClassMoniker Name="/DropthingsDataContext/WidgetZone" />
       <nestedChildShapes>
-        <elementListCompartment Id="0f2966d8-fe1c-4940-a742-9b3cfd4b3acb" absoluteBounds="3.3900000000000006, 12.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0f2966d8-fe1c-4940-a742-9b3cfd4b3acb" absoluteBounds="6.0150000000000006, 9.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="157195b0-205e-4a68-9646-34c066d1e83c" absoluteBounds="6, 4.375, 2, 1.5785953776041666">
@@ -20,13 +20,13 @@
         <elementListCompartment Id="9ff44132-a947-432e-a5e2-77429f316b22" absoluteBounds="6.0150000000000006, 6.5850000000000009, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="9323c695-a9f6-4d05-89db-6cc21c838b5c" absoluteBounds="0.75, 9.875, 2, 3.5016097005208326">
+    <classShape Id="9323c695-a9f6-4d05-89db-6cc21c838b5c" absoluteBounds="3.375, 8, 2, 3.5016097005208326">
       <DataClassMoniker Name="/DropthingsDataContext/WidgetInstance" />
       <nestedChildShapes>
-        <elementListCompartment Id="3e057fd4-31f7-4cf9-9683-9ac414f0551b" absoluteBounds="0.76499999999999968, 10.335, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="3e057fd4-31f7-4cf9-9683-9ac414f0551b" absoluteBounds="3.3899999999999997, 8.46, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(3.375 : 12.4142976888021); (2.75 : 12.4142976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(6 : 10.1642976888021); (5.375 : 10.1642976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DropthingsDataContext/WidgetZone/WidgetZone_WidgetInstance" />
       <nodes>
         <classShapeMoniker Id="51fdbda3-0652-49cf-b857-28285f1221f0" />
@@ -39,7 +39,7 @@
         <elementListCompartment Id="47dfd685-15af-491e-be95-fb6782b66f1f" absoluteBounds="0.76500000000000012, 6.5850000000000009, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.75 : 9.62660970052083); (1.75 : 9.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 8.81330485026042); (3.375 : 8.81330485026042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DropthingsDataContext/Widget/Widget_WidgetInstance" />
       <nodes>
         <classShapeMoniker Id="0c108aeb-c01f-413e-b6bc-e8570fe922bd" />
@@ -78,13 +78,13 @@
         <classShapeMoniker Id="f305e03a-e7ec-4949-b34c-86a7d155ddff" />
       </nodes>
     </associationConnector>
-    <classShape Id="ff3b1338-65e2-4d20-a61c-d4d24b81786f" absoluteBounds="6, 9.5, 2, 1.9631982421875">
+    <classShape Id="ff3b1338-65e2-4d20-a61c-d4d24b81786f" isExpanded="false" absoluteBounds="6, 8.25, 2, 0.45">
       <DataClassMoniker Name="/DropthingsDataContext/Column" />
       <nestedChildShapes>
-        <elementListCompartment Id="8759f7b7-26f6-45e7-be18-df7b0f641467" absoluteBounds="6.0150000000000006, 9.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="8759f7b7-26f6-45e7-be18-df7b0f641467" absoluteBounds="6.0150000000000006, 8.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.375 : 11.625); (6 : 11.4631982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(7 : 9.375); (7 : 8.7)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DropthingsDataContext/WidgetZone/WidgetZone_Column" />
       <nodes>
         <classShapeMoniker Id="51fdbda3-0652-49cf-b857-28285f1221f0" />
@@ -124,7 +124,7 @@
         <classShapeMoniker Id="157195b0-205e-4a68-9646-34c066d1e83c" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.375 : 6.39024983723958); (6 : 6.39024983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.375 : 6.39024983723958); (6 : 6.39024983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DropthingsDataContext/aspnet_User/aspnet_User_Token" />
       <nodes>
         <classShapeMoniker Id="2511392d-eacb-4e01-a85a-428d0e06898f" />
@@ -145,20 +145,20 @@
         <classShapeMoniker Id="f305e03a-e7ec-4949-b34c-86a7d155ddff" />
       </nodes>
     </associationConnector>
-    <classShape Id="7acd34bb-2795-4251-ba58-4816b993592e" absoluteBounds="3.375, 7.125, 2, 3.6939111328124996">
+    <classShape Id="7acd34bb-2795-4251-ba58-4816b993592e" isExpanded="false" absoluteBounds="3.375, 7.125, 2, 0.45">
       <DataClassMoniker Name="/DropthingsDataContext/Page" />
       <nestedChildShapes>
         <elementListCompartment Id="0db010f5-c178-4a83-a6a5-038ad69384ea" absoluteBounds="3.39, 7.585, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.375 : 10.1594555664062); (6 : 10.1594555664062)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.375 : 7.575); (6 : 8.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DropthingsDataContext/Page/Page_Column" />
       <nodes>
         <classShapeMoniker Id="7acd34bb-2795-4251-ba58-4816b993592e" />
         <classShapeMoniker Id="ff3b1338-65e2-4d20-a61c-d4d24b81786f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.375 : 6.65549967447917); (4.375 : 7.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(4.375 : 6.65549967447917); (4.375 : 7.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/DropthingsDataContext/aspnet_User/aspnet_User_Page" />
       <nodes>
         <classShapeMoniker Id="2511392d-eacb-4e01-a85a-428d0e06898f" />
