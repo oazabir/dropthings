@@ -41,17 +41,21 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
     {
         string url = weatherLocation + zipCode;
 
-        XmlDocument doc = Services.Get<ICacheResolver>().Get(url) as XmlDocument ?? (new XmlDocument());
+        XmlDocument doc = new XmlDocument();
+        string cachedXml = Services.Get<ICacheResolver>().Get(url) as string ?? string.Empty;
         try
         {
-            if (!doc.HasChildNodes) doc.Load(url);
+            if (string.IsNullOrEmpty(cachedXml))
+                doc.Load(url);
+            else
+                doc.LoadXml(cachedXml);
         }
         catch
         {
             return string.Empty;
         }
         if (null == Services.Get<ICacheResolver>().Get(url))
-            Services.Get<ICacheResolver>().Add(url, doc);
+            Services.Get<ICacheResolver>().Add(url, doc.ToXml());
 
         XmlElement root = doc.DocumentElement;
         XmlNodeList nodes = root.SelectNodes("/rss/channel/item");
