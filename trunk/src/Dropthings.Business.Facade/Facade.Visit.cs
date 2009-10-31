@@ -63,7 +63,7 @@ namespace Dropthings.Business.Facade
                 if (page != null && page.ID > 0)
                 {
                     CreateDefaultWidgetsOnPage(userName, page.ID);
-                    RepeatVisitHomePage(userName, pageTitle, isAnonymous, DateTime.Now, isFirstVisitAfterLogin);    // non-recursive. this will hit the outter most else block
+                    RepeatVisitHomePage(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);    // non-recursive. this will hit the outter most else block
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace Dropthings.Business.Facade
             return response;
         }
 
-        public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous, DateTime? lastVisited, bool isFirstVisitAfterLogin)
+        public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
             // User is visiting again, so load user's existing page setup
             var response = new UserSetup();

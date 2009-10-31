@@ -43,7 +43,7 @@
                 newWidgetZone.UniqueID = Guid.NewGuid().ToString();
             });
 
-            var widgetInstancesToClone = this.GetWidgetInstancesInZone(widgetZoneToClone.ID);
+            var widgetInstancesToClone = this.GetWidgetInstancesInZoneWithWidget(widgetZoneToClone.ID);
             widgetInstancesToClone.Each(widgetInstanceToClone => CloneWidgetInstance(clonedWidgetZone.ID, widgetInstanceToClone));                
 
             var newColumn = this.columnRepository.Insert((col) =>
@@ -403,7 +403,7 @@
                 widgetZone = this.widgetZoneRepository.GetWidgetZoneById(columnToDelete.WidgetZoneId);
             }
 
-            var widgetInstances = this.GetWidgetInstancesInZone(widgetZone.ID);
+            var widgetInstances = this.GetWidgetInstancesInZoneWithWidget(widgetZone.ID);
             widgetInstances.Each((widgetInstance) => this.widgetInstanceRepository.Delete(widgetInstance.Id));
 
             this.columnRepository.Delete(columnId);
@@ -441,7 +441,7 @@
                 {
                     var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPageId, columnCounter);
                     var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPageId, newColumnNo);
-                    var widgetInstancesToMove = GetWidgetInstancesInZone(oldWidgetZone.ID);
+                    var widgetInstancesToMove = GetWidgetInstancesInZoneWithWidget(oldWidgetZone.ID);
                     widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, 0));
                     DeleteColumn(userSetting.CurrentPageId, 0, columnCounter);
                     --columnCounter;

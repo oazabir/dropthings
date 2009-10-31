@@ -34,6 +34,9 @@ namespace Dropthings.Util
 
         public void Add(string key, object value, TimeSpan timeout)
         {
+            if (null == value)
+                return;
+
             DataCacheItemVersion version = _Cache.Add(key, value, timeout, REGION_NAME);
             if (version == null)
                 throw new ApplicationException("DataCache.Add failed");
@@ -41,6 +44,9 @@ namespace Dropthings.Util
 
         public void Add(string key, object value)
         {
+            if (null == value)
+                return;
+
             DataCacheItemVersion version = _Cache.Add(key, value, REGION_NAME);
             if (version == null)
                 throw new ApplicationException("DataCache.Add failed");
@@ -69,16 +75,30 @@ namespace Dropthings.Util
 
         public void Set(string key, object value, TimeSpan timeout)
         {
-            var version = _Cache.Put(key, value, timeout, REGION_NAME);
-            if (null == version)
-                throw new ApplicationException("DataCache.Set failed");
+            if (null == value)
+            {
+                Remove(key);
+            }
+            else
+            {
+                var version = _Cache.Put(key, value, timeout, REGION_NAME);
+                if (null == version)
+                    throw new ApplicationException("DataCache.Set failed");
+            }
         }
 
         public void Set(string key, object value)
         {
-            var version = _Cache.Put(key, value, REGION_NAME);
-            if (null == version)
-                throw new ApplicationException("DataCache.Set failed");
+            if (null == value)
+            {
+                Remove(key);
+            }
+            else
+            {
+                var version = _Cache.Put(key, value, REGION_NAME);
+                if (null == version)
+                    throw new ApplicationException("DataCache.Set failed");
+            }
         }
 
         #endregion

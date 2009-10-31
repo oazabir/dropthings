@@ -82,9 +82,15 @@
             return widgetsInRole.HasItems();
         }
 
-        public IEnumerable<WidgetInstance> GetWidgetInstancesInZone(int widgetZoneId)
+        public IEnumerable<WidgetInstance> GetWidgetInstancesInZoneWithWidget(int widgetZoneId)
         {
-            return this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneIdWithWidget(widgetZoneId);            
+            var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneIdWithWidget(widgetZoneId);
+            widgetInstances.Each(wi =>
+                {
+                    if (wi.Widget == default(Widget))
+                        wi.Widget = this.widgetRepository.GetWidgetById(wi.WidgetId);
+                });
+            return widgetInstances;
         }
 
         public WidgetInstance ExpandWidget(int widgetInstanceId, bool isExpand)
