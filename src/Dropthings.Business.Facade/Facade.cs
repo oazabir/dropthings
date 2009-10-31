@@ -103,7 +103,7 @@
 
                 var dalConstructor = new InjectionConstructor(
                         new ResolvedParameter<IDropthingsDataContext>(),
-                        new ResolvedParameter<ICacheResolver>());
+                        new ResolvedParameter<ICache>());
 
                 Services.RegisterType<IDropthingsDataContext, DropthingsDataContext2>(
                     new InjectionConstructor(DropthingsDataContext.GetConnectionString()));

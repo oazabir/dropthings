@@ -49,7 +49,7 @@ public partial class Widgets_HoroscopeWidget : System.Web.UI.UserControl, IWidge
             data = "<img src='Widgets/Horoscope_image/" + imgName + "'/><br/><b> " + strHoroscope[ddlHoroscope.SelectedIndex] + "</b>";
 
             XmlDocument doc = new XmlDocument();
-            string cachedXml = Services.Get<ICacheResolver>().Get(rssLocation) as string ?? string.Empty;
+            string cachedXml = Services.Get<ICache>().Get(rssLocation) as string ?? string.Empty;
             try
             {
                 if (string.IsNullOrEmpty(cachedXml))
@@ -62,8 +62,8 @@ public partial class Widgets_HoroscopeWidget : System.Web.UI.UserControl, IWidge
                 return string.Empty;
             }
             
-            if (null == Services.Get<ICacheResolver>().Get(rssLocation)) 
-                Services.Get<ICacheResolver>().Add(rssLocation, doc.ToXml());
+            if (null == Services.Get<ICache>().Get(rssLocation)) 
+                Services.Get<ICache>().Add(rssLocation, doc.ToXml());
 
             XmlElement root = doc.DocumentElement;
             XmlNodeList nodes = root.SelectNodes("/rss/channel/item");

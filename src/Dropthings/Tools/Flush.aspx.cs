@@ -11,6 +11,6 @@ public partial class Tools_Flush : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Services.Get<ICacheResolver>().Flush();
+        Services.Get<ICache>().Flush();
     }
 }

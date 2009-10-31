@@ -8,7 +8,7 @@ using System.Configuration;
 
 namespace Dropthings.Util
 {
-    public class VelocityCacheResolver : ICacheResolver
+    public class VelocityCacheResolver : ICache
     {
         private static readonly DataCacheFactory _Factory;
         private static readonly DataCache _Cache;
@@ -30,7 +30,7 @@ namespace Dropthings.Util
             }
         }
         
-        #region ICacheResolver Members
+        #region ICache Members
 
         public void Add(string key, object value, TimeSpan timeout)
         {

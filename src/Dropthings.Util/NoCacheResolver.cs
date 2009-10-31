@@ -6,10 +6,10 @@ using OmarALZabir.AspectF;
 
 namespace Dropthings.Util
 {
-    class NoCacheResolver : ICacheResolver
+    class NoCacheResolver : ICache
     {
 
-        #region ICacheResolver Members
+        #region ICache Members
 
         public void Add(string key, object value, TimeSpan timeout)
         {

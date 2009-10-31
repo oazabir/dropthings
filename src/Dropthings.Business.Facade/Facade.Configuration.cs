@@ -52,7 +52,7 @@
 
         public UserTemplateSetting GetUserSettingTemplate()
         {
-            return AspectF.Define.Cache<UserTemplateSetting>(Services.Get<ICacheResolver>(), CacheSetup.CacheKeys.UserTemplateSetting())
+            return AspectF.Define.Cache<UserTemplateSetting>(Services.Get<ICache>(), CacheSetup.CacheKeys.UserTemplateSetting())
                 .Return<UserTemplateSetting>(() =>
                     {
                         UserSettingTemplateSettingsSection settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);

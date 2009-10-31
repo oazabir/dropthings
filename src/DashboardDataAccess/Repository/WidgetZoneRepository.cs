@@ -12,13 +12,13 @@
         #region Fields
 
         private readonly IDropthingsDataContext _database;
-        private readonly ICacheResolver _cacheResolver;
+        private readonly ICache _cacheResolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public WidgetZoneRepository(IDropthingsDataContext database, ICacheResolver cacheResolver)
+        public WidgetZoneRepository(IDropthingsDataContext database, ICache cacheResolver)
         {
             this._database = database;
             this._cacheResolver = cacheResolver;
@@ -41,7 +41,7 @@
 
         public void Delete(WidgetZone widgetZone)
         {
-            Services.Get<ICacheResolver>().Remove(CacheSetup.CacheKeys.WidgetInstancesInWidgetZone(widgetZone.ID));            
+            Services.Get<ICache>().Remove(CacheSetup.CacheKeys.WidgetInstancesInWidgetZone(widgetZone.ID));            
             _database.Delete<WidgetZone>(DropthingsDataContext.SubsystemEnum.WidgetZone, widgetZone);
         }
 
