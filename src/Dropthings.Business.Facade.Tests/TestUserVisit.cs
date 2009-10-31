@@ -41,42 +41,84 @@ namespace Dropthings.Test.IntegrationTests
                             userVisitModel = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
                         });
 
-                    "it creates default pages from template user".Assert(() =>
-                        {
-                            Assert.Equal(anonPages.Count(), userVisitModel.UserPages.Count());
-                            anonPages.Each(page => Assert.True(userVisitModel.UserPages
-                                .Where(userPage => 
-                                    userPage.Title == page.Title && userPage.OrderNo == page.OrderNo
-                                    && userPage.PageType == page.PageType)
-                                    .Count() == 1));
-                        });
-
-                    "it sets the first page as the default page for the new user".Assert(() =>
-                        Assert.NotNull(userVisitModel.CurrentPage));
-
                     "it creates widgets on the creates page at exact columns and positions as the anon user's pages".Assert(() =>
                         {
                             anonPages.Each(anonPage =>
-                                facade.GetColumnsInPage(anonPage.ID).Each(anonColumn =>
-                                    {
-                                        var userPage = userVisitModel.UserPages.First(page =>
+                                {
+                                    var userPage = userVisitModel.UserPages.First(page =>
                                             page.Title == anonPage.Title
                                             && page.OrderNo == anonPage.OrderNo
                                             && page.PageType == anonPage.PageType);
-                                        var userColumns = facade.GetColumnsInPage(userPage.ID);
-                                        var userColumn = userColumns.First(column => 
-                                                column.ColumnNo == anonColumn.ColumnNo);
+                                    
+                                    facade.GetColumnsInPage(anonPage.ID).Each(anonColumn =>
+                                        {
+                                            var userColumns = facade.GetColumnsInPage(userPage.ID);
+                                            var userColumn = userColumns.First(column =>
+                                                    column.ColumnNo == anonColumn.ColumnNo);
 
-                                        var anonColumnWidgets = facade.GetWidgetInstancesInZone(anonColumn.WidgetZoneId);
-                                        var userColumnWidgets = facade.GetWidgetInstancesInZone(userColumn.WidgetZoneId);
+                                            var anonColumnWidgets = facade.GetWidgetInstancesInZoneWithWidget(anonColumn.WidgetZoneId);
+                                            var userColumnWidgets = facade.GetWidgetInstancesInZoneWithWidget(userColumn.WidgetZoneId);
 
-                                        anonColumnWidgets.Each(anonWidget => Assert.True(userColumnWidgets.Where(userWidget =>
-                                            userWidget.Title == anonWidget.Title 
-                                            && userWidget.OrderNo == anonWidget.OrderNo).Count() == 1));                                            
-                                    }));
+                                            // Ensure the widgets from the anonymous user template's columns are 
+                                            // in the same column and row.
+                                            anonColumnWidgets.Each(anonWidget => Assert.True(userColumnWidgets.Where(userWidget =>
+                                                userWidget.Title == anonWidget.Title
+                                                && userWidget.Expanded == anonWidget.Expanded
+                                                && userWidget.State == anonWidget.State
+                                                && userWidget.Resized == anonWidget.Resized
+                                                && userWidget.Height == anonWidget.Height
+                                                && userWidget.OrderNo == anonWidget.OrderNo).Count() == 1));
+                                        });
+                                });
                         });
 
                     
+                }
+            });
+        }
+
+        [Fact]
+        public void Revisit_should_load_the_pages_and_widgets_exactly_the_same()
+        {
+            MembershipHelper.UsingNewAnonUser((profile) =>
+            {
+                using (var facade = new Facade(new AppContext(string.Empty, profile.UserName)))
+                {
+                    UserSetup userVisitModel = null;
+                    UserSetup userRevisitModel = null;
+
+                    "Given an anonymous user who visited first".Context(() =>
+                        {
+                            userVisitModel = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);                            
+                        });
+
+                    "when the same user visits again".Do(() =>
+                        {
+                            userRevisitModel = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
+                        });
+
+                    "it should load the exact same pages, column and widgets as the first visit produced".Assert(() =>
+                        {
+                            userVisitModel.UserPages.Each(firstVisitPage =>
+                                {
+                                    Assert.True(userRevisitModel.UserPages.Exists(page => page.ID == firstVisitPage.ID));
+
+                                    var revisitPage = userRevisitModel.UserPages.First(page => page.ID == firstVisitPage.ID);
+                                    var revisitPageColumns = facade.GetColumnsInPage(revisitPage.ID);
+
+                                    facade.GetColumnsInPage(firstVisitPage.ID).Each(firstVisitColumn =>
+                                        {
+                                            var revisitColumn = revisitPageColumns.First(column => column.ID == firstVisitColumn.ID);
+
+                                            var firstVisitWidgets = facade.GetWidgetInstancesInZoneWithWidget(firstVisitColumn.WidgetZoneId);
+                                            var revisitWidgets = facade.GetWidgetInstancesInZoneWithWidget(revisitColumn.WidgetZoneId);
+
+                                            firstVisitWidgets.Each(firstVisitWidget =>
+                                                Assert.True(revisitWidgets.Where(revisitWidget =>
+                                                    revisitWidget.Id == firstVisitWidget.Id).Count() == 1));
+                                        });
+                                });
+                        });
                 }
             });
         }

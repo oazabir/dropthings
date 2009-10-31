@@ -87,7 +87,7 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
 
         using (var facade = new Facade(AppContext.GetContext(Context)))
         {
-            this.WidgetInstances = facade.GetWidgetInstancesInZone(WidgetZoneId);
+            this.WidgetInstances = facade.GetWidgetInstancesInZoneWithWidget(WidgetZoneId);
         }
 
         var controlsToDelete = new List<Control>();
