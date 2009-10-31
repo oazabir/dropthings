@@ -12,13 +12,13 @@
         #region Fields
 
         private readonly IDropthingsDataContext _database;
-        private readonly ICacheResolver _cacheResolver;
+        private readonly ICache _cacheResolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public WidgetInstanceRepository(IDropthingsDataContext database, ICacheResolver cacheResolver)
+        public WidgetInstanceRepository(IDropthingsDataContext database, ICache cacheResolver)
         {
             this._database = database;
             this._cacheResolver = cacheResolver;

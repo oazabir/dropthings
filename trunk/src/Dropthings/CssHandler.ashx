@@ -71,7 +71,7 @@ public class CssHandler : IHttpHandler {
                 
                 // Cache and generate response
                 byte[] responseBytes = memoryStream.ToArray();
-                Services.Get<ICacheResolver>().Add(
+                Services.Get<ICache>().Add(
                     GetCacheKey(themeName, version, isCompressed), 
                     responseBytes);
 
@@ -112,7 +112,7 @@ public class CssHandler : IHttpHandler {
     private bool WriteFromCache(HttpContext context, string themeName, 
         string version, bool isCompressed)
     {
-        byte[] responseBytes = Services.Get<ICacheResolver>().Get(GetCacheKey(themeName, 
+        byte[] responseBytes = Services.Get<ICache>().Get(GetCacheKey(themeName, 
             version, isCompressed)) as byte[];
 
         if (null == responseBytes) return false;

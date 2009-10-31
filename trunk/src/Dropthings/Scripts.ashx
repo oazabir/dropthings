@@ -29,7 +29,7 @@ public class Scripts : IHttpHandler {
 
         byte[] encodedBytes;
 
-        if (Services.Get<ICacheResolver>().Get(setInfo) == null)
+        if (Services.Get<ICache>().Get(setInfo) == null)
         {
             // Find the set
             UrlMapSet set = CombineScripts.LoadSets().Find(
@@ -98,11 +98,11 @@ public class Scripts : IHttpHandler {
 
             string responseString = buffer.ToString();
             encodedBytes = context.Request.ContentEncoding.GetBytes(responseString);
-            Services.Get<ICacheResolver>().Add(setInfo, encodedBytes);
+            Services.Get<ICache>().Add(setInfo, encodedBytes);
         }
         else
         {
-            encodedBytes = Services.Get<ICacheResolver>().Get(setInfo) as byte[];
+            encodedBytes = Services.Get<ICache>().Get(setInfo) as byte[];
         }
         
         context.Response.ContentType = "text/javascript";

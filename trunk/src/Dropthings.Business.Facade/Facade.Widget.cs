@@ -116,7 +116,7 @@
                 // widget moving from one zone to another. Need to clear all cached
                 // instances of widget instances on the source zone
                 CacheSetup.CacheKeys.WidgetZoneKeys(widgetInstance.WidgetZoneId)
-                    .Each(key => Services.Get<ICacheResolver>().Remove(key));
+                    .Each(key => Services.Get<ICache>().Remove(key));
             }
             PushDownWidgetInstancesOnWidgetZoneAfterWidget(toRowId, widgetInstanceId, toZoneId);
             ChangeWidgetInstancePosition(widgetInstanceId, toZoneId, toRowId);
@@ -125,7 +125,7 @@
 
             // The new dropped zone now has more widgets than before. So clear cache.
             CacheSetup.CacheKeys.WidgetZoneKeys(toZoneId)
-                    .Each(key => Services.Get<ICacheResolver>().Remove(key));
+                    .Each(key => Services.Get<ICache>().Remove(key));
         }
 
         private void PushDownWidgetInstancesOnWidgetZoneAfterWidget(int toRowId, int widgetInstanceId, int widgetZoneId)

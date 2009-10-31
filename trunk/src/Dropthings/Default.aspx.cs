@@ -329,12 +329,12 @@ public partial class _Default : BasePage
                     }
                     else
                     {
-                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.LastActivityAt, Profile.IsFirstVisitAfterLogin);
+                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                     }
                 }
                 else
                 {
-                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.LastActivityAt, Profile.IsFirstVisitAfterLogin);
+                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.IsFirstVisitAfterLogin);
 
                     // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
                     // to recrate the pages

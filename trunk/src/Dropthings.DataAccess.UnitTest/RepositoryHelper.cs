@@ -24,14 +24,14 @@
         }
 
         [DebuggerStepThrough]
-        public static void UseCache(Action<Mock<ICacheResolver>> callback)
+        public static void UseCache(Action<Mock<ICache>> callback)
         {
-            Mock<ICacheResolver> cacheResolver = new Mock<ICacheResolver>();
+            Mock<ICache> cacheResolver = new Mock<ICache>();
             callback(cacheResolver);
         }
 
         [DebuggerStepThrough]
-        public static void UseRepository<TRepository>(Action<TRepository, Mock<IDropthingsDataContext>, Mock<ICacheResolver>> callback)
+        public static void UseRepository<TRepository>(Action<TRepository, Mock<IDropthingsDataContext>, Mock<ICache>> callback)
             where TRepository : class
         {
             UseDatabase((database) => 
@@ -44,7 +44,7 @@
         }
 
         [DebuggerStepThrough]
-        public static void UseRepository<TRepository>(Mock<IDropthingsDataContext> database, Mock<ICacheResolver> cacheResolver, Action<TRepository> callback)
+        public static void UseRepository<TRepository>(Mock<IDropthingsDataContext> database, Mock<ICache> cacheResolver, Action<TRepository> callback)
             where TRepository : class
         {
             callback(Activator.CreateInstance(typeof(TRepository), database.Object, cacheResolver.Object) as TRepository);

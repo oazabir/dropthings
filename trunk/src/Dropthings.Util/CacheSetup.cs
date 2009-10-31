@@ -169,18 +169,18 @@ namespace Dropthings.Util
             if (bool.TryParse(ConfigurationManager.AppSettings["DisableCache"], out enabled)
                 && enabled)
             {
-                Services.RegisterType<ICacheResolver, NoCacheResolver>();
+                Services.RegisterType<ICache, NoCacheResolver>();
             }
             else
             {
                 if (bool.TryParse(ConfigurationManager.AppSettings["EnableVelocity"], out enabled)
                     && enabled)
                 {
-                    Services.RegisterType<ICacheResolver, VelocityCacheResolver>();
+                    Services.RegisterType<ICache, VelocityCacheResolver>();
                 }
                 else
                 {
-                    Services.RegisterType<ICacheResolver, EntlibCacheResolver>();
+                    Services.RegisterType<ICache, EntlibCacheResolver>();
                 }
             }
         }        

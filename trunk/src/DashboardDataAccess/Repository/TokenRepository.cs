@@ -11,13 +11,13 @@
         #region Fields
 
         private readonly IDropthingsDataContext _database;
-        private readonly ICacheResolver _cacheResolver;
+        private readonly ICache _cacheResolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public TokenRepository(IDropthingsDataContext database, ICacheResolver cacheResolver)
+        public TokenRepository(IDropthingsDataContext database, ICache cacheResolver)
         {
             this._database = database;
             this._cacheResolver = cacheResolver;

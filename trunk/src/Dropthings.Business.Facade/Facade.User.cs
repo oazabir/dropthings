@@ -23,12 +23,12 @@ namespace Dropthings.Business.Facade
 
         public MembershipUser GetUser(string userName)
         {
-            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICacheResolver>(), CacheSetup.CacheKeys.UserFromUserName(userName))
+            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICache>(), CacheSetup.CacheKeys.UserFromUserName(userName))
                 .Return<MembershipUser>(() => Membership.GetUser(userName));
         }
         public MembershipUser GetUser(Guid userGuid)
         {
-            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICacheResolver>(), CacheSetup.CacheKeys.UserFromUserGuid(userGuid))
+            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICache>(), CacheSetup.CacheKeys.UserFromUserGuid(userGuid))
                 .Return<MembershipUser>(() => Membership.GetUser(userGuid));
         }
 

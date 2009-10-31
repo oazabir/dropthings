@@ -8,10 +8,10 @@ using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace Dropthings.Util
 {
-    class EntlibCacheResolver : ICacheResolver
+    class EntlibCacheResolver : ICache
     {
         private readonly static ICacheManager _CacheManager = CacheFactory.GetCacheManager("DropthingsCache");
-        #region ICacheResolver Members
+        #region ICache Members
 
         public object Get(string key)
         {
@@ -25,7 +25,7 @@ namespace Dropthings.Util
 
         #endregion
 
-        #region ICacheResolver Members
+        #region ICache Members
 
         public void Add(string key, object value, TimeSpan timeout)
         {
