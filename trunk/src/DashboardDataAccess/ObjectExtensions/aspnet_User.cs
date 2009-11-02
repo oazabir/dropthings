@@ -12,6 +12,9 @@
 
         public void Detach()
         {
+            this.PropertyChanged = null;
+            this.PropertyChanging = null;
+
             this._Pages = new EntitySet<Page>(new Action<Page>(this.attach_Pages), new Action<Page>(this.detach_Pages));
             this._UserSetting = default(EntityRef<UserSetting>);
             this._Tokens = new EntitySet<Token>(new Action<Token>(this.attach_Tokens), new Action<Token>(this.detach_Tokens));
