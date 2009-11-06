@@ -28,6 +28,45 @@
         #region Methods
 
         [Specification]
+        public void GetPage_Should_Return_A_Page_from_database_when_cache_is_empty_and_then_caches_it()
+        {
+            var cache = new Mock<ICache>();
+            var database = new Mock<IDropthingsDataContext>();
+            IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
+
+            const int pageId = 1;
+            var page = default(Page);
+            var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+
+            database
+                .Expect<Page>(d => d.GetSingle<Page, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageById))
+                .Returns(samplePage);
+
+            "Given PageRepository and empty cache".Context(() =>
+            {
+                // cache is empty
+                cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
+                // It will cache the Page object afte loading from database
+                cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheSetup.CacheKeys.PageId(pageId)),
+                    It.Is<Page>(cachePage => object.ReferenceEquals(cachePage, samplePage)))).AtMostOnce().Verifiable();
+            });
+
+            "when GetPageById is called".Do(() => { });
+
+            "it checks in the cache first and finds nothing and then caches it".Assert(() => { });
+
+
+            "it loads the page from database".Assert(() =>
+                database.VerifyAll());
+
+            "it returns the page as expected".Assert(() =>
+            {
+                Assert.Equal<int>(pageId, page.ID);
+            });
+        }
+
+
+        [Specification]
         public void GetPageIdByUserGuid_should_return_a_list_of_pageId_from_database_if_not_already_cached_and_then_cache_it()
         {            
             RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
@@ -111,44 +150,6 @@
                     database.VerifyAll();
                     Assert.Equal<string>("some user name", userName);
                 });
-            });
-        }
-
-        [Specification]
-        public void GetPage_Should_Return_A_Page_from_database_when_cache_is_empty_and_then_caches_it()
-        {
-            RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
-            {
-                const int pageId = 1;
-                var page = default(Page);
-                var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
-
-                database
-                    .Expect<Page>(d => d.GetSingle<Page, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageById))
-                    .Returns(samplePage);
-
-                "Given PageRepository and empty cache".Context(() =>
-                    {
-                        // cache is empty
-                        cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));                        
-                        // It will cache the Page object afte loading from database
-                        cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheSetup.CacheKeys.PageId(pageId)), 
-                            It.Is<Page>(cachePage => object.ReferenceEquals(cachePage, samplePage)))).AtMostOnce().Verifiable();
-                    });
-
-                "when GetPageById is called".Do(() =>
-                    page = pageRepository.GetPageById(1));
-
-                "it checks in the cache first and finds nothing and then caches it".Assert(() =>
-                    cache.VerifyAll());
-
-                "it loads the page from database".Assert(() =>
-                    database.VerifyAll());
-
-                "it returns the page as expected".Assert(() =>
-                    {
-                        Assert.Equal<int>(pageId, page.ID);
-                    });
             });
         }
 

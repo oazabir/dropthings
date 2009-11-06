@@ -28,6 +28,33 @@
 
         #region Methods
 
+        public Page GetPageById(int pageId)
+        {
+            string cacheKey = CacheSetup.CacheKeys.PageId(pageId);
+            object cachedPage = _cacheResolver.Get(cacheKey);
+            if (null == cachedPage)
+            {
+                var page = _database.GetSingle<Page, int>(
+                       DropthingsDataContext.SubsystemEnum.Page, 
+                        pageId, 
+                        LinqQueries.CompiledQuery_GetPageById);
+                page.Detach();
+                _cacheResolver.Add(cacheKey, page);
+                return page;
+            }
+            else
+            {
+                return cachedPage as Page;
+            }
+        }
+
+        //public Page GetPageById(int pageId)
+        //{
+        //    return AspectF.Define.Cache<Page>(_cacheResolver, CacheSetup.CacheKeys.PageId(pageId))
+        //        .Return<Page>(() =>
+        //            _database.GetSingle<Page, int>(DropthingsDataContext.SubsystemEnum.Page, pageId, LinqQueries.CompiledQuery_GetPageById).Detach());
+        //}        
+
         private void RemovePageIdDependentItems(int id)
         {
             RemoveUserPagesCollection(id);
@@ -54,13 +81,6 @@
         {
             RemovePageIdDependentItems(page.ID);
             _database.Delete<Page>(DropthingsDataContext.SubsystemEnum.Page, page);
-        }
-
-        public Page GetPageById(int pageId)
-        {
-            return AspectF.Define.Cache<Page>(_cacheResolver, CacheSetup.CacheKeys.PageId(pageId))
-                .Return<Page>(() =>
-                    _database.GetSingle<Page, int>(DropthingsDataContext.SubsystemEnum.Page, pageId, LinqQueries.CompiledQuery_GetPageById).Detach());
         }
 
         public List<int> GetPageIdByUserGuid(Guid userGuid)
