@@ -41,7 +41,7 @@ namespace Dropthings.Test.IntegrationTests
 						userVisitModel = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
 					});
 
-					"it creates widgets on the creates page at exact columns and positions as the anon user's pages".Assert(() =>
+					"it creates widgets on the newly created page at exact columns and positions as the anon user's pages".Assert(() =>
 					{
 						anonPages.Each(anonPage =>
 						{
