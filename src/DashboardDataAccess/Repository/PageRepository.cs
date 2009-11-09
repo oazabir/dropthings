@@ -66,10 +66,14 @@
             var page = this.GetPageById(pageId);
             if (page != null)
             {
-                var userGuid = page.UserId;
-                _cacheResolver.Remove(CacheSetup.CacheKeys.PagesOfUser(userGuid));
+                var userGuid = page.UserId;                
             }
         }
+
+				private void RemoveUserPagesCollection(Guid userGuid)
+				{
+					_cacheResolver.Remove(CacheSetup.CacheKeys.PagesOfUser(userGuid));
+				}
 
         public void Delete(int id)
         {
@@ -128,7 +132,7 @@
         public Page Insert(Action<Page> populate)
         {
             var newPage = _database.Insert<Page>(DropthingsDataContext.SubsystemEnum.Page, populate);
-            RemoveUserPagesCollection(newPage.ID);
+            RemoveUserPagesCollection(newPage.UserId);
             return newPage.Detach();
         }
 

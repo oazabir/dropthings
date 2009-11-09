@@ -237,8 +237,49 @@
 			});
 		}
 
+		[Specification]
 		public void InsertPage_should_insert_a_page_in_database_and_cache_it()
 		{
+			var cache = new Mock<ICache>();
+			var database = new Mock<IDropthingsDataContext>();
+			IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
+
+			const int pageId = 1;
+			var page = default(Page);
+			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, 
+				LayoutType = 3, UserId = Guid.NewGuid(), VersionNo = 1, 
+				PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+
+			database
+					.Expect<Page>(d => d.Insert<Page>(DropthingsDataContext.SubsystemEnum.Page, It.IsAny<Action<Page>>()))
+					.Returns(samplePage);
+
+			"Given PageRepository".Context(() =>
+			{
+				// It will clear items from cache
+				cache.Expect(c => c.Remove(CacheSetup.CacheKeys.PagesOfUser(samplePage.UserId)));
+			});
+
+			"when Insert is called".Do(() =>
+					page = pageRepository.Insert((newPage) =>
+					{
+						newPage.Title = samplePage.Title;
+						newPage.ColumnCount = samplePage.ColumnCount;
+						newPage.LayoutType = samplePage.LayoutType;
+						newPage.UserId = samplePage.UserId;
+						newPage.VersionNo = samplePage.VersionNo;
+						newPage.PageType = samplePage.PageType;
+					}));
+
+			("then it should insert the page in database" +
+			"and clear any cached collection of pages for the user who gets the new page" +
+			"and it returns the newly inserted page").Assert(() =>
+			{
+				database.VerifyAll();
+				cache.VerifyAll();
+
+				Assert.Equal<int>(pageId, page.ID);
+			});			
 		}
 
 
