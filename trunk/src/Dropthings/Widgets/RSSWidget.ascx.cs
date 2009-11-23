@@ -148,7 +148,15 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
         using (var proxy = new Dropthings.Web.Framework.ProxyAsync())
         {
             var items = proxy.GetRss(url, count, 10);
-            FeedList.DataSource = items;
+			if (null == items)
+			{
+				Message.Text = "There was a problem loading the feed";
+				Message.Visible = true;
+			}
+			else
+			{
+				FeedList.DataSource = items;
+			}
         }
 
         FeedList.DataBind();

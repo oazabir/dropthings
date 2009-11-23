@@ -146,6 +146,7 @@ namespace Dropthings.Web.Framework
                                 responseBuffer.Write(buffer, 0, dataReceived);
                             }
 
+							responseBuffer.Position = 0;
                             // If the content is compressed, decompress it
                             Stream contentStream = contentEncoding == "gzip" ?
                                 (new GZipStream(responseBuffer, CompressionMode.Decompress) as Stream)

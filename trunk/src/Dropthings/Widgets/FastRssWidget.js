@@ -11,38 +11,38 @@ var FastRssWidget = function(url, container, count, cachedJson)
 
 FastRssWidget.prototype = {
 
-    load : function()
-    {
-        if( this.cachedJson == null )
-        {
-            var div = $get( this.container );
+    load: function() {
+        if (this.cachedJson == null) {
+            var div = $get(this.container);
             div.innerHTML = "Loading...";
-            
-            Proxy.GetRss( this.url, this.count, 10, Function.createDelegate( this, this.onContentLoad ) );
+
+            Proxy.GetRss(this.url, this.count, 10, Function.createDelegate(this, this.onContentLoad));
         }
-        else
-        {
+        else {
             this.onContentLoad(this.cachedJson);
         }
     },
 
-    onContentLoad : function( rss )
-    {
-        var div = $get( this.container );
+    onContentLoad: function(rss) {
+        var div = $get(this.container);
         div.innerHTML = "";
 
-        for( var i = 0; i < rss.length; i ++ )
-        {
-            var item = rss[i];
-            
-            var a = document.createElement("A");
-            a.href = item.Link;
-            a.innerHTML = item.Title;
-            a.title = item.Description;
-            a.className = "feed_item_link";
-            a.target = "_blank";
-            
-            div.appendChild(a);            
+        if (rss == null) {
+            div.innerHTML = "There was a problem loading the feed.";
+        }
+        else {
+            for (var i = 0; i < rss.length; i++) {
+                var item = rss[i];
+
+                var a = document.createElement("A");
+                a.href = item.Link;
+                a.innerHTML = item.Title;
+                a.title = item.Description;
+                a.className = "feed_item_link";
+                a.target = "_blank";
+
+                div.appendChild(a);
+            }
         }
     }
 };
