@@ -44,7 +44,7 @@
     </asp:HyperLink>
     </ItemTemplate>
     </asp:DataList>
-
+    <asp:Label ID="Message" runat="server" Visible="false" EnableViewState="true" />
 </asp:View>
 
 </asp:MultiView>
