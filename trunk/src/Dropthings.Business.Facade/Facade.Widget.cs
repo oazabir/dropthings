@@ -255,7 +255,7 @@
             ReorderWidgetInstancesOnWidgetZone(widgetInstance.WidgetZoneId);
         }
 
-        public WidgetInstance AddWidget(int widgetId, int toRow, int columnNo, int zoneId)
+        public WidgetInstance AddWidgetInstance(int widgetId, int toRow, int columnNo, int zoneId)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
@@ -279,6 +279,15 @@
             {
                 ObjectBuilder.BuildDefaultWidgetInstance(wi,
                     widget.Name, widgetZone.ID, toRow, widget.ID, widget.DefaultState);
+            });
+        }
+
+        public Widget AddWidget(string title, string url, string description, bool isDefault)
+        {            
+            return this.widgetRepository.Insert((w) =>
+            {
+                ObjectBuilder.BuildDefaultWidget(w,
+                    title, url, description, isDefault);
             });
         }
 

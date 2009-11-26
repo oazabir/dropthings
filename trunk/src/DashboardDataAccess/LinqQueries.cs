@@ -378,6 +378,13 @@ namespace Dropthings.DataAccess
                 select role
             );
 
+        public static readonly Func<DropthingsDataContext, Guid, IQueryable<aspnet_Role>> CompiledQuery_GetRoleByRoleId =
+            CompiledQuery.Compile<DropthingsDataContext, Guid, IQueryable<aspnet_Role>>((dc, roleId) =>
+                from role in dc.aspnet_Roles
+                where role.RoleId == roleId
+                select role
+            );
+
         public static readonly Func<DropthingsDataContext, string, IQueryable<RoleTemplate>> CompiledQuery_GetRoleTemplateByRoleName =
             CompiledQuery.Compile<DropthingsDataContext, string, IQueryable<RoleTemplate>>((dc, roleName) =>
                 from roleTemplate in dc.RoleTemplates
@@ -409,5 +416,37 @@ namespace Dropthings.DataAccess
                 select roleTemplate
             );
 
+        public static readonly DataLoadOptions aspnet_Membership_Options_With_aspnet_Users =
+            (new Func<DataLoadOptions>(() =>
+            {
+                DataLoadOptions option = new DataLoadOptions();
+                option.LoadWith<aspnet_Membership>(m => m.aspnet_User);
+                return option;
+            }))();
+
+        public static readonly Func<DropthingsDataContext, Expression<Func<aspnet_Membership, object>>, IQueryable<aspnet_Membership>> CompiledQuery_GetAspnetMember =
+            CompiledQuery.Compile<DropthingsDataContext, Expression<Func<aspnet_Membership, object>>, IQueryable<aspnet_Membership>>((dc, orderSelector) =>
+                dc.aspnet_Memberships.OrderBy(orderSelector)
+            );
+
+        public static readonly Func<DropthingsDataContext, string, IQueryable<aspnet_Membership>> CompiledQuery_GetMembersInRole =
+                CompiledQuery.Compile<DropthingsDataContext, string, IQueryable<aspnet_Membership>>((dc, rolename) =>
+                    from member in dc.aspnet_Memberships
+                    join user in dc.aspnet_Users on member.UserId equals user.UserId
+                    join usersInRole in dc.aspnet_UsersInRoles on user.UserId equals usersInRole.UserId
+                    join roles in dc.aspnet_Roles on usersInRole.RoleId equals roles.RoleId
+                    where rolename == roles.RoleName
+                    select member
+                );
+
+        public static readonly Func<DropthingsDataContext, string, IQueryable<aspnet_Membership>> CompiledQuery_GetMembersInRoleCount =
+                CompiledQuery.Compile<DropthingsDataContext, string, IQueryable<aspnet_Membership>>((dc, rolename) =>
+                    from member in dc.aspnet_Memberships
+                    join user in dc.aspnet_Users on member.UserId equals user.UserId
+                    join usersInRole in dc.aspnet_UsersInRoles on user.UserId equals usersInRole.UserId
+                    join roles in dc.aspnet_Roles on usersInRole.RoleId equals roles.RoleId
+                    where rolename == roles.RoleName
+                    select member
+                );
     }
 }

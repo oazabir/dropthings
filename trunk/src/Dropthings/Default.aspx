@@ -184,7 +184,7 @@
 
 <script type="text/javascript">
      jQuery(document).ready(function() {
-        DropthingsUI.init("<%= this.IsTemplateUser %>");
+        DropthingsUI.init("<%= this.EnableTabSorting %>");
     });
 </script>
 

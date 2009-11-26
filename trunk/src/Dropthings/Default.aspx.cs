@@ -55,6 +55,22 @@ public partial class _Default : BasePage
         set { ViewState[this.ClientID + "_IsTemplateUser"] = value; }
     }
 
+    public bool EnableTabSorting
+    {
+        get 
+        {
+            bool enabled;
+            bool.TryParse(ConfigurationManager.AppSettings["EnableTabSorting"], out enabled);
+
+            if (!enabled && IsTemplateUser)
+            {
+                bool.TryParse(ConfigurationManager.AppSettings["EnableAdminOnlyTabSorting"], out enabled);
+            }
+            
+            return enabled;
+        }
+    }
+
     private int AddStuffPageIndex
     {
         get { object val = ViewState["AddStuffPageIndex"]; if( val == null ) return 0; else return (int)val; }

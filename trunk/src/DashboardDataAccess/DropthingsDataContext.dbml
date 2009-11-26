@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="dropthings" Class="DropthingsDataContext" Serialization="Unidirectional" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=E:\Development\OpenSource\DT2\dropthings\src\Dropthings\App_Data\dropthings.mdf;Integrated Security=True;User Instance=True" SettingsObjectName="Dropthings.DataAccess.Properties.Settings" SettingsPropertyName="dropthingsConnectionString6" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=&quot;F:\Ilias Vai\Dropthings\trunk\src\Dropthings\App_Data\dropthings.mdf&quot;;Integrated Security=True;User Instance=True" SettingsObjectName="Dropthings.DataAccess.Properties.Settings" SettingsPropertyName="dropthingsConnectionString7" Provider="System.Data.SqlClient" />
   <Table Name="dbo.WidgetZone" Member="WidgetZones">
     <Type Name="WidgetZone">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="UniqueID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="OrderNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="WidgetZone_WidgetInstance" Member="WidgetInstances" ThisKey="ID" OtherKey="WidgetZoneId" Type="WidgetInstance" />
-      <Association Name="WidgetZone_Column" Member="Columns" ThisKey="ID" OtherKey="WidgetZoneId" Type="Column" />
+      <Association Name="WidgetZone_WidgetInstance" Member="WidgetInstances" OtherKey="WidgetZoneId" Type="WidgetInstance" />
+      <Association Name="WidgetZone_Column" Member="Columns" OtherKey="WidgetZoneId" Type="Column" />
     </Type>
   </Table>
   <Table Name="dbo.UserSetting" Member="UserSettings">
@@ -17,7 +17,7 @@
       <Column Name="CurrentPageId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Timestamp" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Association Name="aspnet_User_UserSetting" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="aspnet_User_UserSetting" Member="aspnet_User" ThisKey="UserId" Type="aspnet_User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Token" Member="Tokens">
@@ -27,7 +27,7 @@
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="LastUpdated" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Association Name="aspnet_User_Token" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="aspnet_User_Token" Member="aspnet_User" ThisKey="UserId" Type="aspnet_User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.WidgetInstance" Member="WidgetInstances">
@@ -46,8 +46,8 @@
       <Column Name="VersionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="LastUpdate" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Association Name="WidgetZone_WidgetInstance" Member="WidgetZone" ThisKey="WidgetZoneId" OtherKey="ID" Type="WidgetZone" IsForeignKey="true" />
-      <Association Name="Widget_WidgetInstance" Member="Widget" ThisKey="WidgetId" OtherKey="ID" Type="Widget" IsForeignKey="true" />
+      <Association Name="WidgetZone_WidgetInstance" Member="WidgetZone" ThisKey="WidgetZoneId" Type="WidgetZone" IsForeignKey="true" />
+      <Association Name="Widget_WidgetInstance" Member="Widget" ThisKey="WidgetId" Type="Widget" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Widget" Member="Widgets">
@@ -66,8 +66,8 @@
       <Column Name="VersionNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="LastUpdate" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
       <Column Name="WidgetType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Widget_WidgetInstance" Member="WidgetInstances" ThisKey="ID" OtherKey="WidgetId" Type="WidgetInstance" />
-      <Association Name="Widget_WidgetsInRole" Member="WidgetsInRoles" ThisKey="ID" OtherKey="WidgetId" Type="WidgetsInRole" />
+      <Association Name="Widget_WidgetInstance" Member="WidgetInstances" OtherKey="WidgetId" Type="WidgetInstance" />
+      <Association Name="Widget_WidgetsInRole" Member="WidgetsInRoles" OtherKey="WidgetId" Type="WidgetsInRole" />
     </Type>
   </Table>
   <Table Name="dbo.aspnet_Roles" Member="aspnet_Roles">
@@ -77,17 +77,17 @@
       <Column Name="RoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="LoweredRoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
-      <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_UsersInRole" />
-      <Association Name="aspnet_Role_RoleTemplate" Member="RoleTemplates" ThisKey="RoleId" OtherKey="RoleId" Type="RoleTemplate" />
-      <Association Name="aspnet_Role_WidgetsInRole" Member="WidgetsInRoles" ThisKey="RoleId" OtherKey="RoleId" Type="WidgetsInRole" />
+      <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_UsersInRoles" OtherKey="RoleId" Type="aspnet_UsersInRole" />
+      <Association Name="aspnet_Role_RoleTemplate" Member="RoleTemplates" OtherKey="RoleId" Type="RoleTemplate" />
+      <Association Name="aspnet_Role_WidgetsInRole" Member="WidgetsInRoles" OtherKey="RoleId" Type="WidgetsInRole" />
     </Type>
   </Table>
   <Table Name="dbo.aspnet_UsersInRoles" Member="aspnet_UsersInRoles">
     <Type Name="aspnet_UsersInRole">
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
-      <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_Role" ThisKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
+      <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_User" ThisKey="UserId" Type="aspnet_User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.RoleTemplate" Member="RoleTemplates">
@@ -96,8 +96,8 @@
       <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="TemplateUserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="Priority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_Role_RoleTemplate" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
-      <Association Name="aspnet_User_RoleTemplate" Member="aspnet_User" ThisKey="TemplateUserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="aspnet_Role_RoleTemplate" Member="aspnet_Role" ThisKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
+      <Association Name="aspnet_User_RoleTemplate" Member="aspnet_User" ThisKey="TemplateUserId" Type="aspnet_User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[Column]" Member="Columns">
@@ -108,8 +108,8 @@
       <Column Name="ColumnNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ColumnWidth" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="LastUpdated" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
-      <Association Name="WidgetZone_Column" Member="WidgetZone" ThisKey="WidgetZoneId" OtherKey="ID" Type="WidgetZone" IsForeignKey="true" />
-      <Association Name="Page_Column" Member="Page" ThisKey="PageId" OtherKey="ID" Type="Page" IsForeignKey="true" />
+      <Association Name="WidgetZone_Column" Member="WidgetZone" ThisKey="WidgetZoneId" Type="WidgetZone" IsForeignKey="true" />
+      <Association Name="Page_Column" Member="Page" ThisKey="PageId" Type="Page" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.WidgetsInRoles" Member="WidgetsInRoles">
@@ -117,8 +117,8 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="WidgetId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_Role_WidgetsInRole" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
-      <Association Name="Widget_WidgetsInRole" Member="Widget" ThisKey="WidgetId" OtherKey="ID" Type="Widget" IsForeignKey="true" />
+      <Association Name="aspnet_Role_WidgetsInRole" Member="aspnet_Role" ThisKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
+      <Association Name="Widget_WidgetsInRole" Member="Widget" ThisKey="WidgetId" Type="Widget" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
@@ -130,11 +130,12 @@
       <Column Name="MobileAlias" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
       <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_UserSetting" Member="UserSetting" ThisKey="UserId" OtherKey="UserId" Type="UserSetting" Cardinality="One" />
-      <Association Name="aspnet_User_Token" Member="Tokens" ThisKey="UserId" OtherKey="UserId" Type="Token" />
-      <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
-      <Association Name="aspnet_User_RoleTemplate" Member="RoleTemplates" ThisKey="UserId" OtherKey="TemplateUserId" Type="RoleTemplate" />
-      <Association Name="aspnet_User_Page" Member="Pages" ThisKey="UserId" OtherKey="UserId" Type="Page" />
+      <Association Name="aspnet_User_UserSetting" Member="UserSetting" OtherKey="UserId" Type="UserSetting" Cardinality="One" />
+      <Association Name="aspnet_User_Token" Member="Tokens" OtherKey="UserId" Type="Token" />
+      <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" OtherKey="UserId" Type="aspnet_UsersInRole" />
+      <Association Name="aspnet_User_RoleTemplate" Member="RoleTemplates" OtherKey="TemplateUserId" Type="RoleTemplate" />
+      <Association Name="aspnet_User_Page" Member="Pages" OtherKey="UserId" Type="Page" />
+      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_Membership" OtherKey="UserId" Type="aspnet_Membership" Cardinality="One" />
     </Type>
   </Table>
   <Table Name="dbo.Page" Member="Pages">
@@ -154,8 +155,34 @@
       <Column Name="LastDownForMaintenanceAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="ServeAsStartPageAfterLogin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="OrderNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Page_Column" Member="Columns" ThisKey="ID" OtherKey="PageId" Type="Column" />
-      <Association Name="aspnet_User_Page" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="Page_Column" Member="Columns" OtherKey="PageId" Type="Column" />
+      <Association Name="aspnet_User_Page" Member="aspnet_User" ThisKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Membership" Member="aspnet_Memberships">
+    <Type Name="aspnet_Membership">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordFormat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordSalt" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="MobilePIN" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="LoweredEmail" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordQuestion" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordAnswer" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsLockedOut" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLoginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" Type="aspnet_User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -1,5 +1,12 @@
 ﻿body,td,a,p,.h,h1,h2,h3,div,form{font-family:tahoma, arial,sans-serif; padding:0px; margin:0px;}
 body { background: #E5ECFF none repeat scroll 0%; color: #393733; padding: 0pt 20px; text-align: center; font-size: 8pt }
+p{ margin-bottom: 20px; line-height: 1.6em;}
+input[type="text"] { width: 200px; border: 1px solid #CCC;}
+input[type="password"] {width: 200px; border: 1px solid #CCC;}
+.error{ color:Red;}
+.form{margin: 1em 0; padding: 1em;}
+.form p { margin: 2px 10px 10px 10px;}
+.form span{ display: block;}
 
 #container { margin: 0pt auto; text-align: left; max-width: 1200px }
 

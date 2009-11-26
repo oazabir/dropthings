@@ -63,7 +63,6 @@ public partial class TabPage : System.Web.UI.UserControl
 
     public void RedirectToTab(Dropthings.DataAccess.Page page)
     {
-
         if (!page.IsLocked || CurrentUserId == page.UserId)
         {
             Response.Redirect('?' + page.UserTabName);
@@ -102,19 +101,27 @@ public partial class TabPage : System.Web.UI.UserControl
     private void SetupTabs()
     {
         tabList.Controls.Clear();
+        bool isTemplateUser = false;
+        using (var facade = new Facade(AppContext.GetContext(Context)))
+        {
+            var roleTemplate = facade.GetRoleTemplate(CurrentUserId);
+            isTemplateUser = roleTemplate.TemplateUserId.Equals(CurrentUserId);
+        }
 
         var viewablePages = this.Pages.ToList();
 
         if (this.LockedPages != null)
         {
             viewablePages.AddRange(this.LockedPages);
+            viewablePages = viewablePages.OrderBy(o => o.OrderNo.GetValueOrDefault()).ToList();
         }
         
         foreach (var page in viewablePages)
         {
             var li = new HtmlGenericControl("li");
             li.ID = "Tab" + page.ID.ToString();
-            li.Attributes["class"] = "tab " + (page.ID == CurrentPage.ID ? "activetab" : "inactivetab");
+            li.Attributes["class"] = "tab " + (page.ID == CurrentPage.ID ? "activetab" : "inactivetab") +
+                                     (page.IsLocked && !isTemplateUser ? " nodrag" : string.Empty);
 
             var liWrapper = new HtmlGenericControl("div");
             li.Controls.Add(liWrapper);

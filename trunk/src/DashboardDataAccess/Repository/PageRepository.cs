@@ -64,16 +64,18 @@
         private void RemoveUserPagesCollection(int pageId)
         {
             var page = this.GetPageById(pageId);
+            
             if (page != null)
             {
-                var userGuid = page.UserId;                
+                var userGuid = page.UserId;
+                _cacheResolver.Remove(CacheSetup.CacheKeys.PagesOfUser(userGuid));
             }
         }
 
-				private void RemoveUserPagesCollection(Guid userGuid)
-				{
-					_cacheResolver.Remove(CacheSetup.CacheKeys.PagesOfUser(userGuid));
-				}
+		private void RemoveUserPagesCollection(Guid userGuid)
+		{
+			_cacheResolver.Remove(CacheSetup.CacheKeys.PagesOfUser(userGuid));
+		}
 
         public void Delete(int id)
         {

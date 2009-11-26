@@ -11,6 +11,7 @@
     using Microsoft.Practices.Unity;
     using Dropthings.Util;
     using OmarALZabir.AspectF;
+    using System.Web;
 
     /// <summary>
     /// Summary description for FacadeBase
@@ -34,6 +35,11 @@
         #endregion Fields
 
         #region Constructors
+
+        public Facade()
+            : this(AppContext.GetContext(HttpContext.Current))
+        { 
+        }
 
         public Facade(AppContext context) :
             this(context,

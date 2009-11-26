@@ -128,12 +128,6 @@
             return newPassword;
         }
 
-        public Guid CreateUser(string registeredUserName, string password, string email)
-        {
-            MembershipUser newUser = Membership.CreateUser(registeredUserName, password, email);
-            return (Guid)newUser.ProviderUserKey;
-        }
-
         public void AddUserToRoleTemplate(Guid userGuid, string templateRoleName)
         {
             var RoleTemplates = this.roleTemplateRepository.GeAllRoleTemplates();

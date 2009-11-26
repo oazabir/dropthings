@@ -1,7 +1,7 @@
 ﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{514B9055-2EEF-4111-9CAC-F763120BB35D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Context\AppContext.cs" />
     <Compile Include="Context\SessionWrapper.cs" />
+    <Compile Include="Facade.Role.cs" />
     <Compile Include="Facade.Configuration.cs" />
     <Compile Include="Facade.cs" />
     <Compile Include="Facade.Page.cs" />

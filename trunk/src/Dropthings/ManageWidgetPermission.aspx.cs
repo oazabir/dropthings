@@ -38,10 +38,19 @@ public partial class ManageWidgetPermissionPage : System.Web.UI.Page
         }
     }
 
+    private List<Widget> _widget;
     protected List<Widget> Widgets
     {
-        get;
-        set;
+        get
+        {
+            if (_widget == null)
+            {
+                using (var facade = new Facade(AppContext.GetContext(Context)))
+                    _widget = facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
+            }
+
+            return _widget;
+        }
     }
 
     #endregion Properties
@@ -70,8 +79,7 @@ public partial class ManageWidgetPermissionPage : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            using (var facade = new Facade(AppContext.GetContext(Context)))
-                this.Widgets = facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
+            
         }
     }
 
