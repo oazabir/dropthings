@@ -126,7 +126,7 @@ public partial class WidgetListControl : System.Web.UI.UserControl
         WidgetInstance widgetInstance;
         using (var facade = new Facade(AppContext.GetContext(Context)))
         {
-            widgetInstance = facade.AddWidget(widgetId, 0, 0, 0);
+            widgetInstance = facade.AddWidgetInstance(widgetId, 0, 0, 0);
         }
 
         // -- Workflow way. Obselete.

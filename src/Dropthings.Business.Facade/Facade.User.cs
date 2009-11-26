@@ -32,6 +32,27 @@ namespace Dropthings.Business.Facade
                 .Return<MembershipUser>(() => Membership.GetUser(userGuid));
         }
 
+        public Guid CreateUser(string registeredUserName, string password, string email)
+        {
+            MembershipUser newUser = Membership.CreateUser(registeredUserName, password, email);
+            return (Guid)newUser.ProviderUserKey;
+        }
+
+        public MembershipUser CreateUser(string userName, string password, string email, bool isApproved, out MembershipCreateStatus status)
+        {
+            return Membership.CreateUser(userName, password, email, null, null, isApproved, out status);
+        }
+
+        public void UpdateUser(MembershipUser member)
+        {
+            Membership.UpdateUser(member);
+        }
+
+        public void DeleteUser(string useName)
+        {
+            Membership.DeleteUser(useName, true);
+        }
+
         public UserSetting GetUserSetting(Guid userGuid)
         {
             var userSetting = this.userSettingRepository.GetUserSettingByUserGuid(userGuid);
@@ -126,6 +147,24 @@ namespace Dropthings.Business.Facade
         public Guid GetUserGuidFromUserName(string userName)
         {
             return this.userRepository.GetUserGuidFromUserName(userName);
+        }
+
+        public int GetMemberCount()
+        {
+            return userRepository.GetMemberCount();
+        }
+        public List<aspnet_Membership> GetPagedMember(int maximumRows, int startRowIndex, string sortExpression)
+        {
+            return userRepository.GetPagedMember(startRowIndex, maximumRows, sortExpression);
+        }
+
+        public int GetMemberCountByRole(string roleName)
+        {
+            return userRepository.GetMemberCountByRole(roleName);
+        }
+        public List<aspnet_Membership> GetPagedMemberByRole(string roleName, int maximumRows, int startRowIndex)
+        {
+            return userRepository.GetPagedMemberByRole(roleName, startRowIndex, maximumRows);
         }
 
         #endregion

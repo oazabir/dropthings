@@ -43,7 +43,7 @@ namespace Dropthings.Web.Framework
             {
                 using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
                 {
-                    facade.AddWidget(widgetId, toRow, 0, toZone);
+                    facade.AddWidgetInstance(widgetId, toRow, 0, toZone);
                 }
                 
             });

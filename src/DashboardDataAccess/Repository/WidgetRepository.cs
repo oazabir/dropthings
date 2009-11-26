@@ -66,6 +66,16 @@
             return _database.GetList<Widget, string, Enumerations.WidgetTypeEnum>(DropthingsDataContext.SubsystemEnum.Widget, userName, widgetType, LinqQueries.CompiledQuery_GetWidgetsByRole);
         }
 
+        public Widget Insert(Action<Widget> populate)
+        {
+            return _database.Insert<Widget>(DropthingsDataContext.SubsystemEnum.Widget, populate);
+        }
+
+        public void Update(Widget wi, Action<Widget> detach, Action<Widget> postAttachUpdate)
+        {
+            _database.UpdateObject<Widget>(DropthingsDataContext.SubsystemEnum.Widget, wi, detach, postAttachUpdate);
+        }
+
         #endregion Methods
     }
 }

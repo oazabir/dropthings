@@ -6,6 +6,7 @@
     using System.Text;
     using OmarALZabir.AspectF;
     using Dropthings.Util;
+    using System.Linq.Expressions;
 
     public class UserRepository : Dropthings.DataAccess.Repository.IUserRepository
     {
@@ -50,6 +51,61 @@
                 .Cache<Guid>(_cacheResolver, CacheSetup.CacheKeys.UserGuidFromUserName(userName))
                 .Return<Guid>(() =>
                     _database.GetSingle<Guid, string>(DropthingsDataContext.SubsystemEnum.User, userName, LinqQueries.CompiledQuery_GetUserGuidFromUserName));
+        }
+
+        public int GetMemberCount()
+        {
+            return _database.aspnet_MembersSource.Count();
+        }
+
+        public List<aspnet_Membership> GetPagedMember(int startIndex, int maxRows, string sortExpression)
+        {
+            List<aspnet_Membership> members = new List<aspnet_Membership>();
+            bool asc = !sortExpression.Contains("DESC");
+
+            switch (sortExpression.Split(' ')[0])
+            {
+                case "Username":
+                    members = Page<string>(startIndex, maxRows, m => m.aspnet_User.UserName, asc);
+                    break;
+                default:
+                    members = Page<DateTime>(startIndex, maxRows, m => m.CreateDate, false);
+                    break;
+            }
+
+            return members;
+        }
+
+        public int GetMemberCountByRole(string roleName)
+        {
+            return _database.GetQueryResult<aspnet_Membership, string, int>(
+                                    DropthingsDataContext.SubsystemEnum.User,
+                                    roleName,
+                                    LinqQueries.CompiledQuery_GetMembersInRoleCount,
+                                    (query) => query.Count());
+        }
+
+        public List<aspnet_Membership> GetPagedMemberByRole(string roleName, int startIndex, int maxRows)
+        {
+            return _database.GetPagedList<aspnet_Membership, string>(DropthingsDataContext.SubsystemEnum.User,
+                        roleName,startIndex, maxRows,
+                        LinqQueries.CompiledQuery_GetMembersInRole, LinqQueries.aspnet_Membership_Options_With_aspnet_Users);
+        }
+
+        private List<aspnet_Membership> Page<TResult>(int startIndex, int maxRows, Expression<Func<aspnet_Membership, TResult>> sortKeySelector, bool asc)
+        {
+            if (asc)
+            {
+                return _database.GetPagedList<aspnet_Membership>(DropthingsDataContext.SubsystemEnum.User,
+                        startIndex, maxRows,
+                        ((dc) => dc.aspnet_Memberships.OrderBy(sortKeySelector)), LinqQueries.aspnet_Membership_Options_With_aspnet_Users);
+            }
+            else
+            {
+                return _database.GetPagedList<aspnet_Membership>(DropthingsDataContext.SubsystemEnum.User,
+                        startIndex, maxRows,
+                        ((dc) => dc.aspnet_Memberships.OrderByDescending(sortKeySelector)), LinqQueries.aspnet_Membership_Options_With_aspnet_Users);
+            }
         }
 
         #endregion Methods

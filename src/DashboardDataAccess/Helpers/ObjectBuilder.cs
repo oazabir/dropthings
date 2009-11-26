@@ -24,6 +24,20 @@
             p.OrderNo = position;
         }
 
+        public static void BuildDefaultWidget(Widget w, string title, string url, string description, bool isDefault)
+        {
+            w.CreatedDate = DateTime.Now;
+            w.VersionNo = 1;
+            w.Name = title;
+            w.Url = url;
+            w.Description = description;
+            w.IsDefault = isDefault;
+            w.RoleName = "guest";
+            w.IsLocked = false;
+            w.Icon = "Widgets/RSS.gif";
+            w.DefaultState = string.Empty;
+        }
+
         public static void BuildDefaultWidgetInstance(WidgetInstance wi, string title, int widgetZoneId, int position, int widgetId, string state)
         {
             wi.CreatedDate = DateTime.Now;

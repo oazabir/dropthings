@@ -108,6 +108,11 @@
             get { return this.GetTable<aspnet_User>(); }
         }
 
+        public IQueryable<aspnet_Membership> aspnet_MembersSource
+        {
+            get { return this.GetTable<aspnet_Membership>(); }
+        }
+
         #endregion Properties
 
         #region Methods
@@ -231,6 +236,66 @@
                 (query) => query.ToList<TSource>());
         }
 
+        public List<TSource> GetPagedList<TSource>(
+            SubsystemEnum subsystem,
+            int start, int max,
+            Func<DropthingsDataContext, IQueryable<TSource>> func)
+        {
+            return GetQueryResult<TSource, List<TSource>>(subsystem,
+                func,
+                (query) => query.Skip(start).Take(max).ToList<TSource>());
+        }
+
+        public List<TSource> GetPagedList<TSource>(
+            SubsystemEnum subsystem,
+            int start, int max,
+            Func<DropthingsDataContext, IQueryable<TSource>> func, DataLoadOptions options)
+        {
+            return GetQueryResult<TSource, List<TSource>>(subsystem,
+                func,
+                (query) => query.Skip(start).Take(max).ToList<TSource>(), options);
+        }
+
+        public List<TSource> GetPagedList<TSource, TArg0>(
+            SubsystemEnum subsystem,
+            TArg0 arg0, int start, int max,
+            Func<DropthingsDataContext, TArg0, IQueryable<TSource>> func)
+        {
+            return GetQueryResult<TSource, TArg0, List<TSource>>(subsystem,
+                arg0, func,
+                (query) => query.Skip(start).Take(max).ToList<TSource>());
+        }
+
+        public List<TSource> GetPagedList<TSource, TArg0>(
+            SubsystemEnum subsystem,
+            TArg0 arg0, int start, int max,
+            Func<DropthingsDataContext, TArg0, IQueryable<TSource>> func, DataLoadOptions options)
+        {
+            return GetQueryResult<TSource, TArg0, List<TSource>>(subsystem,
+                arg0, func,
+                (query) => query.Skip(start).Take(max).ToList<TSource>(), options);
+        }
+
+        public List<TSource> GetPagedList<TSource, TArg0, TArg1>(
+            SubsystemEnum subsystem,
+            TArg0 arg0, TArg1 arg1, int start, int max,
+            Func<DropthingsDataContext, TArg0, TArg1, IQueryable<TSource>> func)
+        {
+            return GetQueryResult<TSource, TArg0, TArg1, List<TSource>>(subsystem,
+                arg0, arg1, func,
+                (query) => query.Skip(start).Take(max).ToList<TSource>());
+        }
+
+        public List<TSource> GetPagedList<TSource, TArg0, TArg1, TArg2>(
+            SubsystemEnum subsystem,
+            TArg0 arg0, TArg1 arg1, TArg2 arg2, int start, int max,
+            Func<DropthingsDataContext, TArg0, TArg1, TArg2, IQueryable<TSource>> func)
+        {
+            return GetQueryResult<TSource, TArg0, TArg1, TArg2, List<TSource>>(subsystem,
+                arg0, arg1, arg2, func,
+                (query) => query.Skip(start).Take(max).ToList<TSource>());
+        }
+
         public TReturnType GetQueryResult<TSource, TReturnType>(
             SubsystemEnum subsystem,
             Func<DropthingsDataContext, IQueryable<TSource>> func,
@@ -238,6 +303,19 @@
         {
             return InDataContext<TReturnType>(subsystem, true, (data) =>
             {
+                return returnExpected(func(data));
+            });
+        }
+
+        public TReturnType GetQueryResult<TSource, TReturnType>(
+            SubsystemEnum subsystem,
+            Func<DropthingsDataContext, IQueryable<TSource>> func,
+            Func<IQueryable<TSource>, TReturnType> returnExpected,
+            DataLoadOptions options)
+        {
+            return InDataContext<TReturnType>(subsystem, true, (data) =>
+            {
+                data.LoadOptions = options;
                 return returnExpected(func(data));
             });
         }

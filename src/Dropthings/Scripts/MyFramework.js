@@ -50,12 +50,12 @@ var DropthingsUI = {
         $('#tab_container').find(".tabs")
                                     .sortable({
                                         axis: 'x',
-                                        items: '.tab',
+                                        items: '.tab' + ':not(.nodrag)',
                                         opacity: 0.8,
                                         revert: true,
                                         stop: function(e, ui) {
                                             var position = ui.item.parent()
-                                                                        .children()
+                                                                        .children(':not(.nodrag)')
                                                                         .index(ui.item);
                                             var pageId = ui.item.attr('id').match(/\d+/);
 
@@ -1057,12 +1057,13 @@ var WidgetMaximizeBehavior = function(widgetId) {
 var WidgetPermission =
 {
     Save: function() {
+    
         WidgetPermission.showProgress(false);
         $('#Message').html('');
         var widgets = $('.widgetItem');
         var nameValuePair = '';
 
-        widgets.each(function() {
+        widgets.each(function() {            
             var widget = $(this);
             var widgetId = widget.attr('id').match(/\d+/);
             var roles = $('.role', '#' + widget.attr('id'));

@@ -146,11 +146,14 @@ color:#FF0000;
                 <asp:ServiceReference InlineScript="true" Path="WidgetService.asmx" />                
             </Services>
             <Scripts>
-                <asp:ScriptReference Path="~/Scripts/jquery-1.2.6.js" />
-                <asp:ScriptReference Path="~/Scripts/ui.core.js" />
+                <asp:ScriptReference Path="~/Scripts/jquery-1.3.2.min.js" />
+                <asp:ScriptReference Path="~/Scripts/jquery-ui-1.7.1.custom.min.js" />
+                <asp:ScriptReference Path="~/Scripts/jquery.micro_template.js" />
+                <asp:ScriptReference Path="~/Scripts/tabscroll.js" />
+                <asp:ScriptReference Path="~/Scripts/Myframework.js" />
+                <asp:ScriptReference Path="~/Scripts/Ensure.js" />
             </Scripts>
         </asp:ScriptManager>
-        <script src="Scripts/MyFramework.js" type="text/javascript"></script> 
         <table cellpadding="2" width="100%" cellspacing="0" border="0">
             <tr>
                 <td colspan="2">
@@ -181,8 +184,7 @@ color:#FF0000;
                 </td>
             </tr>
         </table>        
-        <table width="94%" align="center" cellpadding="5" cellspacing="1">
-            
+        <table width="94%" align="center" cellpadding="5" cellspacing="1">            
             <tr>
               <td colspan="2" width="100%" nowrap="nowrap" valign="top">
                   <div>
@@ -227,7 +229,7 @@ color:#FF0000;
                     <span id="Message"></span>
                 </div>
                 <div>
-                    <span id="progress" style="display:none"><asp:Literal ID="ltlWorking" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Working%>" /></span>
+                    <span id="progress" style="display:none">working...</span>
                 </div>
                 <div>
                     

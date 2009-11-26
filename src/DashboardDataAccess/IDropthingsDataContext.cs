@@ -68,6 +68,11 @@
             get;
         }
 
+        IQueryable<aspnet_Membership> aspnet_MembersSource
+        {
+            get;
+        }
+
         #endregion Properties
 
         #region Methods
@@ -101,6 +106,18 @@
         System.Collections.Generic.List<TSource> GetList<TSource, TArg0, TArg1, TArg2>(DropthingsDataContext.SubsystemEnum subsystem, TArg0 arg0, TArg1 arg1, TArg2 arg2, Func<DropthingsDataContext, TArg0, TArg1, TArg2, System.Linq.IQueryable<TSource>> func);
 
         System.Collections.Generic.List<TSource> GetList<TSource, TArg0>(DropthingsDataContext.SubsystemEnum subsystem, TArg0 arg0, Func<DropthingsDataContext, TArg0, System.Linq.IQueryable<TSource>> func);
+
+        System.Collections.Generic.List<TSource> GetPagedList<TSource>(DropthingsDataContext.SubsystemEnum subsystem, int start, int max, Func<DropthingsDataContext, IQueryable<TSource>> func);
+
+        System.Collections.Generic.List<TSource> GetPagedList<TSource>(DropthingsDataContext.SubsystemEnum subsystem, int start, int max, Func<DropthingsDataContext, IQueryable<TSource>> func, System.Data.Linq.DataLoadOptions options);
+
+        System.Collections.Generic.List<TSource> GetPagedList<TSource, TArg0>(DropthingsDataContext.SubsystemEnum subsystem, TArg0 arg0, int start, int max, Func<DropthingsDataContext, TArg0, IQueryable<TSource>> func);
+
+        System.Collections.Generic.List<TSource> GetPagedList<TSource, TArg0>(DropthingsDataContext.SubsystemEnum subsystem, TArg0 arg0, int start, int max, Func<DropthingsDataContext, TArg0, IQueryable<TSource>> func, System.Data.Linq.DataLoadOptions options);
+
+        System.Collections.Generic.List<TSource> GetPagedList<TSource, TArg0, TArg1>(DropthingsDataContext.SubsystemEnum subsystem, TArg0 arg0, TArg1 arg1, int start, int max, Func<DropthingsDataContext, TArg0, TArg1, IQueryable<TSource>> func);
+
+        System.Collections.Generic.List<TSource> GetPagedList<TSource, TArg0, TArg1, TArg2>(DropthingsDataContext.SubsystemEnum subsystem, TArg0 arg0, TArg1 arg1, TArg2 arg2, int start, int max, Func<DropthingsDataContext, TArg0, TArg1, TArg2, IQueryable<TSource>> func);
 
         TReturnType GetQueryResult<TSource, TArg0, TArg1, TArg2, TReturnType>(DropthingsDataContext.SubsystemEnum subsystem, TArg0 arg0, TArg1 arg1, TArg2 arg2, Func<DropthingsDataContext, TArg0, TArg1, TArg2, System.Linq.IQueryable<TSource>> func, Func<System.Linq.IQueryable<TSource>, TReturnType> returnExpected, System.Data.Linq.DataLoadOptions options);
 

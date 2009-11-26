@@ -513,4 +513,16 @@
   <data name="ServeAsStartPageMessage" xml:space="preserve">
     <value>Serve This Tab At Start</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="IsDefault" xml:space="preserve">
+    <value>IsDefault</value>
+  </data>
+  <data name="IsLocked" xml:space="preserve">
+    <value>IsLocked</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
 </root>

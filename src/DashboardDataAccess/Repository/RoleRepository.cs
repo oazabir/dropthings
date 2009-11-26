@@ -28,6 +28,17 @@
 
         #region Methods
 
+        private void RemoveRoleNameDependentItems(string roleName)
+        {
+            RemoveRoleCollection();
+            _cacheResolver.Remove(CacheSetup.CacheKeys.RoleByRoleName(roleName));
+        }
+
+        private void RemoveRoleCollection()
+        {
+            _cacheResolver.Remove(CacheSetup.CacheKeys.AllRoles());
+        }
+
         public List<aspnet_Role> GetAllRole()
         {
             return AspectF.Define
@@ -42,6 +53,19 @@
                 .Cache<aspnet_Role>(_cacheResolver, CacheSetup.CacheKeys.RoleByRoleName(roleName))
                 .Return<aspnet_Role>(() =>
                     _database.GetSingle<aspnet_Role, string>(DropthingsDataContext.SubsystemEnum.User, roleName, LinqQueries.CompiledQuery_GetRoleByRoleName));
+        }
+
+        public aspnet_Role Insert(Action action, string roleName)
+        {
+            action();
+            RemoveRoleCollection();
+            return GetRoleByRoleName(roleName);
+        }
+
+        public void Delete(Action action, string roleName)
+        {
+            action();
+            RemoveRoleNameDependentItems(roleName);
         }
 
         #endregion Methods

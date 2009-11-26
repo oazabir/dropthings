@@ -16,6 +16,10 @@
 
         System.Collections.Generic.List<Dropthings.DataAccess.Widget> GetWidgetsByRole(string userName, Dropthings.DataAccess.Enumerations.WidgetTypeEnum widgetType);
 
+        Widget Insert(Action<Widget> populate);
+
+        void Update(Widget widget, Action<Widget> detach, Action<Widget> postAttachUpdate);
+        
         #endregion Methods
     }
 }

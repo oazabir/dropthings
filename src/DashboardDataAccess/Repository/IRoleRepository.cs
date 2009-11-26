@@ -10,6 +10,10 @@
 
         Dropthings.DataAccess.aspnet_Role GetRoleByRoleName(string roleName);
 
+        Dropthings.DataAccess.aspnet_Role Insert(Action action, string roleName);
+
+        void Delete(Action action, string roleName);
+
         #endregion Methods
     }
 }

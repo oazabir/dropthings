@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -87,6 +87,7 @@
     <Compile Include="Enumerations.cs" />
     <Compile Include="LinqQueries.cs" />
     <Compile Include="Helpers\ObjectBuilder.cs" />
+    <Compile Include="ObjectExtensions\aspnet_Membership.cs" />
     <Compile Include="ObjectExtensions\Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -136,6 +137,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="DropthingsDataContext.dbml.layout">
       <DependentUpon>DropthingsDataContext.dbml</DependentUpon>
     </None>
