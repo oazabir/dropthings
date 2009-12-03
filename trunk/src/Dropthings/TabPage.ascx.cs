@@ -65,11 +65,11 @@ public partial class TabPage : System.Web.UI.UserControl
     {
         if (!page.IsLocked || CurrentUserId == page.UserId)
         {
-            Response.Redirect('?' + page.UserTabName);
+            Response.Redirect("Default.aspx?" + page.UserTabName);
         }
         else
         {
-            Response.Redirect('?' + page.LockedTabName);
+            Response.Redirect("Default.aspx?" + page.LockedTabName);
         }
     }
 
@@ -135,7 +135,7 @@ public partial class TabPage : System.Web.UI.UserControl
             }
             else
             {
-                var url = "/?";
+                var url = "?";
 
                 if (!page.IsLocked || CurrentUserId == page.UserId)
                 {
