@@ -29,6 +29,7 @@
         Encoding _Encoding;
         private byte[] _ImagePrefix;
         private byte[] _JavascriptPrefix;
+        private char[] _ApplicationPath;
 
         /// <summary>
         /// Holds characters from last Write(...) call where the start tag did not
@@ -52,6 +53,8 @@
             this._ImagePrefix = _Encoding.GetBytes(imagePrefix);
             this._JavascriptPrefix = _Encoding.GetBytes(javascriptPrefix);
             this._CssPrefix = _Encoding.GetBytes(cssPrefix);
+
+            this._ApplicationPath = HttpContext.Current.Request.ApplicationPath.ToCharArray();
         }
 
         #endregion Constructors
@@ -307,6 +310,12 @@
 
                     // Now write the prefix
                     this.WriteBytes(prefix, 0, prefix.Length);
+
+                    // If the attribute value starts with the application path it needs to be skipped as 
+                    // that value should be in the prefix. Doubling it will cause problems. This occurs
+                    // with some of the scripts.
+                    if (HasMatch(content, attributeValuePos, _ApplicationPath))
+                        attributeValuePos = attributeValuePos + _ApplicationPath.Length;
 
                     // Ensure the attribute value does not start with a leading slash because the prefix
                     // is supposed to have a trailing slash. If value does start with a leading slash,

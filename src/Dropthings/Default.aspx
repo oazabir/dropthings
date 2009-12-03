@@ -27,12 +27,12 @@
         <asp:ServiceReference InlineScript="true" Path="WidgetService.asmx" />
     </Services>
     <Scripts>
-        <asp:ScriptReference Path="~/Scripts/jquery-1.3.2.min.js" />
-        <asp:ScriptReference Path="~/Scripts/jquery-ui-1.7.1.custom.min.js" />
-        <asp:ScriptReference Path="~/Scripts/jquery.micro_template.js" />
-        <asp:ScriptReference Path="~/Scripts/tabscroll.js" />
-        <asp:ScriptReference Path="~/Scripts/Myframework.js" />
-        <asp:ScriptReference Path="~/Scripts/Ensure.js" />
+        <asp:ScriptReference Path="/Scripts/jquery-1.3.2.min.js" />
+        <asp:ScriptReference Path="/Scripts/jquery-ui-1.7.1.custom.min.js" />
+        <asp:ScriptReference Path="/Scripts/jquery.micro_template.js" />
+        <asp:ScriptReference Path="/Scripts/tabscroll.js" />
+        <asp:ScriptReference Path="/Scripts/Myframework.js" />
+        <asp:ScriptReference Path="/Scripts/Ensure.js" />
     </Scripts>    
 </asp:ScriptManager>
 

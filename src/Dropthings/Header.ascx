@@ -15,13 +15,42 @@ function doSearch()
     </a></h1>
 
     <div id="login_panel">
-        <asp:Label ID="UserNameLabel" runat="server" EnableViewState="false" Text="" Visible="false"></asp:Label>
-        <asp:HyperLink ID="AccountLinkButton" Text="<%$Resources:SharedResources, MyAccount%>" runat="server" NavigateUrl="~/ManageAccount.aspx" />
-        <asp:HyperLink ID="LoginLinkButton" Text="<%$Resources:SharedResources, Login%>" runat="server" NavigateUrl="~/LoginPage.aspx" /> | 
-        <asp:HyperLink ID="LogoutLinkButton" Text="<%$Resources:SharedResources, Logout%>" runat="server" NavigateUrl="~/Logout.ashx" />
-        <asp:HyperLink ID="StartOverButton" Text="<%$Resources:SharedResources, StartOver%>" runat="server" NavigateUrl="~/Logout.ashx" /> | 
-        <a id="HelpLink" href="javascript:void(0)" onclick="DropthingsUI.Actions.showHelp()"><asp:Literal ID="ltlHelp" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Help%>" /></a>       
+        <div id="login_panel_top" class="login_panel_left">
+            <div class="login_panel_right">
+               <div class="login_panel_centre"></div>
+            </div>
+        </div>
+        <div id="login_panel_middle" class="login_panel_left">
+            <div class="login_panel_right">
+                <div class="login_panel_centre">
+                    <span class="login_panel_label">
+                        <asp:Label ID="UserNameLabel" runat="server" EnableViewState="false" Text="" Visible="false"></asp:Label>
+                    </span>
+                    <span class="login_panel_label">
+                        <asp:HyperLink ID="AccountLinkButton" Text="<%$Resources:SharedResources, MyAccount%>" runat="server" NavigateUrl="~/ManageAccount.aspx" />
+                    </span>
+                    <span class="login_panel_label">
+                        <asp:HyperLink ID="LoginLinkButton" Text="<%$Resources:SharedResources, Login%>" runat="server" NavigateUrl="~/IKBLoginPage.aspx" /> | 
+                    </span>
+                    <span class="login_panel_label">
+                        <asp:HyperLink ID="LogoutLinkButton" Text="<%$Resources:SharedResources, Logout%>" runat="server" NavigateUrl="~/Logout.ashx" />
+                    </span>
+                    <span class="login_panel_label">
+                        <asp:HyperLink ID="StartOverButton" Text="<%$Resources:SharedResources, StartOver%>" runat="server" NavigateUrl="~/Logout.ashx" /> | 
+                    </span>
+                    <span class="login_panel_label">
+                        <a id="HelpLink" href="javascript:void(0)" onclick="DropthingsUI.Actions.showHelp()"><asp:Literal ID="ltlHelp" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Help%>" /></a>       
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="login_panel_bottom" class="login_panel_left">
+            <div class="login_panel_right">
+               <div class="login_panel_centre"></div>
+            </div>
+        </div>
     </div>    
+    
     <div id="search_bar">
         <div id="search_bar_wrapper">
             <div id="google_search">

@@ -91,7 +91,7 @@ public class CssHandler : IHttpHandler {
         string cssContent = URL_REGEX.Replace(fileContent, 
             new MatchEvaluator(delegate(Match m)
         {
-            string imgPath = m.Groups["path"].Value.TrimStart('\'').TrimEnd('\'').TrimStart('"').TrimEnd('"');
+            string imgPath = m.Groups["path"].Value.Trim().TrimStart('\'').TrimEnd('\'').TrimStart('"').TrimEnd('"');
 
             if (!imgPath.StartsWith("http://"))
             {
