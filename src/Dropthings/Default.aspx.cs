@@ -161,11 +161,11 @@ public partial class _Default : BasePage
     {
         if (!page.IsLocked)
         {
-            Response.Redirect('?' + page.UserTabName);
+            Response.Redirect("Default.aspx?" + page.UserTabName);
         }
         else
         {
-            Response.Redirect('?' + page.LockedTabName);
+            Response.Redirect("Default.aspx?" + page.LockedTabName);
         }
     }
 
