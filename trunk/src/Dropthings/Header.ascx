@@ -30,7 +30,7 @@ function doSearch()
                         <asp:HyperLink ID="AccountLinkButton" Text="<%$Resources:SharedResources, MyAccount%>" runat="server" NavigateUrl="~/ManageAccount.aspx" />
                     </span>
                     <span class="login_panel_label">
-                        <asp:HyperLink ID="LoginLinkButton" Text="<%$Resources:SharedResources, Login%>" runat="server" NavigateUrl="~/IKBLoginPage.aspx" /> | 
+                        <asp:HyperLink ID="LoginLinkButton" Text="<%$Resources:SharedResources, Login%>" runat="server" NavigateUrl="~/LoginPage.aspx" /> | 
                     </span>
                     <span class="login_panel_label">
                         <asp:HyperLink ID="LogoutLinkButton" Text="<%$Resources:SharedResources, Logout%>" runat="server" NavigateUrl="~/Logout.ashx" />
