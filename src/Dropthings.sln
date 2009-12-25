@@ -5,11 +5,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Dropthings.vsmdi = Dropthings.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		RunAllIntegrationTests.bat = RunAllIntegrationTests.bat
+		RunAllRepositoryUnitTests.bat = RunAllRepositoryUnitTests.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DataAccess", "DashboardDataAccess\Dropthings.DataAccess.csproj", "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings", "{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\", "{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = ""
 		SccAuxPath = ""
@@ -34,12 +36,9 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings", 
 		VWDPort = "8000"
 		VWDDynamicPort = "false"
 		VWDVirtualPath = "/"
-		ProjOutputReferences = "{93D36A52-6C2A-4147-9B89-D35B561F9052}|ClientBin|false;"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthing.Silverlight", "Dropthing.Silverlight\Dropthing.Silverlight.csproj", "{93D36A52-6C2A-4147-9B89-D35B561F9052}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test", "Dropthings.Test\Dropthings.Test.csproj", "{6368DD2E-C2A0-45B6-8D08-3F1E67572322}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade", "Dropthings.Business.Facade\Dropthings.Business.Facade.csproj", "{514B9055-2EEF-4111-9CAC-F763120BB35D}"
 EndProject
@@ -63,30 +62,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnit.Subspec", "xUnit.Subs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade.Tests", "Dropthings.Business.Facade.Tests\Dropthings.Business.Facade.Tests.csproj", "{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test", "Dropthings.Test\Dropthings.Test.csproj", "{6368DD2E-C2A0-45B6-8D08-3F1E67572322}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs02.codeplex.com/
-		SccLocalPath0 = .
-		SccWebProject1 = true
-		SccProjectUniqueName1 = Dropthings
-		SccProjectName1 = Dropthings
-		SccLocalPath1 = Dropthings
-		SccProjectEnlistmentChoice1 = 2
-		SccProjectUniqueName2 = DashboardBusiness\\DashboardBusiness.csproj
-		SccProjectName2 = DashboardBusiness
-		SccLocalPath2 = DashboardBusiness
-		SccProjectUniqueName3 = DashboardDataAccess\\DashboardDataAccess.csproj
-		SccProjectName3 = DashboardDataAccess
-		SccLocalPath3 = DashboardDataAccess
-		SccProjectUniqueName4 = AjaxAsmxHandler\\AJAXASMXHandler.csproj
-		SccProjectName4 = AjaxAsmxHandler
-		SccLocalPath4 = AjaxAsmxHandler
-		SccProjectUniqueName5 = CustomDragDrop\\CustomDragDrop.csproj
-		SccProjectName5 = CustomDragDrop
-		SccLocalPath5 = CustomDragDrop
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dropthings.vsmdi
 	EndGlobalSection
@@ -129,16 +107,6 @@ Global
 		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|.NET.ActiveCfg = Release|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -249,9 +217,40 @@ Global
 		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|.NET.ActiveCfg = Release|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs02.codeplex.com/
+		SccLocalPath0 = .
+		SccWebProject1 = true
+		SccProjectUniqueName1 = Dropthings
+		SccProjectName1 = Dropthings
+		SccLocalPath1 = Dropthings
+		SccProjectEnlistmentChoice1 = 2
+		SccProjectUniqueName2 = DashboardBusiness\\DashboardBusiness.csproj
+		SccProjectName2 = DashboardBusiness
+		SccLocalPath2 = DashboardBusiness
+		SccProjectUniqueName3 = DashboardDataAccess\\DashboardDataAccess.csproj
+		SccProjectName3 = DashboardDataAccess
+		SccLocalPath3 = DashboardDataAccess
+		SccProjectUniqueName4 = AjaxAsmxHandler\\AJAXASMXHandler.csproj
+		SccProjectName4 = AjaxAsmxHandler
+		SccLocalPath4 = AjaxAsmxHandler
+		SccProjectUniqueName5 = CustomDragDrop\\CustomDragDrop.csproj
+		SccProjectName5 = CustomDragDrop
+		SccLocalPath5 = CustomDragDrop
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1
