@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" Theme="GreenBlue" EnableSessionState="False" ValidateRequest="false" Trace="False" TraceMode="SortByCategory" %>
+<%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default"  EnableSessionState="False" ValidateRequest="false" Trace="False" TraceMode="SortByCategory" %>
 <%@ OutputCache Location="None" NoStore="true" %>
 
 <%@ Register Src="~/Header.ascx" TagName="Header" TagPrefix="uc1" %>

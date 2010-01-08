@@ -227,3 +227,11 @@ input[type="password"] {width: 200px; border: 1px solid #CCC;}
 #DeletePageConfirmPopup h1 { margin-left: 30px; font-size: 120% }
 #DeletePageConfirmPopup p { margin-top: 10px; margin-bottom: 10px; clear: both }
 
+/* Non Default.aspx pages */
+#altpage { background: #FFFFFF url(Images/Content/content_corners.gif) no-repeat scroll top left; }
+	#altpageWrapper { background: transparent url(Images/Content/content_corners.gif) no-repeat scroll top right; overflow: auto; width: 100%; }
+		#altpageContent	{ margin: 5px; padding: 5px; height: auto; }
+		#altpageHeading1 { background: #DDE8CC; font-weight:bold; padding: 4px; }
+		#altpageHeading2 { background: #FFFFFF; font-weight:bold; padding: 4px; }
+		.altpageHeading1 { font-weight: bold; }
+		.altpageHeading2 { font-size: -1; }

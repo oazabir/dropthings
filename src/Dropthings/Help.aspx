@@ -1,5 +1,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="Help.aspx.cs" Inherits="Help" %>
 <%@ OutputCache Location="ServerAndClient" Duration="604800" VaryByParam="none" %>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server" />
 <div class="helpContent">
 <div id="lipsum">
 <p>
@@ -61,3 +64,4 @@ orci.
 </div>
 </div>
 <a href="javascript:void(0);" onclick="$get('HelpDiv').style.display='none'">Close</a>
+</html>

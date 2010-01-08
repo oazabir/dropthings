@@ -76,18 +76,18 @@
             }
         }
 
-        public string CreateUserToken(Guid userGuid, string email)
+        public string CreateUserToken(Guid userGuid, string userName)
         {
             var insertedToken = this.tokenRepository.Insert((token) =>
             {
                 token.UserId = userGuid;
-                token.UserName = email;
+                token.UserName = userName;
                 token.UniqueID = Guid.NewGuid();
             });
 
             ShortGuid shortGuid = insertedToken.UniqueID;
 
-            MembershipUser newUser = this.GetUser(email);
+            MembershipUser newUser = this.GetUser(userGuid);
             newUser.IsApproved = false;
             Membership.UpdateUser(newUser);
 
@@ -185,7 +185,7 @@
 
             if (isActivationRequired)
             {
-                var token = CreateUserToken(userGuid, email);
+                var token = CreateUserToken(userGuid, registeredUserName);
                 registerUserResponse.UnlockKey = token;
             }
 
