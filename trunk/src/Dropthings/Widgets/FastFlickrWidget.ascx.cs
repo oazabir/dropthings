@@ -184,8 +184,8 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
 
     protected void photoTypeRadio_CheckedChanged(object sender, EventArgs e)
     {
-        settingsPanel.Visible = true;
         this.SaveState();
+        settingsPanel.Visible = true;        
     }
 
     private string GetCachedJSON()
@@ -247,8 +247,7 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
         }
 
         this._Host.SaveState(this.State.Xml());
-        this.PageIndex = 0;
-        this._State = null;
+        this.PageIndex = 0;        
     }
 
     #endregion Methods
