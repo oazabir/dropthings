@@ -112,6 +112,28 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        
+    }
+    
+    
+
+    private void SetupControlsFromState()
+    {
+        // Since viewstate is disabled for all control, we need to do things manually            
+        if (this.SettingsOpen)
+        {
+            // Since viewstate is disabled for all control, we need to do things manually
+            EditWidget.Visible = false;
+            CancelEditWidget.Visible = true;
+            _WidgetRef.ShowSettings();
+        }
+        else
+        {
+            EditWidget.Visible = true;
+            CancelEditWidget.Visible = false;
+            _WidgetRef.HideSettings();
+        }
+
         WidgetTitle.Text = this.WidgetInstance.Title;
         this.SetExpandCollapseButtons();
         this.SetMaximizeRestoreButtons();
@@ -142,20 +164,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
         WidgetBodyPanel.Controls.Add(widget);
         _WidgetRef = widget as IWidget;
-        if (_WidgetRef != null) _WidgetRef.Init(this);
-
-        // Since viewstate is disabled for all control, we need to do things manually            
-        if (this.SettingsOpen)
-        {
-            // Since viewstate is disabled for all control, we need to do things manually
-            EditWidget.Visible = false;
-            CancelEditWidget.Visible = true;
-        }
-        else
-        {
-            EditWidget.Visible = true;
-            CancelEditWidget.Visible = false;
-        }
+        if (_WidgetRef != null) _WidgetRef.Init(this);        
     }
 
     private void SetExpandCollapseButtons()
@@ -187,6 +196,8 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
             RestoreWidget.Style.Add("display", "block");
         }
     }
+
+    
 
     protected void EditWidget_Click(object sender, EventArgs e)
     {
@@ -403,4 +414,24 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         (this as IWidgetHost).Refresh(_WidgetRef);
     }
 
+    protected override void LoadViewState(object savedState)
+    {
+        base.LoadViewState(savedState);
+        this.SetupControlsFromState();
+    }
+
+    protected override object SaveViewState()
+    {
+        return base.SaveViewState();
+    }
+
+    protected override void LoadControlState(object savedState)
+    {
+        base.LoadControlState(savedState);
+    }
+
+    protected override object SaveControlState()
+    {
+        return base.SaveControlState();
+    }
 }
