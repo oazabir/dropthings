@@ -24,7 +24,7 @@ namespace Dropthings.Widget.Framework
 
         void Expanded();
 
-        void HideSettings();
+        void HideSettings(bool userClicked);
 
         void Init(IWidgetHost host);
 
@@ -32,7 +32,7 @@ namespace Dropthings.Widget.Framework
 
         void Restored();
 
-        void ShowSettings();
+        void ShowSettings(bool userClicked);
 
         #endregion Methods
     }

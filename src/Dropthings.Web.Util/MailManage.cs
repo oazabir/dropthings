@@ -21,16 +21,10 @@ namespace Dropthings.Web.Util
     using System.Web.UI.HtmlControls;
     using System.Web.UI.WebControls;
     using System.Web.UI.WebControls.WebParts;
+    using Dropthings.Util;
 
     public static class MailManager
     {
-        #region Fields
-
-        private static readonly string adminEmail = ConfigurationManager.AppSettings["AdminEmail"];
-        private static readonly string webRoot = ConfigurationManager.AppSettings["WebRoot"];
-
-        #endregion Fields
-
         #region Methods
 
         public static void SendPasswordMail(string email, string password)
@@ -71,7 +65,7 @@ namespace Dropthings.Web.Util
 
             if (activationRequired)
             {
-                string done = string.Format("Please <a href={0}Verify.ashx?key={1}>click here</a> to activate your account.", webRoot, unlockKey);
+                string done = string.Format("Please <a href={0}Verify.ashx?key={1}>click here</a> to activate your account.", ConstantHelper.WebRoot, unlockKey);
                 body = body.Replace("<%ActivateAccount%>", done);
             }
             else
@@ -86,7 +80,7 @@ namespace Dropthings.Web.Util
         {
             using (var message = new MailMessage())
             {
-                message.From = new MailAddress(adminEmail);
+                message.From = new MailAddress(ConstantHelper.AdminEmail);
                 message.To.Add(new MailAddress(to));
                 message.Subject = subject;
                 message.Body = body;

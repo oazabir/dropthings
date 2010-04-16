@@ -39,7 +39,7 @@ public partial class Widgets_EventTest_Publisher : System.Web.UI.UserControl, IW
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
     }
 
@@ -57,7 +57,7 @@ public partial class Widgets_EventTest_Publisher : System.Web.UI.UserControl, IW
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
     }
 

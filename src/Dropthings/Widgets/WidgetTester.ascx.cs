@@ -59,7 +59,7 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
         Message.Text += "Minimized. ";
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
         Message.Text += "Hide Settings panel. ";
@@ -78,7 +78,7 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         SettingsPanel.Visible = true;
         Message.Text += "Show Settings panel. ";
@@ -87,7 +87,7 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
     protected void CloseSettings_Click( object sender, EventArgs e )
     {
         Message.Text += "CloseSettings Clicked. ";
-        (this as IWidget).HideSettings();
+        (this as IWidget).HideSettings(true);
     }
 
     protected void CloseWidget_Click( object sender, EventArgs e )

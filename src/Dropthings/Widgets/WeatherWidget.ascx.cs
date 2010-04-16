@@ -56,7 +56,7 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
         }
         if (null == Services.Get<ICache>().Get(url))
             Services.Get<ICache>().Add(url, doc.ToXml());
-
+        
         XmlElement root = doc.DocumentElement;
         XmlNodeList nodes = root.SelectNodes("/rss/channel/item");
         string data = "";
@@ -85,7 +85,7 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         pnlSettings.Visible = false;
     }
@@ -103,7 +103,7 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         pnlSettings.Visible = true;
     }
@@ -144,7 +144,7 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
         zipCode = txtZipCode.Text;
         lblWeather.Text = GetWeatherData();
         this.Host.SaveState(zipCode);
-        (this as IWidget).HideSettings();
+        (this as IWidget).HideSettings(true);
     }
 
     #endregion Methods

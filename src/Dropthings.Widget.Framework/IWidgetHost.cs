@@ -19,8 +19,8 @@ namespace Dropthings.Widget.Framework
         WidgetInstance WidgetInstance { get; set; }
         bool IsLocked { get; set; }
         event Action<WidgetInstance,IWidgetHost> Deleted;
-        void ShowSettings();
-        void HideSettings();
+        void ShowSettings(bool userClicked);
+        void HideSettings(bool userClicked);
         void Refresh(IWidget widget);
 
         EventBrokerService EventBroker { get; set; }        

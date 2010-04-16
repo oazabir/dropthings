@@ -24,6 +24,7 @@ using Dropthings.Web.Util;
 using Dropthings.Business.Facade;
 using Dropthings.Model;
 using Dropthings.Business.Facade.Context;
+using Dropthings.Util;
 
 public partial class LoginPage : System.Web.UI.Page
 {
@@ -52,7 +53,7 @@ public partial class LoginPage : System.Web.UI.Page
     {
         try
         {
-            bool activationRequired = Convert.ToBoolean(ConfigurationManager.AppSettings["ActivationRequired"]);
+            bool activationRequired = ConstantHelper.ActivationRequired;
 
             RegisterUserResponse registerUserResponse = null;
             using (var facade = new Facade(AppContext.GetContext(Context)))

@@ -525,4 +525,7 @@
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Revenir</value>
+  </data>
 </root>

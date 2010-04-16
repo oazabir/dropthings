@@ -526,4 +526,7 @@ Para el uso commercial, enviame una e-mail a ….para obtener una licencia que n
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Volver</value>
+  </data>
 </root>

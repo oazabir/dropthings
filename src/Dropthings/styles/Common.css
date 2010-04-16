@@ -11,3 +11,8 @@ a:hover { color:Red; text-decoration: underline }
 .display_block {display:block}
 .display_inline {display:inline}
 .hidden {visibility:hidden}
+.align_right { text-align: right }
+.align_bottom { vertical-align: middle }
+
+
+td { text-align: left; vertical-align: top; padding: 5px 5px 5px 5px; }

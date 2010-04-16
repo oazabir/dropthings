@@ -23,6 +23,7 @@ using Dropthings.Web.Util;
 using Dropthings.Business.Facade;
 using Dropthings.Model;
 using Dropthings.Business.Facade.Context;
+using Dropthings.Util;
 
 public partial class WidgetListControl : System.Web.UI.UserControl
 {
@@ -50,7 +51,7 @@ public partial class WidgetListControl : System.Web.UI.UserControl
     {
         get
         {
-            if (Roles.Enabled && Convert.ToBoolean(ConfigurationManager.AppSettings["EnableWidgetPermission"], CultureInfo.InvariantCulture))
+            if (Roles.Enabled && Convert.ToBoolean(ConstantHelper.EnableWidgetPermission, CultureInfo.InvariantCulture))
             {
                 using (var facade = new Facade(AppContext.GetContext(Context)))
                     return facade.GetWidgetList(Profile.UserName, Enumerations.WidgetTypeEnum.PersonalPage);                
@@ -77,7 +78,9 @@ public partial class WidgetListControl : System.Web.UI.UserControl
     protected override void OnPreRender(EventArgs e)
     {
         ScriptManager.RegisterStartupScript(this, typeof(WidgetListControl), this.ID + "_initAddStuff",
-                "DropthingsUI.initAddStuff('widget_zone', 'new_widget');"
+            (Page.IsPostBack ? "" : "jQuery(document).ready(function() {")        
+                + "DropthingsUI.initAddStuff('widget_zone', 'new_widget');"
+                + (Page.IsPostBack ? "" : "});")
                 , true);
 
         base.OnPreRender(e);

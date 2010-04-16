@@ -195,7 +195,7 @@ namespace Dropthings.Web.Framework
         public void ResizeWidgetInstance(int widgetId, int width, int height)
         {
             AspectF.Define.Log(Services.Get<ILogger>(), "ResizeWidgetInstance {0} {1} {2}", widgetId, width, height)
-                .MustBeNonDefault<int>(widgetId, width, height)
+                .MustBeNonDefault<int>(widgetId, height)
                 .Do(() =>
                 {
                     using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))

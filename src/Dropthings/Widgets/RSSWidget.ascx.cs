@@ -84,13 +84,17 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
-        this.Count = int.Parse( FeedCountDropDownList.SelectedValue );
-        this.Url = FeedUrl.Text;
-        this.SaveState();
-        this.ShowFeeds();
+
+        if (userClicked)
+        {
+            this.Count = int.Parse(FeedCountDropDownList.SelectedValue);
+            this.Url = FeedUrl.Text;
+            this.SaveState();
+            this.ShowFeeds();
+        }
     }
 
     void IWidget.Init(IWidgetHost host)
@@ -106,12 +110,16 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         SettingsPanel.Visible = true;
-        FeedUrl.Text = this.Url;
-        FeedCountDropDownList.SelectedIndex = -1;
-        FeedCountDropDownList.Items.FindByText( this.Count.ToString() ).Selected = true;
+
+        if (userClicked)
+        {
+            FeedUrl.Text = this.Url;
+            FeedCountDropDownList.SelectedIndex = -1;
+            FeedCountDropDownList.Items.FindByText(this.Count.ToString()).Selected = true;
+        }
     }
 
     protected void LoadRSSView(object sender, EventArgs e)
@@ -131,7 +139,7 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
 
     protected void SaveSettings_Click( object sender, EventArgs e )
     {
-        this._Host.HideSettings();
+        this._Host.HideSettings(true);
     }
 
     private void SaveState()

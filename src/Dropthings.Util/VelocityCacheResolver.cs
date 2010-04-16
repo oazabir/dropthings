@@ -17,7 +17,7 @@ namespace Dropthings.Util
         static VelocityCacheResolver()
         {
             _Factory = new DataCacheFactory();
-            _Cache = _Factory.GetCache(ConfigurationManager.AppSettings["VelocityCacheName"]);
+            _Cache = _Factory.GetCache(ConstantHelper.VelocityCacheName);
 
             try
             {

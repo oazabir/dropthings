@@ -9,7 +9,6 @@
     using Dropthings.DataAccess;
     using Dropthings.Model;
     using System.Configuration;
-    using Dropthings.Utils;
     using Dropthings.Configuration;
     using Dropthings.Util;
     using OmarALZabir.AspectF;

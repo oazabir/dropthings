@@ -54,42 +54,42 @@ var Twitter = function() {
 };
 Twitter.prototype = {
     ResetTabs: function() {
-        $('#W' + this._widgetID + '_MainView .twitterTabs li').removeClass('selected');
+        jQuery('#W' + this._widgetID + '_MainView .twitterTabs li').removeClass('selected');
     },
     SetSelected: function(el) {
-        if (typeof (el) != 'object') el = $('#' + el);
-        if (this._selectedOption == $(el).html()) return;
-        this._selectedOption = $(el).html();
-        $('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
+        if (typeof (el) != 'object') el = jQuery('#' + el);
+        if (this._selectedOption == jQuery(el).html()) return;
+        this._selectedOption = jQuery(el).html();
+        jQuery('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
         var wgt = this;
         if (!this._loggedIn) {
             if (this._selectedOption != 'Public') {
                 this._selectedOption = 'Public';
-                if ($('#W' + this._widgetID + '_TwFeatures').css('display') != 'none') return;
-                $('#W' + this._widgetID + '_TwFeatures').slideDown();
-                $('#W' + this._widgetID + '_TwFeatures a').click(function() { wgt.ShowSettings(); });
-                $('#W' + this._widgetID + '_TwFeatClose').click(function() { $('#W' + wgt._widgetID + '_TwFeatures').slideUp(); });
+                if (jQuery('#W' + this._widgetID + '_TwFeatures').css('display') != 'none') return;
+                jQuery('#W' + this._widgetID + '_TwFeatures').slideDown();
+                jQuery('#W' + this._widgetID + '_TwFeatures a').click(function() { wgt.ShowSettings(); });
+                jQuery('#W' + this._widgetID + '_TwFeatClose').click(function() { jQuery('#W' + wgt._widgetID + '_TwFeatures').slideUp(); });
                 return;
             }
         }
         this.ResetTabs();
-        $(el).parent().addClass('selected');
-        $('#W' + this._widgetID + '_TwView').html('');
+        jQuery(el).parent().addClass('selected');
+        jQuery('#W' + this._widgetID + '_TwView').html('');
         if (this._selectedOption != 'Update') {
-            $('#W' + this._widgetID + '_TwView').css('display', '');
-            $('#W' + this._widgetID + '_TwUpdatePanel').css('display', 'none');
+            jQuery('#W' + this._widgetID + '_TwView').css('display', '');
+            jQuery('#W' + this._widgetID + '_TwUpdatePanel').css('display', 'none');
         }
         else {
-            $('#W' + this._widgetID + '_TwUpdateBtn').disabled = false;
+            jQuery('#W' + this._widgetID + '_TwUpdateBtn').disabled = false;
         }
-        $('#W' + this._widgetID + '_TwFeatures').css('display', 'none');
+        jQuery('#W' + this._widgetID + '_TwFeatures').css('display', 'none');
         switch (this._selectedOption) {
             case 'Update':
                 {
-                    $('#W' + this._widgetID + '_TwView').css('display', 'none');
-                    $('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
-                    $('#W' + this._widgetID + '_TwUpdatePanel').css('display', '');
-                    $('#W' + this._widgetID + '_TwUpdateText').css('width', (($('#W' + this._widgetID + '_TwUpdatePanel').width() - 10) + 'px'));
+                    jQuery('#W' + this._widgetID + '_TwView').css('display', 'none');
+                    jQuery('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
+                    jQuery('#W' + this._widgetID + '_TwUpdatePanel').css('display', '');
+                    jQuery('#W' + this._widgetID + '_TwUpdateText').css('width', ((jQuery('#W' + this._widgetID + '_TwUpdatePanel').width() - 10) + 'px'));
                     break;
                 }
             case 'Friends': this.LoadFriendsTimeline(); break;
@@ -98,65 +98,65 @@ Twitter.prototype = {
         }
     },
     Update: function() {
-        $('#W' + this._widgetID + '_TwUpdateBtn').attr('disabled', 'true');
+        jQuery('#W' + this._widgetID + '_TwUpdateBtn').attr('disabled', 'true');
         var wgt = this;
         var wgtId = this._widgetID;
         wgt.ShowProgress('Updating...');
-        TwitterService.UpdateStaus(this._uName, this._uPass, $('#W' + this._widgetID + '_TwUpdateText').val(), function(resp) {
-            $('#W' + wgtId + '_TwUpdateBtn').removeAttr('disabled');
-            $('#W' + wgtId + '_TwUpdateText').val('');
-            if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed. Please check your credentials.').css('display', '');
+        TwitterService.UpdateStaus(this._uName, this._uPass, jQuery('#W' + this._widgetID + '_TwUpdateText').val(), function(resp) {
+            jQuery('#W' + wgtId + '_TwUpdateBtn').removeAttr('disabled');
+            jQuery('#W' + wgtId + '_TwUpdateText').val('');
+            if (resp.toString().indexOf("error") > -1) jQuery('#W' + wgtId + '_TwUpdateError').html('Update failed. Please check your credentials.').css('display', '');
             else wgt.SetSelected('W' + wgtId + '_TwFriends');
         },
         function(msg) {
-            $('#W' + wgtId + '_TwUpdateBtn').removeAttr('disabled');
-            if (resp.toString().indexOf("error") > -1) $('#W' + wgtId + '_TwUpdateError').html('Update failed:' + msg).css('display', '');
+            jQuery('#W' + wgtId + '_TwUpdateBtn').removeAttr('disabled');
+            if (resp.toString().indexOf("error") > -1) jQuery('#W' + wgtId + '_TwUpdateError').html('Update failed:' + msg).css('display', '');
         });
     },
     HideSettings: function() {
-        $('#W' + this._widgetID + '_SettingsPanel').css('display', 'none');
-        $('#W' + this._widgetID + '_Content').css('display', '');
+        jQuery('#W' + this._widgetID + '_SettingsPanel').css('display', 'none');
+        jQuery('#W' + this._widgetID + '_Content').css('display', '');
     },
     ShowSettings: function() {
-        $('#W' + this._widgetID + '_SettingsPanel').css('display', '');
-        $('#W' + this._widgetID + '_Content').css('display', 'none');
+        jQuery('#W' + this._widgetID + '_SettingsPanel').css('display', '');
+        jQuery('#W' + this._widgetID + '_Content').css('display', 'none');
     },
     ViewDisplay: function(items) {
-        $('#W' + this._widgetID + '_MainView').css('display', 'block');
-        $('#W' + this._widgetID + '_Progress').css('display', 'none');
-        $('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
-        $('#W' + this._widgetID + '_TwView').html('');
+        jQuery('#W' + this._widgetID + '_MainView').css('display', 'block');
+        jQuery('#W' + this._widgetID + '_Progress').css('display', 'none');
+        jQuery('#W' + this._widgetID + '_TwUpdateError').html('').css('display', 'none');
+        jQuery('#W' + this._widgetID + '_TwView').html('');
         var mainDiv;
         var dataDiv;
         var wgt = this;
 
         if (!this._loggedIn) {
-            $('<div/>').addClass('twitterLogin').html('Please <a href="javascript:void(0)">sign in</a> to view & update').click(function() { wgt.ShowSettings(); }).appendTo('#W' + this._widgetID + '_TwView');
+            jQuery('<div/>').addClass('twitterLogin').html('Please <a href="javascript:void(0)">sign in</a> to view & update').click(function() { wgt.ShowSettings(); }).appendTo('#W' + this._widgetID + '_TwView');
         }
 
         $.each(items, function(i, item) {
             mainDiv = 'u_' + item.user.id + '_' + i;
             dataDiv = 'd_' + item.user.id + '_' + i;
             if (i % 2) {
-                $('<div/>').attr('id', mainDiv).addClass('even').appendTo('#W' + wgt._widgetID + '_TwView');
+                jQuery('<div/>').attr('id', mainDiv).addClass('even').appendTo('#W' + wgt._widgetID + '_TwView');
             }
             else {
-                $('<div/>').attr('id', mainDiv).addClass('odd').appendTo('#W' + wgt._widgetID + '_TwView');
+                jQuery('<div/>').attr('id', mainDiv).addClass('odd').appendTo('#W' + wgt._widgetID + '_TwView');
             }
-            $('<img/>').attr('src', item.user.profile_image_url).attr('alt', item.user.screen_name).attr('title', item.user.screen_name).appendTo('#' + mainDiv);
-            $('<div/>').attr('id', dataDiv).appendTo('#' + mainDiv);
-            $('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'http://twitter.com/' + item.user.screen_name)).attr('target', '_blank').addClass('twitterSName').html(item.user.screen_name).appendTo('#' + dataDiv);
+            jQuery('<img/>').attr('src', item.user.profile_image_url).attr('alt', item.user.screen_name).attr('title', item.user.screen_name).appendTo('#' + mainDiv);
+            jQuery('<div/>').attr('id', dataDiv).appendTo('#' + mainDiv);
+            jQuery('<a/>').attr('href', ((item.user.url != null) ? item.user.url : 'http://twitter.com/' + item.user.screen_name)).attr('target', '_blank').addClass('twitterSName').html(item.user.screen_name).appendTo('#' + dataDiv);
 
-            $('<div/>').html(wgt.ProcessTweet(item.text)).css('word-break', 'break-all').appendTo('#' + dataDiv);
+            jQuery('<div/>').html(wgt.ProcessTweet(item.text)).css('word-break', 'break-all').appendTo('#' + dataDiv);
 
-            $('<div/>').addClass('twTime').html(wgt.FormatDateDiff(item.created_at) + ' ago').appendTo('#' + dataDiv);
+            jQuery('<div/>').addClass('twTime').html(wgt.FormatDateDiff(item.created_at) + ' ago').appendTo('#' + dataDiv);
         });
         if (this._pagingEnable) {
-            if (this._currentPage != this._pageCount) $('<a/>').html('Next >').addClass('nextLink').attr('href', 'javascript:void(0)').click(function() {
+            if (this._currentPage != this._pageCount) jQuery('<a/>').html('Next >').addClass('nextLink').attr('href', 'javascript:void(0)').click(function() {
                 wgt._currentPage++;
                 wgt.SetPageItems();
             }).appendTo('#W' + this._widgetID + '_TwView');
-            if (this._currentPage != 1) $('<a/>').html('< Previous').addClass('prevLink').attr('href', 'javascript:void(0)').click(function() {
+            if (this._currentPage != 1) jQuery('<a/>').html('< Previous').addClass('prevLink').attr('href', 'javascript:void(0)').click(function() {
                 wgt._currentPage--;
                 wgt.SetPageItems();
             }).appendTo('#W' + this._widgetID + '_TwView');
@@ -306,7 +306,7 @@ Twitter.prototype = {
         this.SetPageItems();
     },
     ParseError: function(msg) {
-        $('#W' + this._widgetID + '_TwUpdateError').html('Error: ' + msg).css('display', '');
+        jQuery('#W' + this._widgetID + '_TwUpdateError').html('Error: ' + msg).css('display', '');
     },
     LoadPublicTimeline: function() {
         this.ShowProgress('Loading public updates...');
@@ -339,28 +339,28 @@ Twitter.prototype = {
         });
     },
     ShowProgress: function(msg) {
-        $('#W' + this._widgetID + '_Progress').html(msg).css('display', 'block');
+        jQuery('#W' + this._widgetID + '_Progress').html(msg).css('display', 'block');
     },
     HideProgress: function() {
-        $('#W' + this._widgetID + '_Progress').css('display', 'none');
+        jQuery('#W' + this._widgetID + '_Progress').css('display', 'none');
     },
     SuccessStateSave: function(msg) {
         // nothing to do
     },
     FailStateSave: function(err) {
-        $('#W' + this._widgetID + '_TwUpdateError').html('Failed to save your credentials').css('display', '');
+        jQuery('#W' + this._widgetID + '_TwUpdateError').html('Failed to save your credentials').css('display', '');
     },
     PrepareState: function() {
         return '<state><username>' + this._uName + '</username><password>' + this._uPass + '</password></state>';
     },
     VerifyCredentials: function() {
-        if ($('#W' + this._widgetID + '_Content').css('display') == 'none') {
-            $('#W' + this._widgetID + '_TwError').html('');
-            $('#W' + this._widgetID + '_TwLoginProgress').css('display', '');
-            $('#W' + this._widgetID + '_TwSave').attr('disabled', 'true');
-            $('#W' + this._widgetID + '_TwCancel').attr('disabled', 'true');
-            this._uName = $('#W' + this._widgetID + '_TwUsername').val();
-            this._uPass = $('#W' + this._widgetID + '_TwPassword').val();
+        if (jQuery('#W' + this._widgetID + '_Content').css('display') == 'none') {
+            jQuery('#W' + this._widgetID + '_TwError').html('');
+            jQuery('#W' + this._widgetID + '_TwLoginProgress').css('display', '');
+            jQuery('#W' + this._widgetID + '_TwSave').attr('disabled', 'true');
+            jQuery('#W' + this._widgetID + '_TwCancel').attr('disabled', 'true');
+            this._uName = jQuery('#W' + this._widgetID + '_TwUsername').val();
+            this._uPass = jQuery('#W' + this._widgetID + '_TwPassword').val();
         }
         else {
             this._uName = this._widgetState.getElementsByTagName('state')[0].getElementsByTagName('username')[0].firstChild.nodeValue;
@@ -370,14 +370,14 @@ Twitter.prototype = {
         var wgtId = this._widgetID;
 
         TwitterService.VerifyCredentials(this._uName, this._uPass, function(msg) {
-            if ($('#W' + wgtId + '_Content').css('display') == 'none') {
-                $('#W' + wgtId + '_TwSave').removeAttr('disabled');
-                $('#W' + wgtId + '_TwCancel').removeAttr('disabled');
-                $('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
+            if (jQuery('#W' + wgtId + '_Content').css('display') == 'none') {
+                jQuery('#W' + wgtId + '_TwSave').removeAttr('disabled');
+                jQuery('#W' + wgtId + '_TwCancel').removeAttr('disabled');
+                jQuery('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
             }
             if (msg.toString().indexOf('error') < 0) {
                 wgt._loggedIn = true;
-                if ($('#W' + wgtId + '_Content').css('display') == 'none') {
+                if (jQuery('#W' + wgtId + '_Content').css('display') == 'none') {
 
                     Dropthings.Web.Framework.WidgetService.SaveWidgetState(wgt._widgetID, wgt.PrepareState(), function(msg) {
                         wgt.SuccessStateSave(msg);
@@ -390,35 +390,35 @@ Twitter.prototype = {
                 wgt.SetSelected('W' + wgtId + '_TwFriends');
             }
             else {
-                if ($('#W' + wgtId + '_Content').css('display') == 'none') $('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
+                if (jQuery('#W' + wgtId + '_Content').css('display') == 'none') jQuery('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
                 wgt.FailVerify(msg);
             }
         },
         function(msg) {
-            if ($('#W' + wgtId + '_Content').css('display') == 'none') {
-                $('#W' + wgtId + '_TwSave').removeAttr('disabled');
-                $('#W' + wgtId + '_TwCancel').removeAttr('disabled');
-                $('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
+            if (jQuery('#W' + wgtId + '_Content').css('display') == 'none') {
+                jQuery('#W' + wgtId + '_TwSave').removeAttr('disabled');
+                jQuery('#W' + wgtId + '_TwCancel').removeAttr('disabled');
+                jQuery('#W' + wgtId + '_TwLoginProgress').css('display', 'none');
             }
             wgt.FailVerify(msg);
         });
     },
     FailVerify: function(msg) {
         this._loggedIn = false;
-        if ($('#W' + this._widgetID + '_Content').css('display') == 'none')
-            $('#W' + this._widgetID + '_TwError').html('Login failed. Please check your credentials.');
+        if (jQuery('#W' + this._widgetID + '_Content').css('display') == 'none')
+            jQuery('#W' + this._widgetID + '_TwError').html('Login failed. Please check your credentials.');
         else
             this.SetSelected('W' + wgtId + '_TwPublic');
     },
     CheckLength: function(el) {
-        if (typeof (el) != 'object') el = $('#' + el);
+        if (typeof (el) != 'object') el = jQuery('#' + el);
         var left = 140 - el.val().length;
         if (left < 0) {
             el.val(el.val().substring(0, 140));
             left--;
         }
         if (left < 0) left = 0;
-        $('#W' + this._widgetID + '_TwUpdateLeft').html(left + ' characters left');
+        jQuery('#W' + this._widgetID + '_TwUpdateLeft').html(left + ' characters left');
     },
     LoadNew: function() {
         this._loggedIn = false;
@@ -426,41 +426,41 @@ Twitter.prototype = {
     },
     load: function(instanceId) {
         this._widgetID = instanceId;
-        $('#Widget' + this._widgetID + '_EditWidget').attr('href', 'javascript:void(0)');
-        $('#Widget' + this._widgetID + '_EditWidget').css('color', 'Gray');
+        jQuery('#Widget' + this._widgetID + '_EditWidget').attr('href', 'javascript:void(0)');
+        jQuery('#Widget' + this._widgetID + '_EditWidget').css('color', 'Gray');
 
         var wgt = this;
-        $('#W' + this._widgetID + '_TwUpdate').click(function() {
+        jQuery('#W' + this._widgetID + '_TwUpdate').click(function() {
             wgt.SetSelected('W' + wgt._widgetID + '_TwUpdate');
         });
-        $('#W' + this._widgetID + '_TwFriends').click(function() {
+        jQuery('#W' + this._widgetID + '_TwFriends').click(function() {
             wgt.SetSelected('W' + wgt._widgetID + '_TwFriends');
         });
-        $('#W' + this._widgetID + '_TwArchive').click(function() {
+        jQuery('#W' + this._widgetID + '_TwArchive').click(function() {
             wgt.SetSelected('W' + wgt._widgetID + '_TwArchive');
         });
-        $('#W' + this._widgetID + '_TwPublic').click(function() {
+        jQuery('#W' + this._widgetID + '_TwPublic').click(function() {
             wgt.SetSelected('W' + wgt._widgetID + '_TwPublic');
         });
 
-        $('#W' + this._widgetID + '_TwUpdateBtn').click(function() {
+        jQuery('#W' + this._widgetID + '_TwUpdateBtn').click(function() {
             wgt.Update();
         });
 
-        $('#W' + this._widgetID + '_TwUpdateText').keyup(function() {
+        jQuery('#W' + this._widgetID + '_TwUpdateText').keyup(function() {
             wgt.CheckLength('W' + wgt._widgetID + '_TwUpdateText');
         });
 
-        $('#W' + this._widgetID + '_TwSave').click(function() {
+        jQuery('#W' + this._widgetID + '_TwSave').click(function() {
             wgt.VerifyCredentials();
         });
-        $('#W' + this._widgetID + '_TwCancel').click(function() {
+        jQuery('#W' + this._widgetID + '_TwCancel').click(function() {
             wgt.HideSettings();
         });
 
-        $('#W' + this._widgetID + '_TwPassword').keypress(function(event) {
+        jQuery('#W' + this._widgetID + '_TwPassword').keypress(function(event) {
             if (event.keyCode == 13)
-                $('#W' + wgt._widgetID + '_TwSave').click();
+                jQuery('#W' + wgt._widgetID + '_TwSave').click();
         });
 
         Dropthings.Web.Framework.WidgetService.GetWidgetState(this._widgetID, function(stateXml) {

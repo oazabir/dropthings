@@ -71,7 +71,7 @@ public partial class Widgets_MemberInRoleWidget : System.Web.UI.UserControl, IWi
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
     }
@@ -89,7 +89,7 @@ public partial class Widgets_MemberInRoleWidget : System.Web.UI.UserControl, IWi
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         SettingsPanel.Visible = true;
     }

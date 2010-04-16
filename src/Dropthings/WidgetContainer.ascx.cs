@@ -112,28 +112,13 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+        this.SetupControlsFromState();
     }
     
     
 
     private void SetupControlsFromState()
     {
-        // Since viewstate is disabled for all control, we need to do things manually            
-        if (this.SettingsOpen)
-        {
-            // Since viewstate is disabled for all control, we need to do things manually
-            EditWidget.Visible = false;
-            CancelEditWidget.Visible = true;
-            _WidgetRef.ShowSettings();
-        }
-        else
-        {
-            EditWidget.Visible = true;
-            CancelEditWidget.Visible = false;
-            _WidgetRef.HideSettings();
-        }
-
         WidgetTitle.Text = this.WidgetInstance.Title;
         this.SetExpandCollapseButtons();
         this.SetMaximizeRestoreButtons();
@@ -152,6 +137,21 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
             WidgetHeader.Enabled = false;
             EditWidget.Visible = MaximizeWidget.Visible = RestoreWidget.Visible = CollapseWidget.Visible = ExpandWidget.Visible = CloseWidget.Visible = false;
             LockedWidget.Visible = true;
+        }
+
+        if (Page.IsAsync || Page.IsPostBack)
+        {
+            // Since viewstate is disabled for all control, we need to do things manually            
+            if (this.SettingsOpen)
+            {
+                // Since viewstate is disabled for all control, we need to do things manually
+                (this as IWidgetHost).ShowSettings(false);
+            }
+            else
+            {
+                // No need to hide, by default it's assumed to be hidden
+                //(this as IWidget).HideSettings(false);
+            }
         }
     }
 
@@ -203,11 +203,11 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     {
         if (this.SettingsOpen)
         {
-            (this as IWidgetHost).HideSettings();
+            (this as IWidgetHost).HideSettings(true);
         }
         else
         {
-            (this as IWidgetHost).ShowSettings();
+            (this as IWidgetHost).ShowSettings(true);
         }
 
         WidgetBodyUpdatePanel.Update();
@@ -370,21 +370,22 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         return this.WidgetInstance.State;
     }
 
-    void IWidgetHost.ShowSettings()
+    void IWidgetHost.ShowSettings(bool userClicked)
     {
         this.SettingsOpen = true;
-        this._WidgetRef.ShowSettings();
-        (this as IWidgetHost).Expand();
+        this._WidgetRef.ShowSettings(userClicked);
+        if (!this._WidgetInstance.Expanded)
+            (this as IWidgetHost).Expand();
         EditWidget.Visible = false;
         CancelEditWidget.Visible = true;
         this.WidgetHeaderUpdatePanel.Update();
         this.WidgetBodyUpdatePanel.Update();
     }
 
-    void IWidgetHost.HideSettings()
+    void IWidgetHost.HideSettings(bool userClicked)
     {
         this.SettingsOpen = false;
-        this._WidgetRef.HideSettings();
+        this._WidgetRef.HideSettings(userClicked);
         EditWidget.Visible = true;
         CancelEditWidget.Visible = false;
         this.WidgetHeaderUpdatePanel.Update();
@@ -416,8 +417,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 
     protected override void LoadViewState(object savedState)
     {
-        base.LoadViewState(savedState);
-        this.SetupControlsFromState();
+        base.LoadViewState(savedState);        
     }
 
     protected override object SaveViewState()

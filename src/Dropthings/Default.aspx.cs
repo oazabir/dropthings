@@ -44,11 +44,6 @@ public partial class _Default : BasePage
 
     #region Properties
 
-    protected string GetScriptVersion
-    {
-        get { return ConfigurationManager.AppSettings["ScriptVersionNo"]; }
-    }
-
     public bool IsTemplateUser
     {
         get { return Convert.ToBoolean(ViewState[this.ClientID + "_IsTemplateUser"]); }
@@ -59,15 +54,12 @@ public partial class _Default : BasePage
     {
         get 
         {
-            bool enabled;
-            bool.TryParse(ConfigurationManager.AppSettings["EnableTabSorting"], out enabled);
-
-            if (!enabled && IsTemplateUser)
+            if (!ConstantHelper.EnableTabSorting && IsTemplateUser)
             {
-                bool.TryParse(ConfigurationManager.AppSettings["EnableAdminOnlyTabSorting"], out enabled);
+                return ConstantHelper.EnableTabSorting;
             }
             
-            return enabled;
+            return ConstantHelper.EnableTabSorting;
         }
     }
 

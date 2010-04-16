@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19DA7990-1A71-4E87-9FCF-5C2EC7C3EC26}"
 	ProjectSection(SolutionItems) = preProject
+		ChangeLog.txt = ChangeLog.txt
 		Dropthings.vsmdi = Dropthings.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		RunAllIntegrationTests.bat = RunAllIntegrationTests.bat

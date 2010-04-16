@@ -39,7 +39,7 @@ public partial class Widgets_EventTest_ChildWidget : System.Web.UI.UserControl, 
     {
     }
 
-    public void HideSettings()
+    public void HideSettings(bool userClicked)
     {
     }
 
@@ -57,7 +57,7 @@ public partial class Widgets_EventTest_ChildWidget : System.Web.UI.UserControl, 
     {
     }
 
-    public void ShowSettings()
+    public void ShowSettings(bool userClicked)
     {
     }
 
