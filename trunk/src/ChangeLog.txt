@@ -1,0 +1,22 @@
+Next version target:
+====================
+* FIX: Click on a new widget does not always add the widget on the top most position. 
+when there are other widgets which were added by dragging.
+* ADD: DeveloperMode implementation. See web.config.
+* ADD: Make the widget gallery a slider.
+* ADD: Code and production site installer using Microsoft Web Platform installer
+* ADD: Admin user pages - Add new widget, edit widget, remove widget, assign/revoke widget to roles
+* ADD: Admin user pages - User management module
+* CHANGE: In MyFramework.js, change DropthingsUI to UI to save JS space.
+
+Version 2.4.2
+=============
+* FIX: When new widget is added, no widget can be dragged out of that column and put back. Issue #12.
+* FIX: Drag & drop new widget from widget list stops working after second widget is added.
+* FIX: Running under virtual directory.
+* FIX: Clicking on "Edit" load the state to initial state and does not allow changing anything on edit area.
+* FIX: Resize problem fixed. You can now resize and widgets will persist their resized height.
+* CHANGE: Disabled the widget resize functionality. It's not fully working now and not a feature that's widely in use. Hardly anyone (Google, Yahoo, Pageflakes, Netvibes) offers this.
+* FIX: Maximize and minimize was buggy. Make some fixes. It's still buggy. 
+* FIX: Manage Account page
+* FIX: ManageWidgetPermission page.

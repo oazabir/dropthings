@@ -22,6 +22,7 @@ using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets;
 using Dropthings.Web.Util;
+using Dropthings.Util;
 
 public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 {
@@ -82,7 +83,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
         this.Count = int.Parse(FeedCountDropDownList.SelectedValue);
@@ -102,7 +103,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         SettingsPanel.Visible = true;
         FeedCountDropDownList.SelectedIndex = -1;
@@ -128,7 +129,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 
     protected void SaveSettings_Click(object sender, EventArgs e)
     {
-        _Host.HideSettings();
+        _Host.HideSettings(true);
     }
 
     private string GetCachedJSON()

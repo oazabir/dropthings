@@ -5,75 +5,90 @@
 /// <reference name="MicrosoftAjaxWebForms.debug.js" />
 
 var is = {
-    types : ["Array","RegExp","Date","Number","String","Object","HTMLDocument"]
+    types: ["Array", "RegExp", "Date", "Number", "String", "Object", "HTMLDocument"]
 };
 
-for(var i=0,c;c=is.types[i++];)
-{
-    is[c] = (function(type)
-    {
-        return function(obj)
-        {
-            return Object.prototype.toString.call(obj) == "[object "+type+"]";
+for (var i = 0, c; c = is.types[i++]; ) {
+    is[c] = (function(type) {
+        return function(obj) {
+            return Object.prototype.toString.call(obj) == "[object " + type + "]";
         }
     })(c);
 }
 
+/*  
+Client side class which contains all the necessary operations of client
+side activities like Drag & Drop, Add/Edit/Delete widget, switching page
+etc.
+*/
 var DropthingsUI = {
     _LastMaximizedWidget: null,
+    // These attributes are injected from server side inside <div> to provide
+    // necessary information for widgets like whar's the widgetInstanceId,
+    // what's the zoneId
     Attributes: {
         INSTANCE_ID: "_InstanceId",
         ZONE_ID: "_zoneid",
         WIDGET_ZONE_DUMMY_LINK: "widget_holder_panel_post_link"
     },
+    // Contains a definition collection of all widgets on the page. Server side
+    // widget instance object is serialized and stored in this collection.
     WidgetDefs: [],
+    // Store a widget's definition in the WidgetDefs array
+    setWidgetDef: function(id, expanded, maximized, resized, width, height, zoneId) {
+        DropthingsUI.WidgetDefs["" + id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
+    },
+    // Get a widget's definition from the WidgetDefs array
+    getWidgetDef: function(id) {
+        return DropthingsUI.WidgetDefs["" + id];
+    },
+    // Get a widget DivID (server side generated DIV ClientID) from widget instanceId
     getWidgetDivId: function(instanceId) {
-        return "#WidgetPage_WidgetPanelsLayout_WidgetContainer" + instanceId + "_Widget";
+        return "WidgetPage_WidgetPanelsLayout_WidgetContainer" + instanceId + "_Widget";
     },
+    // Get widget zone DivID (server side generated DIV ClientID) from zoneId
     getWidgetZoneDivId: function(zoneId) {
-        return "#WidgetPage_WidgetZone" + zoneId + "_WidgetHolderPanel";
+        return "WidgetPage_WidgetZone" + zoneId + "_WidgetHolderPanel";
     },
+    // Initialize client side stuffs. Called during page load.
     init: function(isTemplateUser) {
         var enableSorting = Boolean.parse(isTemplateUser);
         DropthingsUI.initTab(enableSorting);
     },
+    // Initializes a tab. Called during tab load.
     initTab: function(enableSorting) {
-        $('#tab_container').scrollable();
+        jQuery('#tab_container').scrollable();
         if (enableSorting) {
             DropthingsUI.initTabSorting();
         }
     },
+    // Use the jQuery sortable plugin to allow tabs to be sorted.
     initTabSorting: function() {
-        var plugin = $('#tab_container').find(".tabs").data('sortable');
+        var plugin = jQuery('#tab_container').find(".tabs").data('sortable');
         if (plugin) plugin.destroy();
 
-        $('#tab_container').find(".tabs")
-                                    .sortable({
-                                        axis: 'x',
-                                        items: '.tab' + ':not(.nodrag)',
-                                        opacity: 0.8,
-                                        revert: true,
-                                        stop: function(e, ui) {
-                                            var position = ui.item.parent()
-                                                                        .children(':not(.nodrag)')
-                                                                        .index(ui.item);
-                                            var pageId = ui.item.attr('id').match(/\d+/);
+        jQuery('#tab_container')
+            .find(".tabs")
+                .sortable({
+                    axis: 'x',
+                    items: '.tab' + ':not(.nodrag)',
+                    opacity: 0.8,
+                    revert: true,
+                    stop: function(e, ui) {
+                        var position = ui.item.parent().children(':not(.nodrag)').index(ui.item);
+                        var pageId = ui.item.attr('id').match(/\d+/);
 
-                                            DropthingsUI.Actions.onTabItemDrop(pageId[0], position, function() {
-                                                //do work after saving the tab order
-                                            });
-                                        }
-                                    });
+                        DropthingsUI.Actions.onTabItemDrop(pageId[0], position, function() {
+                            //do work after saving the tab order
+                        });
+                    }
+                });
     },
-    setWidgetDef: function(id, expanded, maximized, resized, width, height, zoneId) {
-        DropthingsUI.WidgetDefs["" + id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
-    },
-    getWidgetDef: function(id) {
-        return DropthingsUI.WidgetDefs["" + id];
-    },
+    // Hook jQuery stuffs on a widget to allow widget title change by cliking
+    // on widget title, allow expand, collapse, maximize, minimize, close
     setActionOnWidget: function(widgetId) {
         var nohref = "javascript:void(0);";
-        var widget = $('#' + widgetId);
+        var widget = jQuery('#' + widgetId);
         var widgetInstanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
         var widgetDef = DropthingsUI.getWidgetDef(widgetInstanceId);
         //var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
@@ -151,7 +166,7 @@ var DropthingsUI = {
                 widgetCollaspe.show();
                 eval(widgetExpand.attr("href"));
                 // Asynchronously notify server that widget expanded
-                //DropthingsUI.Actions.expandWidget(widgetId, $(this).attr('href'));
+                //DropthingsUI.Actions.expandWidget(widgetId, jQuery(this).attr('href'));
                 return false;
             });
         //.attr('href', nohref);
@@ -165,7 +180,7 @@ var DropthingsUI = {
                 widgetCollaspe.hide();
                 eval(widgetCollaspe.attr("href"));
                 // Asynchronously notify server that widget collapsed
-                //DropthingsUI.Actions.collaspeWidget(widgetId, $(this).attr('href'));
+                //DropthingsUI.Actions.collaspeWidget(widgetId, jQuery(this).attr('href'));
                 return false;
             });
 
@@ -212,17 +227,22 @@ var DropthingsUI = {
             });
 
     },
+    // Hook jQuery sortable plugin with the widget zones so that widgets
+    // can be dragged & dropped between widegt zones.
     initDragDrop: function(zoneId, widgetClass, newWidgetClass, handleClass, zoneClass, zonePostbackTrigger) {
-        // Get all widget zones on the page and allow widget to be dropped on any of them
-        var allZones = $('.' + zoneClass);
+        DropthingsUI.initAddStuff(zoneClass, newWidgetClass);
 
-        var zone = $('#' + zoneId);
-        zone.each(function() {
-            var plugin = $(this).data('sortable');
+        // Get all widget zones on the page and allow widget to be dropped on any of them
+        var allZones = jQuery('.' + zoneClass);
+
+        //var zone = jQuery('#' + zoneId);
+        allZones.each(function() {
+            var plugin = jQuery(this).data('sortable');
             if (plugin) plugin.destroy();
         });
 
-        zone.sortable({
+        allZones.sortable({
+            //zone.sortable({
             //items: '> .widget:not(.nodrag)',
             items: '.' + widgetClass + ':not(.nodrag)',
             //handle: '.widget_header',
@@ -269,13 +289,13 @@ var DropthingsUI = {
                     var widgetId = ui.item.attr('id').match(/\d+/);
 
                     // OMAR: Create a dummy widget placeholder while the real widget loads
-                    var templateData = { title: $(ui.item).text() };
-                    var widgetTemplateNode = $("#new_widget_template").clone();
+                    var templateData = { title: jQuery(ui.item).text() };
+                    var widgetTemplateNode = jQuery("#new_widget_template").clone();
                     widgetTemplateNode.drink(templateData);
                     widgetTemplateNode.insertAfter(ui.item);
 
                     ui.item.remove();
-                    
+
                     DropthingsUI.Actions.onWidgetAdd(widgetId[0], containerId, position,
                         function() {
                             DropthingsUI.updateWidgetZone(widgetZone);
@@ -291,19 +311,25 @@ var DropthingsUI = {
             }
         })
         .bind("sortreceive", function(e, ui) {
-            var widget = $(ui.item);
+            var widget = jQuery(ui.item);
             if (widget.hasClass(newWidgetClass)) {
                 //widget.remove();
             }
         });
     },
+    // Cause the widget to refresh itself by simularing a dummy 
+    // postback on the widget's updatepanel
     updateWidget: function(widgetId) {
-        var widget = $('#' + widgetId);
+        var widget = jQuery('#' + widgetId);
         var postbackLink = widget.find('.dummy_postback');
         eval(postbackLink.attr('href'));
     },
+    // Hook jquery stuffs to make a widget vertically resizable.
     initResizer: function(divId) {
-        $('#' + divId)
+        // Disabling this feature since it's buggy and hardly anyone ever uses it.
+        return false;
+
+        jQuery('#' + divId)
             .resizable(
             {
                 handles: 's',
@@ -313,7 +339,7 @@ var DropthingsUI = {
                         var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
                         widgetDef.expanded = false;
                         if (!widgetDef.maximized) {
-                            //$('#widgetMaxBackground').css({'height':$('#widgetMaxBackground').height() + (ui.element.height() - ui.originalSize.height) });
+                            //jQuery('#widgetMaxBackground').css({'height':jQuery('#widgetMaxBackground').height() + (ui.element.height() - ui.originalSize.height) });
                         }
                         else {
                             ui.element.css({ 'width': 'auto' });
@@ -330,23 +356,37 @@ var DropthingsUI = {
                 }
             });
     },
+    // Hook jquery stuffs on the widget list so that new widgets
+    // can be added by dragging & dropping a widget from the widget
+    // list.
     initAddStuff: function(zoneClass, newWidgetClass) {
-        $(document).ready(function() {
-            var allZones = $('.' + zoneClass);
-            $('.' + newWidgetClass).draggable("destroy");
-            $('.' + newWidgetClass).draggable(
-            {
-                connectToSortable: allZones,
-                helper: 'clone',
-                start: function() {
-                    $(this).click(function() { return false; });
-                },
-                stop: function() {
-                    $(this).click(function() { return true; });
-                }
-            });
+        var allZones = jQuery('.' + zoneClass);
+
+        var widgetLinks = jQuery('.' + newWidgetClass);
+        widgetLinks.draggable("destroy");
+        widgetLinks.each(function() {
+            var plugin = jQuery(this).data('sortable');
+            if (plugin) plugin.destroy();
+        });
+
+        jQuery('.' + newWidgetClass).draggable(
+        {
+            connectToSortable: allZones,
+            helper: 'clone',
+            start: function() {
+                //jQuery(this).click(function() { return false; });
+            },
+            stop: function() {
+                //jQuery(this).click(function() { return true; });
+
+                // Simulate a postback on the widget data list control so that
+                // the widget list is reloaded and the pesky bug where the third
+                // drag & drop no longer works is fixed.
+                //jQuery('.widget_data_list_dummy_postback').click();
+            }
         });
     },
+    // Queue update for a widget zone.
     updateWidgetZone: function(widgetZone) {
         // OMAR: update the widget zone after three seconds because user might drag & drop another widget
         // in the meantime.
@@ -356,7 +396,7 @@ var DropthingsUI = {
             DropthingsUI.__widgetZonesToUpdate = zoneList;
             widgetZone.attr("__pendingUpdate", "1");
             DropthingsUI.__updateWidgetZoneTimerId = window.setTimeout(function() {
-                $(DropthingsUI.__widgetZonesToUpdate).each(function(index, zone) {
+                jQuery(DropthingsUI.__widgetZonesToUpdate).each(function(index, zone) {
                     if (zone.attr("__pendingUpdate") == "1") {
                         zone.attr("__pendingUpdate", "0");
                         var f = function() { return Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack(); };
@@ -385,20 +425,20 @@ var DropthingsUI = {
         eval(postBackLink.attr('href'));
     },
     showWidgetGallery: function() {
-        $('#Widget_Gallery').show("slow");
+        jQuery('#Widget_Gallery').show();
     },
     hideWidgetGallery: function() {
-        $('#Widget_Gallery').hide("slow");
+        jQuery('#Widget_Gallery').hide("slow");
     },
     Actions: {
         deleteWidget: function(instanceId) {
             Dropthings.Web.Framework.WidgetService.DeleteWidgetInstance(instanceId);
-            $(DropthingsUI.getWidgetDivId(instanceId)).remove();
+            jQuery(DropthingsUI.getWidgetDivId('#' + instanceId)).remove();
         },
 
         maximizeWidget: function(widgetId) {
             //var widgetId = DropthingsUI.getWidgetDivId(instanceId);
-            var widget = $('#' + widgetId);
+            var widget = jQuery('#' + widgetId);
             //widget.attr(DropthingsUI.Attributes.MAXIMIZED, 'true');
 
             //if collaspe then expand it
@@ -420,7 +460,7 @@ var DropthingsUI = {
         },
 
         restoreWidget: function(widgetId) {
-            var widget = $('#' + widgetId);
+            var widget = jQuery('#' + widgetId);
             var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             widgetDef.maximized = false;
             //DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
@@ -434,7 +474,7 @@ var DropthingsUI = {
         },
 
         collaspeWidget: function(widgetId, postbackUrl) {
-            var widget = $('#' + widgetId);
+            var widget = jQuery('#' + widgetId);
             //widget.attr(DropthingsUI.Attributes.EXPANDED, 'false');
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
@@ -444,7 +484,7 @@ var DropthingsUI = {
 
             if (widgetDef.maximized) {
                 if (null !== DropthingsUI._LastMaximizedWidget) {
-                    $('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetCollasped);
+                    jQuery('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetCollasped);
                 }
             }
         },
@@ -454,7 +494,7 @@ var DropthingsUI = {
         },
 
         expandWidget: function(widgetId, postbackUrl) {
-            var widget = $('#' + widgetId);
+            var widget = jQuery('#' + widgetId);
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
@@ -463,7 +503,7 @@ var DropthingsUI = {
 
             if (widgetDef.maximized) {
                 if (null !== DropthingsUI._LastMaximizedWidget) {
-                    $('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetExpanded);
+                    jQuery('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetExpanded);
                 }
             }
         },
@@ -487,7 +527,7 @@ var DropthingsUI = {
 
         deletePage: function(pageId) {
             Dropthings.Web.Framework.PageService.DeletePage(pageId, DropthingsUI.Actions._onDeletePageComplete);
-            $('#Tab' + pageId).remove();
+            jQuery('#Tab' + pageId).remove();
         },
 
         _onDeletePageComplete: function(currentPageName) {
@@ -719,55 +759,50 @@ var Utility =
 
 var DeleteWarning =
 {
-    yesCallback : null,
-    noCallback : null,
-    _initialized : false,
-    init : function()
-    {
-        if( DeleteWarning._initialized ) return;
-        
+    yesCallback: null,
+    noCallback: null,
+    _initialized: false,
+    init: function() {
+        if (DeleteWarning._initialized) return;
+
         var hiddenHtmlTextArea = $get('DeleteConfirmPopupPlaceholder');
         var html = hiddenHtmlTextArea.value;
         var div = document.createElement('div');
         div.innerHTML = html;
         document.body.appendChild(div);
-        
+
         DeleteWarning._initialized = true;
     },
-    show : function( yesCallback, noCallback )
-    {
+    show: function(yesCallback, noCallback) {
         DeleteWarning.init();
-        
+
         Utility.blockUI();
-        
+
         var popup = $get('DeleteConfirmPopup');
         Utility.display(popup);
-        
+
         DeleteWarning.yesCallback = yesCallback;
         DeleteWarning.noCallback = noCallback;
-        
-        $addHandler( $get("DeleteConfirmPopup_Yes"), 'click', DeleteWarning._yesHandler );
-        $addHandler( $get("DeleteConfirmPopup_No"), 'click', DeleteWarning._noHandler );
+
+        $addHandler($get("DeleteConfirmPopup_Yes"), 'click', DeleteWarning._yesHandler);
+        $addHandler($get("DeleteConfirmPopup_No"), 'click', DeleteWarning._noHandler);
     },
-    hide : function()
-    {
+    hide: function() {
         DeleteWarning.init();
-        
+
         var popup = $get('DeleteConfirmPopup');
         Utility.nodisplay(popup);
-        
-        $clearHandlers( $get('DeleteConfirmPopup_Yes') );
-        
+
+        $clearHandlers($get('DeleteConfirmPopup_Yes'));
+
         Utility.unblockUI();
-        
+
     },
-    _yesHandler : function()
-    {
+    _yesHandler: function() {
         DeleteWarning.hide();
-        DeleteWarning.yesCallback();    
+        DeleteWarning.yesCallback();
     },
-    _noHandler : function()
-    {
+    _noHandler: function() {
         DeleteWarning.hide();
         DeleteWarning.noCallback();
     }
@@ -775,184 +810,168 @@ var DeleteWarning =
 
 var DeletePageWarning =
 {
-    yesCallback : null,
-    noCallback : null,
-    _initialized : false,
-    init : function()
-    {
-        if( DeletePageWarning._initialized ) return;
-        
+    yesCallback: null,
+    noCallback: null,
+    _initialized: false,
+    init: function() {
+        if (DeletePageWarning._initialized) return;
+
         var hiddenHtmlTextArea = $get('DeletePageConfirmPopupPlaceholder');
         var html = hiddenHtmlTextArea.value;
         var div = document.createElement('div');
         div.innerHTML = html;
         document.body.appendChild(div);
-        
+
         DeletePageWarning._initialized = true;
     },
-    show : function( yesCallback, noCallback )
-    {
+    show: function(yesCallback, noCallback) {
         DeletePageWarning.init();
-        
+
         Utility.blockUI();
-        
+
         var popup = $get('DeletePageConfirmPopup');
         Utility.display(popup);
-        
+
         DeletePageWarning.yesCallback = yesCallback;
         DeletePageWarning.noCallback = noCallback;
-        
-        $addHandler( $get("DeletePageConfirmPopup_Yes"), 'click', DeletePageWarning._yesHandler );
-        $addHandler( $get("DeletePageConfirmPopup_No"), 'click', DeletePageWarning._noHandler );
+
+        $addHandler($get("DeletePageConfirmPopup_Yes"), 'click', DeletePageWarning._yesHandler);
+        $addHandler($get("DeletePageConfirmPopup_No"), 'click', DeletePageWarning._noHandler);
     },
-    hide : function()
-    {
+    hide: function() {
         DeletePageWarning.init();
-        
+
         var popup = $get('DeletePageConfirmPopup');
         Utility.nodisplay(popup);
-        
-        $clearHandlers( $get('DeletePageConfirmPopup_Yes') );
-        
+
+        $clearHandlers($get('DeletePageConfirmPopup_Yes'));
+
         Utility.unblockUI();
-        
+
     },
-    _yesHandler : function()
-    {
+    _yesHandler: function() {
         DeletePageWarning.hide();
-        DeletePageWarning.yesCallback();    
+        DeletePageWarning.yesCallback();
     },
-    _noHandler : function()
-    {
+    _noHandler: function() {
         DeletePageWarning.hide();
         DeletePageWarning.noCallback();
     }
 };
 
-function winopen(url, w, h) 
-{
-  var left = (screen.width) ? (screen.width-w)/2 : 0;
-  var top  = (screen.height) ? (screen.height-h)/2 : 0;
+function winopen(url, w, h) {
+    var left = (screen.width) ? (screen.width - w) / 2 : 0;
+    var top = (screen.height) ? (screen.height - h) / 2 : 0;
 
-  window.open(url, "_blank", "width="+w+",height="+h+",left="+left+",top="+top+",resizable=yes,scrollbars=yes");
-  
-  return;
+    window.open(url, "_blank", "width=" + w + ",height=" + h + ",left=" + left + ",top=" + top + ",resizable=yes,scrollbars=yes");
+
+    return;
 }
 
-function winopen_withlocationbar(url) 
-{
- var w = screen.width / 2;
- var h = screen.height /2;
-  var left = (screen.width) ? (screen.width-w)/2 : 0;
-  var top  = (screen.height) ? (screen.height-h)/2 : 0;
+function winopen_withlocationbar(url) {
+    var w = screen.width / 2;
+    var h = screen.height / 2;
+    var left = (screen.width) ? (screen.width - w) / 2 : 0;
+    var top = (screen.height) ? (screen.height - h) / 2 : 0;
 
-  window.open(url, "_blank");
-  
-  return;
+    window.open(url, "_blank");
+
+    return;
 }
 
-function winopen2(url,target, w, h) 
-{
-  var left = (screen.width) ? (screen.width-w)/2 : 0;
-  var top  = (screen.height) ? (screen.height-h)/2 : 0;
+function winopen2(url, target, w, h) {
+    var left = (screen.width) ? (screen.width - w) / 2 : 0;
+    var top = (screen.height) ? (screen.height - h) / 2 : 0;
 
- if(popupWin_2[target] != null)
-	if(!popupWin_2[target].closed)
-		popupWin_2[target].focus();
-	else
-		popupWin_2[target] = window.open(url, target, "width="+w+",height="+h+",left="+left+",top="+top+",resizable=yes,scrollbars=yes");
-  else
-	popupWin_2[target] = window.open(url, target, "width="+w+",height="+h+",left="+left+",top="+top+",resizable=yes,scrollbars=yes");
-  
-  return;
+    if (popupWin_2[target] != null)
+        if (!popupWin_2[target].closed)
+        popupWin_2[target].focus();
+    else
+        popupWin_2[target] = window.open(url, target, "width=" + w + ",height=" + h + ",left=" + left + ",top=" + top + ",resizable=yes,scrollbars=yes");
+    else
+        popupWin_2[target] = window.open(url, target, "width=" + w + ",height=" + h + ",left=" + left + ",top=" + top + ",resizable=yes,scrollbars=yes");
+
+    return;
 }
 
 var LayoutPicker =
 {
-    yesCallback : null,
-    noCallback : null,
-    type1Callback:null,
-    type2Callback:null,
-    type3Callback:null,
-    type4Callback:null,
-    _initialized : false,
-    clientID :null,
-    init : function()
-    {
-        if( LayoutPicker._initialized ) return;
+    yesCallback: null,
+    noCallback: null,
+    type1Callback: null,
+    type2Callback: null,
+    type3Callback: null,
+    type4Callback: null,
+    _initialized: false,
+    clientID: null,
+    init: function() {
+        if (LayoutPicker._initialized) return;
 
         var hiddenHtmlTextArea = $get('LayoutPickerPopupPlaceholder');
-        
+
         var html = hiddenHtmlTextArea.value;
         var div = document.createElement('div');
         div.innerHTML = html;
         document.body.appendChild(div);
-        
+
         LayoutPicker._initialized = true;
     },
-    show : function( Type1Callback,Type2Callback,Type3Callback,Type4Callback, noCallback, clientID )
-    {   
-        LayoutPicker.init();
-        
-        Utility.blockUI();
-        
-        var popup = $get('LayoutPickerPopup');
-        Utility.display(popup);
-        
-        LayoutPicker.type1Callback= Type1Callback;
-        LayoutPicker.type2Callback= Type2Callback;
-        LayoutPicker.type3Callback= Type3Callback;
-        LayoutPicker.type4Callback= Type4Callback;
-        LayoutPicker.clientID = clientID;
-        LayoutPicker.noCallback = noCallback;
-        
-        $addHandler( $get("SelectLayoutPopup_Cancel"), 'click', LayoutPicker._noHandler );
-        $addHandler( $get("SelectLayoutPopup_Type1"), 'click', LayoutPicker._type1Handler );
-        $addHandler( $get("SelectLayoutPopup_Type2"), 'click', LayoutPicker._type2Handler );
-        $addHandler( $get("SelectLayoutPopup_Type3"), 'click', LayoutPicker._type3Handler );
-        $addHandler( $get("SelectLayoutPopup_Type4"), 'click', LayoutPicker._type4Handler );
-        
-    },
-    hide : function()
-    {
+    show: function(Type1Callback, Type2Callback, Type3Callback, Type4Callback, noCallback, clientID) {
         LayoutPicker.init();
 
-        
+        Utility.blockUI();
+
+        var popup = $get('LayoutPickerPopup');
+        Utility.display(popup);
+
+        LayoutPicker.type1Callback = Type1Callback;
+        LayoutPicker.type2Callback = Type2Callback;
+        LayoutPicker.type3Callback = Type3Callback;
+        LayoutPicker.type4Callback = Type4Callback;
+        LayoutPicker.clientID = clientID;
+        LayoutPicker.noCallback = noCallback;
+
+        $addHandler($get("SelectLayoutPopup_Cancel"), 'click', LayoutPicker._noHandler);
+        $addHandler($get("SelectLayoutPopup_Type1"), 'click', LayoutPicker._type1Handler);
+        $addHandler($get("SelectLayoutPopup_Type2"), 'click', LayoutPicker._type2Handler);
+        $addHandler($get("SelectLayoutPopup_Type3"), 'click', LayoutPicker._type3Handler);
+        $addHandler($get("SelectLayoutPopup_Type4"), 'click', LayoutPicker._type4Handler);
+
+    },
+    hide: function() {
+        LayoutPicker.init();
+
+
         var popup = $get('LayoutPickerPopup');
         Utility.nodisplay(popup);
         //is there a cleaner way to clear the handlers?
-        $clearHandlers( $get('SelectLayoutPopup_Type1') );
-        $clearHandlers( $get('SelectLayoutPopup_Type2') );
-        $clearHandlers( $get('SelectLayoutPopup_Type3') );
-        $clearHandlers( $get('SelectLayoutPopup_Type4') );
-        
+        $clearHandlers($get('SelectLayoutPopup_Type1'));
+        $clearHandlers($get('SelectLayoutPopup_Type2'));
+        $clearHandlers($get('SelectLayoutPopup_Type3'));
+        $clearHandlers($get('SelectLayoutPopup_Type4'));
+
         Utility.unblockUI();
-        
+
     },
 
-    _type1Handler : function()
-    {
+    _type1Handler: function() {
         LayoutPicker.hide();
-        LayoutPicker.type1Callback();  
+        LayoutPicker.type1Callback();
     },
-    _type2Handler : function()
-    {
+    _type2Handler: function() {
         LayoutPicker.hide();
-        LayoutPicker.type2Callback();    
+        LayoutPicker.type2Callback();
     },
-    _type3Handler : function()
-    {
+    _type3Handler: function() {
         LayoutPicker.hide();
         LayoutPicker.type3Callback();
     },
-    _type4Handler : function()
-    {
+    _type4Handler: function() {
         LayoutPicker.hide();
         LayoutPicker.type4Callback();
     },
 
-    _noHandler : function()
-    {
+    _noHandler: function() {
         LayoutPicker.hide();
         LayoutPicker.noCallback();
     }
@@ -966,7 +985,7 @@ var WidgetMaximizeBehavior = function(widgetId) {
     this.init = function(widgetId) {
         if (this.initialized) return;
 
-        this.widget = $('#' + widgetId);
+        this.widget = jQuery('#' + widgetId);
 
         // Remember where the widget was last time
         this.LastDomLocation = { container: this.widget.parent(), position: this.widget.parent().children().index(this.widget) };
@@ -987,14 +1006,14 @@ var WidgetMaximizeBehavior = function(widgetId) {
     };
 
     this.restorePreviouslyMaximizedWidget = function() {
-    if (this.widget != null)
-        this.widget.find('.widget_restore').click();
+        if (this.widget != null)
+            this.widget.find('.widget_restore').click();
     };
 
     this.restore = function() {
         var widgetDef = DropthingsUI.getWidgetDef(this.instanceId);
         var height = widgetDef.resized ? widgetDef.height + 'px' : 'auto';
-        this.widget.css({marginRight: '0px', left: 'auto', top: 'auto', width: 'auto', height: 'auto', position: 'static' });
+        this.widget.css({ marginRight: '0px', left: 'auto', top: 'auto', width: 'auto', height: 'auto', position: 'static' });
 
         widgetDef.maximized = false;
 
@@ -1002,18 +1021,18 @@ var WidgetMaximizeBehavior = function(widgetId) {
         resizeFrame.css({ width: 'auto', height: height });
         //get the current item of the postion
 
-        var currentWidget = $(this.LastDomLocation.container).children()[this.LastDomLocation.position];
+        var currentWidget = jQuery(this.LastDomLocation.container).children()[this.LastDomLocation.position];
 
         if (currentWidget != null) {
             this.widget.insertBefore(currentWidget);
         }
         else {
             //
-            var length = $(this.LastDomLocation.container).children().length;
+            var length = jQuery(this.LastDomLocation.container).children().length;
 
             if (this.LastDomLocation.position >= length) {
                 //add as last item
-                $(this.LastDomLocation.container).append(this.widget);
+                jQuery(this.LastDomLocation.container).append(this.widget);
             }
             else {
                 this.widget.prependTo(this.LastDomLocation.container);
@@ -1026,7 +1045,7 @@ var WidgetMaximizeBehavior = function(widgetId) {
     };
 
     this.fitToViewPort = function() {
-        var maxBackground = $('#widget_area_wrapper');
+        var maxBackground = jQuery('#widget_area_wrapper');
         //var visibleHeight = (Utility.getViewPortHeight() - Utility.getAbsolutePosition(maxBackground[0], 'Top'));
         var visibleHeight = (Utility.getViewPortHeight() - maxBackground.offset().top);
 
@@ -1057,20 +1076,20 @@ var WidgetMaximizeBehavior = function(widgetId) {
 var WidgetPermission =
 {
     Save: function() {
-    
+
         WidgetPermission.showProgress(false);
-        $('#Message').html('');
-        var widgets = $('.widgetItem');
+        jQuery('#Message').html('');
+        var widgets = jQuery('.widgetItem');
         var nameValuePair = '';
 
-        widgets.each(function() {            
-            var widget = $(this);
+        widgets.each(function() {
+            var widget = jQuery(this);
             var widgetId = widget.attr('id').match(/\d+/);
-            var roles = $('.role', '#' + widget.attr('id'));
+            var roles = jQuery('.role', '#' + widget.attr('id'));
             nameValuePair += widgetId[0] + ":";
             var roleStr = '';
             roles.each(function() {
-                chkRole = $(this);
+                chkRole = jQuery(this);
                 if (chkRole[0] != undefined) {
                     if (chkRole[0].checked) {
                         roleStr = roleStr + chkRole.attr('id').slice(3) + ',';
@@ -1087,15 +1106,15 @@ var WidgetPermission =
         Dropthings.Web.Framework.WidgetService.AssignPermission(nameValuePair,
             function(result) {
                 WidgetPermission.showProgress(true);
-                $('#Message').html("Permission assigned successfully.");
+                jQuery('#Message').html("Permission assigned successfully.");
             });
 
     },
     showProgress: function(hide) {
         if (hide)
-            $('#progress').hide();
+            jQuery('#progress').hide();
         else
-            $('#progress').show();
+            jQuery('#progress').show();
     }
 };
 

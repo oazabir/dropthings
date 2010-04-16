@@ -10,6 +10,7 @@
 /// </summary>
 namespace Dropthings.Web.Util
 {
+    using Dropthings.Util;
     using System;
     using System.Configuration;
     using System.Data;
@@ -23,8 +24,6 @@ namespace Dropthings.Web.Util
     public static class ActionValidator
     {
         #region Fields
-
-        private static readonly bool DOS_CHECK_DISABLED = bool.Parse(ConfigurationManager.AppSettings["DisableDOSCheck"]);
 
         private const int DURATION = 10; // 10 min period
 
@@ -52,7 +51,7 @@ namespace Dropthings.Web.Util
 
         public static bool IsValid( ActionTypeEnum actionType )
         {
-            if (DOS_CHECK_DISABLED)
+            if (ConstantHelper.DisableDOSCheck)
                 return true;
 
             HttpContext context = HttpContext.Current;

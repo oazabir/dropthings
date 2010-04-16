@@ -1,4 +1,5 @@
 <%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="ManageWidgetPermission.aspx.cs" Inherits="ManageWidgetPermissionPage" %>
+<%@ Register Src="~/ScriptManagerControl.ascx" TagName="ScriptManagerControl" TagPrefix="common" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -139,21 +140,8 @@ color:#FF0000;
 </head>
 <body bgcolor="#ffffff">
     <form id="loginform" runat="server">
-        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Release">
-            <Services>
-                <asp:ServiceReference InlineScript="true" Path="PageService.asmx" />  
-                <asp:ServiceReference InlineScript="true" Path="ProxyAsync.asmx" />                
-                <asp:ServiceReference InlineScript="true" Path="WidgetService.asmx" />                
-            </Services>
-            <Scripts>
-                <asp:ScriptReference Path="~/Scripts/jquery-1.3.2.min.js" />
-                <asp:ScriptReference Path="~/Scripts/jquery-ui-1.7.1.custom.min.js" />
-                <asp:ScriptReference Path="~/Scripts/jquery.micro_template.js" />
-                <asp:ScriptReference Path="~/Scripts/tabscroll.js" />
-                <asp:ScriptReference Path="~/Scripts/Myframework.js" />
-                <asp:ScriptReference Path="~/Scripts/Ensure.js" />
-            </Scripts>
-        </asp:ScriptManager>
+        <common:ScriptManagerControl ID="ScriptManagerControl1" runat="server" />
+
         <table cellpadding="2" width="100%" cellspacing="0" border="0">
             <tr>
                 <td colspan="2">

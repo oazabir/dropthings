@@ -126,15 +126,11 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
     {
         this.WidgetHolderPanel.CssClass = this.WidgetZoneClass;
 
-        //ScriptManager.RegisterStartupScript(this, typeof(WidgetInstanceZone), this.ClientID + "_InitWidgets",
-        //        "$(document).ready(function() {" + "DropthingsUI.initWidgetActions('{0}', '{1}'); DropthingsUI.initDragDrop('{0}', '{1}', '{2}', '{3}', '{4}'); DropthingsUI.initAddStuff('{4}', '{2}');"
-        //        .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass) + "});", true);
-
         ScriptManager.RegisterStartupScript(this.WidgetHolderPanel, typeof(Panel), this.WidgetHolderPanel.ClientID + "_InitWidgets",
-                " jQuery(document).ready(function() {" + 
-                    "DropthingsUI.initDragDrop('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');"
-                        .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass, WidgetHolderPanelTrigger.ClientID) 
-                + "});", true);
+            (Page.IsPostBack ? "" : " jQuery(document).ready(function() {") 
+                + "DropthingsUI.initDragDrop('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');"
+                    .FormatWith(this.WidgetHolderPanel.ClientID, this.WidgetClass, this.NewWidgetClass, this.HandleClass, this.WidgetZoneClass, WidgetHolderPanelTrigger.ClientID) 
+            + (Page.IsPostBack ? "" : "});"), true);
 
         base.OnPreRender(e);
     }
@@ -151,10 +147,6 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
     private void RefreshZoneUpdatePanel()
     {
         this.WidgetZoneUpdatePanel.Update();
-
-        //ScriptManager.RegisterStartupScript(this.WidgetHolderPanelTrigger, this.WidgetHolderPanelTrigger.GetType(), this.ClientID + "_InitWidgets" + DateTime.Now.Ticks.ToString(),
-        //        "$(document).ready(function() {" + "DropthingsUI.refreshSortable('{0}');"
-        //        .FormatWith(this.WidgetPanel.ClientID) + "});", true);
     }
 
     private void Widget_Deleted(WidgetInstance wi, IWidgetHost host)

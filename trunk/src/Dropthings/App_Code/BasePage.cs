@@ -10,19 +10,13 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
+using Dropthings.Util;
 
 /// <summary>
 /// Summary description for BasePage
 /// </summary>
 public class BasePage : Page
-{
-    #region Fields
-
-    private static readonly string CSS_PREFIX = ConfigurationManager.AppSettings["CssPrefix"];
-    private static readonly string CSS_VERSION = ConfigurationManager.AppSettings["CssVersion"];
-
-    #endregion Fields
-
+{   
     #region Constructors
 
     public BasePage()
@@ -69,9 +63,9 @@ public class BasePage : Page
         // the href attribute and screws up the URL
         Literal linkTag = new Literal();
 
-        string cssPath = CSS_PREFIX + "CssHandler.ashx?t=" + themeName
+        string cssPath = ConstantHelper.CssPrefix + "CssHandler.ashx?t=" + themeName
             + "&f=" + HttpUtility.UrlEncode(themeCssNames.TrimEnd(','))
-            + "&v=" + CSS_VERSION;
+            + "&v=" + ConstantHelper.CssVersionNo;
 
         linkTag.Text = string.Format(@"<link href=""{0}"" type=""text/css"" rel=""stylesheet"" />", cssPath);
         Page.Header.Controls.Add(linkTag);

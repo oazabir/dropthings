@@ -6,6 +6,7 @@
 <%@ Register src="~/WidgetListControl.ascx" tagname="WidgetListControl" tagprefix="widgets" %>
 <%@ Register Src="~/WidgetPage.ascx" TagName="WidgetPage" TagPrefix="widgets" %>
 <%@ Register src="~/TabPage.ascx" tagname="TabPage" tagprefix="tab" %>
+<%@ Register Src="~/ScriptManagerControl.ascx" TagName="ScriptManagerControl" TagPrefix="common" %>
 <%@ Register Assembly="System.Web.Silverlight" Namespace="System.Web.UI.SilverlightControls"
     TagPrefix="asp" %>
 
@@ -19,24 +20,7 @@
 </head>
 <body>
 <form id="default_form" runat="server">
-
-<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" ScriptMode="Release">
-    <Services>
-        <asp:ServiceReference InlineScript="true" Path="PageService.asmx" />
-        <asp:ServiceReference InlineScript="true" Path="ProxyAsync.asmx" />
-        <asp:ServiceReference InlineScript="true" Path="WidgetService.asmx" />
-    </Services>
-    <Scripts>
-        <asp:ScriptReference Path="/Scripts/jquery-1.3.2.min.js" />
-        <asp:ScriptReference Path="/Scripts/jquery-ui-1.7.1.custom.min.js" />
-        <asp:ScriptReference Path="/Scripts/jquery.micro_template.js" />
-        <asp:ScriptReference Path="/Scripts/tabscroll.js" />
-        <asp:ScriptReference Path="/Scripts/Myframework.js" />
-        <asp:ScriptReference Path="/Scripts/Ensure.js" />
-    </Scripts>    
-</asp:ScriptManager>
-
-<script type="text/javascript">if( typeof Proxy == "undefined" ) window.Proxy = Dropthings.Web.Framework.ProxyAsync;</script>
+<common:ScriptManagerControl runat="server" />
 
     <div id="container">
         <!-- Render header first so that user can start typing search criteria while the huge runtime and other scripts download -->

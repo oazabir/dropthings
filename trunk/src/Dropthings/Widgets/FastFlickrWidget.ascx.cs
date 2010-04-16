@@ -23,6 +23,7 @@ using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets;
 using Dropthings.Web.Util;
+using Dropthings.Util;
 
 public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidget
 {
@@ -119,7 +120,7 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         settingsPanel.Visible = false;
     }
@@ -137,11 +138,13 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         settingsPanel.Visible = true;
-
-        this.LoadState();
+        if (userClicked)
+        {
+            this.LoadState();
+        }
     }
 
     protected override void OnPreRender(EventArgs e)

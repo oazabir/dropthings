@@ -101,7 +101,7 @@ public partial class Widgets_HoroscopeWidget : System.Web.UI.UserControl, IWidge
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
     }
 
@@ -118,7 +118,7 @@ public partial class Widgets_HoroscopeWidget : System.Web.UI.UserControl, IWidge
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
     }
 

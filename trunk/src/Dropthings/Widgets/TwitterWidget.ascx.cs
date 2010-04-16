@@ -22,6 +22,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using Dropthings.Web.Util;
+using Dropthings.Util;
 
 
 public partial class TwitterWidget : System.Web.UI.UserControl, IWidget
@@ -152,7 +153,7 @@ public partial class TwitterWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
     }
 
@@ -169,7 +170,7 @@ public partial class TwitterWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    public void ShowSettings()
+    public void ShowSettings(bool userClicked)
     {
         //throw new NotImplementedException();
     }

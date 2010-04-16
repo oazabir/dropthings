@@ -12,8 +12,6 @@ using OmarALZabir.AspectF;
 public class CssHandler : IHttpHandler {
     
     private const bool DO_GZIP = true;
-    private readonly static string IMAGE_PREFIX = 
-        System.Configuration.ConfigurationManager.AppSettings["ImgPrefix"];
     private readonly static TimeSpan CACHE_DURATION = TimeSpan.FromDays(30);
     private readonly static Regex URL_REGEX = 
         new Regex(@"url\((\""|\')?(?<path>(.*))?(\""|\')?\)", RegexOptions.Compiled);
@@ -39,13 +37,11 @@ public class CssHandler : IHttpHandler {
                 {
 
                     // First deliver the common CSS
-                    string[] commonCssFiles = 
-                        (System.Configuration.ConfigurationManager.AppSettings["CommonCssSet"] 
-                        ?? "").Split(',');
+                    string[] commonCssFiles = Dropthings.Util.ConstantHelper.CommonCssFileName.Split(',');
                     foreach (string fileName in commonCssFiles)
                     {
                         byte[] fileBytes = this.GetCss(context, fileName, 
-                            IMAGE_PREFIX, version, encoding);
+                            Dropthings.Util.ConstantHelper.ImagePrefix, version, encoding);
                         writer.Write(fileBytes, 0, fileBytes.Length);
                     }
 
@@ -56,8 +52,8 @@ public class CssHandler : IHttpHandler {
                         foreach (string fileName in themeCssNames)
                         {
                             byte[] fileBytes = this.GetCss(context, 
-                                "~/App_Themes/" + themeName + "/" + fileName, 
-                                IMAGE_PREFIX, version, encoding);
+                                "~/App_Themes/" + themeName + "/" + fileName,
+                                Dropthings.Util.ConstantHelper.ImagePrefix, version, encoding);
                             writer.Write(fileBytes, 0, fileBytes.Length);
                         }
                     }
@@ -130,9 +126,11 @@ public class CssHandler : IHttpHandler {
         if( isCompressed )
             response.AppendHeader("Content-Encoding", "gzip");
 
+        
         context.Response.Cache.SetCacheability(HttpCacheability.Public);
         context.Response.Cache.SetExpires(DateTime.Now.Add(CACHE_DURATION));
         context.Response.Cache.SetMaxAge(CACHE_DURATION);
+        
         context.Response.Cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
 
         response.OutputStream.Write(bytes, 0, bytes.Length);

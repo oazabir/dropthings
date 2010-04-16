@@ -86,7 +86,7 @@ public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
     }
@@ -104,7 +104,7 @@ public partial class Widgets_IFrameWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         UrlTextBox.Text = this.Url;
         WidthTextBox.Text = this.Width;

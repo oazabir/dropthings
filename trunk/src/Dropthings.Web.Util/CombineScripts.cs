@@ -18,12 +18,11 @@ namespace Dropthings.Web.Util
     using System.Web.UI.WebControls.WebParts;
     using System.Xml;
     using System.Xml.Linq;
+    using Dropthings.Util;
 
     public class CombineScripts
     {
         #region Fields
-
-        private static readonly string SCRIPT_VERSION_NO = ConfigurationManager.AppSettings["ScriptVersionNo"];
 
         private static Regex _FindScriptTags = new Regex(@"<script\s*src\s*=\s*""(?<url>.[^""]+)"".[^>]*>\s*</script>", RegexOptions.Compiled);
 
@@ -35,9 +34,9 @@ namespace Dropthings.Web.Util
         /// Combine script references using file sets defined in a configuration file.
         /// It will replace multiple script references using one 
         /// </summary>
-        public static string CombineScriptBlocks(string scripts)
+        public static string CombineScriptBlocks(string scripts, string baseUrl)
         {
-            List<UrlMapSet> sets = LoadSets();
+            List<UrlMapSet> sets = LoadSets(baseUrl);
             string output = scripts;
 
             foreach (UrlMapSet mapSet in sets)
@@ -89,7 +88,10 @@ namespace Dropthings.Web.Util
                     }
 
                     string urlPrefix = HttpContext.Current.Request.Path.Substring(0, HttpContext.Current.Request.Path.LastIndexOf('/') + 1);
-                    string newScriptTag = "<script type=\"text/javascript\" src=\"Scripts.ashx?" + HttpUtility.UrlEncode(mapSet.Name) + "=" + HttpUtility.UrlEncode(setName) + "&" + HttpUtility.UrlEncode(urlPrefix) + "&" + HttpUtility.UrlEncode(SCRIPT_VERSION_NO) + "\"></script>";
+                    string newScriptTag = "<script type=\"text/javascript\" src=\"Scripts.ashx?" + 
+                        HttpUtility.UrlEncode(mapSet.Name) + "=" + HttpUtility.UrlEncode(setName) 
+                        + "&" + HttpUtility.UrlEncode(urlPrefix) 
+                        + "&" + HttpUtility.UrlEncode(ConstantHelper.ScriptVersionNo) + "\"></script>";
 
                     output = output.Insert(setStartPos, newScriptTag);
                 }
@@ -98,7 +100,7 @@ namespace Dropthings.Web.Util
             return output;
         }
 
-        public static List<UrlMapSet> LoadSets()
+        public static List<UrlMapSet> LoadSets(string baseUrl)
         {
             const string CACHE_KEY = "CombineScript.SetDefinition";
 
@@ -127,7 +129,8 @@ namespace Dropthings.Web.Util
                                 {
                                     string urlName = reader.GetAttribute("name");
                                     string url = reader.ReadElementContentAsString();
-                                    mapSet.Urls.Add(new UrlMap(urlName, url));
+                                    string fullUrl = url.Replace("~", baseUrl);
+                                    mapSet.Urls.Add(new UrlMap(urlName, fullUrl));
                                 }
                                 else if ("set" == reader.Name)
                                     break;

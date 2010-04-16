@@ -1,0 +1,74 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
+  <head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>xUnit.net Test Results - D:\work\dropthings\GoogleCode\trunk\src\Dropthings.DataAccess.UnitTest\bin\Debug\Dropthings.DataAccess.UnitTest.DLL</title>
+    <style type="text/css">
+          body { font-family: Calibri, Verdana, Arial, sans-serif; background-color: White; color: Black; }
+          h2,h3,h5 { margin: 0; padding: 0; }
+          h2 { border-top: solid 1px #f0f5fa; padding-top: 0.5em; }
+          h3 { font-weight: normal; }
+          h5 { font-weight: normal; font-style: italic; margin-bottom: 0.75em; }
+          pre { font-family: Consolas; font-size: 85%; margin: 0 0 0 1em; padding: 0; }
+          .row, .altrow { padding: 0.1em 0.3em; }
+          .row { background-color: #f0f5fa; }
+          .altrow { background-color: #e1ebf4; }
+          .success, .failure, .skipped { font-family: Arial Unicode MS; font-weight: normal; float: left; width: 1em; display: block; }
+          .success { color: #0c0; }
+          .failure { color: #c00; }
+          .skipped { color: #cc0; }
+          .timing { float: right; }
+          .indent { margin: 0.25em 0 0.5em 2em; }
+          .clickable { cursor: pointer; }
+          .testcount { font-size: 85%; }
+        </style><script language="javascript">
+          function ToggleClass(id) {
+            var elem = document.getElementById(id);
+            if (elem.style.display == "none")
+              elem.style.display = "block";
+            else
+              elem.style.display = "none";
+          }
+        </script></head>
+  <body>
+    <h3><b>Results for D:\work\dropthings\GoogleCode\trunk\src\Dropthings.DataAccess.UnitTest\bin\Debug\Dropthings.DataAccess.UnitTest.DLL</b></h3>
+    <div>
+          Tests run: <a href="#all"><b>14</b></a>  
+          Failures: <a href="#failures"><b>0</b></a>,
+          Skipped: <a href="#skipped"><b>0</b></a>,
+          Run time: <b>0.201s</b></div><br><h2><a name="all"></a>All tests</h2>
+    <h5>Click test class name to expand/collapse test details</h5>
+    <h3><span class="timing">0.201s</span><span class="clickable" onclick="ToggleClass('class1')" ondblclick="ToggleClass('class1')"><span class="success">✔</span>
+         Dropthings.DataAccess.UnitTest.PageRepositoryTest
+         <span class="testcount">(14 tests)</span></span><br clear="all"></h3>
+    <div class="indent" style="display: none;" id="class1">
+      <div class="row"><span class="timing">0.036s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetPageById is called, it checks in the cache first and finds nothing and then caches it<br clear="all"></div>
+      <div class="altrow"><span class="timing">0.002s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetPageById is called, it loads the page from database<br clear="all"></div>
+      <div class="row"><span class="timing">0.002s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetPageById is called, it returns the page as expected<br clear="all"></div>
+      <div class="altrow"><span class="timing">0.070s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetpageIdByUserGuid is called with a userId, it looks up in the cache and finds not in cache<br clear="all"></div>
+      <div class="row"><span class="timing">0.005s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetpageIdByUserGuid is called with a userId, it returns a collection of pageId from database<br clear="all"></div>
+      <div class="altrow"><span class="timing">0.001s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetpageIdByUserGuid is called with a userId, it returns the pages in exact order as it is returned from database<br clear="all"></div>
+      <div class="row"><span class="timing">0.008s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetPageOwnerName is called with a PageId, it looks up in the cache first and find nothing and then it caches the owner name<br clear="all"></div>
+      <div class="altrow"><span class="timing">0.006s</span><span class="success">✔</span>
+       Given PageRepository and empty cache when GetPageOwnerName is called with a PageId, it returns the owner name of the page<br clear="all"></div>
+      <div class="row"><span class="timing">0.011s</span><span class="success">✔</span>
+       Given PageRepository and Empty cache when GetPagesOfUser is called, it first looks into cache for the pages and finds nothing and then it caches it<br clear="all"></div>
+      <div class="altrow"><span class="timing">0.006s</span><span class="success">✔</span>
+       Given PageRepository and Empty cache when GetPagesOfUser is called, it loads the pages from database<br clear="all"></div>
+      <div class="row"><span class="timing">0.011s</span><span class="success">✔</span>
+       Given PageRepository and Empty cache when GetPagesOfUser is called, it returns the pages of the user<br clear="all"></div>
+      <div class="altrow"><span class="timing">0.004s</span><span class="success">✔</span>
+       Given PageRepository and the requested page in cache when GetPageById is called, it checks in the cache first and finds the object is in cache<br clear="all"></div>
+      <div class="row"><span class="timing">0.002s</span><span class="success">✔</span>
+       Given PageRepository and the requested page in cache when GetPageById is called, it returns the page as expected<br clear="all"></div>
+      <div class="altrow"><span class="timing">0.037s</span><span class="success">✔</span>
+       Given PageRepository when Insert is called, then it should insert the page in databaseand clear any cached collection of pages for the user who gets the new pageand it returns the newly inserted page<br clear="all"></div>
+    </div><br><h5>Results generated 2009-11-30 at 01:21:39</h5>
+  </body>
+</html>

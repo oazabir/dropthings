@@ -58,12 +58,18 @@
         /// </summary>
         bool scriptTagStarted = false;
 
+        /// <summary>
+        /// BaseUrl used to resolve relative URLs to absolute URL. For ex, ~/js/jQuery.js
+        /// to http://dropthings.com/js/jQuery.js
+        /// </summary>
+        string baseUrl;
         #endregion Fields
 
         #region Constructors
 
-        public ScriptDeferFilter(HttpResponse response)
+        public ScriptDeferFilter(string baseUrl, HttpResponse response)
         {
+            this.baseUrl = baseUrl;
             this.encoding = response.Output.Encoding;
             this.responseStream = response.Filter;
 
@@ -334,7 +340,7 @@
         /// </summary>
         private void RenderAllScriptBlocks()
         {
-            string output = CombineScripts.CombineScriptBlocks(this.scriptBlocks.ToString());
+            string output = CombineScripts.CombineScriptBlocks(this.scriptBlocks.ToString(), this.baseUrl);
             byte[] scriptBytes = this.encoding.GetBytes(output);
             this.responseStream.Write(scriptBytes, 0, scriptBytes.Length);
         }

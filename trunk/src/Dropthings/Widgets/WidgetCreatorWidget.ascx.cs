@@ -61,7 +61,7 @@ public partial class Widgets_WidgetCreatorWidget : System.Web.UI.UserControl, IW
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
     }
@@ -79,7 +79,7 @@ public partial class Widgets_WidgetCreatorWidget : System.Web.UI.UserControl, IW
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         SettingsPanel.Visible = true;
     }

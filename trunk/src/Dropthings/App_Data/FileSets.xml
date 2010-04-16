@@ -17,17 +17,17 @@
 	-->
   <set name="initial">
 
-    <url name="a">http://localhost:8000/WebResource.axd?d=iNjHL-oY7_VtNSLRYxGQww2&amp;amp;t=633566121606650000</url>
-    <url name="b">http://localhost:8000/Widgets/FastFlickrWidget.js</url>
-    <url name="c">http://localhost:8000/Widgets/FastRssWidget.js</url>
-    <url name="d">http://localhost:8000/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7RCzywGIKBIwftSE-sCYp0Ha6egWGyrOQzVemKgttVKk1&amp;amp;t=ffffffffd7199832</url>
-    <url name="e">http://localhost:8000/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7uQApkyqDFVLuaIsTQoO2h2Kml5Yn5oCaI8OkyGdkvBM1&amp;amp;t=ffffffffd7199832</url>
-    <url name="f">http://localhost:8000/Scripts/jquery-1.3.2.min.js</url>
-    <url name="g">http://localhost:8000/Scripts/jquery-ui-1.7.1.custom.min.js</url>
-    <url name="h">http://localhost:8000/Scripts/jquery.micro_template.js</url>
-    <url name="i">http://localhost:8000/Scripts/tabscroll.js</url>
-    <url name="j">http://localhost:8000/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1nR1UNOHw8GJSktucJuJcq0BP0yFRpDRwbHz0sCLAmxDQ1&amp;amp;t=ffffffffa15eea6c</url>
-    <url name="k">http://localhost:8000/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1n_4fGIf7GeCbPAfOlWVufHZDofpw_8c7qo_JFEMoLSfc1&amp;amp;t=ffffffffa15eea6c</url>
-    <!--<url name="q">http://localhost:8000/Myframework.js</url>-->
+    <url name="a">~/WebResource.axd?d=iNjHL-oY7_VtNSLRYxGQww2&amp;amp;t=633566121606650000</url>
+    <url name="b">~/Widgets/FastFlickrWidget.js</url>
+    <url name="c">~/Widgets/FastRssWidget.js</url>
+    <url name="d">~/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7RCzywGIKBIwftSE-sCYp0Ha6egWGyrOQzVemKgttVKk1&amp;amp;t=ffffffffd7199832</url>
+    <url name="e">~/ScriptResource.axd?d=NRc8ZF5fG9BCEJxYHta1DN38DCyDNxIQ2v_7sne0g2A1x4mGLCYytyWPC_gaxcR7uQApkyqDFVLuaIsTQoO2h2Kml5Yn5oCaI8OkyGdkvBM1&amp;amp;t=ffffffffd7199832</url>
+    <!--<url name="f">~/Scripts/jquery-1.3.2.min.js</url>
+    <url name="g">~/Scripts/jquery-ui-1.7.1.custom.min.js</url>-->
+    <url name="h">~/Scripts/jquery.micro_template.js</url>
+    <url name="i">~/Scripts/tabscroll.js</url>
+    <url name="j">~/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1nR1UNOHw8GJSktucJuJcq0BP0yFRpDRwbHz0sCLAmxDQ1&amp;amp;t=ffffffffa15eea6c</url>
+    <url name="k">~/ScriptResource.axd?d=TgRSsUK2CChPQxLXVAQiVoW0WyW4l3lRUpTNVHna1lctjhJI9GL43aO-vuOtdx1n_4fGIf7GeCbPAfOlWVufHZDofpw_8c7qo_JFEMoLSfc1&amp;amp;t=ffffffffa15eea6c</url>
+    <!--<url name="q">~/Myframework.js</url>-->
   </set>
 </sets>

@@ -16,86 +16,96 @@
         
         <script type="text/javascript" src="Scripts/MyFramework.js"></script>
         
-        <uc1:Header ID="Header1" runat="server" />
+        
 
         <div id="altpage">
             <div id="altpageWrapper">
                 <div id="altpageContent">
                 
-                <div id="altpageHeading1">
-                    <asp:Literal ID="ltlAccountSetting" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, AccountSetting%>" />
-                </div>
-
-                <div id="altpageHeading2">
-                    <asp:Literal ID="ltlCareAboutNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, CareAboutNote%>" />
-                </div>
-                
-                <div id="altpageTable">
-        
-                    <table width="94%" align="center" cellpadding="5" cellspacing="1">
-                        <tr>
-                          <td colspan="2" style="white-space:nowrap;">
-                            <asp:Label ID="Message" runat="server" EnableViewState="false" CssClass="altpageHeading1" />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="white-space:nowrap;">
-                            <asp:Label ID="lblEditPersonalInformation" EnableViewState="false" runat="server" 
-                            Text="<%$Resources:SharedResources, EditPersonalInformation%>" CssClass="altpageHeading1" />
-                          </td>
-                          <td width="100%"><hr /></td>
-                        </tr>
-                        <tr>
-                          <td width="20%" nowrap="nowrap" valign="top">
-                              <asp:Label ID="ltlEmail" EnableViewState="false" runat="server" 
-                              Text="<%$Resources:SharedResources, Email%>" CssClass="altpageHeading2" />
-                          </td>
-                          <td>
-                              <asp:TextBox ID="EmailTextbox" runat="server"></asp:TextBox>
-                          </td>
-                        </tr>
-                        <tr>
-                            <td />
-                            <td style="text-align:left;">
-                                <asp:Button ID="SaveButton" runat="server" Text="<%$Resources:SharedResources, Save%>" 
-                                EnableViewState="false" OnClick="SaveButton_Click" />&nbsp;
-                            </td>                
-                        </tr>
-                        <tr>
-                          <td style="white-space:nowrap;">
-                            <asp:Label ID="ltlChangePassword" EnableViewState="false" runat="server" 
-                            Text="<%$Resources:SharedResources, ChangePassword%>" CssClass="altpageHeading1" />
-                          </td>
-                          <td width="100%"><hr /></td>
-                        </tr>
-                        <tr>
-                          <td width="20%" nowrap="nowrap" valign="top">
-                              <asp:Label ID="ltlOldPassword" EnableViewState="false" runat="server" 
-                              Text="<%$Resources:SharedResources, OldPassword%>" CssClass="altpageHeading2" />
-                          </td>
-                          <td>
-                              <asp:TextBox ID="OldPasswordTextbox" runat="server" TextMode="Password"></asp:TextBox>
-                          </td>
-                         </tr>
-                         <tr>
-                          <td width="20%" nowrap="nowrap" valign="top">
-                              <asp:Label ID="ltlNewPassword" EnableViewState="false" runat="server" 
-                              Text="<%$Resources:SharedResources, NewPassword%>" CssClass="altpageHeading2" />
-                          </td>
-                          <td>
-                              <asp:TextBox ID="NewPasswordTextbox" runat="server" TextMode="Password"></asp:TextBox>
-                          </td>
-                        </tr>
-                        <tr>
-                            <td width="20%"></td>
-                            <td style="text-align:left;">
-                               <asp:Button ID="ChangePasswordButton" runat="server" Text="<%$Resources:SharedResources, Change%>" 
-                               EnableViewState="false" OnClick="ChangePasswordButton_Click" />&nbsp;
-                            </td>                
-                        </tr>
-                    </table>
+                    <asp:HyperLink ID="GoBack" EnableViewState="false" runat="server" NavigateUrl="~/Default.aspx" >
+                        &lt;&lt;&nbsp;<asp:Literal ID="Literal1" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Back%>" />
+                    </asp:HyperLink>
+                    
+                    <br /> <br />
+                    <div id="altpageHeading1">
+                        <asp:Literal ID="ltlAccountSetting" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, AccountSetting%>" />
                     </div>
-        
+
+                    <div id="altpageHeading2">
+                        <asp:Literal ID="ltlCareAboutNote" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, CareAboutNote%>" />
+                    </div>
+                    
+                    <div id="altpageTable">
+            
+                        <table width="94%" align="center" cellpadding="10" cellspacing="10">
+                            <tr>
+                              <td colspan="2" style="white-space:nowrap;">
+                                <asp:Label ID="Message" runat="server" EnableViewState="false" CssClass="altpageHeading1" />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="white-space:nowrap;" class="align_right">
+                                <asp:Label ID="lblEditPersonalInformation" EnableViewState="false" runat="server" 
+                                Text="<%$Resources:SharedResources, EditPersonalInformation%>" CssClass="altpageHeading1" />
+                              </td>
+                              <td width="100%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td width="20%" nowrap="nowrap" valign="top" class="align_right">
+                                  <asp:Label ID="ltlEmail" EnableViewState="false" runat="server" 
+                                  Text="<%$Resources:SharedResources, Email%>" CssClass="altpageHeading2" />
+                              </td>
+                              <td>
+                                  <asp:TextBox ID="EmailTextbox" runat="server"></asp:TextBox>
+                              </td>
+                            </tr>
+                            <tr>
+                                <td />
+                                <td >
+                                    <asp:Button ID="SaveButton" runat="server" Text="<%$Resources:SharedResources, Save%>" 
+                                    EnableViewState="false" OnClick="SaveButton_Click" />&nbsp;
+                                </td>                
+                            </tr>
+                            <tr>
+                              <td style="white-space:nowrap;" class="align_right">
+                                <asp:Label ID="ltlChangePassword" EnableViewState="false" runat="server" 
+                                Text="<%$Resources:SharedResources, ChangePassword%>" CssClass="altpageHeading1" />
+                              </td>
+                              <td width="100%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td width="20%" nowrap="nowrap" valign="top" class="align_right">
+                                  <asp:Label ID="ltlOldPassword" EnableViewState="false" runat="server" 
+                                  Text="<%$Resources:SharedResources, OldPassword%>" CssClass="altpageHeading2" />
+                              </td>
+                              <td>
+                                  <asp:TextBox ID="OldPasswordTextbox" runat="server" TextMode="Password"></asp:TextBox>
+                              </td>
+                             </tr>
+                             <tr>
+                              <td width="20%" nowrap="nowrap" valign="top" class="align_right">
+                                  <asp:Label ID="ltlNewPassword" EnableViewState="false" runat="server" 
+                                  Text="<%$Resources:SharedResources, NewPassword%>" CssClass="altpageHeading2" />
+                              </td>
+                              <td>
+                                  <asp:TextBox ID="NewPasswordTextbox" runat="server" TextMode="Password"></asp:TextBox>
+                              </td>
+                            </tr>
+                            <tr>
+                                <td width="20%"></td>
+                                <td >
+                                   <asp:Button ID="ChangePasswordButton" runat="server" Text="<%$Resources:SharedResources, Change%>" 
+                                   EnableViewState="false" OnClick="ChangePasswordButton_Click" />&nbsp;
+                                </td>                
+                            </tr>
+                        </table>                    
+                    </div>
+                    
+                    <asp:HyperLink ID="HyperLink1" EnableViewState="false" runat="server" NavigateUrl="~/Default.aspx" >
+                        &lt;&lt;&nbsp;<asp:Literal ID="Literal2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Back%>" />
+                    </asp:HyperLink>
+                
+
                 </div>
             </div>
         </div>

@@ -58,7 +58,7 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
     }
@@ -76,7 +76,7 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         this.HtmltextBox.Text = this.State.Value;
         SettingsPanel.Visible = true;

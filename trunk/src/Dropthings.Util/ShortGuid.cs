@@ -1,4 +1,4 @@
-namespace Dropthings.Utils
+namespace Dropthings.Util
 {
     using System;
 

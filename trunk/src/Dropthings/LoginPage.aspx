@@ -16,8 +16,6 @@
         
         <script type="text/javascript" src="Scripts/MyFramework.js"></script>
         
-        <uc1:Header ID="Header1" runat="server" />
-
         <div id="altpage">
             <div id="altpageWrapper">
                 <div id="altpageContent">

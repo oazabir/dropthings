@@ -165,16 +165,13 @@ namespace Dropthings.Util
         public static void Register()
         {
 
-            bool enabled;
-            if (bool.TryParse(ConfigurationManager.AppSettings["DisableCache"], out enabled)
-                && enabled)
+            if(ConstantHelper.DisableCache)
             {
                 Services.RegisterType<ICache, NoCacheResolver>();
             }
             else
             {
-                if (bool.TryParse(ConfigurationManager.AppSettings["EnableVelocity"], out enabled)
-                    && enabled)
+                if(ConstantHelper.EnableVelocity)
                 {
                     Services.RegisterType<ICache, VelocityCacheResolver>();
                 }

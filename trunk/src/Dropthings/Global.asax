@@ -43,17 +43,20 @@
         // Simulate internet latency on local browsing
         if (Request.IsLocal)
             System.Threading.Thread.Sleep(100);
-        
+
         if (Request.HttpMethod == "GET")
         {
             if (Request.AppRelativeCurrentExecutionFilePath.EndsWith(".aspx"))
             {
-                Response.Filter = new Dropthings.Web.Util.ScriptDeferFilter(Response);
+                string fullurl = Request.Url.ToString();                
+                string baseUrl = fullurl.Substring(0, fullurl.IndexOf(HttpUtility.UrlDecode(Request.Url.PathAndQuery)));
 
+                Response.Filter = new Dropthings.Web.Util.ScriptDeferFilter(baseUrl, Response);
+                
                 Response.Filter = new Dropthings.Web.Util.StaticContentFilter(Response,
-                    ConfigurationManager.AppSettings["ImgPrefix"],
-                    ConfigurationManager.AppSettings["JsPrefix"],
-                    ConfigurationManager.AppSettings["CssPrefix"]);
+                    Dropthings.Util.ConstantHelper.ImagePrefix,
+                    Dropthings.Util.ConstantHelper.ScriptPrefix,
+                    Dropthings.Util.ConstantHelper.CssPrefix);            
             }
         }
     }

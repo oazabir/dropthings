@@ -120,7 +120,7 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         settingsPanel.Visible = false;
     }
@@ -138,7 +138,7 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         settingsPanel.Visible = true;
 

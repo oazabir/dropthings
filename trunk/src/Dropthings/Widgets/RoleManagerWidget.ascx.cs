@@ -64,7 +64,7 @@ public partial class Widgets_RoleManagerWidget : System.Web.UI.UserControl, IWid
     {
     }
 
-    void IWidget.HideSettings()
+    void IWidget.HideSettings(bool userClicked)
     {
         SettingsPanel.Visible = false;
     }
@@ -82,7 +82,7 @@ public partial class Widgets_RoleManagerWidget : System.Web.UI.UserControl, IWid
     {
     }
 
-    void IWidget.ShowSettings()
+    void IWidget.ShowSettings(bool userClicked)
     {
         SettingsPanel.Visible = true;
     }

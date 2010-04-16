@@ -14,10 +14,12 @@ using OmarALZabir.AspectF;
 public class Scripts : IHttpHandler {
     
     public void ProcessRequest (HttpContext context) {
-
+        string fullurl = context.Request.Url.ToString();
+        string baseUrl = fullurl.Substring(0, fullurl.IndexOf(HttpUtility.UrlDecode(context.Request.Url.PathAndQuery)));
         
         string queryString = HttpUtility.UrlDecode(context.Request.QueryString.ToString());
-
+        if (queryString.IsEmpty())
+            return;
         string[] urlSplit = queryString.Split('&');
 
         string setInfo = urlSplit[0];
@@ -32,7 +34,7 @@ public class Scripts : IHttpHandler {
         if (Services.Get<ICache>().Get(setInfo) == null)
         {
             // Find the set
-            UrlMapSet set = CombineScripts.LoadSets().Find(
+            UrlMapSet set = CombineScripts.LoadSets(baseUrl).Find(
                 new Predicate<UrlMapSet>(delegate(UrlMapSet match)
                     {
                         return match.Name == setName;
