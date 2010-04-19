@@ -28,13 +28,19 @@
 
         #region Methods
 
+        public List<Widget> GetAllWidgets()
+        {
+            return _database.GetList<Widget>(DropthingsDataContext.SubsystemEnum.Widget,
+                LinqQueries.CompiledQuery_GetAllWidgets);
+        }
+
         public List<Widget> GetAllWidgets(Enumerations.WidgetTypeEnum widgetType)
         {
             return AspectF.Define
                 .CacheList<Widget, List<Widget>>(_cacheResolver, CacheSetup.CacheKeys.WidgetsByType((int)widgetType),
                 w => CacheSetup.CacheKeys.Widget(w.ID))
                 .Return<List<Widget>>(() =>
-                    _database.GetList<Widget, Enumerations.WidgetTypeEnum>(DropthingsDataContext.SubsystemEnum.Widget, widgetType, LinqQueries.CompiledQuery_GetAllWidgets));
+                    _database.GetList<Widget, Enumerations.WidgetTypeEnum>(DropthingsDataContext.SubsystemEnum.Widget, widgetType, LinqQueries.CompiledQuery_GetAllWidgets_ByWidgetType));
         }
 
         public List<Widget> GetDefaultWidgetsByRole(string userName, Enumerations.WidgetTypeEnum widgetType, bool isDefault)

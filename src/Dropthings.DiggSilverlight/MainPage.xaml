@@ -1,6 +1,9 @@
-﻿<UserControl x:Class="Dropthing.Silverlight.Page"
+﻿<UserControl x:Class="Dropthings.DiggSilverlight.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="Auto" Height="Auto">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480">
+
     <Grid Style="{StaticResource TopGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -59,4 +62,6 @@
         <TextBlock Grid.Row="1" x:Name="LoadingTextBlock" HorizontalAlignment="Center" FontWeight="bold" Margin="0,40,0,40" FontSize="16" Foreground="Blue" >Loading Digg Stories...</TextBlock>
 
     </Grid>
+
+
 </UserControl>

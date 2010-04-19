@@ -1,4 +1,5 @@
 <%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="ManageWidgetPermission.aspx.cs" Inherits="ManageWidgetPermissionPage" %>
+<%@ OutputCache NoStore="true" Location="None" %>
 <%@ Register Src="~/ScriptManagerControl.ascx" TagName="ScriptManagerControl" TagPrefix="common" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

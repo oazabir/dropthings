@@ -41,7 +41,7 @@ namespace Dropthings.Web.Framework
                 .Log(Services.Get<ILogger>(), "AddWidgetInstance {0} {1} {2}", widgetId, toZone, toRow)
                 .MustBeNonDefault<int>(widgetId, toZone).Do(() =>
             {
-                using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                using (var facade = new Facade(AppContext.GetContext(Context)))
                 {
                     facade.AddWidgetInstance(widgetId, toRow, 0, toZone);
                 }
@@ -57,7 +57,7 @@ namespace Dropthings.Web.Framework
                 .Log(Services.Get<ILogger>(), "AssignPermission {0}", widgetPermissions)
                 .MustBeNonDefault<string>(widgetPermissions).Do(() =>
             {
-                using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                using (var facade = new Facade(AppContext.GetContext(Context)))
                 {
                     facade.AssignWidgetPermission(widgetPermissions);
                 }
@@ -71,7 +71,7 @@ namespace Dropthings.Web.Framework
         {
             AspectF.Define.Log(Services.Get<ILogger>(), "ChangePageLayout {0}", newLayout).Do(() =>
             {
-                using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                using (var facade = new Facade(AppContext.GetContext(Context)))
                 {
                     facade.ModifyPageLayout(newLayout);
                 }
@@ -87,7 +87,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonNull(newTitle)
                 .Do(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.ChangeWidgetInstanceTitle(widgetId, newTitle);
                     }
@@ -103,7 +103,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonNull(postbackUrl)
                 .Return<string>(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.ExpandWidget(widgetId, false);
                     }
@@ -120,7 +120,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId)
                 .Do(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.DeleteWidgetInstance(widgetId);
                     }
@@ -136,7 +136,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId)
                 .Return<string>(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.ExpandWidget(widgetId, true);
                     }
@@ -153,7 +153,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId)
                 .Return<string>(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         return facade.GetWidgetInstanceState(widgetId);
                     }
@@ -168,7 +168,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId)
                 .Do(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.MaximizeWidget(widgetId, true);
                     }
@@ -183,7 +183,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(instanceId, toZoneId)
                 .Do(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.MoveWidgetInstance(instanceId, toZoneId, toRow);
                     }                    
@@ -198,7 +198,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId, height)
                 .Do(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.ResizeWidgetInstance(widgetId, width, height);
                     }                    
@@ -213,7 +213,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId)
                 .Do(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.MaximizeWidget(widgetId, false);
                     }
@@ -228,7 +228,7 @@ namespace Dropthings.Web.Framework
                 .MustBeNonDefault<int>(widgetId).MustBeNonDefault<string>(state)
                 .Do(() =>
                 {
-                    using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                    using (var facade = new Facade(AppContext.GetContext(Context)))
                     {
                         facade.SaveWidgetInstanceState(widgetId, state);
                     }

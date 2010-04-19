@@ -49,7 +49,7 @@ namespace Dropthings.Web.Framework
                 "Begin: ChangePageLayout {0}".FormatWith(newLayout), "End: ChangePageLayout {0}")
                 .Do(() =>
                     {
-                        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                        using (var facade = new Facade(AppContext.GetContext(Context)))
                         {
                             facade.ModifyPageLayout(newLayout);
                         }
@@ -64,7 +64,7 @@ namespace Dropthings.Web.Framework
                 "Begin: MoveTab {0} {1}".FormatWith(pageId, orderNo), "End: MoveTab {0}")
                 .Do(() =>
                     {
-                        using (var facade = new Facade(new AppContext(string.Empty, Profile.UserName)))
+                        using (var facade = new Facade(AppContext.GetContext(Context)))
                         {
                             facade.MovePage(pageId, orderNo);
                         }

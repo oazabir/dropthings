@@ -49,7 +49,8 @@ public partial class Widgets_DiggWidget : System.Web.UI.UserControl, IWidget
 
     public void BindDiggData()
     {
-        diggXaml.InitParameters = "WidgetId={0}".FormatWith(this._Host.ID)
+        Source.Text = ResolveClientUrl("~/ClientBin/Dropthings.DiggSilverlight.xap");
+        InitParams.Text = "WidgetId={0}".FormatWith(this._Host.ID)
             + ",State={0}".FormatWith(this.State.Xml());
     }
 

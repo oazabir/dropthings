@@ -224,6 +224,35 @@
             }
         }
 
+        public void AssignWidgetRoles(int widgetId, string[] roleNames)
+        {
+            var existingRoles = this.widgetsInRolesRepository.GetWidgetsInRoleByWidgetId(widgetId);
+            var roles = this.roleRepository.GetAllRole();
+
+            roles.Each(role =>
+                {
+                    var existingRole = existingRoles.FirstOrDefault(wr => wr.RoleId == role.RoleId);
+                    if (roleNames.Contains(role.RoleName))
+                    {
+                        // Need to give this role, if not already exists
+                        if (existingRole == default(WidgetsInRole))
+                            this.widgetsInRolesRepository.Insert(wr =>
+                                {
+                                    wr.RoleId = role.RoleId;
+                                    wr.WidgetId = widgetId;
+                                });
+                    }
+                    else
+                    {
+                        // Need to remove this role, if already exists
+                        if (existingRole != default(WidgetsInRole))
+                        {
+                            this.widgetsInRolesRepository.Delete(existingRole.Id);
+                        }
+                    }
+                });            
+        }
+
         public void AssignWidgetPermission(string permissions)
         {
             var roles = this.roleRepository.GetAllRole();
@@ -259,6 +288,9 @@
                                     wr.RoleId = role.RoleId;
                                     wr.WidgetId = WidgetId;
                                 });
+
+                                Services.Get<ICache>().Remove(CacheSetup.CacheKeys.AllWidgets());
+                                Services.Get<ICache>().Remove(CacheSetup.CacheKeys.DefaultWidgets());                                
                             }
                             else if ((!isEnable) && existingWidgetsInRole != null)
                             {

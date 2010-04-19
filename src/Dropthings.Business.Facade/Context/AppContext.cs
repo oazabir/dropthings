@@ -76,16 +76,17 @@
             }
         }
 
+        /// <summary>
+        /// Get an existing AppContext, already prepared and stored in HttpContext.
+        /// Generally Global.asax does this. It prepares the AppContext for the request
+        /// and stores in HttpContext so that anyone can get access to it during the 
+        /// request pipeline.
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public static AppContext GetContext(HttpContext httpContext)
-        {
-            
-            AppContext context = httpContext.Items[HTTP_CONTEXT_KEY] as AppContext;
-            if (null == context)
-            {
-                httpContext.Items[HTTP_CONTEXT_KEY] = context;
-            }
-
-            return context;
+        {            
+            return httpContext.Items[HTTP_CONTEXT_KEY] as AppContext;         
         }
 
         public NameObjectCollectionBase Application

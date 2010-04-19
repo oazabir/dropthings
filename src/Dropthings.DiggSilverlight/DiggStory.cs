@@ -1,4 +1,4 @@
-﻿namespace Dropthing.Silverlight
+﻿namespace Dropthings.DiggSilverlight
 {
     using System;
 

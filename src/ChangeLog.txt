@@ -1,5 +1,6 @@
 Next version target:
 ====================
+* FIX: When you decrease columns by selecting a layout, some widgets are lost.
 * FIX: Click on a new widget does not always add the widget on the top most position. 
 when there are other widgets which were added by dragging.
 * ADD: DeveloperMode implementation. See web.config.
@@ -8,8 +9,19 @@ when there are other widgets which were added by dragging.
 * ADD: Admin user pages - Add new widget, edit widget, remove widget, assign/revoke widget to roles
 * ADD: Admin user pages - User management module
 * CHANGE: In MyFramework.js, change DropthingsUI to UI to save JS space.
+* FIX: Issue 58:	After deleting a widget on a zone, widgets can't be dropped on this zone anymore
+* ADD: When a user first logs in which was created in ASP.NET Membership in some other way than the Dropthings registration, during first login, users page setup needs to be created.
 
-Version 2.4.2
+Version 2.5.3
+=============
+* FIX: Silverlight Control was not working since Silverlight 3 SDK is used. Corrected the <object> tag and recreated the Silverlight Project which fixed the loading and debugging problem.
+
+Version 2.5.2
+=============
+* FIX: JQuery loading problem.
+
+
+Version 2.5.1
 =============
 * FIX: When new widget is added, no widget can be dragged out of that column and put back. Issue #12.
 * FIX: Drag & drop new widget from widget list stops working after second widget is added.

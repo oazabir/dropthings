@@ -11,4 +11,3 @@
         </div>    
     </ItemTemplate>
 </asp:DataList>  
-<asp:Button ID="WidgetDataList_DummyPost" CssClass="widget_data_list_dummy_postback" runat="server" />

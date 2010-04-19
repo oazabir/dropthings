@@ -37,7 +37,14 @@ namespace Dropthings.DataAccess
                 select column
             );
 
-        public static readonly Func<DropthingsDataContext, Enumerations.WidgetTypeEnum, IQueryable<Widget>> CompiledQuery_GetAllWidgets =
+        public static readonly Func<DropthingsDataContext, IQueryable<Widget>> CompiledQuery_GetAllWidgets =
+            CompiledQuery.Compile<DropthingsDataContext, IQueryable<Widget>>((dc) =>
+                from widget in dc.Widgets
+                orderby widget.OrderNo
+                select widget
+            );
+
+        public static readonly Func<DropthingsDataContext, Enumerations.WidgetTypeEnum, IQueryable<Widget>> CompiledQuery_GetAllWidgets_ByWidgetType =
             CompiledQuery.Compile<DropthingsDataContext, Enumerations.WidgetTypeEnum, IQueryable<Widget>>((dc, widgetType) =>
                 from widget in dc.Widgets
                 where widget.WidgetType == (int)widgetType
