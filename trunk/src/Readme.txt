@@ -1,8 +1,7 @@
 ======================================
-Dropthings v.1.7.0
+Dropthings v.2.5.1
 (C) Omar AL Zabir. All rights reserved.
 ======================================
-
 
 How to run the project:
 
@@ -17,11 +16,14 @@ http://www.microsoft.com/downloads/details.aspx?familyid=C22D6A7B-546F-4407-8EF6
 
 ======================================
 
+
+======================================
+Running on SQL Server 2008
+======================================
 If you already have SQL Server 2008 then you need to do the following:
 
 1) Attach the \Dropthings\App_Data\Dropthings.mdf file.
 2) Run the following query to create a "dropthings" user in your SQL Server:
-
 
 use master
 go
@@ -49,9 +51,6 @@ go
 sp_change_users_login 'auto_fix', 'dropthings'
 GO
 
-
-
-
 3) Change the web.config's connection string to:
 <add name="DropthingsConnectionString" connectionString="Data Source=.;Initial Catalog=dropthings;user id=dropthings;password=dropthings" providerName="System.Data.SqlClient"/>
 
@@ -60,26 +59,19 @@ or if you are using SqlExpress
 <add name="DropthingsConnectionString" connectionString="Data Source=.\SQLEXPRESS;Initial Catalog=dropthings;user id=dropthings;password=dropthings" providerName="System.Data.SqlClient"/>
 
 
-
-
-
-
-
-*** Note for SQL Server 2005 users:
+=================================
+Running on SQL Server 2005
+=================================
 
 The .mdf file that comes with Dropthings is now a SQL Server 2008 File and not accessible by SQL Server 2005 users.
-Therefore if you want to use SQL Server 2005 use the SQLServer2005_Dropthings.sql script file in the App_Data directory to create your database (replaces step 1 above).
+Therefore if you want to use SQL Server 2005 use the CreateNewDatabase-SQL2005.sql script file in the App_Data directory to create your database (replaces step 1 above).
 Then follow the other steps above (this method is not officially supported).
 This file may be slightly out of date from the standard database.
 
 
-======================================
-
-
-
+=========================
 Hosting Dropthings on IIS
 =========================
 * Open Dropthings.Silverlight project and change the path of the webservice in: ServiceReferences.ClientConfig to match your IIS host location. Currently it is set to "http://localhost:8000/WidgetService.asmx"
-* Copy the Website to IIS root website. Do NOT copy to a Virtual Directory. It does not work well inside a virtual directory.
+* Copy the Website to IIS root website or a virtual directory.
 * Update the web.config and change all http://localhost:8000/ to your IIS host.
-* Update the web.config

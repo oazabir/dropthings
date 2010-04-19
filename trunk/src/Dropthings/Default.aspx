@@ -7,8 +7,6 @@
 <%@ Register Src="~/WidgetPage.ascx" TagName="WidgetPage" TagPrefix="widgets" %>
 <%@ Register src="~/TabPage.ascx" tagname="TabPage" tagprefix="tab" %>
 <%@ Register Src="~/ScriptManagerControl.ascx" TagName="ScriptManagerControl" TagPrefix="common" %>
-<%@ Register Assembly="System.Web.Silverlight" Namespace="System.Web.UI.SilverlightControls"
-    TagPrefix="asp" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

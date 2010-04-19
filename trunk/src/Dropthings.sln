@@ -19,7 +19,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\",
 		SccLocalPath = ""
 		SccProvider = ""
 		TargetFramework = "3.5"
-		ProjectReferences = "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}|Dropthings.DataAccess.dll;{514B9055-2EEF-4111-9CAC-F763120BB35D}|Dropthings.Business.Facade.dll;{A5F19582-1F00-406F-A130-5BB7AC598FF7}|Dropthings.Widget.Framework.dll;{3A35E4B6-4CCB-4159-9E39-24438490F757}|Dropthings.Web.Util.dll;{91B72026-1980-46AD-89D0-C33DD411D66A}|Dropthings.Web.Framework.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}|Dropthings.Model.dll;{A426C626-767E-454B-8D48-7D0289BADBAC}|Dropthings.Configuration.dll;{93D36A52-6C2A-4147-9B89-D35B561F9052}|Dropthing.Silverlight.dll;{739B0A68-33F2-4EC3-8087-C3177AE80E41}|Dropthings.Util.dll;"
+		ProjectReferences = "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}|Dropthings.DataAccess.dll;{514B9055-2EEF-4111-9CAC-F763120BB35D}|Dropthings.Business.Facade.dll;{A5F19582-1F00-406F-A130-5BB7AC598FF7}|Dropthings.Widget.Framework.dll;{3A35E4B6-4CCB-4159-9E39-24438490F757}|Dropthings.Web.Util.dll;{91B72026-1980-46AD-89D0-C33DD411D66A}|Dropthings.Web.Framework.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}|Dropthings.Model.dll;{A426C626-767E-454B-8D48-7D0289BADBAC}|Dropthings.Configuration.dll;{739B0A68-33F2-4EC3-8087-C3177AE80E41}|Dropthings.Util.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Dropthings"
 		Debug.AspNetCompiler.PhysicalPath = "Dropthings\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Dropthings\"
@@ -37,9 +37,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\",
 		VWDPort = "8000"
 		VWDDynamicPort = "false"
 		VWDVirtualPath = "/"
+		ProjOutputReferences = "{99534521-62DE-48FE-8C16-4F82E9F11C73}|ClientBin|false;"
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthing.Silverlight", "Dropthing.Silverlight\Dropthing.Silverlight.csproj", "{93D36A52-6C2A-4147-9B89-D35B561F9052}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade", "Dropthings.Business.Facade\Dropthings.Business.Facade.csproj", "{514B9055-2EEF-4111-9CAC-F763120BB35D}"
 EndProject
@@ -64,6 +63,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade.Tests", "Dropthings.Business.Facade.Tests\Dropthings.Business.Facade.Tests.csproj", "{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test", "Dropthings.Test\Dropthings.Test.csproj", "{6368DD2E-C2A0-45B6-8D08-3F1E67572322}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Widgets.DataAccess", "Dropthings.Widgets.DataAccess\Dropthings.Widgets.DataAccess.csproj", "{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DiggSilverlight", "Dropthings.DiggSilverlight\Dropthings.DiggSilverlight.csproj", "{99534521-62DE-48FE-8C16-4F82E9F11C73}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -98,16 +101,6 @@ Global
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|.NET.ActiveCfg = Release|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{93D36A52-6C2A-4147-9B89-D35B561F9052}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -226,6 +219,26 @@ Global
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Release|.NET.ActiveCfg = Release|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

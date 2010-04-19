@@ -8,16 +8,106 @@
             <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="toZone" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="toRow" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="postbackUrl" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
       <s:element name="AddWidgetInstanceResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="AssignPermission">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="AddWidgetInstanceResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="widgetPermissions" type="s:string" />
           </s:sequence>
         </s:complexType>
+      </s:element>
+      <s:element name="AssignPermissionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ChangePageLayout">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="newLayout" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangePageLayoutResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ChangeWidgetTitle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="newTitle" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChangeWidgetTitleResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CollaspeWidgetInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="postbackUrl" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CollaspeWidgetInstanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CollaspeWidgetInstanceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteWidgetInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteWidgetInstanceResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ExpandWidgetInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="postbackUrl" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExpandWidgetInstanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExpandWidgetInstanceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWidgetState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWidgetStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetWidgetStateResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MaximizeWidgetInstance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MaximizeWidgetInstanceResponse">
+        <s:complexType />
       </s:element>
       <s:element name="MoveWidgetInstance">
         <s:complexType>
@@ -43,46 +133,6 @@
       <s:element name="ResizeWidgetInstanceResponse">
         <s:complexType />
       </s:element>
-      <s:element name="MaximizeWidgetInstance">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="MaximizeWidgetInstanceResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="ExpandWidgetInstance">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="postbackUrl" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ExpandWidgetInstanceResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ExpandWidgetInstanceResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="CollaspeWidgetInstance">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="postbackUrl" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="CollaspeWidgetInstanceResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="CollaspeWidgetInstanceResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="RestoreWidgetInstance">
         <s:complexType>
           <s:sequence>
@@ -92,40 +142,6 @@
       </s:element>
       <s:element name="RestoreWidgetInstanceResponse">
         <s:complexType />
-      </s:element>
-      <s:element name="DeleteWidgetInstance">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteWidgetInstanceResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="AssignPermission">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="widgetPermissions" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="AssignPermissionResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetWidgetState">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="widgetId" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetWidgetStateResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetWidgetStateResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
       </s:element>
       <s:element name="SaveWidgetState">
         <s:complexType>
@@ -146,6 +162,54 @@
   <wsdl:message name="AddWidgetInstanceSoapOut">
     <wsdl:part name="parameters" element="tns:AddWidgetInstanceResponse" />
   </wsdl:message>
+  <wsdl:message name="AssignPermissionSoapIn">
+    <wsdl:part name="parameters" element="tns:AssignPermission" />
+  </wsdl:message>
+  <wsdl:message name="AssignPermissionSoapOut">
+    <wsdl:part name="parameters" element="tns:AssignPermissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangePageLayoutSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangePageLayout" />
+  </wsdl:message>
+  <wsdl:message name="ChangePageLayoutSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangePageLayoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChangeWidgetTitleSoapIn">
+    <wsdl:part name="parameters" element="tns:ChangeWidgetTitle" />
+  </wsdl:message>
+  <wsdl:message name="ChangeWidgetTitleSoapOut">
+    <wsdl:part name="parameters" element="tns:ChangeWidgetTitleResponse" />
+  </wsdl:message>
+  <wsdl:message name="CollaspeWidgetInstanceSoapIn">
+    <wsdl:part name="parameters" element="tns:CollaspeWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="CollaspeWidgetInstanceSoapOut">
+    <wsdl:part name="parameters" element="tns:CollaspeWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteWidgetInstanceSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="DeleteWidgetInstanceSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExpandWidgetInstanceSoapIn">
+    <wsdl:part name="parameters" element="tns:ExpandWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="ExpandWidgetInstanceSoapOut">
+    <wsdl:part name="parameters" element="tns:ExpandWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetWidgetStateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetWidgetState" />
+  </wsdl:message>
+  <wsdl:message name="GetWidgetStateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetWidgetStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="MaximizeWidgetInstanceSoapIn">
+    <wsdl:part name="parameters" element="tns:MaximizeWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="MaximizeWidgetInstanceSoapOut">
+    <wsdl:part name="parameters" element="tns:MaximizeWidgetInstanceResponse" />
+  </wsdl:message>
   <wsdl:message name="MoveWidgetInstanceSoapIn">
     <wsdl:part name="parameters" element="tns:MoveWidgetInstance" />
   </wsdl:message>
@@ -158,47 +222,11 @@
   <wsdl:message name="ResizeWidgetInstanceSoapOut">
     <wsdl:part name="parameters" element="tns:ResizeWidgetInstanceResponse" />
   </wsdl:message>
-  <wsdl:message name="MaximizeWidgetInstanceSoapIn">
-    <wsdl:part name="parameters" element="tns:MaximizeWidgetInstance" />
-  </wsdl:message>
-  <wsdl:message name="MaximizeWidgetInstanceSoapOut">
-    <wsdl:part name="parameters" element="tns:MaximizeWidgetInstanceResponse" />
-  </wsdl:message>
-  <wsdl:message name="ExpandWidgetInstanceSoapIn">
-    <wsdl:part name="parameters" element="tns:ExpandWidgetInstance" />
-  </wsdl:message>
-  <wsdl:message name="ExpandWidgetInstanceSoapOut">
-    <wsdl:part name="parameters" element="tns:ExpandWidgetInstanceResponse" />
-  </wsdl:message>
-  <wsdl:message name="CollaspeWidgetInstanceSoapIn">
-    <wsdl:part name="parameters" element="tns:CollaspeWidgetInstance" />
-  </wsdl:message>
-  <wsdl:message name="CollaspeWidgetInstanceSoapOut">
-    <wsdl:part name="parameters" element="tns:CollaspeWidgetInstanceResponse" />
-  </wsdl:message>
   <wsdl:message name="RestoreWidgetInstanceSoapIn">
     <wsdl:part name="parameters" element="tns:RestoreWidgetInstance" />
   </wsdl:message>
   <wsdl:message name="RestoreWidgetInstanceSoapOut">
     <wsdl:part name="parameters" element="tns:RestoreWidgetInstanceResponse" />
-  </wsdl:message>
-  <wsdl:message name="DeleteWidgetInstanceSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteWidgetInstance" />
-  </wsdl:message>
-  <wsdl:message name="DeleteWidgetInstanceSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteWidgetInstanceResponse" />
-  </wsdl:message>
-  <wsdl:message name="AssignPermissionSoapIn">
-    <wsdl:part name="parameters" element="tns:AssignPermission" />
-  </wsdl:message>
-  <wsdl:message name="AssignPermissionSoapOut">
-    <wsdl:part name="parameters" element="tns:AssignPermissionResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetWidgetStateSoapIn">
-    <wsdl:part name="parameters" element="tns:GetWidgetState" />
-  </wsdl:message>
-  <wsdl:message name="GetWidgetStateSoapOut">
-    <wsdl:part name="parameters" element="tns:GetWidgetStateResponse" />
   </wsdl:message>
   <wsdl:message name="SaveWidgetStateSoapIn">
     <wsdl:part name="parameters" element="tns:SaveWidgetState" />
@@ -211,6 +239,38 @@
       <wsdl:input message="tns:AddWidgetInstanceSoapIn" />
       <wsdl:output message="tns:AddWidgetInstanceSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="AssignPermission">
+      <wsdl:input message="tns:AssignPermissionSoapIn" />
+      <wsdl:output message="tns:AssignPermissionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePageLayout">
+      <wsdl:input message="tns:ChangePageLayoutSoapIn" />
+      <wsdl:output message="tns:ChangePageLayoutSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeWidgetTitle">
+      <wsdl:input message="tns:ChangeWidgetTitleSoapIn" />
+      <wsdl:output message="tns:ChangeWidgetTitleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CollaspeWidgetInstance">
+      <wsdl:input message="tns:CollaspeWidgetInstanceSoapIn" />
+      <wsdl:output message="tns:CollaspeWidgetInstanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWidgetInstance">
+      <wsdl:input message="tns:DeleteWidgetInstanceSoapIn" />
+      <wsdl:output message="tns:DeleteWidgetInstanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExpandWidgetInstance">
+      <wsdl:input message="tns:ExpandWidgetInstanceSoapIn" />
+      <wsdl:output message="tns:ExpandWidgetInstanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWidgetState">
+      <wsdl:input message="tns:GetWidgetStateSoapIn" />
+      <wsdl:output message="tns:GetWidgetStateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MaximizeWidgetInstance">
+      <wsdl:input message="tns:MaximizeWidgetInstanceSoapIn" />
+      <wsdl:output message="tns:MaximizeWidgetInstanceSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="MoveWidgetInstance">
       <wsdl:input message="tns:MoveWidgetInstanceSoapIn" />
       <wsdl:output message="tns:MoveWidgetInstanceSoapOut" />
@@ -219,33 +279,9 @@
       <wsdl:input message="tns:ResizeWidgetInstanceSoapIn" />
       <wsdl:output message="tns:ResizeWidgetInstanceSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="MaximizeWidgetInstance">
-      <wsdl:input message="tns:MaximizeWidgetInstanceSoapIn" />
-      <wsdl:output message="tns:MaximizeWidgetInstanceSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="ExpandWidgetInstance">
-      <wsdl:input message="tns:ExpandWidgetInstanceSoapIn" />
-      <wsdl:output message="tns:ExpandWidgetInstanceSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="CollaspeWidgetInstance">
-      <wsdl:input message="tns:CollaspeWidgetInstanceSoapIn" />
-      <wsdl:output message="tns:CollaspeWidgetInstanceSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="RestoreWidgetInstance">
       <wsdl:input message="tns:RestoreWidgetInstanceSoapIn" />
       <wsdl:output message="tns:RestoreWidgetInstanceSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteWidgetInstance">
-      <wsdl:input message="tns:DeleteWidgetInstanceSoapIn" />
-      <wsdl:output message="tns:DeleteWidgetInstanceSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="AssignPermission">
-      <wsdl:input message="tns:AssignPermissionSoapIn" />
-      <wsdl:output message="tns:AssignPermissionSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetWidgetState">
-      <wsdl:input message="tns:GetWidgetStateSoapIn" />
-      <wsdl:output message="tns:GetWidgetStateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SaveWidgetState">
       <wsdl:input message="tns:SaveWidgetStateSoapIn" />
@@ -256,6 +292,78 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="AddWidgetInstance">
       <soap:operation soapAction="http://tempuri.org/AddWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AssignPermission">
+      <soap:operation soapAction="http://tempuri.org/AssignPermission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePageLayout">
+      <soap:operation soapAction="http://tempuri.org/ChangePageLayout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeWidgetTitle">
+      <soap:operation soapAction="http://tempuri.org/ChangeWidgetTitle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CollaspeWidgetInstance">
+      <soap:operation soapAction="http://tempuri.org/CollaspeWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWidgetInstance">
+      <soap:operation soapAction="http://tempuri.org/DeleteWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExpandWidgetInstance">
+      <soap:operation soapAction="http://tempuri.org/ExpandWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWidgetState">
+      <soap:operation soapAction="http://tempuri.org/GetWidgetState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MaximizeWidgetInstance">
+      <soap:operation soapAction="http://tempuri.org/MaximizeWidgetInstance" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -281,62 +389,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="MaximizeWidgetInstance">
-      <soap:operation soapAction="http://tempuri.org/MaximizeWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ExpandWidgetInstance">
-      <soap:operation soapAction="http://tempuri.org/ExpandWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CollaspeWidgetInstance">
-      <soap:operation soapAction="http://tempuri.org/CollaspeWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="RestoreWidgetInstance">
       <soap:operation soapAction="http://tempuri.org/RestoreWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteWidgetInstance">
-      <soap:operation soapAction="http://tempuri.org/DeleteWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AssignPermission">
-      <soap:operation soapAction="http://tempuri.org/AssignPermission" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetWidgetState">
-      <soap:operation soapAction="http://tempuri.org/GetWidgetState" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -365,6 +419,78 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="AssignPermission">
+      <soap12:operation soapAction="http://tempuri.org/AssignPermission" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePageLayout">
+      <soap12:operation soapAction="http://tempuri.org/ChangePageLayout" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeWidgetTitle">
+      <soap12:operation soapAction="http://tempuri.org/ChangeWidgetTitle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CollaspeWidgetInstance">
+      <soap12:operation soapAction="http://tempuri.org/CollaspeWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWidgetInstance">
+      <soap12:operation soapAction="http://tempuri.org/DeleteWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExpandWidgetInstance">
+      <soap12:operation soapAction="http://tempuri.org/ExpandWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWidgetState">
+      <soap12:operation soapAction="http://tempuri.org/GetWidgetState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MaximizeWidgetInstance">
+      <soap12:operation soapAction="http://tempuri.org/MaximizeWidgetInstance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="MoveWidgetInstance">
       <soap12:operation soapAction="http://tempuri.org/MoveWidgetInstance" style="document" />
       <wsdl:input>
@@ -383,62 +509,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="MaximizeWidgetInstance">
-      <soap12:operation soapAction="http://tempuri.org/MaximizeWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ExpandWidgetInstance">
-      <soap12:operation soapAction="http://tempuri.org/ExpandWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="CollaspeWidgetInstance">
-      <soap12:operation soapAction="http://tempuri.org/CollaspeWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="RestoreWidgetInstance">
       <soap12:operation soapAction="http://tempuri.org/RestoreWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteWidgetInstance">
-      <soap12:operation soapAction="http://tempuri.org/DeleteWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AssignPermission">
-      <soap12:operation soapAction="http://tempuri.org/AssignPermission" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetWidgetState">
-      <soap12:operation soapAction="http://tempuri.org/GetWidgetState" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -458,10 +530,10 @@
   </wsdl:binding>
   <wsdl:service name="WidgetService">
     <wsdl:port name="WidgetServiceSoap" binding="tns:WidgetServiceSoap">
-      <soap:address location="http://localhost:8000/WidgetService.asmx" />
+      <soap:address location="http://dropthings.omaralzabir.com/WidgetService.asmx" />
     </wsdl:port>
     <wsdl:port name="WidgetServiceSoap12" binding="tns:WidgetServiceSoap12">
-      <soap12:address location="http://localhost:8000/WidgetService.asmx" />
+      <soap12:address location="http://dropthings.omaralzabir.com/WidgetService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

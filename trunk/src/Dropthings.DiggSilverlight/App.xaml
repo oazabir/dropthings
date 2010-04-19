@@ -1,8 +1,8 @@
 ﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             x:Class="Dropthing.Silverlight.App"
+             x:Class="Dropthings.DiggSilverlight.App"
              >
-    <Application.Resources>
+<Application.Resources>
 
         <Style x:Key="TitleBorder" TargetType="Border">
             <Setter Property="CornerRadius" Value="10"/>
@@ -168,4 +168,5 @@
         </Style>
 
     </Application.Resources>
+
 </Application>

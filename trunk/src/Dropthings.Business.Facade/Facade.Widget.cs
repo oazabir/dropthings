@@ -16,6 +16,11 @@
     {
         #region Methods
 
+        public List<Widget> GetAllWidgets()
+        {
+            return this.widgetRepository.GetAllWidgets();
+        }
+
         public WidgetInstance GetWidgetInstanceById(int widgetInstanceId)
         {
             return this.widgetInstanceRepository.GetWidgetInstanceById(widgetInstanceId);
@@ -288,6 +293,57 @@
             {
                 ObjectBuilder.BuildDefaultWidget(w,
                     title, url, description, isDefault);
+            });
+        }
+
+        public Widget AddWidget(
+            string name, 
+            string url, 
+            string icon,
+            string description, 
+            string defaultState,
+            bool isDefault, 
+            bool isLocked,
+            int orderNo,
+            string roleName,
+            int widgetType)
+        {
+            return this.widgetRepository.Insert((w) =>
+            {
+                ObjectBuilder.BuildDefaultWidget(w, name, url, description, isDefault);
+
+                w.Icon = icon;
+                w.DefaultState = defaultState;
+                w.IsLocked = isLocked;
+                w.OrderNo = orderNo;
+                w.RoleName = roleName;
+                w.WidgetType = widgetType;
+            });
+        }
+
+        public void UpdateWidget(
+            int widgetId,
+            string name,
+            string url,
+            string icon,
+            string description,
+            string defaultState,
+            bool isDefault,
+            bool isLocked,
+            int orderNo,
+            string roleName,
+            int widgetType)
+        {
+            var widget = this.widgetRepository.GetWidgetById(widgetId);
+
+            this.widgetRepository.Update(widget, w => { }, (w) =>
+            {
+                w.Icon = icon;
+                w.DefaultState = defaultState;
+                w.IsLocked = isLocked;
+                w.OrderNo = orderNo;
+                w.RoleName = roleName;
+                w.WidgetType = widgetType;
             });
         }
 

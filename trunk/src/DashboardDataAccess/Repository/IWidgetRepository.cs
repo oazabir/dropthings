@@ -1,10 +1,13 @@
 ﻿namespace Dropthings.DataAccess.Repository
 {
     using System;
+    using System.Collections.Generic;
 
     public interface IWidgetRepository
     {
         #region Methods
+
+        List<Widget> GetAllWidgets();
 
         System.Collections.Generic.List<Dropthings.DataAccess.Widget> GetAllWidgets(Dropthings.DataAccess.Enumerations.WidgetTypeEnum widgetType);
 
