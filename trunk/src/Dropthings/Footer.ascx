@@ -2,7 +2,7 @@
 <div id="footer">
     <div id="footer_wrapper">
 
-        <p class="copyright">&copy; <a href="http://msmvps.com/blogs/omar/">Omar AL Zabir</a>. <asp:Literal ID="ltlCopyright" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Copyright%>" /> <br />
+        <p class="copyright">&copy; <a href="http://omaralzabir.com">Omar AL Zabir</a>. <asp:Literal ID="ltlCopyright" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Copyright%>" /> <br />
 		<asp:Literal ID="ltlNewsAndUpdates" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, NewsAndUpdates%>" /></p>
         <p class="license">
         <asp:Literal ID="ltlPersonalMessage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, PersonalMessage%>" />
