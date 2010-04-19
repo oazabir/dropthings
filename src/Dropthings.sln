@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		RunAllRepositoryUnitTests.bat = RunAllRepositoryUnitTests.bat
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DataAccess", "DashboardDataAccess\Dropthings.DataAccess.csproj", "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\", "{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = ""
@@ -39,6 +37,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\",
 		VWDVirtualPath = "/"
 		ProjOutputReferences = "{99534521-62DE-48FE-8C16-4F82E9F11C73}|ClientBin|false;"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DataAccess", "DashboardDataAccess\Dropthings.DataAccess.csproj", "{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade", "Dropthings.Business.Facade\Dropthings.Business.Facade.csproj", "{514B9055-2EEF-4111-9CAC-F763120BB35D}"
 EndProject
