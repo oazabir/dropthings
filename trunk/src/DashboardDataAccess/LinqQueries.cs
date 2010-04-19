@@ -63,7 +63,8 @@ namespace Dropthings.DataAccess
                     join users in dc.aspnet_Users on userinrole.UserId equals users.UserId                    
                     where (users.UserName == username) && (widget.WidgetType == (int)widgetType)
                     orderby widget.OrderNo
-                    select widget
+                    group widget by widget.ID into w                    
+                    select w.First()
                 );
 
         public static readonly Func<DropthingsDataContext, string, Enumerations.WidgetTypeEnum, bool, IQueryable<Widget>> CompiledQuery_GetDefaultWidgetsByRole =
@@ -75,7 +76,8 @@ namespace Dropthings.DataAccess
                     join users in dc.aspnet_Users on userinrole.UserId equals users.UserId                    
                     where (users.UserName == username) && (widget.WidgetType == (int)widgetType) && (widget.IsDefault == isDefault)
                     orderby widget.OrderNo
-                    select widget
+                    group widget by widget.ID into w
+                    select w.First()
                 );
 
         public static readonly Func<DropthingsDataContext, bool, IQueryable<Widget>> CompiledQuery_GetWidgetByIsDefault =

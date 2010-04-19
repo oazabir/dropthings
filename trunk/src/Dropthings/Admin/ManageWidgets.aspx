@@ -8,7 +8,7 @@
 </head>
 
 <style>
-    #EditForm label { width: 200px }
+    label { width: 200px }
     td { padding: 5px; }
 </style>
     
@@ -22,58 +22,46 @@
         
         <h2>Edit Widget</h2>
         <asp:Panel ID="EditForm" runat="server" Visible="false">
+        <asp:Label ID="Error" runat="server" EnableViewState="false" ForeColor="Red" Font-Size="20pt" />
         <div>
-            <p>
-                <label>ID: </label>
-                <input id="Field_ID" runat="server" type="text" disabled="disabled"  />
-            </p>
-            <p>
-                <label>Name: </label>
-                <input id="Field_Name" maxlength="255" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>Description: </label>
-                <input id="Field_Description" maxlength="255" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>Url: </label>
-                <input id="Field_Url" maxlength="255" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>Default State: </label>
-                <input id="Field_DefaultState" maxlength="255" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>Icon: </label>
-                <input id="Field_Icon" maxlength="255" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>OrderNo: </label>
-                <input id="Field_OrderNo" maxlength="2" value="1" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>Default Role Name: </label>
-                <input id="Field_RoleName" maxlength="255" value="guest" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>IsLocked: </label>
-                <input id="Field_IsLocked" runat="server" type="checkbox"  />
-            </p>
-            <p>
-                <label>IsDefault: </label>
-                <input id="Field_IsDefault" runat="server" type="checkbox"  />
-            </p>
-            <p>
-                <label>WidgetType: </label>
-                <input id="Field_WidgetType" maxlength="2" value="0" runat="server" type="text"  />
-            </p>
-            <p>
-                <label>Roles that can use the widget:</label>
-                <asp:CheckBoxList ID="WidgetRoles" runat="server"></asp:CheckBoxList>
-            </p>
-            <p>
+            <label>ID: </label>
+            <input id="Field_ID" runat="server" type="text" disabled="disabled"  />
+            <br />
+            <label>Name: </label>
+            <input id="Field_Name" maxlength="255" runat="server" type="text"  />
+            <br />
+            <label>Description: </label>
+            <input id="Field_Description" maxlength="255" runat="server" type="text"  />
+            <br />
+            <label>Url: </label>
+            <input id="Field_Url" maxlength="255" runat="server" type="text"  />
+            <br />
+            <label>Default State: </label>
+            <input id="Field_DefaultState" maxlength="255" runat="server" type="text"  />
+            <br />
+            <label>Icon: </label>
+            <input id="Field_Icon" maxlength="255" runat="server" type="text"  />
+            <br />
+            <label>OrderNo: </label>
+            <input id="Field_OrderNo" maxlength="2" value="1" runat="server" type="text"  />
+            <br />
+            <label>Default Role Name: </label>
+            <input id="Field_RoleName" maxlength="255" value="guest" runat="server" type="text"  />
+            <br />
+            <label>IsLocked: </label>
+            <input id="Field_IsLocked" runat="server" type="checkbox"  />
+            <br />
+            <label>IsDefault: </label>
+            <input id="Field_IsDefault" runat="server" type="checkbox"  />
+            <br />
+            <label>WidgetType: </label>
+            <input id="Field_WidgetType" maxlength="2" value="0" runat="server" type="text"  />
+            <br />
+            <label>Roles that can use the widget:</label>
+            <asp:CheckBoxList ID="WidgetRoles" runat="server"></asp:CheckBoxList>
+            <br />
             <asp:Button ID="SaveWidget" runat="server" OnClick="SaveWidget_Clicked" Text="Save" />
-            </p>
+            
         </div>
         </asp:Panel>
         

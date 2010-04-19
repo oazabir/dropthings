@@ -138,6 +138,11 @@ namespace Dropthings.Util
                 return "DefaultWidgets";
             }
 
+            public static string[] AllWidgetsKeys()
+            {
+                return new string[] { AllWidgets(), DefaultWidgets() };
+            }
+
             public static string WidgetZoneByPageIdColumnNo(int pageId, int columnNo)
             {
                 return "WidgetZoneByPageIdColumnNo.PageId." + pageId + ".ColumnNo." + columnNo;
