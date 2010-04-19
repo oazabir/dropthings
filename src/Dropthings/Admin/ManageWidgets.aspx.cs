@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using Dropthings.Business.Facade;
 using Dropthings.Business.Facade.Context;
 using Dropthings.DataAccess;
+using Dropthings.Util;
+using OmarALZabir.AspectF;
 
 public partial class Admin_ManageWidgets : System.Web.UI.Page
 {
@@ -26,7 +28,16 @@ public partial class Admin_ManageWidgets : System.Web.UI.Page
 
     protected void SaveWidget_Clicked(object sender, EventArgs e)
     {
-        EditForm.Visible = false;
+        try
+        {
+            var control = LoadControl(Field_Url.Value);
+        }
+        catch
+        {
+            Error.Text = "Cannot load the widget from the specified location. Make sure you have given a correct relative path to an .ascx";
+            Error.Visible = true;
+            return;
+        }
 
         using (Facade facade = new Facade(AppContext.GetContext(Context)))
         {
@@ -46,7 +57,6 @@ public partial class Admin_ManageWidgets : System.Web.UI.Page
                     int.Parse(Field_WidgetType.Value));
                 
                 widgetId = newlyAddedWidget.ID;
-                
                 SetWidgetRoles(widgetId);   
                 this.EditWidget(newlyAddedWidget);
             }
@@ -63,19 +73,22 @@ public partial class Admin_ManageWidgets : System.Web.UI.Page
                     int.Parse(Field_OrderNo.Value),
                     Field_RoleName.Value,
                     int.Parse(Field_WidgetType.Value));
+
+                SetWidgetRoles(widgetId);   
             }
 
+            // Flush all widget cache
+            CacheSetup.CacheKeys.AllWidgetsKeys().Each(key => Services.Get<ICache>().Remove(key));
                      
             this.LoadWidgets();
-
-            
+            EditForm.Visible = false;
         }        
     }
 
     private void SetWidgetRoles(int widgetId)
     {
         var roles = new List<string>();
-        foreach (ListItem item in Widgets.Items)
+        foreach (ListItem item in WidgetRoles.Items)
             if (item.Selected)
                 roles.Add(item.Text);
         using (Facade facade = new Facade(AppContext.GetContext(Context)))

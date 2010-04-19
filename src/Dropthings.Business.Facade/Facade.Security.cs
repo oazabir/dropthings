@@ -289,8 +289,7 @@
                                     wr.WidgetId = WidgetId;
                                 });
 
-                                Services.Get<ICache>().Remove(CacheSetup.CacheKeys.AllWidgets());
-                                Services.Get<ICache>().Remove(CacheSetup.CacheKeys.DefaultWidgets());                                
+                                CacheSetup.CacheKeys.AllWidgetsKeys().Each(key => Services.Get<ICache>().Remove(key));
                             }
                             else if ((!isEnable) && existingWidgetsInRole != null)
                             {
