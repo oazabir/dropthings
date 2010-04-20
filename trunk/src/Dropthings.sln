@@ -34,7 +34,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\",
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "8000"
 		VWDDynamicPort = "false"
-		VWDVirtualPath = "/"
+		VWDVirtualPath = "/Dropthings"
 		ProjOutputReferences = "{99534521-62DE-48FE-8C16-4F82E9F11C73}|ClientBin|false;"
 	EndProjectSection
 EndProject
@@ -81,16 +81,6 @@ Global
 		Release|Mixed Platforms = Release|Mixed Platforms
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|.NET.ActiveCfg = Release|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -101,6 +91,16 @@ Global
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{1A966CD5-07C6-4E57-AD53-C05A518B3BB3}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|.NET.ActiveCfg = Release|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{514B9055-2EEF-4111-9CAC-F763120BB35D}.Debug|Any CPU.Build.0 = Debug|Any CPU

@@ -32,7 +32,7 @@ TwitterService.set_defaultSucceededCallback = function(value) { TwitterService._
 TwitterService.get_defaultSucceededCallback = function() { return TwitterService._staticInstance.get_defaultSucceededCallback(); }
 TwitterService.set_defaultFailedCallback = function(value) { TwitterService._staticInstance.set_defaultFailedCallback(value); }
 TwitterService.get_defaultFailedCallback = function() { return TwitterService._staticInstance.get_defaultFailedCallback(); }
-TwitterService.set_path("/TwitterService.asmx");
+TwitterService.set_path(TWITTER_SERVICE_PATH);
 TwitterService.GetPublicStatuses= function(onSuccess,onFailed,userContext) {TwitterService._staticInstance.GetPublicStatuses(onSuccess,onFailed,userContext); }
 TwitterService.VerifyCredentials= function(username,password,onSuccess,onFailed,userContext) {TwitterService._staticInstance.VerifyCredentials(username,password,onSuccess,onFailed,userContext); }
 TwitterService.GetUserStatuses= function(username,password,onSuccess,onFailed,userContext) {TwitterService._staticInstance.GetUserStatuses(username,password,onSuccess,onFailed,userContext); }

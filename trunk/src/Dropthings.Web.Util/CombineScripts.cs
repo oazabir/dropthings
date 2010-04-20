@@ -36,6 +36,11 @@ namespace Dropthings.Web.Util
         /// </summary>
         public static string CombineScriptBlocks(string scripts, string baseUrl)
         {
+            // On Developer mode, the script links are left as it is to facilitate
+            // javascript debugging.
+            if (ConstantHelper.DeveloperMode)
+                return scripts;
+
             List<UrlMapSet> sets = LoadSets(baseUrl);
             string output = scripts;
 

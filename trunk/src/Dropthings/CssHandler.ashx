@@ -126,10 +126,12 @@ public class CssHandler : IHttpHandler {
         if( isCompressed )
             response.AppendHeader("Content-Encoding", "gzip");
 
-        
-        context.Response.Cache.SetCacheability(HttpCacheability.Public);
-        context.Response.Cache.SetExpires(DateTime.Now.Add(CACHE_DURATION));
-        context.Response.Cache.SetMaxAge(CACHE_DURATION);
+        if (!ConstantHelper.DeveloperMode)
+        {
+            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            context.Response.Cache.SetExpires(DateTime.Now.Add(CACHE_DURATION));
+            context.Response.Cache.SetMaxAge(CACHE_DURATION);
+        }
         
         context.Response.Cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
 

@@ -12,6 +12,10 @@ when there are other widgets which were added by dragging.
 * FIX: Issue 58:	After deleting a widget on a zone, widgets can't be dropped on this zone anymore
 * ADD: When a user first logs in which was created in ASP.NET Membership in some other way than the Dropthings registration, during first login, users page setup needs to be created.
 
+Version 2.5.5
+=============
+FIX: Twitter, Flickr widget was not loading Javascript from proper url when Dropthings runs on a virtual directory.
+
 Version 2.5.3
 =============
 * FIX: Silverlight Control was not working since Silverlight 3 SDK is used. Corrected the <object> tag and recreated the Silverlight Project which fixed the loading and debugging problem.
