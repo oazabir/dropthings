@@ -1,5 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="TwitterWidget.ascx.cs" Inherits="TwitterWidget" %>
-<link rel="Stylesheet" id="twitterCSS" href="/Widgets/TwitterWidget/TwitterWidget.css" />
+<script type="text/javascript">
+    var TWITTER_SERVICE_PATH = '<%= ResolveClientUrl("~/Widgets/TwitterWidget/TwitterService.asmx") %>';
+</script>
+<link rel="Stylesheet" id="twitterCSS" href="<%= ResolveClientUrl("~/Widgets/TwitterWidget/TwitterWidget.css") %>" />
 <div id="W<%= WidgetHostID %>_SettingsPanel" class="twSettings" style="display:none">
     <h3 class="twitterHeading"><asp:Literal ID="ltlTwitterCredentials" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, TwitterCredentials%>" /></h3>
     <div id="W<%= WidgetHostID %>_TwLoginProgress" class="twitterProgress" style="display:none"><asp:Literal ID="ltlLoggingIn" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, LoggingIn%>" /></div>

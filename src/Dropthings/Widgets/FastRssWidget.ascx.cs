@@ -116,7 +116,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 
         var cachedJSON = GetCachedJSON();
 
-        var scriptToLoad = "/Widgets/FastRssWidget.js?v=" + ConstantHelper.ScriptVersionNo;
+        var scriptToLoad = ResolveClientUrl("~/Widgets/FastRssWidget.js?v=" + ConstantHelper.ScriptVersionNo);
         var startUpCode = string.Format("window.rssLoader{0} = new FastRssWidget( '{1}', '{2}', {3}, {4} ); window.rssLoader{0}.load();",
                 this._Host.ID, this.Url, this.RssContainer.ClientID, this.Count, cachedJSON ?? "null");
 
