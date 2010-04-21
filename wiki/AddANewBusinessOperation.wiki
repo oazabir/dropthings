@@ -1,0 +1,13 @@
+#summary How to add a new business operation the proper way
+#labels Featured,Phase-Implementation
+
+= Introduction =
+
+Dropthings uses an N-tier architecture with clear separation of data and business logic. See how to introduce a new business operation in the business layer and make it call a data access layer operation and how to create a new Linq to SQL compiled query. 
+
+
+= Details =
+
+Watch this screencast:
+
+http://omaralzabir.com/wp-content/movies/AddNewBusOp.html
