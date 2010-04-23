@@ -57,7 +57,21 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
     {
         get
         {
-            if (_State == null) _State = XElement.Parse(this._Host.GetState());
+            if (_State == null)
+            {
+                string stateXml = this._Host.GetState();
+                if (string.IsNullOrEmpty(stateXml))
+                {
+                    //stateXml = "<state><type>MostPopular</type><tag /></state>";
+                    _State = new XElement("state",
+                        new XElement("url", "MostPopular"),
+                        new XElement("count", ""));
+                }
+                else
+                {
+                    _State = XElement.Parse(stateXml);
+                }
+            }
             return _State;
         }
     }
@@ -68,7 +82,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 
     void IEventListener.AcceptEvent(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        
     }
 
     void IWidget.Closed()
@@ -106,8 +120,11 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
     void IWidget.ShowSettings(bool userClicked)
     {
         SettingsPanel.Visible = true;
-        FeedCountDropDownList.SelectedIndex = -1;
-        FeedCountDropDownList.Items.FindByText(this.Count.ToString()).Selected = true;
+        if (userClicked)
+        {
+            FeedCountDropDownList.SelectedIndex = -1;
+            FeedCountDropDownList.Items.FindByText(this.Count.ToString()).Selected = true;            
+        }
     }
 
     protected override void OnPreRender(EventArgs e)
