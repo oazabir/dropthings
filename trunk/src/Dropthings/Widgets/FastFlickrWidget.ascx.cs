@@ -105,7 +105,7 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
 
     void IEventListener.AcceptEvent(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        
     }
 
     void IWidget.Closed()
