@@ -14,20 +14,12 @@
         #region Methods
 
         [DebuggerStepThrough]
-        public static void UsingNewAnonUser(Action<UserProfile> callback)
+        public static UserProfile CreateNewAnonUser()
         {
             UserProfile profile = UserProfile.Create(Guid.NewGuid().ToString(), false) as UserProfile;
             profile.IsFirstVisit = false;
             profile.Save();
-
-            try
-            {
-                callback(profile);
-            }
-            finally
-            {
-                ProfileManager.DeleteProfile(profile.UserName);
-            }
+            return profile;
         }
 
         #endregion Methods

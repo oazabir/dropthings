@@ -123,6 +123,10 @@
 
         public void Dispose()
         {
+            if (_Disposed) return;
+
+            _Disposed = true;
+
             foreach (object item in this._Items.Values)
             {
                 if (item != this)
@@ -137,7 +141,7 @@
                         }
             }
 
-            _Disposed = true;
+            this._Items.Clear();
         }
 
         #endregion Methods

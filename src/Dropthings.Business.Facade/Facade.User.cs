@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Dropthings.DataAccess;
+using Dropthings.Data;
 
 using System.Transactions;
 using System.Web.Security;
@@ -23,12 +23,12 @@ namespace Dropthings.Business.Facade
 
         public MembershipUser GetUser(string userName)
         {
-            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICache>(), CacheSetup.CacheKeys.UserFromUserName(userName))
+            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICache>(), CacheKeys.UserKeys.UserFromUserName(userName))
                 .Return<MembershipUser>(() => Membership.GetUser(userName));
         }
         public MembershipUser GetUser(Guid userGuid)
         {
-            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICache>(), CacheSetup.CacheKeys.UserFromUserGuid(userGuid))
+            return AspectF.Define.Cache<MembershipUser>(Services.Get<ICache>(), CacheKeys.UserKeys.UserFromUserGuid(userGuid))
                 .Return<MembershipUser>(() => Membership.GetUser(userGuid));
         }
 
@@ -61,12 +61,11 @@ namespace Dropthings.Business.Facade
             {
                 // No setting saved before. Create default setting
 
-                userSetting = this.userSettingRepository.Insert(
-                    newSetting =>
+                userSetting = this.userSettingRepository.Insert(new UserSetting
                     {
-                        newSetting.UserId = userGuid;
-                        newSetting.CreatedDate = DateTime.Now;
-                        newSetting.CurrentPageId = this.pageRepository.GetPageIdByUserGuid(userGuid).First();
+                        aspnet_Users = new aspnet_User { UserId = userGuid },
+                        CreatedDate = DateTime.Now,
+                        CurrentPageId = this.pageRepository.GetPageIdByUserGuid(userGuid).First()
                     });
             }
 
@@ -79,23 +78,23 @@ namespace Dropthings.Business.Facade
 
             using (TransactionScope ts = new TransactionScope())
             {
+                // TODO: Since changing the page object will change the object
+                // directly into the cache, next time getting the same pages will
+                // return the new user ID for the pages. We need to clone the pages.
                 IEnumerable<Page> pages = this.GetPagesOfUser(userOldGuid);
-                
-                this.pageRepository.UpdateList(pages, (page) =>
-                {
-                    page.UserId = userGuid;
-                }, null);
+                pages.Each(page => page.aspnet_Users = new aspnet_User { UserId = userGuid });
+                this.pageRepository.UpdateList(pages);
                 
                 var userSetting = GetUserSetting(userOldGuid);
                 
                 // Delete setting for the anonymous user and create new setting for the new user 
                 this.userSettingRepository.Delete(userSetting);
 
-                this.userSettingRepository.Insert((newSetting) =>
+                this.userSettingRepository.Insert(new UserSetting
                 {
-                    newSetting.UserId = userGuid;
-                    newSetting.CurrentPageId = userSetting.CurrentPageId;
-                    newSetting.CreatedDate = DateTime.Now;
+                    aspnet_Users = new aspnet_User { UserId = userGuid },
+                    CurrentPageId = userSetting.CurrentPageId,
+                    CreatedDate = DateTime.Now
                 });
 
                 ts.Complete();
@@ -115,10 +114,10 @@ namespace Dropthings.Business.Facade
             if (userGuid.IsEmpty())
             {
                 var newUserGuid = CreateUser(requestedUserName, password, email);
-                SetUserRoles(requestedUserName, roleName);
+                SetUserRoles(requestedUserName, new string[] { roleName });
                 AddUserToRoleTemplate(newUserGuid, templateRoleName);
 
-                var createdPage = CreatePage(newUserGuid, string.Empty, null, 0);
+                var createdPage = CreatePage(newUserGuid, string.Empty, 0, 0);
 
                 if (createdPage != null && createdPage.ID > 0)
                 {
@@ -147,24 +146,6 @@ namespace Dropthings.Business.Facade
         public Guid GetUserGuidFromUserName(string userName)
         {
             return this.userRepository.GetUserGuidFromUserName(userName);
-        }
-
-        public int GetMemberCount()
-        {
-            return userRepository.GetMemberCount();
-        }
-        public List<aspnet_Membership> GetPagedMember(int maximumRows, int startRowIndex, string sortExpression)
-        {
-            return userRepository.GetPagedMember(startRowIndex, maximumRows, sortExpression);
-        }
-
-        public int GetMemberCountByRole(string roleName)
-        {
-            return userRepository.GetMemberCountByRole(roleName);
-        }
-        public List<aspnet_Membership> GetPagedMemberByRole(string roleName, int maximumRows, int startRowIndex)
-        {
-            return userRepository.GetPagedMemberByRole(roleName, startRowIndex, maximumRows);
         }
 
         #endregion

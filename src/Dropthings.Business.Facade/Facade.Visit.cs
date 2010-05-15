@@ -7,7 +7,7 @@ namespace Dropthings.Business.Facade
     using System.Linq;
     using System.Text;
 
-    using Dropthings.DataAccess;
+    using Dropthings.Data;
     using Dropthings.Model;
     using OmarALZabir.AspectF;
     using Dropthings.Util;
@@ -23,7 +23,7 @@ namespace Dropthings.Business.Facade
         public UserSetup FirstVisitHomePage(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
             return AspectF.Define
-                .Transaction()
+                //.Transaction()
                 .Return<UserSetup>(() =>
             {
                 // If user does not exist, then this is the very *FIRST VISIT* of the user and user
@@ -32,17 +32,18 @@ namespace Dropthings.Business.Facade
                 var userGuid = this.GetUserGuidFromUserName(userName);
 
                 var userSettingTemplate = GetUserSettingTemplate();
-                SetUserRoles(userName, userSettingTemplate.AnonUserSettingTemplate.RoleNames);
-
-                // Get the template user so that its page setup can be cloned for new user
-                var roleTemplate = GetRoleTemplate(userGuid);
+                SetUserRoles(userName, new string[] { userSettingTemplate.AnonUserSettingTemplate.RoleNames });
 
                 if (userSettingTemplate.CloneAnonProfileEnabled)
                 {
-                    if (!roleTemplate.TemplateUserId.IsEmpty())
+                    // Get the template user so that its page setup can be cloned for new user
+                    var templateUserGuid = this.GetUserGuidFromUserName(userSettingTemplate.AnonUserSettingTemplate.UserName);
+                    var roleTemplate = GetRoleTemplate(templateUserGuid);
+
+                    if (roleTemplate != default(RoleTemplate))
                     {
                         // Get template user pages so that it can be cloned for new user
-                        var templateUserPages = this.GetPagesOfUser(roleTemplate.TemplateUserId);
+                        var templateUserPages = this.GetPagesOfUser(roleTemplate.aspnet_Users.UserId);
 
                         foreach (Page templatePage in templateUserPages)
                         {
@@ -52,17 +53,20 @@ namespace Dropthings.Business.Facade
                             }
                         }
 
-                        if (roleTemplate.TemplateUserId != userGuid)
+                        if (roleTemplate.aspnet_Users.UserId != userGuid)
                         {
                             //bring only the locked pages which are not in maintenence mode
-                            response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
+                            response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.aspnet_Users.UserId, false);
                         }
+
+                        response.RoleTemplate = roleTemplate;
+                        response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);                
                     }
                 }
                 else
                 {
                     // Setup some default pages
-                    var page = CreatePage(userGuid, string.Empty, null, 0);
+                    var page = CreatePage(userGuid, string.Empty, 0, 0);
 
                     if (page != null && page.ID > 0)
                     {
@@ -80,8 +84,6 @@ namespace Dropthings.Business.Facade
                 response.UserSetting = GetUserSetting(userGuid);
                 response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPageId, isAnonymous, isFirstVisitAfterLogin);
                 response.CurrentUserId = userGuid;
-                response.RoleTemplate = roleTemplate;
-                response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);
                 return response;
             });
         }
@@ -89,7 +91,7 @@ namespace Dropthings.Business.Facade
         public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
             return AspectF.Define
-                .Transaction()
+                //.Transaction()
                 .Return<UserSetup>(() =>
             {
                 // User is visiting again, so load user's existing page setup
@@ -100,13 +102,13 @@ namespace Dropthings.Business.Facade
                 response.RoleTemplate = roleTemplate;
                 response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);
 
-                if (!roleTemplate.TemplateUserId.IsEmpty())
+                if (!roleTemplate.aspnet_Users.UserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    if (roleTemplate.TemplateUserId != userGuid)
+                    if (roleTemplate.aspnet_Users.UserId != userGuid)
                     {
                         //bring only the locked pages which are not in maintenence mode
-                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
+                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.aspnet_Users.UserId, false);
                     }
                 }
 
@@ -122,10 +124,8 @@ namespace Dropthings.Business.Facade
 
                     if (userSetting.CurrentPageId != response.CurrentPage.ID)
                     {
-                        this.userSettingRepository.Update(userSetting, (setting) =>
-                        {
-                            setting.CurrentPageId = response.CurrentPage.ID;
-                        }, null);
+                        userSetting.CurrentPageId = response.CurrentPage.ID;
+                        this.userSettingRepository.Update(userSetting);
                     }
 
                     response.UserSetting = GetUserSetting(userGuid);

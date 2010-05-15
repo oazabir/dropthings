@@ -5,8 +5,6 @@
 	using System.Linq;
 	using System.Text;
 
-	using Dropthings.DataAccess.Repository;
-
 	using Moq;
 
 	using Xunit;
@@ -14,6 +12,8 @@
 	using Dropthings.Util;
 	using OmarALZabir.AspectF;
 	using System.Collections;
+    using Dropthings.Data;
+    using Dropthings.Data.Repository;
 
 	public class PageRepositoryTest
 	{
@@ -31,24 +31,24 @@
 		public void GetPage_Should_Return_A_Page_from_database_when_cache_is_empty_and_then_caches_it()
 		{
 			var cache = new Mock<ICache>();
-			var database = new Mock<IDropthingsDataContext>();
+			var database = new Mock<IDatabase>();
 			IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
 
 			const int pageId = 1;
 			var page = default(Page);
-			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
 
 			database
-					.Expect<Page>(d => d.GetSingle<Page, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageById))
-					.Returns(samplePage);
+					.Expect<IQueryable<Page>>(d => d.Query<int, Page>(CompiledQueries.PageQueries.GetPageById, 1))
+					.Returns(new Page[] { samplePage }.AsQueryable()).Verifiable();
 
 			"Given PageRepository and empty cache".Context(() =>
 			{
 				// cache is empty
 				cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
 				// It will cache the Page object afte loading from database
-				cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheSetup.CacheKeys.PageId(pageId)),
-						It.Is<Page>(cachePage => object.ReferenceEquals(cachePage, samplePage)))).AtMostOnce().Verifiable();
+				cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheKeys.PageKeys.PageId(pageId)),
+						It.Is<Page>(cachePage => object.ReferenceEquals(cachePage, samplePage)))).Verifiable();
 			});
 
 			"when GetPageById is called".Do(() =>
@@ -71,17 +71,18 @@
 		public void GetPage_Should_Return_A_Page_from_cache_when_it_is_already_cached()
 		{
 			var cache = new Mock<ICache>();
-			var database = new Mock<IDropthingsDataContext>();
+			var database = new Mock<IDatabase>();
 			IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
 
 			const int pageId = 1;
 			var page = default(Page);
-			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, UserId = Guid.Empty, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, VersionNo = 1, 
+                PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
 
 			"Given PageRepository and the requested page in cache".Context(() =>
 			{
-				cache.Expect(c => c.Get(CacheSetup.CacheKeys.PageId(samplePage.ID)))
-						.Returns(samplePage);
+				cache.Expect(c => c.Get(CacheKeys.PageKeys.PageId(samplePage.ID)))
+						.Returns(samplePage).AtMostOnce();
 			});
 
 			"when GetPageById is called".Do(() =>
@@ -104,14 +105,14 @@
 		{
 			RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
 			{
-				Guid userId = Guid.Empty;
+                Guid userId = Guid.NewGuid();
 
 				List<Page> userPages = new List<Page>();
-				userPages.Add(new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
-				userPages.Add(new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
+				userPages.Add(new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
+				userPages.Add(new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
 
-				database.Expect<List<Page>>(d => d.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, Guid.Empty, LinqQueries.CompiledQuery_GetPagesByUserId))
-						.Returns(userPages);
+				database.Expect<IQueryable<Page>>(d => d.Query<Guid, Page>(CompiledQueries.PageQueries.GetPagesByUserId, userId))
+						.Returns(userPages.AsQueryable()).Verifiable();
 
 				List<int> pageIds = userPages.Select(p => p.ID).ToList();
 
@@ -156,8 +157,8 @@
 			{
 				const string ownerName = "some user name";
 				const int pageId = 1;
-				database.Expect<string>(d => d.GetSingle<string, int>(DropthingsDataContext.SubsystemEnum.Page, 1, LinqQueries.CompiledQuery_GetPageOwnerName))
-						.Returns(ownerName);
+				database.Expect<IQueryable<string>>(d => d.Query<int, string>(CompiledQueries.PageQueries.GetPageOwnerName, 1))
+						.Returns(new string[] { ownerName }.AsQueryable()).Verifiable();
 
 				var userName = default(string);
 
@@ -166,8 +167,8 @@
 							// cache is empty
 							cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
 							// ensure the page owner name is cached after loading from database
-							cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheSetup.CacheKeys.PageOwnerName(pageId)),
-									It.Is<string>(cacheOwnerName => cacheOwnerName == ownerName))).AtMostOnce().Verifiable();
+							cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheKeys.PageKeys.PageOwnerName(pageId)),
+									It.Is<string>(cacheOwnerName => cacheOwnerName == ownerName))).Verifiable();
 						});
 
 				"when GetPageOwnerName is called with a PageId".Do(() =>
@@ -191,22 +192,22 @@
 		{
 			RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
 			{
-				Guid userId = Guid.NewGuid();
+                Guid userId = Guid.NewGuid();
 
 				List<Page> userPages = new List<Page>();
-				var page1 = new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
-				var page2 = new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, UserId = userId, VersionNo = 1, PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+                var page1 = new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now, aspnet_Users = new aspnet_User { UserId = userId } };
+                var page2 = new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now, aspnet_Users = new aspnet_User { UserId = userId } };
 				userPages.Add(page1);
 				userPages.Add(page2);
 
-				database.Expect<List<Page>>(d => d.GetList<Page, Guid>(DropthingsDataContext.SubsystemEnum.Page, userId, LinqQueries.CompiledQuery_GetPagesByUserId))
-						.Returns(userPages);
+				database.Expect<IQueryable<Page>>(d => d.Query<Guid, Page>(CompiledQueries.PageQueries.GetPagesByUserId, userId))                    
+						.Returns(userPages.AsQueryable()).Verifiable();
 
 				var cacheMap = new Dictionary<string, object>();
-				var collectionKey = CacheSetup.CacheKeys.PagesOfUser(userId);
+				var collectionKey = CacheKeys.UserKeys.PagesOfUser(userId);
 				cacheMap.Add(collectionKey, userPages);
-				cacheMap.Add(CacheSetup.CacheKeys.PageId(1), page1);
-				cacheMap.Add(CacheSetup.CacheKeys.PageId(2), page2);
+				cacheMap.Add(CacheKeys.PageKeys.PageId(1), page1);
+				cacheMap.Add(CacheKeys.PageKeys.PageId(2), page2);
 
 				"Given PageRepository and Empty cache".Context(() =>
 						{
@@ -232,7 +233,7 @@
 				"it returns the pages of the user".Assert(() =>
 				{
 					Assert.Equal<int>(userPages.Count, pages.Count);
-					pages.Each(page => Assert.Equal(userId, page.UserId));
+					pages.Each(page => Assert.Equal(userId, page.aspnet_Users.UserId));
 				});
 			});
 		}
@@ -241,34 +242,40 @@
 		public void InsertPage_should_insert_a_page_in_database_and_cache_it()
 		{
 			var cache = new Mock<ICache>();
-			var database = new Mock<IDropthingsDataContext>();
+			var database = new Mock<IDatabase>();
 			IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
 
 			const int pageId = 1;
+            Guid userId = Guid.NewGuid();
 			var page = default(Page);
-			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, 
-				LayoutType = 3, UserId = Guid.NewGuid(), VersionNo = 1, 
-				PageType = Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+			var samplePage = new Page() { Title = "Test Page", ColumnCount = 3, 
+				LayoutType = 3, aspnet_Users = new aspnet_User { UserId = userId }, VersionNo = 1, 
+				PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
 
-			database
-					.Expect<Page>(d => d.Insert<Page>(DropthingsDataContext.SubsystemEnum.Page, It.IsAny<Action<Page>>()))
-					.Returns(samplePage);
+			database.Expect<Page>(d => d.Insert<aspnet_User, Page>(
+                        It.Is<aspnet_User>(u => u.UserId == userId),
+                        It.IsAny<Action<aspnet_User, Page>>(),
+                        It.Is<Page>(p => p.ID == default(int))))
+                    .Callback(() => samplePage.ID = pageId)
+					.Returns(samplePage)
+                    .AtMostOnce()
+                    .Verifiable();
 
 			"Given PageRepository".Context(() =>
 			{
 				// It will clear items from cache
-				cache.Expect(c => c.Remove(CacheSetup.CacheKeys.PagesOfUser(samplePage.UserId)));
+				cache.Expect(c => c.Remove(CacheKeys.UserKeys.PagesOfUser(samplePage.aspnet_Users.UserId)));
 			});
 
 			"when Insert is called".Do(() =>
-					page = pageRepository.Insert((newPage) =>
+					page = pageRepository.Insert(new Page
 					{
-						newPage.Title = samplePage.Title;
-						newPage.ColumnCount = samplePage.ColumnCount;
-						newPage.LayoutType = samplePage.LayoutType;
-						newPage.UserId = samplePage.UserId;
-						newPage.VersionNo = samplePage.VersionNo;
-						newPage.PageType = samplePage.PageType;
+						Title = samplePage.Title,
+						ColumnCount = samplePage.ColumnCount,
+						LayoutType = samplePage.LayoutType,
+						aspnet_Users = new aspnet_User { UserId = userId },
+						VersionNo = samplePage.VersionNo,
+						PageType = samplePage.PageType
 					}));
 
 			("then it should insert the page in database" +

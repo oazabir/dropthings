@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Text;
 
-    using Dropthings.DataAccess;
+    using Dropthings.Data;
     using Dropthings.Model;
     using System.Web.Security;
     using Dropthings.Configuration;
@@ -34,8 +34,8 @@
 
         public bool CheckRoleTemplateIsRegisterUserTemplate(RoleTemplate template)
         {
-            //MembershipUser user = this.GetUser(template.TemplateUserId);
-            aspnet_User user = userRepository.GetUserByUserGuid(template.TemplateUserId);
+            //MembershipUser user = this.GetUser(template.aspnet_Users.UserId);
+            aspnet_User user = userRepository.GetUserByUserGuid(template.aspnet_Users.UserId);
             
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 
@@ -44,8 +44,8 @@
 
         public bool CheckRoleTemplateIsAnonymousUserTemplate(RoleTemplate template)
         {
-            //MembershipUser user = this.GetUser(template.TemplateUserId);
-            aspnet_User user = userRepository.GetUserByUserGuid(template.TemplateUserId);
+            //MembershipUser user = this.GetUser(template.aspnet_Users.UserId);
+            aspnet_User user = userRepository.GetUserByUserGuid(template.aspnet_Users.UserId);
 
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 
@@ -54,7 +54,7 @@
 
         public UserTemplateSetting GetUserSettingTemplate()
         {
-            return AspectF.Define.Cache<UserTemplateSetting>(Services.Get<ICache>(), CacheSetup.CacheKeys.UserTemplateSetting())
+            return AspectF.Define.Cache<UserTemplateSetting>(Services.Get<ICache>(), CacheKeys.TemplateKeys.UserTemplateSetting())
                 .Return<UserTemplateSetting>(() =>
                     {
                         UserSettingTemplateSettingsSection settings = (UserSettingTemplateSettingsSection)ConfigurationManager.GetSection(UserSettingTemplateSettingsSection.SectionName);

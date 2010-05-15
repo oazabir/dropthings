@@ -38,6 +38,9 @@ public class BasePage : Page
 
     private void ReplaceThemeCssLink()
     {
+        if (ConstantHelper.DeveloperMode)
+            return;
+
         string themeName = Page.Theme;
         if (string.IsNullOrEmpty(themeName)) return;
 

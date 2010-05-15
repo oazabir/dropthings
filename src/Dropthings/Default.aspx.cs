@@ -22,8 +22,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.DataAccess;
-using Page = Dropthings.DataAccess.Page;
+using Dropthings.Data;
+using Page = Dropthings.Data.Page;
 using Dropthings.Web.Framework;
 using Dropthings.Web.UI;
 using Dropthings.Web.Util;
@@ -87,15 +87,17 @@ public partial class _Default : BasePage
 
     public override Control FindControl(string id)
     {
-        var control = base.FindControl(id);
-        if (control == null)
-        {
-            return this.WidgetPage.FindControl(id);
-        }
-        else
-        {
-            return control;
-        }
+        //var control = base.FindControl(id);
+        //if (control == null)
+        //{
+        //    return this.WidgetPage.FindControl(id);
+        //}
+        //else
+        //{
+        //    return control;
+        //}
+
+        return this.WidgetPage.FindControl(id) ?? base.FindControl(id);
     }
 
     protected void ChangeTabSettingsLinkButton_Clicked(object sender, EventArgs e)
@@ -131,7 +133,7 @@ public partial class _Default : BasePage
 
     private void LoadOptionsForTemplateUser()
     {
-        if(_Setup.RoleTemplate.TemplateUserId == _Setup.CurrentUserId)
+        if(_Setup.RoleTemplate.aspnet_Users.UserId == _Setup.CurrentUserId)
         {
             pnlTemplateUserSettings.Visible = true;
         }
@@ -149,7 +151,7 @@ public partial class _Default : BasePage
             });
     }
 
-    public void RedirectToTab(Dropthings.DataAccess.Page page)
+    public void RedirectToTab(Page page)
     {
         if (!page.IsLocked)
         {
@@ -204,7 +206,7 @@ public partial class _Default : BasePage
 
         if (_Setup != null)
         {
-            IsTemplateUser = _Setup.RoleTemplate.TemplateUserId.Equals(_Setup.CurrentUserId);  
+            IsTemplateUser = _Setup.RoleTemplate.aspnet_Users.UserId.Equals(_Setup.CurrentUserId);  
         }
 
         if (this.AddContentPanel.Visible)
@@ -311,7 +313,7 @@ public partial class _Default : BasePage
         this.WidgetListControlAdd.LoadWidgetList(newWidget =>
         {
             this.ReloadCurrentPage();
-            this.WidgetPage.RefreshZone(newWidget.WidgetZoneId);
+            this.WidgetPage.RefreshZone(newWidget.WidgetZone.ID);
         });
     }
 
@@ -324,39 +326,38 @@ public partial class _Default : BasePage
             .Retry(Services.Get<ILogger>())
             .Do(() =>
         {
-            using (var facade = new Facade(AppContext.GetContext(Context)))
+            var facade = Services.Get<Facade>();
+            if (Profile.IsAnonymous)
             {
-                if (Profile.IsAnonymous)
+                if (Profile.IsFirstVisit)
                 {
-                    if (Profile.IsFirstVisit)
-                    {
-                        // First visit
-                        Profile.IsFirstVisit = false;
-                        Profile.Save();
-                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
-                    }
-                    else
-                    {
-                        _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
-                    }
+                    // First visit
+                    Profile.IsFirstVisit = false;
+                    Profile.Save();
+                    _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                 }
                 else
                 {
-                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.IsFirstVisitAfterLogin);
-
-                    // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
-                    // to recrate the pages
-                    if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count() == 0)
-                    {
-                        _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
-                    }
+                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                 }
-
-                //save the profile to keep LastActivityAt updated
-                Profile.LastActivityAt = DateTime.Now;
-                Profile.IsFirstVisitAfterLogin = false;
-                Profile.Save();
             }
+            else
+            {
+                _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.IsFirstVisitAfterLogin);
+
+                // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
+                // to recrate the pages
+                if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count() == 0)
+                {
+                    _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
+                }
+            }
+
+            //save the profile to keep LastActivityAt updated
+            Profile.LastActivityAt = DateTime.Now;
+            Profile.IsFirstVisitAfterLogin = false;
+            Profile.Save();
+            
         });
     }
 
@@ -393,7 +394,7 @@ public partial class _Default : BasePage
 
     private void LockPageContent(Page page)
     {
-        if (page.UserId != _Setup.CurrentUserId)
+        if (page.aspnet_Users.UserId != _Setup.CurrentUserId)
         {
             ShowAddContentPanel.Enabled = HideAddContentPanel.Enabled = ChangePageTitleLinkButton.Enabled = !page.IsLocked;
         }

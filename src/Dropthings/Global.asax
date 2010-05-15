@@ -71,6 +71,20 @@
     {
         // setup AppContext for this http request
         var context = new AppContext(Context, string.Empty, Profile.UserName);
+        var requestLifeTimeManager = new Munq.DI.LifetimeManagers.ASPNETRequestLifetime();
+        
+        Dropthings.Util.Services.RegisterType<Dropthings.Business.Facade.Facade>(
+                c => new Dropthings.Business.Facade.Facade(context))
+            .WithLifetimeManager(requestLifeTimeManager);
+    }
+
+
+    protected void Application_EndRequest(object sender, EventArgs e)
+    {
+        AppContext context = AppContext.GetContext(Context);
+        if (null != context)
+            context.Dispose();
+        Dropthings.Util.Services.Get<Dropthings.Business.Facade.Facade>().Dispose();
     }
 </script>
 

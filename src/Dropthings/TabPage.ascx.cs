@@ -9,10 +9,12 @@ using System.Web.UI.WebControls;
 using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.DataAccess;
+using Dropthings.Data;
 using Dropthings.Web.Framework;
 using Dropthings.Business.Facade;
 using Dropthings.Business.Facade.Context;
+
+using Page = Dropthings.Data.Page;
 
 public partial class TabPage : System.Web.UI.UserControl
 {
@@ -26,17 +28,17 @@ public partial class TabPage : System.Web.UI.UserControl
 
     #region Properties
 
-    public Dropthings.DataAccess.Page CurrentPage
+    public Page CurrentPage
     {
         get; set;
     }
 
-    public IEnumerable<Dropthings.DataAccess.Page> Pages
+    public IEnumerable<Page> Pages
     {
         get; set;
     }
 
-    public List<Dropthings.DataAccess.Page> LockedPages
+    public List<Page> LockedPages
     {
         get;
         set;
@@ -52,7 +54,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
     #region Methods
 
-    public void LoadTabs(Guid currentUserId, IEnumerable<Dropthings.DataAccess.Page> pages, List<Dropthings.DataAccess.Page> sharedPages, Dropthings.DataAccess.Page page)
+    public void LoadTabs(Guid currentUserId, IEnumerable<Page> pages, List<Page> sharedPages, Page page)
     {
         this.CurrentPage = page;
         this.Pages = pages;
@@ -61,9 +63,9 @@ public partial class TabPage : System.Web.UI.UserControl
         this.SetupTabs();
     }
 
-    public void RedirectToTab(Dropthings.DataAccess.Page page)
+    public void RedirectToTab(Page page)
     {
-        if (!page.IsLocked || CurrentUserId == page.UserId)
+        if (!page.IsLocked || CurrentUserId == page.aspnet_Users.UserId)
         {
             Response.Redirect("Default.aspx?" + page.UserTabName);
         }
@@ -93,7 +95,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
         using (var facade = new Facade(AppContext.GetContext(Context)))
         {
-            var page = facade.CreatePage(string.Empty, null);
+            var page = facade.CreatePage(string.Empty, 0);
             RedirectToTab(page);
         }
     }
@@ -105,7 +107,7 @@ public partial class TabPage : System.Web.UI.UserControl
         using (var facade = new Facade(AppContext.GetContext(Context)))
         {
             var roleTemplate = facade.GetRoleTemplate(CurrentUserId);
-            isTemplateUser = roleTemplate.TemplateUserId.Equals(CurrentUserId);
+            isTemplateUser = roleTemplate.aspnet_Users.UserId.Equals(CurrentUserId);
         }
 
         var viewablePages = this.Pages.ToList();
@@ -137,7 +139,7 @@ public partial class TabPage : System.Web.UI.UserControl
             {
                 var url = "?";
 
-                if (!page.IsLocked || CurrentUserId == page.UserId)
+                if (!page.IsLocked || CurrentUserId == page.aspnet_Users.UserId)
                 {
                     url += page.UserTabName;
                 }

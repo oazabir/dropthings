@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dropthings.Business.Facade;
 using Dropthings.Business.Facade.Context;
-using Dropthings.DataAccess;
+using Dropthings.Data;
 using Dropthings.Util;
 using OmarALZabir.AspectF;
 
@@ -23,6 +23,22 @@ public partial class Admin_ManageWidgets : System.Web.UI.Page
         {
             Widgets.DataSource = facade.GetAllWidgets();
             Widgets.DataBind();
+        }
+    }
+
+    protected void DeleteWidget_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            using (Facade facade = new Facade(AppContext.GetContext(Context)))
+            {
+                facade.DeleteWidget(int.Parse(Field_ID.Value));
+            }
+        }
+        catch (Exception x)
+        {
+            Error.Text = x.Message;
+            Error.Visible = true;
         }
     }
 
@@ -77,9 +93,6 @@ public partial class Admin_ManageWidgets : System.Web.UI.Page
                 SetWidgetRoles(widgetId);   
             }
 
-            // Flush all widget cache
-            CacheSetup.CacheKeys.AllWidgetsKeys().Each(key => Services.Get<ICache>().Remove(key));
-                     
             this.LoadWidgets();
             EditForm.Visible = false;
         }        

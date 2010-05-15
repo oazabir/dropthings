@@ -49,21 +49,21 @@ namespace Dropthings.Web.Framework
             });
         }
 
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
-        public void AssignPermission(string widgetPermissions)
-        {
-            AspectF.Define
-                .Log(Services.Get<ILogger>(), "AssignPermission {0}", widgetPermissions)
-                .MustBeNonDefault<string>(widgetPermissions).Do(() =>
-            {
-                using (var facade = new Facade(AppContext.GetContext(Context)))
-                {
-                    facade.AssignWidgetPermission(widgetPermissions);
-                }
-            });
+        //[WebMethod]
+        //[ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
+        //public void AssignPermission(string widgetPermissions)
+        //{
+        //    AspectF.Define
+        //        .Log(Services.Get<ILogger>(), "AssignPermission {0}", widgetPermissions)
+        //        .MustBeNonDefault<string>(widgetPermissions).Do(() =>
+        //    {
+        //        using (var facade = new Facade(AppContext.GetContext(Context)))
+        //        {
+        //            facade.AssignWidgetPermission(widgetPermissions);
+        //        }
+        //    });
 
-        }
+        //}
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
