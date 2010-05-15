@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    using Dropthings.DataAccess;
+    using Dropthings.Data;
     
     using Dropthings.Util;
     using Dropthings.Configuration;
@@ -35,55 +35,59 @@
 
         public Column CloneColumn(Page clonedPage, Column columnToClone)
         {
-            var widgetZoneToClone = this.widgetZoneRepository.GetWidgetZoneById(columnToClone.WidgetZoneId);
+            var widgetZoneToClone = this.widgetZoneRepository.GetWidgetZoneById(columnToClone.WidgetZone.ID);
 
-            var clonedWidgetZone = this.widgetZoneRepository.Insert((newWidgetZone) =>
+            var clonedWidgetZone = this.widgetZoneRepository.Insert(new WidgetZone
             {
-                newWidgetZone.Title = widgetZoneToClone.Title;
-                newWidgetZone.UniqueID = Guid.NewGuid().ToString();
+                Title = widgetZoneToClone.Title,
+                UniqueID = Guid.NewGuid().ToString()
             });
 
             var widgetInstancesToClone = this.GetWidgetInstancesInZoneWithWidget(widgetZoneToClone.ID);
-            widgetInstancesToClone.Each(widgetInstanceToClone => CloneWidgetInstance(clonedWidgetZone.ID, widgetInstanceToClone));                
-
-            var newColumn = this.columnRepository.Insert((col) =>
+            widgetInstancesToClone.Each(widgetInstanceToClone => CloneWidgetInstance(clonedWidgetZone.ID, widgetInstanceToClone));
+            var newColumn = new Column
             {
-                col.PageId = clonedPage.ID;
-                col.WidgetZoneId = clonedWidgetZone.ID;
-                col.ColumnNo = columnToClone.ColumnNo;
-                col.ColumnWidth = columnToClone.ColumnWidth;
-            });
-            
-            return newColumn;
+                Page = new Page { ID = clonedPage.ID },
+                WidgetZone = new WidgetZone { ID = clonedWidgetZone.ID },
+                ColumnNo = columnToClone.ColumnNo,
+                ColumnWidth = columnToClone.ColumnWidth
+            };
+
+            return this.columnRepository.Insert(newColumn);
         }
 
-        public Page CreatePage(Guid userGuid, string title, string layoutType, int toOrder)
+        public Page CreatePage(Guid userGuid, string title, int layoutType, int toOrder)
         {
             PushDownPages(0, toOrder);
             
             title = string.IsNullOrEmpty(title) ? DecideUniquePageName() : title;
 
-            var insertedPage = this.pageRepository.Insert((pageToBeCreated) =>
+            var insertedPage = this.pageRepository.Insert(new Page
             {
-                ObjectBuilder.BuildDefaultPage(pageToBeCreated, userGuid, title, Convert.ToInt32(layoutType), toOrder);
+                aspnet_Users = new aspnet_User { UserId = userGuid },
+                Title = title,
+                LayoutType = layoutType,
+                OrderNo = toOrder,
+                CreatedDate = DateTime.Now
             });
 
             var page = this.pageRepository.GetPageById(insertedPage.ID);
 
             for (int i = 0; i < insertedPage.ColumnCount; ++i)
             {
-                var insertedWidgetZone = this.widgetZoneRepository.Insert((widgetZone) =>
+                var insertedWidgetZone = this.widgetZoneRepository.Insert(new WidgetZone
                 {
-                    var columnTitle = "Column " + (i + 1);
-                    ObjectBuilder.BuildDefaultWidgetZone(widgetZone, columnTitle, columnTitle, 0);
+                    Title = "Column " + (i + 1),
+                    OrderNo = 0,
+                    UniqueID = "Column " + (i + 1)
                 });
 
-                var insertedColumn = this.columnRepository.Insert((column) =>
+                var insertedColumn = this.columnRepository.Insert(new Column
                 {
-                    column.ColumnNo = i;
-                    column.ColumnWidth = (100 / insertedPage.ColumnCount);
-                    column.WidgetZoneId = insertedWidgetZone.ID;
-                    column.PageId = insertedPage.ID;
+                    ColumnNo = i,
+                    ColumnWidth = (100 / insertedPage.ColumnCount),
+                    WidgetZone = new WidgetZone { ID = insertedWidgetZone.ID },
+                    Page = new Page { ID = insertedPage.ID }
                 });
             }
             
@@ -92,7 +96,7 @@
             return SetCurrentPage(userGuid, page.ID);
         }
 
-        public Page CreatePage(string title, string layoutType)
+        public Page CreatePage(string title, int layoutType)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName); 
             return CreatePage(userGuid, title, layoutType, 9999);
@@ -102,20 +106,20 @@
         {
             if (userGuid != Guid.Empty)
             {
-                var clonedPage = this.pageRepository.Insert((page) =>
+                var clonedPage = this.pageRepository.Insert(new Page
                 {
-                    page.CreatedDate = DateTime.Now;
-                    page.Title = pageToClone.Title;
-                    page.UserId = userGuid;
-                    page.LastUpdated = pageToClone.LastUpdated;
-                    page.VersionNo = pageToClone.VersionNo;
-                    page.LayoutType = pageToClone.LayoutType;
-                    page.PageType = pageToClone.PageType;
-                    page.ColumnCount = pageToClone.ColumnCount;
-                    page.OrderNo = pageToClone.OrderNo;
+                    aspnet_Users = new aspnet_User { UserId = userGuid },
+                    CreatedDate = DateTime.Now,
+                    Title = pageToClone.Title,
+                    LastUpdated = pageToClone.LastUpdated,
+                    VersionNo = pageToClone.VersionNo,
+                    LayoutType = pageToClone.LayoutType,
+                    PageType = pageToClone.PageType,
+                    ColumnCount = pageToClone.ColumnCount,
+                    OrderNo = pageToClone.OrderNo,
                 });
 
-                ReorderPagesOfUser();
+                //ReorderPagesOfUser();
 
                 var columns = this.GetColumnsInPage(pageToClone.ID);
                 columns.Each(columnToClone => CloneColumn(clonedPage, columnToClone));
@@ -128,21 +132,21 @@
 
         public WidgetInstance CloneWidgetInstance(int widgetZoneId, WidgetInstance wiToClone)
         {
-            var newWidgetInstance = this.widgetInstanceRepository.Insert((wi) =>
+            var newWidgetInstance = this.widgetInstanceRepository.Insert(new WidgetInstance
             {
-                wi.CreatedDate = wiToClone.CreatedDate;
-                wi.Expanded = wiToClone.Expanded;
-                wi.Height = wiToClone.Height;
-                wi.LastUpdate = wiToClone.LastUpdate;
-                wi.Maximized = wiToClone.Maximized;
-                wi.OrderNo = wiToClone.OrderNo;
-                wi.Resized = wiToClone.Resized;
-                wi.State = wiToClone.State;
-                wi.Title = wiToClone.Title;
-                wi.VersionNo = wiToClone.VersionNo;
-                wi.WidgetId = wiToClone.WidgetId;
-                wi.WidgetZoneId = widgetZoneId;
-                wi.Width = wiToClone.Width;
+                CreatedDate = wiToClone.CreatedDate,
+                Expanded = wiToClone.Expanded,
+                Height = wiToClone.Height,
+                LastUpdate = wiToClone.LastUpdate,
+                Maximized = wiToClone.Maximized,
+                OrderNo = wiToClone.OrderNo,
+                Resized = wiToClone.Resized,
+                State = wiToClone.State,
+                Title = wiToClone.Title,
+                VersionNo = wiToClone.VersionNo,
+                Widget = new Widget { ID = wiToClone.Widget.ID },
+                WidgetZone = new WidgetZone { ID = widgetZoneId },
+                Width = wiToClone.Width
             });           
 
             return newWidgetInstance;
@@ -167,12 +171,12 @@
             {
                 roleTemplate = GetRoleTemplate(userGuid);
 
-                if (!roleTemplate.TemplateUserId.IsEmpty())
+                if (!roleTemplate.aspnet_Users.UserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    if (roleTemplate.TemplateUserId != userGuid)
+                    if (roleTemplate.aspnet_Users.UserId != userGuid)
                     {
-                        sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.TemplateUserId, false);
+                        sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.aspnet_Users.UserId, false);
                     }
                 }
             }
@@ -204,7 +208,7 @@
                     }
                 }
             }
-            else if (roleTemplate != null && settingTemplate.CloneRegisteredProfileEnabled && roleTemplate.TemplateUserId.Equals(userGuid) && CheckRoleTemplateIsRegisterUserTemplate(roleTemplate))
+            else if (roleTemplate != null && settingTemplate.CloneRegisteredProfileEnabled && roleTemplate.aspnet_Users.UserId.Equals(userGuid) && CheckRoleTemplateIsRegisterUserTemplate(roleTemplate))
             {
                 foreach (Page page in pages)
                 {
@@ -270,11 +274,8 @@
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
                 var currentPage = this.GetPage(userSetting.CurrentPageId);
-
-                this.pageRepository.Update(currentPage, (page) =>
-                {
-                    page.Title = title;
-                }, null);
+                currentPage.Title = title;
+                this.pageRepository.Update(currentPage);
 
                 success = true;
             }
@@ -290,13 +291,12 @@
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
-                var currentPage = this.GetPage(userSetting.CurrentPageId);
-
-                this.pageRepository.Update(currentPage, (page) =>
-                {
-                    page.IsLocked = true;
-                    page.LastLockedStatusChangedAt = DateTime.Now;
-                }, null);
+                this.GetPage(userSetting.CurrentPageId).As(page =>
+                    {
+                        page.IsLocked = true;
+                        page.LastLockedStatusChangedAt = DateTime.Now;
+                        this.pageRepository.Update(page);
+                    });
                 
                 success = true;
             }
@@ -312,14 +312,13 @@
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
-                var currentPage = this.GetPage(userSetting.CurrentPageId);
-
-                this.pageRepository.Update(currentPage, (page) =>
-                {
-                    page.IsLocked = false;
-                    page.IsDownForMaintenance = false;
-                    page.LastLockedStatusChangedAt = DateTime.Now;
-                }, null);
+                this.GetPage(userSetting.CurrentPageId).As(page =>
+                    {
+                        page.IsLocked = false;
+                        page.IsDownForMaintenance = false;
+                        page.LastLockedStatusChangedAt = DateTime.Now;
+                        this.pageRepository.Update(page);
+                    });
 
                 success = true;
             }
@@ -335,17 +334,16 @@
 
             if (userSetting != null && userSetting.CurrentPageId > 0)
             {
-                var currentPage = this.GetPage(userSetting.CurrentPageId);
-
-                this.pageRepository.Update(currentPage, (page) =>
-                {
-                    page.IsDownForMaintenance = isInMaintenenceMode;
-
-                    if (isInMaintenenceMode)
+                this.GetPage(userSetting.CurrentPageId).As(page =>
                     {
-                        page.LastDownForMaintenanceAt = DateTime.Now;    
-                    }
-                }, null);
+                        page.IsDownForMaintenance = isInMaintenenceMode;
+
+                        if (isInMaintenenceMode)
+                        {
+                            page.LastDownForMaintenanceAt = DateTime.Now;
+                        }
+                        this.pageRepository.Update(page);
+                    });
 
                 success = true;
             }
@@ -368,19 +366,17 @@
 
                     if (overridablePage != null)
                     {
-                        this.pageRepository.Update(overridablePage, (page) =>
-                        {
-                            page.ServeAsStartPageAfterLogin = false;
-                        }, null);    
+                        overridablePage.ServeAsStartPageAfterLogin = false;
+                        this.pageRepository.Update(overridablePage);
                     }
                 }
 
                 //change the overridable start page status
-                this.pageRepository.Update(this.GetPage(userSetting.CurrentPageId), (page) =>
-                {
-                    page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;                    
-                }, null);
-                
+                this.GetPage(userSetting.CurrentPageId).As(page =>
+                    {
+                        page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;                    
+                        this.pageRepository.Update(page);
+                    });
 
                 success = true;
             }
@@ -388,26 +384,16 @@
             return success;
         }
 
-        public void DeleteColumn(int pageId, int columnId, int columnNo)
+        public void DeleteColumn(int pageId, int columnNo)
         {
-            WidgetZone widgetZone;
-
-            if (columnId > 0)
-            {
-                widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(pageId, columnNo);
-            }
-            else
-            {
-                var columnToDelete = this.columnRepository.GetColumnByPageId_ColumnNo(pageId, columnNo);
-                columnId = columnToDelete.ID;
-                widgetZone = this.widgetZoneRepository.GetWidgetZoneById(columnToDelete.WidgetZoneId);
-            }
+            var columnToDelete = this.columnRepository.GetColumnByPageId_ColumnNo(pageId, columnNo);
+            WidgetZone widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(pageId, columnNo);
 
             var widgetInstances = this.GetWidgetInstancesInZoneWithWidget(widgetZone.ID);
             widgetInstances.Each((widgetInstance) => this.widgetInstanceRepository.Delete(widgetInstance.Id));
 
-            this.columnRepository.Delete(columnId);
-            this.widgetZoneRepository.Delete(widgetZone.ID);
+            this.columnRepository.Delete(columnToDelete);
+            this.widgetZoneRepository.Delete(widgetZone);
         }
 
         public Page DeletePage(int pageId)
@@ -415,9 +401,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             
             var columns = this.GetColumnsInPage(pageId);
-            columns.Each((column) => DeleteColumn(pageId, column.ID, column.ColumnNo));
+            columns.Each((column) => DeleteColumn(pageId, column.ColumnNo));
 
-            this.pageRepository.Delete(pageId);
+            this.pageRepository.Delete(new Page { ID = pageId });
             
             var currentPage = DecideCurrentPage(userGuid, string.Empty, 0, null, null);   // 0 - since current page has been deleted.
 
@@ -443,7 +429,7 @@
                     var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPageId, newColumnNo);
                     var widgetInstancesToMove = GetWidgetInstancesInZoneWithWidget(oldWidgetZone.ID);
                     widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, 0));
-                    DeleteColumn(userSetting.CurrentPageId, 0, columnCounter);
+                    DeleteColumn(userSetting.CurrentPageId, columnCounter);
                     --columnCounter;
                 }
             }
@@ -452,25 +438,26 @@
                 while (columnCounter + 1 < newColumnDefs.Length)
                 {
                     var newColumnWidth = newColumnDefs[columnCounter];
-
+                    // OMAR: Fix provided in http://code.google.com/p/dropthings/issues/detail?id=42#makechanges
+                    //string title = "Column " + (newColumnNo + 1);                       
+                    string title = "Column " + (columnCounter + 2);
+                        
                     // Add Column
-                    var insertedWidgetZone = this.widgetZoneRepository.Insert((newWidgetZone) =>
+                    var insertedWidgetZone = this.widgetZoneRepository.Insert(new WidgetZone
                     {
-                        // OMAR: Fix provided in http://code.google.com/p/dropthings/issues/detail?id=42#makechanges
-                        //string title = "Column " + (newColumnNo + 1);
-                        string title = "Column " + (columnCounter + 2);
-                        ObjectBuilder.BuildDefaultWidgetZone(newWidgetZone, title, title, 0);
+                        Title = title,
+                        UniqueID = title,
+                        OrderNo = 0
                     });
-
-
-                    var insertedColumn = this.columnRepository.Insert((newColumn) =>
+                    
+                    var insertedColumn = this.columnRepository.Insert(new Column
                     {
                         // OMAR: Fix provided in http://code.google.com/p/dropthings/issues/detail?id=42#makechanges
                         //newColumn.ColumnNo = newColumnNo;
-                        newColumn.ColumnNo = columnCounter + 1;
-                        newColumn.ColumnWidth = newColumnWidth;
-                        newColumn.WidgetZoneId = insertedWidgetZone.ID;
-                        newColumn.PageId = userSetting.CurrentPageId;
+                        ColumnNo = columnCounter + 1,
+                        ColumnWidth = newColumnWidth,
+                        WidgetZone = new WidgetZone { ID = insertedWidgetZone.ID },
+                        Page = new Page { ID = userSetting.CurrentPageId }
                     });
                     
                     ++columnCounter;
@@ -478,17 +465,13 @@
             }
 
             var columns = this.columnRepository.GetColumnsByPageId(userSetting.CurrentPageId);
-            this.columnRepository.UpdateList(columns, (column) =>
-            {
-                column.ColumnWidth = newColumnDefs[column.ColumnNo];
-            }, null);
+            columns.Each(column => column.ColumnWidth = newColumnDefs[column.ColumnNo]);
+            this.columnRepository.UpdateList(columns);
 
             var currentPage = this.GetPage(userSetting.CurrentPageId);
-            this.pageRepository.Update(currentPage, (page) =>
-            {
-                page.LayoutType = newLayout;
-                page.ColumnCount = Page.GetColumnWidths(newLayout).Length;
-            }, null);
+            currentPage.LayoutType = newLayout;
+            currentPage.ColumnCount = Page.GetColumnWidths(newLayout).Length;
+            this.pageRepository.Update(currentPage);
         }
 
         public void MovePage(int pageId, int toOrderNo)
@@ -517,15 +500,14 @@
                 item.OrderNo = ++orderNo;
             }
 
-            this.pageRepository.UpdateList((list), null, null);
+            this.pageRepository.UpdateList(list);
         }
 
         public void ChangePagePosition(int pageId, int orderNo)
         {
-            this.pageRepository.Update(this.GetPage(pageId), (page) =>
-            {
-                page.OrderNo = orderNo > page.OrderNo.GetValueOrDefault() ? orderNo + 1 : orderNo;
-            }, null);
+            var page = this.GetPage(pageId);
+            page.OrderNo = orderNo > page.OrderNo.GetValueOrDefault() ? orderNo + 1 : orderNo;
+            this.pageRepository.Update(page);
         }
 
         public void ReorderPagesOfUser()
@@ -540,7 +522,7 @@
                 page.OrderNo = orderNo++;
             }
 
-            this.pageRepository.UpdateList(list, null, null);
+            this.pageRepository.UpdateList(list);
         }
 
         #endregion Methods

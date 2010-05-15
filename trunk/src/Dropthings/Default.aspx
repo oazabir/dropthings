@@ -15,10 +15,11 @@
     <meta name="Description" content="Dropthings is a free open source Web Portal. Personalize your internet experience by putting widgets on your page. It's built on ASP.NET AJAX, .NET 3.5, Windows Workflow foundation. ">
     <meta name="Keywords" content="AJAX Web Portal Web 2.0 Start Page ASP.NET 3.5 ">    
     <meta name="Page-topic" content="Free Open Source Ajax Start Page" />
+    <link href="Styles/common.css" rel="Stylesheet" type="text/css" />
 </head>
 <body>
 <form id="default_form" runat="server">
-<common:ScriptManagerControl runat="server" />
+<common:ScriptManagerControl ID="TheScriptManager" runat="server" />
 
     <div id="container">
         <!-- Render header first so that user can start typing search criteria while the huge runtime and other scripts download -->

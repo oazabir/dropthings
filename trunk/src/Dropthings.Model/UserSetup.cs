@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    using Dropthings.DataAccess;
+    using Dropthings.Data;
 
     public class UserSetup
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Dropthings.DataAccess;
+using Dropthings.Data;
 
 using System.Transactions;
 using System.Web.Security;
@@ -28,27 +28,14 @@ namespace Dropthings.Business.Facade
 
         public aspnet_Role InsertRole(string roleName)
         {
-            var insertedRole = this.roleRepository.Insert(() =>
-            {
-                if (!Roles.RoleExists(roleName))
-                {
-                    Roles.CreateRole(roleName);
-                }
-                else
-                {
-                    throw new ArgumentException("Role with name '{0}' already exists".FormatWith(roleName));
-                }
-            }, roleName);
-
-            return insertedRole;
+            // TODO: Facade is not supposed to do this. It's the job of repositorys
+            Roles.CreateRole(roleName);
+            return this.roleRepository.GetRoleByRoleName(roleName);
         }
 
         public void DeleteRole(string roleName)
         {
-            this.roleRepository.Delete(() =>
-            {
-                Roles.DeleteRole(roleName);
-            }, roleName);
+            Roles.DeleteRole(roleName);
         }
 
         #endregion

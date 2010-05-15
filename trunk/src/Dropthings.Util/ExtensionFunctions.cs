@@ -20,6 +20,11 @@ public static class ExtensionFunctions
 {
     #region Methods
 
+    public static void As<T>(this T item, Action<T> work)
+    {
+        work(item);
+    }
+
     [DebuggerStepThrough]
     public static void Each<T>(this T[] array, Action<T, int> act)
     {

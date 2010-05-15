@@ -14,7 +14,7 @@ using System.Web.UI.HtmlControls;
 using System.ComponentModel;
 using Dropthings.Business;
 using Dropthings.Widget.Framework;
-using Dropthings.DataAccess;
+using Dropthings.Data;
 using Dropthings.Web.Framework;
 
 using Dropthings.Business.Facade;
@@ -105,7 +105,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
                     this.WidgetInstance.Resized.ToString().ToLower(),
                     this.WidgetInstance.Width,
                     this.WidgetInstance.Height,
-                    this.WidgetInstance.WidgetZoneId) + 
+                    this.WidgetInstance.WidgetZone.ID) + 
             "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');",
             true);        
     }
@@ -333,7 +333,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     public override void RenderControl(HtmlTextWriter writer)
     {
         writer.AddAttribute(ATTR_INSTANCE_ID, this.WidgetInstance.Id.ToString());
-        writer.AddAttribute(ATTR_ZONE_ID, this.WidgetInstance.WidgetZoneId.ToString());
+        writer.AddAttribute(ATTR_ZONE_ID, this.WidgetInstance.WidgetZone.ID.ToString());
         base.RenderControl(writer);
     }
 

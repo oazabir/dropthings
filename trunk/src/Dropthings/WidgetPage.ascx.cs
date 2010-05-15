@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 using System.Workflow.Runtime;
 
 using Dropthings.Business;
-using Dropthings.DataAccess;
+using Dropthings.Data;
 using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
 
@@ -31,7 +31,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
 
     #region Properties
 
-    public Dropthings.DataAccess.Page CurrentPage
+    public Dropthings.Data.Page CurrentPage
     {
         get; set;
     }
@@ -80,7 +80,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
         }
     }
 
-    public void LoadWidgets(Dropthings.DataAccess.Page page, string widgetContainerPath)
+    public void LoadWidgets(Dropthings.Data.Page page, string widgetContainerPath)
     {
         this.CurrentPage = page;
 
@@ -119,8 +119,8 @@ public partial class WidgetPage : System.Web.UI.UserControl
             
             if (widgetZone != null)
             {
-                widgetZone.ID = WidgetInstanceZone.WIDGET_ZONE_ID_PREFIX + column.WidgetZoneId;
-                widgetZone.WidgetZoneId = column.WidgetZoneId;
+                widgetZone.ID = WidgetInstanceZone.WIDGET_ZONE_ID_PREFIX + column.WidgetZone.ID;
+                widgetZone.WidgetZoneId = column.WidgetZone.ID;
                 widgetZone.WidgetContainerPath = widgetContainerPath;
                 widgetZone.WidgetZoneClass = "widget_zone";
                 widgetZone.WidgetClass = "widget";

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Dropthings.DataAccess;
+using Dropthings.Data;
 
 namespace Dropthings.Widget.Framework
 {

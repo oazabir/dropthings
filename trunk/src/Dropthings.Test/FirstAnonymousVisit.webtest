@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WebTest Name="FirstAnonymousVisit" Id="ac766d08-f940-4b0a-b8f8-80675978894e" Owner="" Priority="0" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="" StopOnError="False">
+<WebTest Name="FirstAnonymousVisit" Id="ac766d08-f940-4b0a-b8f8-80675978894e" Owner="" Priority="0" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="" StopOnError="False" RecordedResultFile="">
   <Items>
     <Comment CommentText="Visit Homepage and ensure new page setup is created" />
-    <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+    <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
       <ValidationRules>
-        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High">
+        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="StopOnError" Value="False" />
             <RuleParameter Name="CookieValueToMatch" Value="" />
@@ -16,7 +16,7 @@
             <RuleParameter Name="Index" Value="0" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High">
+        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="StopOnError" Value="False" />
             <RuleParameter Name="CookieValueToMatch" Value="" />
@@ -28,7 +28,7 @@
             <RuleParameter Name="Index" Value="0" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Dropthings.Test.Rules.CacheHeaderValidation, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Cache Header Validation" Description="" Level="High">
+        <ValidationRule Classname="Dropthings.Test.Rules.CacheHeaderValidation, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Cache Header Validation" Description="" Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="Enabled" Value="True" />
             <RuleParameter Name="DifferenceThresholdSec" Value="0" />
@@ -39,7 +39,7 @@
             <RuleParameter Name="StopOnError" Value="False" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="FindText" Value="How to of the Day" />
             <RuleParameter Name="IgnoreCase" Value="False" />
@@ -47,7 +47,7 @@
             <RuleParameter Name="PassIfTextFound" Value="True" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="FindText" Value="Weather" />
             <RuleParameter Name="IgnoreCase" Value="False" />
@@ -55,7 +55,7 @@
             <RuleParameter Name="PassIfTextFound" Value="True" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="FindText" Value="All rights reserved" />
             <RuleParameter Name="IgnoreCase" Value="False" />
@@ -68,9 +68,9 @@
     <TransactionTimer Name="Show Hide Widget List">
       <Items>
         <Comment CommentText="Show Widget List and expect Widget List to produce BBC Word widget link" />
-        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="FindText" Value="BBC World" />
                 <RuleParameter Name="IgnoreCase" Value="False" />
@@ -89,9 +89,9 @@
           </RequestPlugins>
         </Request>
         <Comment CommentText="Hide Widget List and expect the outpu does not have the BBC World Widget" />
-        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="FindText" Value="ShowAddContentPanel" />
                 <RuleParameter Name="IgnoreCase" Value="False" />
@@ -114,9 +114,9 @@
     <TransactionTimer Name="Edit Collapse Expand Widget">
       <Items>
         <Comment CommentText="Click edit on first widget &quot;How to of the Day&quot; and expect URL textbox to be present with Feed Url" />
-        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleRequiredAttributeValue, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Required Attribute Value" Description="Verifies the existence of a specified HTML tag that contains an attribute with a specified value." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleRequiredAttributeValue, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Required Attribute Value" Description="Verifies the existence of a specified HTML tag that contains an attribute with a specified value." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="TagName" Value="input" />
                 <RuleParameter Name="AttributeName" Value="value" />
@@ -145,9 +145,9 @@
           </RequestPlugins>
         </Request>
         <Comment CommentText="Change the Feed Count Dropdown list to 10 and expect 10 Feed Link controls are generated" />
-        <Request Method="POST" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="POST" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="FindText" Value="FeedList_ctl09_FeedLink" />
                 <RuleParameter Name="IgnoreCase" Value="False" />
@@ -170,9 +170,9 @@
           </FormPostHttpBody>
         </Request>
         <Comment CommentText="Delete the How to of the Day widget and expect it's not found from response" />
-        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="FindText" Value="How to of the Day" />
                 <RuleParameter Name="IgnoreCase" Value="False" />
@@ -195,9 +195,9 @@
     <TransactionTimer Name="Add New Widget">
       <Items>
         <Comment CommentText="Show widget list and expect Digg to be there" />
-        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="FindText" Value="Digg" />
                 <RuleParameter Name="IgnoreCase" Value="False" />
@@ -216,9 +216,9 @@
           </RequestPlugins>
         </Request>
         <Comment CommentText="Add New Widget" />
-        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="FindText" Value="Digg" />
                 <RuleParameter Name="IgnoreCase" Value="False" />
@@ -237,9 +237,9 @@
           </RequestPlugins>
         </Request>
         <Comment CommentText="Delete the newly added widget" />
-        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+        <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
           <ValidationRules>
-            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+            <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
               <RuleParameters>
                 <RuleParameter Name="FindText" Value="How to of the Day" />
                 <RuleParameter Name="IgnoreCase" Value="False" />
@@ -260,9 +260,9 @@
       </Items>
     </TransactionTimer>
     <Comment CommentText="Revisit and ensure the Digg widget exists and How to widget does not exist" />
-    <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="">
+    <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Default.aspx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="">
       <ValidationRules>
-        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High">
+        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="StopOnError" Value="False" />
             <RuleParameter Name="CookieValueToMatch" Value="" />
@@ -274,7 +274,7 @@
             <RuleParameter Name="Index" Value="0" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High">
+        <ValidationRule Classname="Dropthings.Test.Rules.CookieValidationRule, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Check Cookie From Response" Description="" Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="StopOnError" Value="False" />
             <RuleParameter Name="CookieValueToMatch" Value="" />
@@ -286,7 +286,7 @@
             <RuleParameter Name="Index" Value="0" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Dropthings.Test.Rules.CacheHeaderValidation, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Cache Header Validation" Description="" Level="High">
+        <ValidationRule Classname="Dropthings.Test.Rules.CacheHeaderValidation, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Cache Header Validation" Description="" Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="Enabled" Value="True" />
             <RuleParameter Name="DifferenceThresholdSec" Value="0" />
@@ -297,7 +297,7 @@
             <RuleParameter Name="StopOnError" Value="False" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="FindText" Value="How to of the Day" />
             <RuleParameter Name="IgnoreCase" Value="False" />
@@ -305,7 +305,7 @@
             <RuleParameter Name="PassIfTextFound" Value="False" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="FindText" Value="Digg" />
             <RuleParameter Name="IgnoreCase" Value="False" />
@@ -313,7 +313,7 @@
             <RuleParameter Name="PassIfTextFound" Value="True" />
           </RuleParameters>
         </ValidationRule>
-        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High">
+        <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidationRuleFindText, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Find Text" Description="Verifies the existence of the specified text in the response." Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="FindText" Value="All rights reserved" />
             <RuleParameter Name="IgnoreCase" Value="False" />
@@ -324,9 +324,9 @@
       </ValidationRules>
     </Request>
     <Comment CommentText="- Logout and ensure Anon Cookie is set to expire" />
-    <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Logout.ashx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="302" ExpectedResponseUrl="">
+    <Request Method="GET" Version="1.1" Url="{{Config.TestParameters.ServerURL}}/Logout.ashx" ThinkTime="0" Timeout="300" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0.5" Encoding="utf-8" ExpectedHttpStatusCode="302" ExpectedResponseUrl="" ReportingName="">
       <ValidationRules>
-        <ValidationRule Classname="Dropthings.Test.Rules.CookieSetToExpire, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Ensure Cookie Set to Expire" Description="" Level="High">
+        <ValidationRule Classname="Dropthings.Test.Rules.CookieSetToExpire, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="Ensure Cookie Set to Expire" Description="" Level="High" ExectuionOrder="BeforeDependents">
           <RuleParameters>
             <RuleParameter Name="CookieName" Value="{{Config.TestParameters.AnonCookieName}}" />
             <RuleParameter Name="Domain" Value="" />
@@ -339,12 +339,12 @@
   <DataSources>
     <DataSource Name="Config" Provider="Microsoft.VisualStudio.TestTools.DataSource.XML" Connection="|DataDirectory|\Config\TestParameters.xml">
       <Tables>
-        <DataSourceTable Name="TestParameters" AccessMethod="Sequential" />
+        <DataSourceTable Name="TestParameters" SelectColumns="SelectOnlyBoundColumns" AccessMethod="Sequential" />
       </Tables>
     </DataSource>
   </DataSources>
   <ValidationRules>
-    <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidateResponseUrl, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Response URL" Description="Validates that the response URL after redirects are followed is the same as the recorded response URL.  QueryString parameters are ignored." Level="Low" />
+    <ValidationRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.ValidateResponseUrl, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Response URL" Description="Validates that the response URL after redirects are followed is the same as the recorded response URL.  QueryString parameters are ignored." Level="Low" ExectuionOrder="BeforeDependents" />
   </ValidationRules>
   <WebTestPlugins>
     <WebTestPlugin Classname="Dropthings.Test.Plugin.ASPNETWebTestPlugin, Dropthings.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DisplayName="ASPNETWebTestPlugin" Description="" />

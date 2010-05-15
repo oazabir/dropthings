@@ -6,7 +6,7 @@
     using System.Text;
 
     using System.Web.Security;
-    using Dropthings.DataAccess;
+    using Dropthings.Data;
     using Dropthings.Model;
     using System.Configuration;
     using Dropthings.Configuration;
@@ -17,20 +17,15 @@
     {
         #region Methods
 
-        public void SetUserRoles(string userName, string roleNames)
-        {
-            if (System.Web.Security.Roles.Enabled && !string.IsNullOrEmpty(roleNames))
+        public void SetUserRoles(string userName, string[] roles)
+        {            
+            for (int i = 0; i < roles.Length; i++)
             {
-                string[] roles = roleNames.Split(new char[] { ',', ':' });
-
-                for (int i = 0; i < roles.Length; i++)
+                if (!System.Web.Security.Roles.IsUserInRole(userName, roles[i]))
                 {
-                    if (!System.Web.Security.Roles.IsUserInRole(userName, roles[i]))
-                    {
-                        System.Web.Security.Roles.AddUserToRole(userName, roles[i]);
-                    }
+                    System.Web.Security.Roles.AddUserToRole(userName, roles[i]);
                 }
-            }
+            }            
         }
 
         public void SetupDefaultRoles()
@@ -61,10 +56,10 @@
                                 {
                                     foreach (var defaultWidget in defaultWidgets)
                                     {
-                                        this.widgetsInRolesRepository.Insert((newWidgetsInRole) =>
+                                        this.widgetsInRolesRepository.Insert(new WidgetsInRoles
                                            {
-                                               newWidgetsInRole.WidgetId = defaultWidget.ID;
-                                               newWidgetsInRole.RoleId = aspnet_Role.RoleId;
+                                               Widget = new Widget { ID = defaultWidget.ID },
+                                               aspnet_Roles = new aspnet_Role { RoleId = aspnet_Role.RoleId }
                                            });
                                     }
                                 }
@@ -77,12 +72,13 @@
 
         public string CreateUserToken(Guid userGuid, string userName)
         {
-            var insertedToken = this.tokenRepository.Insert((token) =>
+            var token = new Token
             {
-                token.UserId = userGuid;
-                token.UserName = userName;
-                token.UniqueID = Guid.NewGuid();
-            });
+                aspnet_Users = new aspnet_User { UserId = userGuid },
+                UserName = userName,
+                UniqueID = Guid.NewGuid()
+            };
+            var insertedToken = this.tokenRepository.Insert(token);
 
             ShortGuid shortGuid = insertedToken.UniqueID;
 
@@ -106,7 +102,7 @@
                 {
                     user.IsApproved = true;
                     Membership.UpdateUser(user);
-                    this.tokenRepository.Delete(token.ID);
+                    this.tokenRepository.Delete(token);
                 }
             }
 
@@ -139,11 +135,11 @@
             
             if (RoleTemplate == null)
             {
-                var insertedRoleTemplate = this.roleTemplateRepository.Insert((newRoleTemplate) =>
+                var insertedRoleTemplate = this.roleTemplateRepository.Insert(new RoleTemplate
                 {
-                    newRoleTemplate.RoleId = aspnet_Role.RoleId;
-                    newRoleTemplate.TemplateUserId = userGuid;
-                    newRoleTemplate.Priority = priority + 1;
+                    aspnet_Roles = new aspnet_Role { RoleId = aspnet_Role.RoleId },
+                    aspnet_Users = new aspnet_User { UserId = userGuid },
+                    Priority = priority + 1
                 });
             }
         }
@@ -154,17 +150,17 @@
 
             var userGuid = CreateUser(registeredUserName, password, email);
             var userSettingTemplate = GetUserSettingTemplate();
-            SetUserRoles(registeredUserName, userSettingTemplate.RegisteredUserSettingTemplate.RoleNames);
+            SetUserRoles(registeredUserName, new string[] { userSettingTemplate.RegisteredUserSettingTemplate.RoleNames });
 
             if (userSettingTemplate.CloneRegisteredProfileEnabled)
             {
                 // Get the template user so that its page setup can be cloned for new user
                 var roleTemplate = GetRoleTemplate(userGuid);
 
-                if (!roleTemplate.TemplateUserId.IsEmpty())
+                if (!roleTemplate.aspnet_Users.UserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    var templateUserPages = this.GetPagesOfUser(roleTemplate.TemplateUserId);
+                    var templateUserPages = this.GetPagesOfUser(roleTemplate.aspnet_Users.UserId);
                     foreach (Page templatePage in templateUserPages)
                     {
                         if (!templatePage.IsLocked)
@@ -217,7 +213,7 @@
             else if (widgetInstanceId > 0)
             {
                 // Get the user who is the owner of the widget. Then see if the current user is the same
-                var ownerName = this.GetWidgetInstanceOwnerName(widgetInstanceId);
+                var ownerName = this.widgetInstanceRepository.GetWidgetInstanceOwnerName(widgetInstanceId);
 
                 if (!Context.CurrentUserName.ToLower().Equals(ownerName))
                     throw new ApplicationException(string.Format("User {0} is not the owner of the widget instance {1}", Context.CurrentUserName, widgetInstanceId));
@@ -226,96 +222,96 @@
 
         public void AssignWidgetRoles(int widgetId, string[] roleNames)
         {
-            var existingRoles = this.widgetsInRolesRepository.GetWidgetsInRoleByWidgetId(widgetId);
+            var existingRoles = this.widgetsInRolesRepository.GetWidgetsInRolesByWidgetId(widgetId);
             var roles = this.roleRepository.GetAllRole();
-
+            roleNames = roleNames.Select(r => r.ToLower()).ToArray();
             roles.Each(role =>
                 {
-                    var existingRole = existingRoles.FirstOrDefault(wr => wr.RoleId == role.RoleId);
-                    if (roleNames.Contains(role.RoleName))
+                    var existingRole = existingRoles.FirstOrDefault(wr => wr.aspnet_Roles.RoleId == role.RoleId);
+                    if (roleNames.Contains(role.RoleName.ToLower()))
                     {
                         // Need to give this role, if not already exists
-                        if (existingRole == default(WidgetsInRole))
-                            this.widgetsInRolesRepository.Insert(wr =>
+                        if (existingRole == default(WidgetsInRoles))
+                            this.widgetsInRolesRepository.Insert(new WidgetsInRoles
                                 {
-                                    wr.RoleId = role.RoleId;
-                                    wr.WidgetId = widgetId;
+                                    aspnet_Roles = new aspnet_Role { RoleId = role.RoleId },
+                                    Widget = new Widget { ID = widgetId }
                                 });
                     }
                     else
                     {
                         // Need to remove this role, if already exists
-                        if (existingRole != default(WidgetsInRole))
+                        if (existingRole != default(WidgetsInRoles))
                         {
-                            this.widgetsInRolesRepository.Delete(existingRole.Id);
+                            this.widgetsInRolesRepository.Delete(existingRole);
                         }
                     }
                 });            
         }
 
-        public void AssignWidgetPermission(string permissions)
-        {
-            var roles = this.roleRepository.GetAllRole();
+        //public void AssignWidgetPermission(string permissions)
+        //{
+        //    var roles = this.roleRepository.GetAllRole();
 
-            if (!string.IsNullOrEmpty(permissions))
-            {
-                // Split into category/value pairs
-                foreach (string widgetPermission in permissions.Split(';'))
-                {
-                    // Split into category and value
-                    string[] widgetPermissionPair = widgetPermission.Split(':');
-                    if (2 == widgetPermissionPair.Length)
-                    {
-                        int WidgetId = Convert.ToInt32(widgetPermissionPair[0]);
-                        string RoleNames = widgetPermissionPair[1];
-                        string[] incomingRoles = null;
+        //    if (!string.IsNullOrEmpty(permissions))
+        //    {
+        //        // Split into category/value pairs
+        //        foreach (string widgetPermission in permissions.Split(';'))
+        //        {
+        //            // Split into category and value
+        //            string[] widgetPermissionPair = widgetPermission.Split(':');
+        //            if (2 == widgetPermissionPair.Length)
+        //            {
+        //                int WidgetId = Convert.ToInt32(widgetPermissionPair[0]);
+        //                string RoleNames = widgetPermissionPair[1];
+        //                string[] incomingRoles = null;
 
-                        if (!string.IsNullOrEmpty(RoleNames))
-                        {
-                            incomingRoles = RoleNames.Split(new char[] { ',' });
-                        }
+        //                if (!string.IsNullOrEmpty(RoleNames))
+        //                {
+        //                    incomingRoles = RoleNames.Split(new char[] { ',' });
+        //                }
 
-                        var existingWidgetsInRoles = this.widgetsInRolesRepository.GetWidgetsInRoleByWidgetId(WidgetId);
+        //                var existingWidgetsInRoles = this.widgetsInRolesRepository.GetWidgetsInRoleByWidgetId(WidgetId);
 
-                        foreach (aspnet_Role role in roles)
-                        {
-                            bool isEnable = incomingRoles != null && incomingRoles.Contains(role.RoleName);
-                            var existingWidgetsInRole = existingWidgetsInRoles.Where(wir => wir.RoleId == role.RoleId).SingleOrDefault();
-                            if (isEnable && existingWidgetsInRole == null)
-                            {
-                                this.widgetsInRolesRepository.Insert((wr) =>
-                                {
-                                    wr.RoleId = role.RoleId;
-                                    wr.WidgetId = WidgetId;
-                                });
+        //                foreach (aspnet_Role role in roles)
+        //                {
+        //                    bool isEnable = incomingRoles != null && incomingRoles.Contains(role.RoleName);
+        //                    var existingWidgetsInRole = existingWidgetsInRoles.Where(wir => wir.RoleId == role.RoleId).SingleOrDefault();
+        //                    if (isEnable && existingWidgetsInRole == null)
+        //                    {
+        //                        this.widgetsInRolesRepository.Insert((wr) =>
+        //                        {
+        //                            wr.RoleId = role.RoleId;
+        //                            wr.WidgetId = WidgetId;
+        //                        });
 
-                                CacheSetup.CacheKeys.AllWidgetsKeys().Each(key => Services.Get<ICache>().Remove(key));
-                            }
-                            else if ((!isEnable) && existingWidgetsInRole != null)
-                            {
-                                // OMAR: This is going to bring the site down. This call will return
-                                // a very large number of widget instance, may be all of them from database.
-                                // This needs to be done entirely from a stored procedure and the SP needs
-                                // to do the operation in small batches to prevent database locks.
-                                var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetAndRole(existingWidgetsInRole.WidgetId, existingWidgetsInRole.RoleId);
+        //                        CacheKeys.WidgetKeys.AllWidgetsKeys().Each(key => Services.Get<ICache>().Remove(key));
+        //                    }
+        //                    else if ((!isEnable) && existingWidgetsInRole != null)
+        //                    {
+        //                        // OMAR: This is going to bring the site down. This call will return
+        //                        // a very large number of widget instance, may be all of them from database.
+        //                        // This needs to be done entirely from a stored procedure and the SP needs
+        //                        // to do the operation in small batches to prevent database locks.
+        //                        var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetAndRole(existingWidgetsInRole.WidgetId, existingWidgetsInRole.RoleId);
 
-                                foreach (var widgetInstance in widgetInstances)
-                                {
-                                    var widgetInstanceForOtherRole = this.widgetInstanceRepository.GetWidgetInstancesByRole(widgetInstance.Id, existingWidgetsInRole.RoleId);
+        //                        foreach (var widgetInstance in widgetInstances)
+        //                        {
+        //                            var widgetInstanceForOtherRole = this.widgetInstanceRepository.GetWidgetInstancesByRole(widgetInstance.Id, existingWidgetsInRole.RoleId);
 
-                                    if (widgetInstanceForOtherRole == null || widgetInstanceForOtherRole.Count == 0)
-                                    {
-                                        this.DeleteWidgetInstance(widgetInstance.Id);
-                                    }
-                                }
+        //                            if (widgetInstanceForOtherRole == null || widgetInstanceForOtherRole.Count == 0)
+        //                            {
+        //                                this.DeleteWidgetInstance(widgetInstance.Id);
+        //                            }
+        //                        }
 
-                                this.widgetsInRolesRepository.Delete(existingWidgetsInRole);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //                        this.widgetsInRolesRepository.Delete(existingWidgetsInRole);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         #endregion Methods
     }

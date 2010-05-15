@@ -12,7 +12,7 @@ namespace Dropthings.Widget.Framework
 {
     using System;
 
-    using Dropthings.DataAccess;
+    using Dropthings.Data;
 
     public interface IWidget : IEventListener
     {

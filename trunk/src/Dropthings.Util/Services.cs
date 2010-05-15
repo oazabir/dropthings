@@ -1,4 +1,6 @@
-﻿namespace Dropthings.Util
+﻿#define MUNQ
+
+namespace Dropthings.Util
 {
     using System;
     using System.Collections.Generic;
@@ -6,13 +8,22 @@
     using System.Text;
     
     using Microsoft.Practices.Unity;
+    using Munq.DI;
+    using Munq.DI.LifetimeManagers;
 
     public class Services
     {
         #region Fields
 
+        
+#if MUNQ
+        private static readonly ILifetimeManager _containerLifetime = 
+            new ContainerLifetime();
+        private static readonly Container _container = new Container();
+            
+#else
         private static readonly IUnityContainer _container = new UnityContainer();
-
+#endif
         #endregion Fields
 
         #region Methods
@@ -25,6 +36,41 @@
             }
         }
 
+#if MUNQ
+
+        public static IRegistration RegisterType<T>(Func<Container, T> register)
+            where T:class
+        {
+            return _container.Register<T>(register);
+        }
+
+        public static IRegistration RegisterInstance<T>(Func<Container, T> register)
+            where T:class
+        {
+            return _container.RegisterInstance<T>(register(_container))
+                .WithLifetimeManager(_containerLifetime);
+        }
+
+        public static IRegistration RegisterTypeForLazyGet<T>(Func<Container, T> register)
+        {
+            Func<T> lazyResolve = () => register(_container);
+            return _container.RegisterInstance<Func<T>>(lazyResolve);
+        }
+
+
+        public static T Get<T>()
+            where T:class
+        {
+            return _container.Resolve<T>();
+        }
+
+        public static Func<T> LazyGet<T>()
+            where T : class
+        {
+            return _container.Resolve<Func<T>>();
+        }
+
+#else
         public static void RegisterInstanceExternalLifetime<TInterface>(TInterface instance)
         {
             _container.RegisterInstance<TInterface>(instance, new ExternallyControlledLifetimeManager());
@@ -128,6 +174,10 @@
         {
             _container.Configure<InjectedMembers>().ConfigureInjectionFor<T>(new InjectionConstructor(parameters));
         }
+
+#endif
+
+
 
         #endregion Methods
     }

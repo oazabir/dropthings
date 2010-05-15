@@ -1,16 +1,34 @@
+
 Next version target:
 ====================
 * FIX: When you decrease columns by selecting a layout, some widgets are lost.
 * FIX: Click on a new widget does not always add the widget on the top most position. 
 when there are other widgets which were added by dragging.
-* ADD: DeveloperMode implementation. See web.config.
-* ADD: Make the widget gallery a slider.
+* ADD: Make the widget gallery a jQuery slider.
 * ADD: Code and production site installer using Microsoft Web Platform installer
-* ADD: Admin user pages - Add new widget, edit widget, remove widget, assign/revoke widget to roles
-* ADD: Admin user pages - User management module
 * CHANGE: In MyFramework.js, change DropthingsUI to UI to save JS space.
-* FIX: Issue 58:	After deleting a widget on a zone, widgets can't be dropped on this zone anymore
 * ADD: When a user first logs in which was created in ASP.NET Membership in some other way than the Dropthings registration, during first login, users page setup needs to be created.
+* ADD: When a widget is deleted, do a cascade delete
+* CHANGE: Change all aspnet_Users, aspnet_Roles to proper names like User, Role
+* CHANGE: Change Page to Tab to prevent conflict with Page
+* CHANGE: Remove Enum suffix from Enums
+
+Version 2.6
+===========
+ADD: Both VS 2008 and VS 2010 Solution files.
+CHANGE: Linq to SQL to Entity Framework and Linq to Entities. New project: Dropthings.Data
+CHANGE: Data Access unit tests changed to test new.
+CHANGE: Remove all Subsystem stuff. Make the repository calls simpler.
+ADD: Dropthings.Facade.Test which now has complete integration test to test facade operations. 
+REMOVE: Linq to SQL based entities, Data Access Layer.
+
+Version 2.5.6
+=============
+FIX: Fast RSS Widget was not saving the settings properly
+FIX: Poor performance due to missing indexes and complex Linq to SQL queries resulting in no caching of critical data
+ADD: DeveloperMode implementation. It will prevent script combining and CSS combining. But script defer still defers script loading.
+CHANGE: Replace Unity container with Munq. Unity turned out to be CPU hoq.
+CHANGE: All repositories now produce detached object in CRUD operations. All entities now have .Detach()
 
 Version 2.5.5
 =============

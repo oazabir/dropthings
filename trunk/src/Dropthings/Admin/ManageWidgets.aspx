@@ -61,7 +61,7 @@
             <asp:CheckBoxList ID="WidgetRoles" runat="server"></asp:CheckBoxList>
             <br />
             <asp:Button ID="SaveWidget" runat="server" OnClick="SaveWidget_Clicked" Text="Save" />
-            
+            <asp:Button Text="Delete" ID="DeleteWidget" OnClick="DeleteWidget_Clicked" runat="server" />
         </div>
         </asp:Panel>
         

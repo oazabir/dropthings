@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TestParameters>
-  <ServerURL>http://localhost:8000</ServerURL>
+  <!-- Dno't put trailing slash -->
+  <ServerURL>http://localhost:8000/Dropthings</ServerURL>
   <AnonCookieName>.DBANON</AnonCookieName>
   <AuthCookieName>.DBAUTH12</AuthCookieName>
   <SessionCookieName>ASP.NET_SessionId</SessionCookieName>

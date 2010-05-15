@@ -65,7 +65,7 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
                     //stateXml = "<state><type>MostPopular</type><tag /></state>";
                     _State = new XElement("state",
                         new XElement("url", "MostPopular"),
-                        new XElement("count", ""));
+                        new XElement("count", "3"));
                 }
                 else
                 {

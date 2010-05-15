@@ -56,7 +56,7 @@
                 foreach (string hiddenFieldKeyName in hiddenFieldKeyNames)
                     formBody.FormPostParameters.Add(hiddenFieldKeyName, e.WebTest.Context["$HIDDEN1." + hiddenFieldKeyName] as string);
 
-                RuleHelper.SetParameter(formBody.FormPostParameters, "ScriptManager1", updatePanelName + "|" + controlName, true);
+                RuleHelper.SetParameter(formBody.FormPostParameters, "TheScriptManager$ScriptManager1", updatePanelName + "|" + controlName, true);
                 RuleHelper.SetParameter(formBody.FormPostParameters, "__EVENTTARGET", controlName, true);
                 RuleHelper.SetParameter(formBody.FormPostParameters, "__ASYNCPOST", "true", true);
             }
