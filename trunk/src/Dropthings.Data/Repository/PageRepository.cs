@@ -35,7 +35,7 @@
             object cachedPage = _cacheResolver.Get(cacheKey);
             if (null == cachedPage)
             {
-                var page = _database.Query<int, Page>(
+                var page = _database.Query(
                         CompiledQueries.PageQueries.GetPageById,
                         pageId).First();
                 _cacheResolver.Add(cacheKey, page);
@@ -92,7 +92,7 @@
             return AspectF.Define
                 .Cache<string>(_cacheResolver, CacheKeys.PageKeys.PageOwnerName(pageId))
                 .Return<string>(() =>
-                    _database.Query<int, string>(
+                    _database.Query(
                         CompiledQueries.PageQueries.GetPageOwnerName, pageId)
                         .First());
         }
@@ -102,7 +102,7 @@
             return AspectF.Define
                 .CacheList<Page, List<Page>>(_cacheResolver, CacheKeys.UserKeys.PagesOfUser(userGuid), page => CacheKeys.PageKeys.PageId(page.ID))
                 .Return<List<Page>>(() =>
-                    _database.Query<Guid, Page>(CompiledQueries.PageQueries.GetPagesByUserId, userGuid)
+                    _database.Query(CompiledQueries.PageQueries.GetPagesByUserId, userGuid)
                     .ToList());
         }
 

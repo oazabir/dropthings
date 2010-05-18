@@ -44,7 +44,7 @@
             return AspectF.Define
                 .Cache<List<aspnet_Role>>(_cacheResolver, CacheKeys.RoleKeys.AllRoles())
                 .Return<List<aspnet_Role>>(() =>
-                    _database.Query<aspnet_Role>(CompiledQueries.RoleQueries.GetAllRole)
+                    _database.Query(CompiledQueries.RoleQueries.GetAllRole)
                     .ToList());
         }
 
@@ -53,7 +53,7 @@
             return AspectF.Define
                 .Cache<aspnet_Role>(_cacheResolver, CacheKeys.RoleKeys.RoleByRoleName(roleName))
                 .Return<aspnet_Role>(() =>
-                    _database.Query<string, aspnet_Role>(
+                    _database.Query(
                         CompiledQueries.RoleQueries.GetRoleByRoleName, roleName)
                     .First());
         }

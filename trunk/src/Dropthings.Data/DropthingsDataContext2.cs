@@ -31,19 +31,19 @@ namespace Dropthings.Data
 
         public DropthingsDataContext2(string connectionString) : base(connectionString)
         {
-            this.aspnet_Memberships.MergeOption =
-            this.aspnet_Profiles.MergeOption =
-            this.aspnet_Roles.MergeOption =
-            this.aspnet_Users.MergeOption =
-            this.Columns.MergeOption =
-            this.Pages.MergeOption =
-            this.RoleTemplates.MergeOption =
-            this.Tokens.MergeOption =
-            this.UserSettings.MergeOption =
-            this.Widgets.MergeOption =
-            this.WidgetInstances.MergeOption =
-            this.WidgetsInRolesSet.MergeOption =
-            this.WidgetZones.MergeOption = System.Data.Objects.MergeOption.NoTracking;
+            //this.aspnet_Memberships.MergeOption =
+            //this.aspnet_Profiles.MergeOption =
+            //this.aspnet_Roles.MergeOption =
+            //this.aspnet_Users.MergeOption =
+            //this.Columns.MergeOption =
+            //this.Pages.MergeOption =
+            //this.RoleTemplates.MergeOption =
+            //this.Tokens.MergeOption =
+            //this.UserSettings.MergeOption =
+            //this.Widgets.MergeOption =
+            //this.WidgetInstances.MergeOption =
+            //this.WidgetsInRolesSet.MergeOption =
+            //this.WidgetZones.MergeOption = System.Data.Objects.MergeOption.NoTracking;
 
             if (_AddToMethodCache.Count == 0)
             {
@@ -123,24 +123,30 @@ namespace Dropthings.Data
             return ConfigurationManager.ConnectionStrings[DEFAULT_CONNECTION_STRING_NAME].ConnectionString;
         }
 
+        private IQueryable<TReturnType> RunQuery<TReturnType>(IQueryable<TReturnType> query)
+        {
+            var objectQuery = query as ObjectQuery<TReturnType>;
+            objectQuery.EnablePlanCaching = true;
+            return objectQuery.Execute(MergeOption.NoTracking).AsQueryable();
+        }
         public IQueryable<TReturnType> Query<TReturnType>(Func<DropthingsDataContext, IQueryable<TReturnType>> query)
         {
-            return query(this);
+            return RunQuery(query(this));
         }
 
         public IQueryable<TReturnType> Query<Arg0, TReturnType>(Func<DropthingsDataContext, Arg0, IQueryable<TReturnType>> query, Arg0 arg0)
         {
-            return query(this, arg0);
+            return RunQuery(query(this, arg0));
         }
 
         public IQueryable<TReturnType> Query<Arg0, Arg1, TReturnType>(Func<DropthingsDataContext, Arg0, Arg1, IQueryable<TReturnType>> query, Arg0 arg0, Arg1 arg1)
         {
-            return query(this, arg0, arg1);
+            return RunQuery(query(this, arg0, arg1));
         }
 
         public IQueryable<TReturnType> Query<Arg0, Arg1, Arg2, TReturnType>(Func<DropthingsDataContext, Arg0, Arg1, Arg2, IQueryable<TReturnType>> query, Arg0 arg0, Arg1 arg1, Arg2 arg2)
         {
-            return query(this, arg0, arg1, arg2);
+            return RunQuery(query(this, arg0, arg1, arg2));
         }
 
         public TEntity Insert<TEntity>(TEntity entity)
@@ -276,6 +282,7 @@ namespace Dropthings.Data
             AttachUpdated(entity);
             //SetEntryModified(this, entity);
             this.SaveChanges(true);
+            
             return entity;
         }
 

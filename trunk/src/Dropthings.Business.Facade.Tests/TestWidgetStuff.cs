@@ -30,7 +30,7 @@ namespace Dropthings.Business.Facade.Tests
             var secondColumn = default(Column);
             var noOfWidgetsOnSeconColumn = default(int);
 
-            "Given a widget on a column".Context(() =>
+            "Given a new user and a widget on user's page".Context(() =>
                 {
                     profile = MembershipHelper.CreateNewAnonUser();
                     facade = new Facade(new AppContext(string.Empty, profile.UserName));
@@ -55,9 +55,9 @@ namespace Dropthings.Business.Facade.Tests
                 {
                     var newWidgetsOnSecondColumn = facade.GetWidgetInstancesInZoneWithWidget(secondColumn.WidgetZone.ID);
 
-                    var widgetAfterMove = newWidgetsOnSecondColumn.Where(wi => wi.Id == widgetInstance.Id).FirstOrDefault();
+                    var widgetAfterMove = newWidgetsOnSecondColumn.Where(wi => wi.OrderNo == 1).FirstOrDefault();
                     Assert.NotNull(widgetAfterMove);
-                    Assert.Equal(1, widgetAfterMove.OrderNo);
+                    Assert.Equal(widgetInstance.Id, widgetAfterMove.Id);
                 });
 
             "It should push down other widgets where it is dropped".Assert(() =>
@@ -78,6 +78,7 @@ namespace Dropthings.Business.Facade.Tests
             var profile = default(UserProfile);
             var wiId = default(int);
             var userSetup = default(UserSetup);
+            
             "Given a new user".Context(() =>
             {
                 profile = MembershipHelper.CreateNewAnonUser();
@@ -156,6 +157,7 @@ namespace Dropthings.Business.Facade.Tests
             var newState = Guid.NewGuid().ToString();
             var addedWidgetInstance = default(WidgetInstance);
             var widgetToAdd = default(Widget);
+
             "Given a new user".Context(() =>
             {
                 profile = MembershipHelper.CreateNewAnonUser();

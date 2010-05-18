@@ -44,8 +44,7 @@
             var widgetInstance = this.GetWidgetInstanceById(id);
             if (null != widgetInstance)
             {
-                RemoveWidgetZoneCacheEntries(widgetInstance.WidgetZone.ID);
-                _database.Delete<WidgetInstance>(widgetInstance);
+                this.Delete(widgetInstance);
             }
         }
 
@@ -61,7 +60,7 @@
             return AspectF.Define
                 .Cache<WidgetInstance>(_cacheResolver, CacheKeys.WidgetInstanceKeys.WidgetInstance(id))
                 .Return<WidgetInstance>(() =>
-                    _database.Query<int, WidgetInstance>(CompiledQueries.WidgetQueries.GetWidgetInstanceById, id)
+                    _database.Query(CompiledQueries.WidgetQueries.GetWidgetInstanceById, id)
                         .First());
         }
 
@@ -82,7 +81,7 @@
             return AspectF.Define
                 .Cache<string>(_cacheResolver, CacheKeys.WidgetInstanceKeys.WidgetInstanceOwnerName(widgetInstanceId))
                 .Return<string>(() =>
-                    _database.Query<int, string>(CompiledQueries.WidgetQueries.GetWidgetInstanceOwnerName, widgetInstanceId)
+                    _database.Query(CompiledQueries.WidgetQueries.GetWidgetInstanceOwnerName, widgetInstanceId)
                     .First());
         }
 
@@ -111,7 +110,7 @@
                 .CacheList<WidgetInstance, List<WidgetInstance>>(_cacheResolver, CacheKeys.WidgetZoneKeys.WidgetInstancesInWidgetZoneWithWidget(widgetZoneId),
                     wi => CacheKeys.WidgetInstanceKeys.WidgetInstanceWithWidget(wi.Id))
                 .Return<List<WidgetInstance>>(() =>
-                    _database.Query<int, WidgetInstance>(CompiledQueries.WidgetQueries.GetWidgetInstancesByWidgetZoneId,
+                    _database.Query(CompiledQueries.WidgetQueries.GetWidgetInstancesByWidgetZoneId,
                         widgetZoneId)
                    .ToList());
         }

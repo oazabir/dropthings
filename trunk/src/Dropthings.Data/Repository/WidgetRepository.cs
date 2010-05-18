@@ -41,7 +41,7 @@
                 .CacheList<Widget, List<Widget>>(_cacheResolver, CacheKeys.WidgetKeys.AllWidgets(),
                 w => CacheKeys.WidgetKeys.Widget(w.ID))
                 .Return<List<Widget>>(() =>
-                    _database.Query<Widget>(CompiledQueries.WidgetQueries.GetAllWidgets)
+                    _database.Query(CompiledQueries.WidgetQueries.GetAllWidgets)
                     .ToList());
         }
 
@@ -69,7 +69,7 @@
             return AspectF.Define
                 .Cache<Widget>(_cacheResolver, CacheKeys.WidgetKeys.Widget(id))
                 .Return<Widget>(() =>
-                    _database.Query<int, Widget>(CompiledQueries.WidgetQueries.GetWidgetById, id)
+                    _database.Query(CompiledQueries.WidgetQueries.GetWidgetById, id)
                     .First());
         }
 

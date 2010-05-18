@@ -41,7 +41,7 @@
 
         public Column GetColumnById(int id)
         {
-            return _database.Query<int, Column>(
+            return _database.Query(
                     CompiledQueries.PageQueries.GetColumnById, id)
                 .First();
         }
@@ -57,7 +57,7 @@
             return AspectF.Define
                 .Cache<List<Column>>(_cacheResolver, CacheKeys.PageKeys.ColumnsInPage(pageId))
                 .Return<List<Column>>(() =>
-                    _database.Query<int, Column>(
+                    _database.Query(
                         CompiledQueries.PageQueries.GetColumnsByPageId, pageId)
                         .ToList());
         }

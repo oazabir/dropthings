@@ -163,13 +163,14 @@
             //    list = list.Where(wi => wi.OrderNo >= toRowId);
             //}
 
-            list = list.Where(wi => wi.OrderNo >= toRowId);
-
             int orderNo = toRowId + 1;
-            foreach (WidgetInstance wi in list)
-            {
-                wi.OrderNo = ++orderNo;
-            }
+
+            list.Where(wi => wi.OrderNo >= toRowId)
+                .OrderBy(wi => wi.OrderNo)
+                .Each(wi => 
+                    {
+                        wi.OrderNo = orderNo++;
+                    });
 
             this.widgetInstanceRepository.UpdateList(list);
         }
@@ -181,12 +182,9 @@
                     //wi.OrderNo = rowNo > wi.OrderNo ? rowNo + 1 : rowNo;
                     wi.OrderNo = rowNo; 
                     var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneById(widgetZoneId);
-                    wi.WidgetZone = newWidgetZone;
+                    wi.WidgetZone = new WidgetZone { ID = newWidgetZone.ID };
+                    wi.WidgetZoneReference = new EntityReference<WidgetZone> { EntityKey = newWidgetZone.EntityKey };
 
-                    var newWidgetZoneRef = new EntityReference<WidgetZone>();
-                    newWidgetZoneRef.EntityKey = newWidgetZone.EntityKey;
-                    wi.WidgetZoneReference = newWidgetZoneRef;
-                    
                     this.widgetInstanceRepository.Update(wi);
                 });
         }

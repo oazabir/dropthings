@@ -34,7 +34,7 @@
 
         public Token GetTokenByUniqueId(Guid tokenId)
         {
-            return _database.Query<Guid, Token>(
+            return _database.Query(
                 CompiledQueries.MiscQueries.GetTokenByUniqueId, tokenId)
                 .First();
         }
