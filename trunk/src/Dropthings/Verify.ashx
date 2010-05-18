@@ -33,7 +33,7 @@ public class Logout : IHttpHandler {
         //                    new Dropthings.Business.Workflows.UserAccountWorkflows.ActivateAccountWorkflowRequest { ActivationKey = activationKey, UserName = string.Empty }
         //                );
 
-        using (var facade = new Facade(new AppContext(string.Empty, context.Profile.UserName)))
+        var facade = Dropthings.Util.Services.Get<Facade>();
         {
             token = facade.ActivateUser(activationKey);
         }

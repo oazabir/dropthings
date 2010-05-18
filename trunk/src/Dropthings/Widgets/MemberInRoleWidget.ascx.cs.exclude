@@ -101,7 +101,7 @@ public partial class Widgets_MemberInRoleWidget : System.Web.UI.UserControl, IWi
         {
             if (!string.IsNullOrEmpty(CurrentMemberUsername))
             {
-                using (var facade = new Facade(AppContext.GetContext(Context)))
+                var facade = Services.Get<Facade>();
                 {
                     _currentMember = facade.GetUser(CurrentMemberUsername);
                 }
@@ -115,7 +115,7 @@ public partial class Widgets_MemberInRoleWidget : System.Web.UI.UserControl, IWi
     {
         ddlRole.Items.Clear();
 
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             List<aspnet_Role> roles = facade.GetAllRole();
 
@@ -148,14 +148,14 @@ public partial class Widgets_MemberInRoleWidget : System.Web.UI.UserControl, IWi
             member.Email = txtEmail.Text;
             member.IsApproved = chkIsActive.Checked;
 
-            using (var facade = new Facade(AppContext.GetContext(Context)))
+            var facade = Services.Get<Facade>();
             {
                 facade.UpdateUser(member);
             }
         }
         else
         {
-            using (var facade = new Facade(AppContext.GetContext(Context)))
+            var facade = Services.Get<Facade>();
             {
                 MembershipCreateStatus status;
                 facade.CreateUser(txtUsername.Text.Trim(), txtPassword.Text.Trim(), txtEmail.Text.Trim(), chkIsActive.Checked, out status);
@@ -242,7 +242,7 @@ public partial class Widgets_MemberInRoleWidget : System.Web.UI.UserControl, IWi
         {
             if (string.Equals(e.CommandName, "DeleteItem"))
             {
-                using (var facade = new Facade(AppContext.GetContext(Context)))
+                var facade = Services.Get<Facade>();
                 {
                     facade.DeleteUser(userName);
                     BindList();

@@ -15,6 +15,7 @@ using Dropthings.Widget.Framework;
 using Dropthings.Business.Facade;
 using Dropthings.Model;
 using Dropthings.Business.Facade.Context;
+using Dropthings.Util;
 
 public partial class WidgetPage : System.Web.UI.UserControl
 {
@@ -102,7 +103,7 @@ public partial class WidgetPage : System.Web.UI.UserControl
         this.Controls.Clear();
 
         List<Column> columns;
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             columns = facade.GetColumnsInPage(CurrentPage.ID);
         }

@@ -131,7 +131,7 @@ public partial class Admin_ManageWidgets : System.Web.UI.Page
         Field_WidgetType.Value = "0";
 
         WidgetRoles.Items.Clear();
-        using (Facade facade = new Facade())
+        var facade = Services.Get<Facade>();
         {
             facade.GetAllRole().Each(role =>
                 {   

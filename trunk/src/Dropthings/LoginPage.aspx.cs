@@ -56,7 +56,7 @@ public partial class LoginPage : System.Web.UI.Page
             bool activationRequired = ConstantHelper.ActivationRequired;
 
             RegisterUserResponse registerUserResponse = null;
-            using (var facade = new Facade(AppContext.GetContext(Context)))
+            var facade = Services.Get<Facade>();
             {
                 registerUserResponse = facade.RegisterUser(Email.Text, Password.Text, Email.Text, activationRequired);
             }
@@ -120,7 +120,7 @@ public partial class LoginPage : System.Web.UI.Page
         {
             string newPassword = string.Empty;
 
-            using (var facade = new Facade(AppContext.GetContext(Context)))
+            var facade = Services.Get<Facade>();
             {
                 newPassword = facade.ResetPassword(ForgotEmail.Text.Trim());
             }

@@ -53,12 +53,12 @@ public partial class WidgetListControl : System.Web.UI.UserControl
         {
             if (Roles.Enabled && Convert.ToBoolean(ConstantHelper.EnableWidgetPermission, CultureInfo.InvariantCulture))
             {
-                using (var facade = new Facade(AppContext.GetContext(Context)))
+                var facade = Services.Get<Facade>();
                     return facade.GetWidgetList(Profile.UserName, Enumerations.WidgetTypeEnum.PersonalPage);                
             }
             else
             {
-                using (var facade = new Facade(AppContext.GetContext(Context)))
+                var facade = Services.Get<Facade>();
                     return facade.GetWidgetList(Enumerations.WidgetTypeEnum.PersonalPage);
             }
         }
@@ -127,7 +127,7 @@ public partial class WidgetListControl : System.Web.UI.UserControl
         //User added a new widget. The new widget is loaded for the first time. So, it's not
         //a postback experience for the widget. But for rest of the widgets, it is a postback experience.
         WidgetInstance widgetInstance;
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             widgetInstance = facade.AddWidgetInstance(widgetId, 0, 0, 0);
         }

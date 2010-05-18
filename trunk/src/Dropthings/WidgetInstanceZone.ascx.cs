@@ -13,6 +13,7 @@ using Dropthings.Widget.Framework;
 using Dropthings.Business.Facade;
 using Dropthings.Model;
 using Dropthings.Business.Facade.Context;
+using Dropthings.Util;
 
 public partial class WidgetInstanceZone : System.Web.UI.UserControl
 {
@@ -85,7 +86,7 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         this.WidgetHolderPanel.Attributes.Add(ZONE_ID_ATTR, this.WidgetZoneId.ToString());
         //this.WidgetHolderPanelTrigger.CssClass = "WidgetZoneUpdatePanel_" + this.WidgetZoneId.ToString();
 
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             this.WidgetInstances = facade.GetWidgetInstancesInZoneWithWidget(WidgetZoneId);
         }

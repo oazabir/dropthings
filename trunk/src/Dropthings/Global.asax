@@ -69,13 +69,21 @@
 
     protected void Application_PreRequestHandlerExecute(object sender, EventArgs e)
     {
-        // setup AppContext for this http request
-        var context = new AppContext(Context, string.Empty, Profile.UserName);
-        var requestLifeTimeManager = new Munq.DI.LifetimeManagers.ASPNETRequestLifetime();
-        
-        Dropthings.Util.Services.RegisterType<Dropthings.Business.Facade.Facade>(
-                c => new Dropthings.Business.Facade.Facade(context))
-            .WithLifetimeManager(requestLifeTimeManager);
+        var localPath = Request.Url.LocalPath;
+        if (localPath.Contains(".ashx") 
+            || localPath.Contains(".aspx") 
+            || localPath.Contains(".axd")
+            || localPath.Contains(".asmx")
+            || localPath.Contains(".svc"))
+        {
+            // setup AppContext for this http request
+            var context = new AppContext(Context, string.Empty, Profile.UserName);
+            var requestLifeTimeManager = new Munq.DI.LifetimeManagers.ASPNETRequestLifetime();
+
+            Dropthings.Util.Services.RegisterType<Dropthings.Business.Facade.Facade>(
+                    c => new Dropthings.Business.Facade.Facade(context))
+                .WithLifetimeManager(requestLifeTimeManager);
+        }
     }
 
 
@@ -84,7 +92,14 @@
         AppContext context = AppContext.GetContext(Context);
         if (null != context)
             context.Dispose();
-        Dropthings.Util.Services.Get<Dropthings.Business.Facade.Facade>().Dispose();
+
+        foreach (object obj in Context.Items)
+        {
+            if (obj is IDisposable)
+            {
+                (obj as IDisposable).Dispose();
+            }
+        }
     }
 </script>
 
