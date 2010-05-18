@@ -13,6 +13,12 @@ when there are other widgets which were added by dragging.
 * CHANGE: Change Page to Tab to prevent conflict with Page
 * CHANGE: Remove Enum suffix from Enums
 
+Version 2.6.1
+==============
+FIX: Fixed the logic where widgets on a column is pushed down when an widget is dropped on a column.
+FIX: Performance problem on DropthingsDataContext2 where in the constructor it tries to initialize all the Entity sets with MergeOption = NoTracking. It makes the ObjectContext to initialize all the entity sets and thus causing high CPU. Solved it by making Query<> function to execute the compiled queries using NoTracking. 
+CHANGE: Create Facade and register in Container only once per request and reuse that same instance within the request. This reuses ObjectContext and all repository instances.
+
 Version 2.6
 ===========
 ADD: Both VS 2008 and VS 2010 Solution files.

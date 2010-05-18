@@ -89,7 +89,7 @@ public partial class Widgets_RoleManagerWidget : System.Web.UI.UserControl, IWid
     
     private void SaveRole()
     {
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             try
             {
@@ -133,7 +133,7 @@ public partial class Widgets_RoleManagerWidget : System.Web.UI.UserControl, IWid
 
     protected void Items_Selecting(object sender, LinqDataSourceSelectEventArgs args)
     {
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             args.Result = facade.GetAllRole();
         }
@@ -148,7 +148,7 @@ public partial class Widgets_RoleManagerWidget : System.Web.UI.UserControl, IWid
             if (string.Equals(e.CommandName, "DeleteItem"))
             {
                 //add delete logic here    
-                using (var facade = new Facade(AppContext.GetContext(Context)))
+                var facade = Services.Get<Facade>();
                 {
                     try
                     {

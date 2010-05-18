@@ -64,10 +64,10 @@
 
         #region Constructors
 
-        public Facade()
-            : this(AppContext.GetContext(HttpContext.Current))
-        { 
-        }
+        //public Facade()
+        //    : this(AppContext.GetContext(HttpContext.Current))
+        //{ 
+        //}
 
         public Facade(AppContext context) :
             this(context,
@@ -201,10 +201,11 @@
         {
             if (_Disposed) return;
 
-            _Disposed = true;
             _disposableCache.Values.Each(d => d.Dispose());
             _disposableCache.Clear();
             _disposableCache = null;
+
+            _Disposed = true;            
         }
 
         #endregion Methods

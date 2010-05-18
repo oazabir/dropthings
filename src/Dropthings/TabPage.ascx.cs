@@ -15,6 +15,7 @@ using Dropthings.Business.Facade;
 using Dropthings.Business.Facade.Context;
 
 using Page = Dropthings.Data.Page;
+using Dropthings.Util;
 
 public partial class TabPage : System.Web.UI.UserControl
 {
@@ -93,7 +94,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
         //RedirectToTab(response.NewPage);
 
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             var page = facade.CreatePage(string.Empty, 0);
             RedirectToTab(page);
@@ -104,7 +105,7 @@ public partial class TabPage : System.Web.UI.UserControl
     {
         tabList.Controls.Clear();
         bool isTemplateUser = false;
-        using (var facade = new Facade(AppContext.GetContext(Context)))
+        var facade = Services.Get<Facade>();
         {
             var roleTemplate = facade.GetRoleTemplate(CurrentUserId);
             isTemplateUser = roleTemplate.aspnet_Users.UserId.Equals(CurrentUserId);

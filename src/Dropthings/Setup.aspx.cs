@@ -10,6 +10,7 @@ using Dropthings.Business;
 using Dropthings.Web.Framework;
 using Dropthings.Business.Facade;
 using Dropthings.Business.Facade.Context;
+using Dropthings.Util;
 
 public partial class Setup : System.Web.UI.Page
 {
@@ -23,7 +24,7 @@ public partial class Setup : System.Web.UI.Page
     private static void SetupDefaultSetting()
     {
         //setup default roles, template user and role template
-        using (var facade = new Facade(new AppContext(string.Empty, string.Empty)))
+        var facade = Services.Get<Facade>();
         {
             facade.SetupDefaultSetting();
         }
