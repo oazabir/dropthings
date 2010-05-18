@@ -34,7 +34,7 @@
             return AspectF.Define
                 .Cache<List<aspnet_Role>>(_cacheResolver, CacheKeys.UserKeys.RolesOfUser(userGuid))
                 .Return<List<aspnet_Role>>(() =>
-                    _database.Query<Guid, aspnet_Role>(CompiledQueries.UserQueries.GetRolesOfUser, userGuid)
+                    _database.Query(CompiledQueries.UserQueries.GetRolesOfUser, userGuid)
                     .ToList());
         }
 
@@ -43,7 +43,7 @@
             return AspectF.Define
                 .Cache<aspnet_User>(_cacheResolver, CacheKeys.UserKeys.UserFromUserGuid(userGuid))
                 .Return<aspnet_User>(() =>
-                    _database.Query<Guid, aspnet_User>(CompiledQueries.UserQueries.GetUserByUserGuid, userGuid)
+                    _database.Query(CompiledQueries.UserQueries.GetUserByUserGuid, userGuid)
                             .First());
         }
 
@@ -52,7 +52,7 @@
             return AspectF.Define
                 .Cache<aspnet_User>(_cacheResolver, CacheKeys.UserKeys.UserFromUserName(userName))
                 .Return<aspnet_User>(() =>
-                    _database.Query<string, aspnet_User>(CompiledQueries.UserQueries.GetUserFromUserName, userName)
+                    _database.Query(CompiledQueries.UserQueries.GetUserFromUserName, userName)
                     .FirstOrDefault());
         }
 
@@ -61,7 +61,7 @@
             return AspectF.Define
                 .Cache<Guid>(_cacheResolver, CacheKeys.UserKeys.UserGuidFromUserName(userName))
                 .Return<Guid>(() =>
-                    _database.Query<string, Guid>(CompiledQueries.UserQueries.GetUserGuidFromUserName, userName)
+                    _database.Query(CompiledQueries.UserQueries.GetUserGuidFromUserName, userName)
                     .FirstOrDefault());
         }
 

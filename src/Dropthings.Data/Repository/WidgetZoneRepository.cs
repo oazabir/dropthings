@@ -30,7 +30,7 @@
 
         public string GetWidgetZoneOwnerName(int widgetZoneId)
         {            
-            return _database.Query<int, string>(
+            return _database.Query(
                 CompiledQueries.WidgetQueries.GetWidgetZoneOwnerName, 
                 widgetZoneId)
                 .First();
@@ -47,7 +47,7 @@
             return AspectF.Define
                 .Cache<WidgetZone>(_cacheResolver, CacheKeys.WidgetZoneKeys.WidgetZone(widgetZoneId))
                 .Return<WidgetZone>(() =>
-                    _database.Query<int, WidgetZone>(
+                    _database.Query(
                         CompiledQueries.WidgetQueries.GetWidgetZoneById, widgetZoneId)
                         .First());
         }
@@ -57,7 +57,7 @@
             return AspectF.Define
                 .Cache<WidgetZone>(_cacheResolver, CacheKeys.PageKeys.WidgetZoneByPageIdColumnNo(pageId, columnNo))
                 .Return<WidgetZone>(() =>
-                    _database.Query<int, int, WidgetZone>(
+                    _database.Query(
                         CompiledQueries.WidgetQueries.GetWidgetZoneByPageId_ColumnNo, pageId, columnNo)
                         .First()
                     );

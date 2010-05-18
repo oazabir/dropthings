@@ -39,7 +39,7 @@
             return AspectF.Define
                 .Cache<List<WidgetsInRoles>>(_cacheResolver, CacheKeys.WidgetsInRolesKeys.WidgetsInRolesByWidgetId(widgetId))
                 .Return<List<WidgetsInRoles>>(() =>
-                    _database.Query<int, WidgetsInRoles>(CompiledQueries.WidgetQueries.GetWidgetsInRoleByWidgetId, widgetId)
+                    _database.Query(CompiledQueries.WidgetQueries.GetWidgetsInRoleByWidgetId, widgetId)
                     .ToList());
         }
 

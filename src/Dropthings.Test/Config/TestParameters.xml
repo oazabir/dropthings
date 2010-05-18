@@ -2,6 +2,7 @@
 <TestParameters>
   <!-- Dno't put trailing slash -->
   <ServerURL>http://localhost:8000/Dropthings</ServerURL>
+  <!--<ServerURL>http://dropthings.omaralzabir.com</ServerURL>-->
   <AnonCookieName>.DBANON</AnonCookieName>
   <AuthCookieName>.DBAUTH12</AuthCookieName>
   <SessionCookieName>ASP.NET_SessionId</SessionCookieName>

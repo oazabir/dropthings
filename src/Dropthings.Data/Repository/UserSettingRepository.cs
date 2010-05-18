@@ -32,7 +32,7 @@ namespace Dropthings.Data.Repository
         {
             return AspectF.Define
                 .Cache<UserSetting>(_cacheResolver, CacheKeys.UserKeys.UserSettingByUserGuid(userGuid))
-                .Return<UserSetting>(() => _database.Query<Guid, UserSetting>(
+                .Return<UserSetting>(() => _database.Query(
                             CompiledQueries.UserQueries.GetUserSettingByUserGuid, userGuid)
                             .FirstOrDefault());
         }

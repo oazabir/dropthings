@@ -35,7 +35,7 @@
 
         public List<RoleTemplate> GeAllRoleTemplates()
         {
-            return _database.Query<RoleTemplate>(CompiledQueries.RoleQueries.GetRoleTemplates)
+            return _database.Query(CompiledQueries.RoleQueries.GetRoleTemplates)
                 .ToList();
         }
 
@@ -44,7 +44,7 @@
             return AspectF.Define
                 .Cache<RoleTemplate>(_cacheResolver, CacheKeys.RoleKeys.RoleTemplateByRoleName(roleName))
                 .Return<RoleTemplate>(() =>
-                    _database.Query<string, RoleTemplate>(CompiledQueries.RoleQueries.GetRoleTemplateByRoleName, roleName)
+                    _database.Query(CompiledQueries.RoleQueries.GetRoleTemplateByRoleName, roleName)
                     .FirstOrDefault());
         }
 
@@ -53,7 +53,7 @@
             return AspectF.Define
                 .Cache<RoleTemplate>(_cacheResolver, CacheKeys.UserKeys.RoleTemplateByUser(userName))
                 .Return<RoleTemplate>(() =>
-                    _database.Query<string, RoleTemplate>(CompiledQueries.RoleQueries.GetRoleTemplateByTemplateUserName, userName)
+                    _database.Query(CompiledQueries.RoleQueries.GetRoleTemplateByTemplateUserName, userName)
                     .FirstOrDefault());
         }
 
@@ -62,7 +62,7 @@
             return AspectF.Define
                 .Cache<RoleTemplate>(_cacheResolver, CacheKeys.TemplateKeys.RoleTemplateByUser(userId))
                 .Return<RoleTemplate>(() =>
-                    _database.Query<Guid, RoleTemplate>(CompiledQueries.RoleQueries.GetRoleTemplatesByUserId, userId)
+                    _database.Query(CompiledQueries.RoleQueries.GetRoleTemplatesByUserId, userId)
                     .FirstOrDefault());
         }
 
