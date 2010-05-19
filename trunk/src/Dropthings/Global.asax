@@ -77,13 +77,19 @@
             || localPath.Contains(".svc"))
         {
             // setup AppContext for this http request
-            var context = new AppContext(Context, string.Empty, Profile.UserName);
+            //var context = new AppContext(Context, string.Empty, Profile.UserName);
             var requestLifeTimeManager = new Munq.DI.LifetimeManagers.ASPNETRequestLifetime();
 
             Dropthings.Util.Services.RegisterType<Dropthings.Business.Facade.Facade>(
-                    c => new Dropthings.Business.Facade.Facade(context))
+                    c => SetupFacadeInstanceInRequestContext())
                 .WithLifetimeManager(requestLifeTimeManager);
         }
+    }
+
+    private static Dropthings.Business.Facade.Facade SetupFacadeInstanceInRequestContext()
+    {
+        var context = HttpContext.Current;
+        return new Dropthings.Business.Facade.Facade(new AppContext(context, string.Empty, context.User.Identity.Name));
     }
 
 
