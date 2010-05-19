@@ -171,6 +171,16 @@
 
                 Services.RegisterTypeForLazyGet<IUserSettingRepository>(r => new UserSettingRepository(
                     r.Resolve<IDatabase>(), r.Resolve<ICache>()));
+
+                Dropthings.Util.Services.RegisterType<Facade>(
+                    c =>
+                    {
+                        var context = HttpContext.Current;
+                        if (null == context)
+                            return new Facade(new AppContext(string.Empty, string.Empty));
+                        else
+                            return context.Items[typeof(Facade).FullName] as Facade;
+                    });
 #else
                 Services.RegisterType<ILogger, EntLibLogger>();
 

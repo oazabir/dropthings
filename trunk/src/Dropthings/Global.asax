@@ -76,22 +76,14 @@
             || localPath.Contains(".asmx")
             || localPath.Contains(".svc"))
         {
-            // setup AppContext for this http request
-            //var context = new AppContext(Context, string.Empty, Profile.UserName);
-            var requestLifeTimeManager = new Munq.DI.LifetimeManagers.ASPNETRequestLifetime();
+            // Register Facade and AppContext in HttpContext.Current.Items so that when 
+            // Facade is resolved by Services.Get<>(), it returns this pre-configured facade
 
-            Dropthings.Util.Services.RegisterType<Dropthings.Business.Facade.Facade>(
-                    c => SetupFacadeInstanceInRequestContext())
-                .WithLifetimeManager(requestLifeTimeManager);
+            var context = HttpContext.Current;
+            context.Items[typeof(Dropthings.Business.Facade.Facade).FullName] = new Dropthings.Business.Facade.Facade(
+                new AppContext(context, string.Empty, context.Profile.UserName));
         }
     }
-
-    private static Dropthings.Business.Facade.Facade SetupFacadeInstanceInRequestContext()
-    {
-        var context = HttpContext.Current;
-        return new Dropthings.Business.Facade.Facade(new AppContext(context, string.Empty, context.User.Identity.Name));
-    }
-
 
     protected void Application_EndRequest(object sender, EventArgs e)
     {
