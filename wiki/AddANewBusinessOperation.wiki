@@ -11,3 +11,8 @@ Dropthings uses an N-tier architecture with clear separation of data and busines
 Watch this screencast:
 
 http://omaralzabir.com/wp-content/movies/AddNewBusOp.html
+
+= UPDATE =
+From version 2.6, the data access layer has been converted to Entity Framework. So, you will have to follow the entity framework way of writing compiled queries and use the new DropthingsDataContext2 to do CRUD. Read this article for details on working with Entity Framework in a N-tier application.
+
+http://www.codeproject.com/KB/linq/ef.aspx
