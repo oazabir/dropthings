@@ -10,6 +10,8 @@
     using Dropthings.Util;
     using Dropthings.Configuration;
     using OmarALZabir.AspectF;
+    using System.Data.Objects.DataClasses;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Facade subsystem for Pages, Columns, WidgetZones
@@ -155,8 +157,14 @@
         public Page SetCurrentPage(Guid userGuid, int currentPageId)
         {
             var userSetting = GetUserSetting(userGuid);
-            userSetting.CurrentPageId = currentPageId;
-            return this.pageRepository.GetPageById(currentPageId);
+            var newPage = GetPage(currentPageId);
+
+            userSetting.Page = new Page { ID = newPage.ID };
+            userSetting.PageReference = new EntityReference<Page> { EntityKey = newPage.EntityKey };
+
+            this.userSettingRepository.Update(userSetting);
+
+            return newPage;
         }
 
         public Page DecideCurrentPage(Guid userGuid, string pageTitle, int currentPageId, bool? isAnonymous, bool? isFirstVisitAfterLogin)
@@ -271,9 +279,38 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPageId > 0)
+            if (userSetting != null && userSetting.Page.ID > 0)
             {
-                var currentPage = this.GetPage(userSetting.CurrentPageId);
+                var currentPage = this.GetPage(userSetting.Page.ID);
+
+                // Ensure the title is unique and does not match with other pages
+                var otherPages = this.GetPagesOfUser(userGuid).Where(p => p.ID != currentPage.ID);
+                
+                // Keep incrementing the last digit on the page title until there's no 
+                // such duplicate
+                int loopCounter = 0;
+                while (loopCounter++ < 100 
+                    && otherPages.FirstOrDefault(p => p.Title == title) != null)
+                {
+                    var match = Regex.Match(title, "\\d+$");
+                    if (match.Success)
+                    {
+                        var existingNumber = default(int);
+                        if (int.TryParse(match.Value, out existingNumber))
+                        {
+                            title = Regex.Replace(title, "\\d+$", (existingNumber + 1).ToString());
+                        }
+                        else
+                        {
+                            title = title + " " + (existingNumber + 1);
+                        }
+                    }
+                    else
+                    {
+                        title = title + " 1";
+                    }
+                }
+
                 currentPage.Title = title;
                 this.pageRepository.Update(currentPage);
 
@@ -289,9 +326,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPageId > 0)
+            if (userSetting != null && userSetting.Page.ID > 0)
             {
-                this.GetPage(userSetting.CurrentPageId).As(page =>
+                this.GetPage(userSetting.Page.ID).As(page =>
                     {
                         page.IsLocked = true;
                         page.LastLockedStatusChangedAt = DateTime.Now;
@@ -310,9 +347,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPageId > 0)
+            if (userSetting != null && userSetting.Page.ID > 0)
             {
-                this.GetPage(userSetting.CurrentPageId).As(page =>
+                this.GetPage(userSetting.Page.ID).As(page =>
                     {
                         page.IsLocked = false;
                         page.IsDownForMaintenance = false;
@@ -332,9 +369,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPageId > 0)
+            if (userSetting != null && userSetting.Page.ID > 0)
             {
-                this.GetPage(userSetting.CurrentPageId).As(page =>
+                this.GetPage(userSetting.Page.ID).As(page =>
                     {
                         page.IsDownForMaintenance = isInMaintenenceMode;
 
@@ -357,7 +394,7 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPageId > 0)
+            if (userSetting != null && userSetting.Page.ID > 0)
             {
                 //check if there any previously overridable start page and make it false if request is for changing the start page to true
                 if (shouldServeAsStartPage)
@@ -372,7 +409,7 @@
                 }
 
                 //change the overridable start page status
-                this.GetPage(userSetting.CurrentPageId).As(page =>
+                this.GetPage(userSetting.Page.ID).As(page =>
                     {
                         page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;                    
                         this.pageRepository.Update(page);
@@ -417,7 +454,7 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
             var newColumnDefs = Page.GetColumnWidths(newLayout);
-            var existingColumns = GetColumnsInPage(userSetting.CurrentPageId);
+            var existingColumns = GetColumnsInPage(userSetting.Page.ID);
             var columnCounter = existingColumns.Count - 1;
             var newColumnNo = newColumnDefs.Count() - 1;
 
@@ -425,11 +462,11 @@
             {
                 while (columnCounter + 1 > newColumnDefs.Length)
                 {
-                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPageId, columnCounter);
-                    var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPageId, newColumnNo);
+                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, columnCounter);
+                    var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, newColumnNo);
                     var widgetInstancesToMove = GetWidgetInstancesInZoneWithWidget(oldWidgetZone.ID);
                     widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, 0));
-                    DeleteColumn(userSetting.CurrentPageId, columnCounter);
+                    DeleteColumn(userSetting.Page.ID, columnCounter);
                     --columnCounter;
                 }
             }
@@ -457,18 +494,18 @@
                         ColumnNo = columnCounter + 1,
                         ColumnWidth = newColumnWidth,
                         WidgetZone = new WidgetZone { ID = insertedWidgetZone.ID },
-                        Page = new Page { ID = userSetting.CurrentPageId }
+                        Page = new Page { ID = userSetting.Page.ID }
                     });
                     
                     ++columnCounter;
                 }
             }
 
-            var columns = this.columnRepository.GetColumnsByPageId(userSetting.CurrentPageId);
+            var columns = this.columnRepository.GetColumnsByPageId(userSetting.Page.ID);
             columns.Each(column => column.ColumnWidth = newColumnDefs[column.ColumnNo]);
             this.columnRepository.UpdateList(columns);
 
-            var currentPage = this.GetPage(userSetting.CurrentPageId);
+            var currentPage = this.GetPage(userSetting.Page.ID);
             currentPage.LayoutType = newLayout;
             currentPage.ColumnCount = Page.GetColumnWidths(newLayout).Length;
             this.pageRepository.Update(currentPage);

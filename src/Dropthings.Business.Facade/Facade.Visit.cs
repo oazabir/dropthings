@@ -82,7 +82,7 @@ namespace Dropthings.Business.Facade
                 var currentPages = this.GetPagesOfUser(userGuid);
                 response.UserPages = currentPages;
                 response.UserSetting = GetUserSetting(userGuid);
-                response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPageId, isAnonymous, isFirstVisitAfterLogin);
+                response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.Page.ID, isAnonymous, isFirstVisitAfterLogin);
                 response.CurrentUserId = userGuid;
                 return response;
             });
@@ -120,11 +120,11 @@ namespace Dropthings.Business.Facade
                     response.UserPages = pages;
 
                     var userSetting = GetUserSetting(userGuid);
-                    response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, userSetting.CurrentPageId, isAnonymous, isFirstVisitAfterLogin);
+                    response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, userSetting.Page.ID, isAnonymous, isFirstVisitAfterLogin);
 
-                    if (userSetting.CurrentPageId != response.CurrentPage.ID)
+                    if (userSetting.Page.ID != response.CurrentPage.ID)
                     {
-                        userSetting.CurrentPageId = response.CurrentPage.ID;
+                        userSetting.Page.ID = response.CurrentPage.ID;
                         this.userSettingRepository.Update(userSetting);
                     }
 

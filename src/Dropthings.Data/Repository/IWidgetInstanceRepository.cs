@@ -6,7 +6,6 @@ namespace Dropthings.Data.Repository
     {
         void Delete(Dropthings.Data.WidgetInstance wi);
         void Delete(int id);
-        void Dispose();
         Dropthings.Data.WidgetInstance GetWidgetInstanceById(int id);
         System.Collections.Generic.List<Dropthings.Data.WidgetInstance> GetWidgetInstanceOnWidgetZoneAfterPosition(int widgetZoneId, int position);
         System.Collections.Generic.List<Dropthings.Data.WidgetInstance> GetWidgetInstanceOnWidgetZoneFromPosition(int widgetZoneId, int position);

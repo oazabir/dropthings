@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LoadTest Name="FirstVisit" Description="" Owner="" storage="d:\work\dropthings\googlecode\trunk\src\dropthings.test\loadtest\firstvisit.loadtest" Priority="0" Enabled="true" CssProjectStructure="" CssIteration="" DeploymentItemsEditable="" WorkItemIds="" TraceLevel="None" CurrentRunConfig="Run Settings1" LoadTestPluginClass="" Id="6fbe562e-19f3-428f-addf-84e3c02ed817" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<LoadTest Name="FirstVisit" Description="" Owner="" storage="d:\work\dropthings\googlecode\trunk\src\dropthings.test\loadtest\firstvisit.loadtest" Priority="0" Enabled="true" CssProjectStructure="" CssIteration="" DeploymentItemsEditable="" WorkItemIds="" TraceLevel="None" CurrentRunConfig="Run Settings1" Id="6fbe562e-19f3-428f-addf-84e3c02ed817" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Scenarios>
-    <Scenario Name="FirstVisitLoadTest" DelayBetweenIterations="1" PercentNewUsers="100" IPSwitching="false" TestMixType="PercentageOfTestsStarted">
+    <Scenario Name="FirstVisitLoadTest" DelayBetweenIterations="1" PercentNewUsers="100" IPSwitching="false" TestMixType="PercentageOfTestsStarted" ApplyDistributionToPacingDelay="true" MaxTestIterations="0" DisableDuringWarmup="false" DelayStartTime="0" AllowedAgents="">
       <ThinkProfile Value="0.2" Pattern="NormalDistribution" />
-      <LoadProfile Pattern="Step" InitialUsers="3" MaxUsers="10" StepUsers="5" StepDuration="10" StepRampTime="5" />
+      <LoadProfile Pattern="Step" InitialUsers="2" MaxUsers="4" StepUsers="5" StepDuration="10" StepRampTime="5" />
       <TestMix>
         <TestProfile Name="FirstAnonymousVisit" Path="..\firstanonymousvisit.webtest" Id="ac766d08-f940-4b0a-b8f8-80675978894e" Percentage="100" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       </TestMix>
@@ -21,13 +21,13 @@
       </BrowserMix>
       <NetworkMix>
         <NetworkProfile Percentage="100">
-          <Network Name="LAN" BandwidthInKbps="0" />
+          <Network Name="LAN" BandwidthInKbps="0" NetworkProfileConfigurationXml="&lt;Emulation&gt;&lt;VirtualChannel name=&quot;defaultChannel&quot;&gt;&lt;FilterList/&gt;&lt;VirtualLink instances=&quot;1&quot; name=&quot;defaultLink&quot;&gt;&lt;LinkRule dir=&quot;upstream&quot;&gt;&lt;Bandwidth&gt;&lt;Speed unit=&quot;kbps&quot;&gt;0&lt;/Speed&gt;&lt;/Bandwidth&gt;&lt;/LinkRule&gt;&lt;LinkRule dir=&quot;downstream&quot;&gt;&lt;Bandwidth&gt;&lt;Speed unit=&quot;kbps&quot;&gt;0&lt;/Speed&gt;&lt;/Bandwidth&gt;&lt;/LinkRule&gt;&lt;/VirtualLink&gt;&lt;/VirtualChannel&gt;&lt;/Emulation&gt;" />
         </NetworkProfile>
       </NetworkMix>
     </Scenario>
   </Scenarios>
   <CounterSets>
-    <CounterSet Name="ASP.Net" CounterSetType="ASP.Net">
+    <CounterSet Name="ASP.NET" CounterSetType="ASP.NET" LocId="">
       <CounterCategories>
         <CounterCategory Name=".NET CLR Interop">
           <Counters>
@@ -321,7 +321,7 @@
         <DefaultCounter CategoryName="Memory" CounterName="Available MBytes" InstanceName="" GraphName="" />
       </DefaultCountersForAutomaticGraphs>
     </CounterSet>
-    <CounterSet Name="IIS" CounterSetType="IIS">
+    <CounterSet Name="IIS" CounterSetType="IIS" LocId="">
       <CounterCategories>
         <CounterCategory Name="Active Server Pages">
           <Counters>
@@ -420,7 +420,7 @@
         <DefaultCounter CategoryName="Memory" CounterName="Available MBytes" InstanceName="" GraphName="" />
       </DefaultCountersForAutomaticGraphs>
     </CounterSet>
-    <CounterSet Name="SQL" CounterSetType="SQL">
+    <CounterSet Name="SQL" CounterSetType="SQL" LocId="">
       <CounterCategories>
         <CounterCategory Name="Memory">
           <Counters>
@@ -583,7 +583,7 @@
         <DefaultCounter CategoryName="Memory" CounterName="Available MBytes" InstanceName="" GraphName="" />
       </DefaultCountersForAutomaticGraphs>
     </CounterSet>
-    <CounterSet Name="LoadTest" CounterSetType="LoadTest">
+    <CounterSet Name="LoadTest" CounterSetType="LoadTest" LocId="">
       <CounterCategories>
         <CounterCategory Name="LoadTest:Scenario">
           <Counters>
@@ -662,7 +662,7 @@
         </CounterCategory>
       </CounterCategories>
     </CounterSet>
-    <CounterSet Name="Controller" CounterSetType="Controller">
+    <CounterSet Name="Controller" CounterSetType="Controller" LocId="">
       <CounterCategories>
         <CounterCategory Name="Memory">
           <Counters>
@@ -725,11 +725,11 @@
         <DefaultCounter CategoryName="Memory" CounterName="Available MBytes" InstanceName="" GraphName="" />
       </DefaultCountersForAutomaticGraphs>
     </CounterSet>
-    <CounterSet Name="Agent" CounterSetType="Agent">
+    <CounterSet Name="Agent" CounterSetType="Agent" LocId="">
       <CounterCategories>
         <CounterCategory Name="Memory">
           <Counters>
-            <Counter Name="Available MBytes">
+            <Counter Name="Available MBytes" HigherIsBetter="true">
               <ThresholdRules>
                 <ThresholdRule Classname="Microsoft.VisualStudio.TestTools.WebStress.Rules.ThresholdRuleCompareConstant, Microsoft.VisualStudio.QualityTools.LoadTest">
                   <RuleParameters>
@@ -762,7 +762,7 @@
           <Counters>
             <Counter Name="% Disk Read Time" />
             <Counter Name="% Disk Write Time" />
-            <Counter Name="% Idle Time" />
+            <Counter Name="% Idle Time" HigherIsBetter="true" />
             <Counter Name="Current Disk Queue Length" />
           </Counters>
           <Instances>
@@ -805,6 +805,7 @@
           </Counters>
           <Instances>
             <Instance Name="_Total" />
+            <Instance Name="0" />
           </Instances>
         </CounterCategory>
         <CounterCategory Name="System">
@@ -817,17 +818,18 @@
         </CounterCategory>
       </CounterCategories>
       <DefaultCountersForAutomaticGraphs>
-        <DefaultCounter CategoryName="Processor" CounterName="% Processor Time" InstanceName="_Total" GraphName="" />
+        <DefaultCounter CategoryName="Processor" CounterName="% Processor Time" InstanceName="_Total" GraphName="" RunType="Remote" />
         <DefaultCounter CategoryName="Memory" CounterName="Available MBytes" InstanceName="" GraphName="" />
+        <DefaultCounter CategoryName="Processor" CounterName="% Processor Time" InstanceName="0" GraphName="" RunType="Local" />
       </DefaultCountersForAutomaticGraphs>
     </CounterSet>
   </CounterSets>
   <RunConfigurations>
-    <RunConfiguration Name="Run Settings1" Description="" ResultsStoreType="Database" TimingDetailsStorage="StatisticsOnly" MaxErrorDetails="100" MaxRequestUrlsReported="1000" UseTestIterations="false" RunDuration="600" WarmupTime="0" CoolDownTime="0" TestIterations="100" WebTestConnectionModel="ConnectionPerUser" WebTestConnectionPoolSize="50" SampleRate="5" ValidationLevel="High" SqlTracingConnectString="" SqlTracingConnectStringDisplayValue="" SqlTracingDirectory="" SqlTracingEnabled="false" SqlTracingMinimumDuration="500" RunUnitTestsInAppDomain="true">
+    <RunConfiguration Name="Run Settings1" Description="" ResultsStoreType="Database" TimingDetailsStorage="StatisticsOnly" SaveTestLogsOnError="true" SaveTestLogsFrequency="0" MaxErrorDetails="100" MaxErrorsPerType="1000" MaxThresholdViolations="1000" MaxRequestUrlsReported="1000" UseTestIterations="false" RunDuration="600" WarmupTime="0" CoolDownTime="0" TestIterations="100" WebTestConnectionModel="ConnectionPerUser" WebTestConnectionPoolSize="50" SampleRate="5" ValidationLevel="High" SqlTracingConnectString="" SqlTracingConnectStringDisplayValue="" SqlTracingDirectory="" SqlTracingEnabled="false" SqlTracingMinimumDuration="500" RunUnitTestsInAppDomain="true">
       <CounterSetMappings>
         <CounterSetMapping ComputerName="VISTA64">
           <CounterSetReferences>
-            <CounterSetReference CounterSetName="ASP.Net" />
+            <CounterSetReference CounterSetName="ASP.NET" />
             <CounterSetReference CounterSetName="IIS" />
             <CounterSetReference CounterSetName="SQL" />
           </CounterSetReferences>

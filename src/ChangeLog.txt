@@ -1,3 +1,6 @@
+Notes:
+Create schema change script for UserSetting table change
+
 
 Next version target:
 ====================
@@ -12,6 +15,15 @@ when there are other widgets which were added by dragging.
 * CHANGE: Change all aspnet_Users, aspnet_Roles to proper names like User, Role
 * CHANGE: Change Page to Tab to prevent conflict with Page
 * CHANGE: Remove Enum suffix from Enums
+* CHANGE: Convert Javascripts to Script#
+* ADD: Comment all Facade methods and mention the "why" and "how"
+* CHANGE: Move code from Default.asps.cs to WidgetPage to make the control for self-sufficient
+
+Version 2.6.2
+=============
+FIX: Issue-100: UserSetting.CurrentPageID now has foreign key to Page object
+FIX: Issue 99:	Unique page titles create UI issues
+
 
 Version 2.6.1
 ==============

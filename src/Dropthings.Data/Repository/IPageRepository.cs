@@ -4,7 +4,6 @@ namespace Dropthings.Data.Repository
     public interface IPageRepository : IDisposable
     {
         void Delete(Dropthings.Data.Page page);
-        void Dispose();
         Dropthings.Data.Page GetFirstPageOfUser(Guid userGuid);
         System.Collections.Generic.List<Dropthings.Data.Page> GetLockedPagesOfUser(Guid userGuid, bool isDownForMaintenenceMode);
         System.Collections.Generic.List<Dropthings.Data.Page> GetLockedPagesOfUserByMaintenenceMode(Guid userGuid, bool isInMaintenenceMode);
