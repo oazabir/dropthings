@@ -72,6 +72,71 @@ namespace Dropthings.Business.Facade.Tests
         }
 
         [Specification]
+        public void User_should_be_able_set_the_same_page_title_again()
+        {
+            var facade = default(Facade);
+            var profile = default(UserProfile);
+            var userSetup = default(UserSetup);
+            "Given a new user".Context(() =>
+            {
+                profile = MembershipHelper.CreateNewAnonUser();
+                facade = new Facade(new AppContext(string.Empty, profile.UserName));
+
+                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+            });
+
+            "When user changes title of current page".Do(() =>
+            {
+                facade.ChangePageName(userSetup.CurrentPage.Title);
+            });
+
+            "It should persist and on next visit the page title should remain the same".Assert(() =>
+            {
+                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
+                Assert.Equal(userPageSetup.CurrentPage.Title, userPageSetup.CurrentPage.Title);
+            });
+        }
+
+        [Specification]
+        public void User_should_not_be_able_to_use_same_page_title_in_more_than_one_page()
+        {
+            var facade = default(Facade);
+            var profile = default(UserProfile);
+            var userSetup = default(UserSetup);
+            var newName = Guid.NewGuid().ToString();
+            var newTitle = default(string);
+            "Given a new user".Context(() =>
+            {
+                profile = MembershipHelper.CreateNewAnonUser();
+                facade = new Facade(new AppContext(string.Empty, profile.UserName));
+
+                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+            });
+
+            "When user changes title of one page to the title of another page".Do(() =>
+            {
+                // Create a new page
+                var newPage = facade.CreatePage(Guid.NewGuid().ToString(), 0);
+                newTitle = newPage.Title;
+                // Change back to the old page
+                facade.SetCurrentPage(facade.GetUserGuidFromUserName(profile.UserName), userSetup.CurrentPage.ID);
+                // Set the same title as the newly created page
+                facade.ChangePageName(newTitle);
+            });
+
+            "It should automatically change the title to some unique title by adding some number".Assert(() =>
+            {
+                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
+                Assert.NotEqual(newTitle, userPageSetup.CurrentPage.Title);
+                
+                // Ensure there's no two pages with same title
+                Assert.False(userPageSetup.UserPages.Exists(p1 => userPageSetup.UserPages.Exists(p2 => p1.Title == p2.Title 
+                    && p1.ID != p2.ID)));
+            });
+        }
+
+
+        [Specification]
         public void User_should_be_able_delete_a_page()
         {
             var facade = default(Facade);

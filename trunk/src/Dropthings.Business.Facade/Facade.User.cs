@@ -65,7 +65,7 @@ namespace Dropthings.Business.Facade
                     {
                         aspnet_Users = new aspnet_User { UserId = userGuid },
                         CreatedDate = DateTime.Now,
-                        CurrentPageId = this.pageRepository.GetPageIdByUserGuid(userGuid).First()
+                        Page = new Page { ID = this.pageRepository.GetPageIdByUserGuid(userGuid).First() }
                     });
             }
 
@@ -93,7 +93,7 @@ namespace Dropthings.Business.Facade
                 this.userSettingRepository.Insert(new UserSetting
                 {
                     aspnet_Users = new aspnet_User { UserId = userGuid },
-                    CurrentPageId = userSetting.CurrentPageId,
+                    Page = new Page { ID = userSetting.Page.ID },
                     CreatedDate = DateTime.Now
                 });
 

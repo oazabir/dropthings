@@ -74,15 +74,16 @@
             roleTemplate.aspnet_Users = null;
             roleTemplate.aspnet_Roles = null;
 
-            return _database.Insert<aspnet_User, aspnet_Role, RoleTemplate>(
+            var result = _database.Insert<aspnet_User, aspnet_Role, RoleTemplate>(
                 user, role,    
                 (u, rt) => rt.aspnet_Users = u,
                 (r, rt) => rt.aspnet_Roles = r,
                 roleTemplate);
 
-            roleTemplate.aspnet_Users = user;
-            roleTemplate.aspnet_Roles = role;
-
+            result.aspnet_Users = user;
+            result.aspnet_Roles = role;
+            
+            return result;
         }
 
         public void Update(RoleTemplate roleTemplate)

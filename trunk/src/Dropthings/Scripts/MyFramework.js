@@ -35,35 +35,38 @@ var DropthingsUI = {
     // widget instance object is serialized and stored in this collection.
     WidgetDefs: [],
     // Store a widget's definition in the WidgetDefs array
-    setWidgetDef: function(id, expanded, maximized, resized, width, height, zoneId) {
-        DropthingsUI.WidgetDefs["" + id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
+    //    setWidgetDef: function(id, expanded, maximized, resized, width, height, zoneId) {
+    //        DropthingsUI.WidgetDefs["" + id] = { id: id, expanded: expanded, maximized: maximized, resized: resized, width: width, height: height, zoneId: zoneId };
+    //    },
+    setWidgetDef: function (id, widgetInstance) {
+        DropthingsUI.WidgetDefs["" + id] = widgetInstance;
     },
     // Get a widget's definition from the WidgetDefs array
-    getWidgetDef: function(id) {
+    getWidgetDef: function (id) {
         return DropthingsUI.WidgetDefs["" + id];
     },
     // Get a widget DivID (server side generated DIV ClientID) from widget instanceId
-    getWidgetDivId: function(instanceId) {
+    getWidgetDivId: function (instanceId) {
         return "WidgetPage_WidgetPanelsLayout_WidgetContainer" + instanceId + "_Widget";
     },
     // Get widget zone DivID (server side generated DIV ClientID) from zoneId
-    getWidgetZoneDivId: function(zoneId) {
+    getWidgetZoneDivId: function (zoneId) {
         return "WidgetPage_WidgetZone" + zoneId + "_WidgetHolderPanel";
     },
     // Initialize client side stuffs. Called during page load.
-    init: function(isTemplateUser) {
+    init: function (isTemplateUser) {
         var enableSorting = Boolean.parse(isTemplateUser);
         DropthingsUI.initTab(enableSorting);
     },
     // Initializes a tab. Called during tab load.
-    initTab: function(enableSorting) {
+    initTab: function (enableSorting) {
         jQuery('#tab_container').scrollable();
         if (enableSorting) {
             DropthingsUI.initTabSorting();
         }
     },
     // Use the jQuery sortable plugin to allow tabs to be sorted.
-    initTabSorting: function() {
+    initTabSorting: function () {
         var plugin = jQuery('#tab_container').find(".tabs").data('sortable');
         if (plugin) plugin.destroy();
 
@@ -74,11 +77,11 @@ var DropthingsUI = {
                     items: '.tab' + ':not(.nodrag)',
                     opacity: 0.8,
                     revert: true,
-                    stop: function(e, ui) {
+                    stop: function (e, ui) {
                         var position = ui.item.parent().children(':not(.nodrag)').index(ui.item);
                         var pageId = ui.item.attr('id').match(/\d+/);
 
-                        DropthingsUI.Actions.onTabItemDrop(pageId[0], position, function() {
+                        DropthingsUI.Actions.onTabItemDrop(pageId[0], position, function () {
                             //do work after saving the tab order
                         });
                     }
@@ -86,7 +89,7 @@ var DropthingsUI = {
     },
     // Hook jQuery stuffs on a widget to allow widget title change by cliking
     // on widget title, allow expand, collapse, maximize, minimize, close
-    setActionOnWidget: function(widgetId) {
+    setActionOnWidget: function (widgetId) {
         var nohref = "javascript:void(0);";
         var widget = jQuery('#' + widgetId);
         var widgetInstanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
@@ -104,13 +107,13 @@ var DropthingsUI = {
 
         widgetTitle
             .unbind('click')
-            .bind('click', function() {
+            .bind('click', function () {
                 widgetTitle.hide();
                 widgetInput
                     .show()
                     .attr('value', widgetTitle.text())
                     .unbind('keypress')
-                    .bind('keypress', function(e) {
+                    .bind('keypress', function (e) {
                         if (e.which == 13) {
                             widgetSubmit.click();
                             return false;
@@ -120,7 +123,7 @@ var DropthingsUI = {
                 widgetSubmit
                     .show()
                     .unbind('click')
-                    .bind('click', function() {
+                    .bind('click', function () {
                         var newTitle = widgetInput.attr('value');
                         widgetSubmit.hide();
                         widgetTitle.text(newTitle).show();
@@ -141,7 +144,7 @@ var DropthingsUI = {
         var widgetCloseButton = widget.find('.widget_close');
 
         //if (Boolean.parse(widget.attr(DropthingsUI.Attributes.EXPANDED))) {
-        if (widgetDef.expanded) {
+        if (widgetDef.Expanded) {
             widgetCollaspe.show();
             widgetExpand.hide();
         }
@@ -152,7 +155,7 @@ var DropthingsUI = {
 
         widgetCloseButton
             .unbind('click')
-            .bind('click', function() {
+            .bind('click', function () {
                 widget.hide('slow');
                 eval(widgetCloseButton.attr("href"));
                 return false;
@@ -160,7 +163,7 @@ var DropthingsUI = {
 
         widgetExpand
 	        .unbind('click')
-            .bind('click', function() {
+            .bind('click', function () {
                 widgetResizeFrame.show();
                 widgetExpand.hide();
                 widgetCollaspe.show();
@@ -174,7 +177,7 @@ var DropthingsUI = {
 
         widgetCollaspe
 		    .unbind('click')
-            .bind('click', function() {
+            .bind('click', function () {
                 widgetResizeFrame.hide();
                 widgetExpand.show();
                 widgetCollaspe.hide();
@@ -188,7 +191,7 @@ var DropthingsUI = {
         var widgetRestore = widget.find('.widget_restore');
         var widgetMaximize = widget.find('.widget_max');
 
-        if (widgetDef.maximized) {
+        if (widgetDef.Maximized) {
             widgetRestore.show();
             widgetMaximize.hide();
 
@@ -202,7 +205,7 @@ var DropthingsUI = {
 
         widgetMaximize
 	        .unbind('click')
-            .bind('click', function() {
+            .bind('click', function () {
                 //widgetDef.maximized = true;
                 widgetMaximize.hide();
                 widgetRestore.css({ display: 'block' });
@@ -215,7 +218,7 @@ var DropthingsUI = {
 
         widgetRestore
 		    .unbind('click')
-            .bind('click', function() {
+            .bind('click', function () {
                 //widgetDef.maximized = true;
                 widgetMaximize.show();
                 widgetRestore.hide();
@@ -229,14 +232,14 @@ var DropthingsUI = {
     },
     // Hook jQuery sortable plugin with the widget zones so that widgets
     // can be dragged & dropped between widegt zones.
-    initDragDrop: function(zoneId, widgetClass, newWidgetClass, handleClass, zoneClass, zonePostbackTrigger) {
+    initDragDrop: function (zoneId, widgetClass, newWidgetClass, handleClass, zoneClass, zonePostbackTrigger) {
         DropthingsUI.initAddStuff(zoneClass, newWidgetClass);
 
         // Get all widget zones on the page and allow widget to be dropped on any of them
         var allZones = jQuery('.' + zoneClass);
 
         //var zone = jQuery('#' + zoneId);
-        allZones.each(function() {
+        allZones.each(function () {
             var plugin = jQuery(this).data('sortable');
             if (plugin) plugin.destroy();
         });
@@ -255,13 +258,13 @@ var DropthingsUI = {
             revert: true,
             tolerance: 'pointer',
             placeholder: 'placeholder',
-            start: function(e, ui) {
+            start: function (e, ui) {
                 ui.helper.css("width", ui.item.parent().outerWidth());
                 ui.placeholder.height(ui.item.height());
 
                 DropthingsUI.suspendPendingWidgetZoneUpdate();
             },
-            change: function(e, ui) {
+            change: function (e, ui) {
                 if (ui.element) {
                     var w = ui.element.width();
                     ui.placeholder.width(w);
@@ -276,7 +279,7 @@ var DropthingsUI = {
                     }
                 }
             },
-            stop: function(e, ui) {
+            stop: function (e, ui) {
                 var position = ui.item.parent()
                                     .children()
                                     .index(ui.item);
@@ -297,20 +300,20 @@ var DropthingsUI = {
                     ui.item.remove();
 
                     DropthingsUI.Actions.onWidgetAdd(widgetId[0], containerId, position,
-                        function() {
+                        function () {
                             DropthingsUI.updateWidgetZone(widgetZone);
                         });
                 }
                 else {
                     ui.item.css({ 'width': 'auto' });
                     var instanceId = parseInt(ui.item.attr(DropthingsUI.Attributes.INSTANCE_ID));
-                    DropthingsUI.Actions.onDrop(containerId, instanceId, position, function() {
+                    DropthingsUI.Actions.onDrop(containerId, instanceId, position, function () {
                         //DropthingsUI.updateWidgetZone(widgetZone);
                     });
                 }
             }
         })
-        .bind("sortreceive", function(e, ui) {
+        .bind("sortreceive", function (e, ui) {
             var widget = jQuery(ui.item);
             if (widget.hasClass(newWidgetClass)) {
                 //widget.remove();
@@ -319,13 +322,13 @@ var DropthingsUI = {
     },
     // Cause the widget to refresh itself by simularing a dummy 
     // postback on the widget's updatepanel
-    updateWidget: function(widgetId) {
+    updateWidget: function (widgetId) {
         var widget = jQuery('#' + widgetId);
         var postbackLink = widget.find('.dummy_postback');
         eval(postbackLink.attr('href'));
     },
     // Hook jquery stuffs to make a widget vertically resizable.
-    initResizer: function(divId) {
+    initResizer: function (divId) {
         // Disabling this feature since it's buggy and hardly anyone ever uses it.
         return false;
 
@@ -333,12 +336,12 @@ var DropthingsUI = {
             .resizable(
             {
                 handles: 's',
-                resize: function(e, ui) {
+                resize: function (e, ui) {
                     if (!ui.options.handles['w'] && !ui.options.handles['e']) {
                         var widget = ui.element.parent().parent();
                         var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-                        widgetDef.expanded = false;
-                        if (!widgetDef.maximized) {
+                        widgetDef.Expanded = false;
+                        if (!widgetDef.Maximized) {
                             //jQuery('#widgetMaxBackground').css({'height':jQuery('#widgetMaxBackground').height() + (ui.element.height() - ui.originalSize.height) });
                         }
                         else {
@@ -346,11 +349,11 @@ var DropthingsUI = {
                         }
                     }
                 },
-                stop: function(e, ui) {
+                stop: function (e, ui) {
                     var widget = ui.element.parent().parent();
                     var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-                    widgetDef.expanded = false;
-                    if (!widgetDef.maximized) {
+                    widgetDef.Expanded = false;
+                    if (!widgetDef.Maximized) {
                         DropthingsUI.Actions.resizeWidget(widget, ui.element.height());
                     }
                 }
@@ -359,12 +362,12 @@ var DropthingsUI = {
     // Hook jquery stuffs on the widget list so that new widgets
     // can be added by dragging & dropping a widget from the widget
     // list.
-    initAddStuff: function(zoneClass, newWidgetClass) {
+    initAddStuff: function (zoneClass, newWidgetClass) {
         var allZones = jQuery('.' + zoneClass);
 
         var widgetLinks = jQuery('.' + newWidgetClass);
         widgetLinks.draggable("destroy");
-        widgetLinks.each(function() {
+        widgetLinks.each(function () {
             var plugin = jQuery(this).data('sortable');
             if (plugin) plugin.destroy();
         });
@@ -373,10 +376,10 @@ var DropthingsUI = {
         {
             connectToSortable: allZones,
             helper: 'clone',
-            start: function() {
+            start: function () {
                 //jQuery(this).click(function() { return false; });
             },
-            stop: function() {
+            stop: function () {
                 //jQuery(this).click(function() { return true; });
 
                 // Simulate a postback on the widget data list control so that
@@ -387,7 +390,7 @@ var DropthingsUI = {
         });
     },
     // Queue update for a widget zone.
-    updateWidgetZone: function(widgetZone) {
+    updateWidgetZone: function (widgetZone) {
         // OMAR: update the widget zone after three seconds because user might drag & drop another widget
         // in the meantime.
         if ((DropthingsUI.__updateWidgetZoneTimerId || 0) === 0) {
@@ -395,12 +398,12 @@ var DropthingsUI = {
             zoneList.push(widgetZone);
             DropthingsUI.__widgetZonesToUpdate = zoneList;
             widgetZone.attr("__pendingUpdate", "1");
-            DropthingsUI.__updateWidgetZoneTimerId = window.setTimeout(function() {
-                jQuery(DropthingsUI.__widgetZonesToUpdate).each(function(index, zone) {
+            DropthingsUI.__updateWidgetZoneTimerId = window.setTimeout(function () {
+                jQuery(DropthingsUI.__widgetZonesToUpdate).each(function (index, zone) {
                     if (zone.attr("__pendingUpdate") == "1") {
                         zone.attr("__pendingUpdate", "0");
-                        var f = function() { return Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack(); };
-                        Utility.untilFalse(f, function() {
+                        var f = function () { return Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack(); };
+                        Utility.untilFalse(f, function () {
                             DropthingsUI.asyncPostbackWidgetZone(zone);
                         });
                     }
@@ -414,37 +417,37 @@ var DropthingsUI = {
             DropthingsUI.updateWidgetZone(widgetZone);
         }
     },
-    suspendPendingWidgetZoneUpdate: function() {
+    suspendPendingWidgetZoneUpdate: function () {
         if (DropthingsUI.__updateWidgetZoneTimerId > 0) {
             window.clearTimeout(DropthingsUI.__updateWidgetZoneTimerId);
             DropthingsUI.__updateWidgetZoneTimerId = 0;
         }
     },
-    asyncPostbackWidgetZone: function(widgetZone) {
+    asyncPostbackWidgetZone: function (widgetZone) {
         var postBackLink = widgetZone.parent().find("." + DropthingsUI.Attributes.WIDGET_ZONE_DUMMY_LINK);
         eval(postBackLink.attr('href'));
     },
-    showWidgetGallery: function() {
+    showWidgetGallery: function () {
         jQuery('#Widget_Gallery').show();
     },
-    hideWidgetGallery: function() {
+    hideWidgetGallery: function () {
         jQuery('#Widget_Gallery').hide("slow");
     },
     Actions: {
-        deleteWidget: function(instanceId) {
+        deleteWidget: function (instanceId) {
             Dropthings.Web.Framework.WidgetService.DeleteWidgetInstance(instanceId);
             jQuery(DropthingsUI.getWidgetDivId('#' + instanceId)).remove();
         },
 
-        maximizeWidget: function(widgetId) {
+        maximizeWidget: function (widgetId) {
             //var widgetId = DropthingsUI.getWidgetDivId(instanceId);
             var widget = jQuery('#' + widgetId);
             //widget.attr(DropthingsUI.Attributes.MAXIMIZED, 'true');
 
             //if collaspe then expand it
             var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-            widgetDef.maximized = true;
-            if (!widgetDef.expanded) {
+            widgetDef.Maximized = true;
+            if (!widgetDef.Expanded) {
                 widget.find('.widget_expand').click();
             }
 
@@ -459,10 +462,10 @@ var DropthingsUI = {
             Dropthings.Web.Framework.WidgetService.MaximizeWidgetInstance(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
         },
 
-        restoreWidget: function(widgetId) {
+        restoreWidget: function (widgetId) {
             var widget = jQuery('#' + widgetId);
             var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-            widgetDef.maximized = false;
+            widgetDef.Maximized = false;
             //DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
             DropthingsUI._LastMaximizedWidget.restore();
 
@@ -473,122 +476,122 @@ var DropthingsUI = {
             return false;
         },
 
-        collaspeWidget: function(widgetId, postbackUrl) {
+        collaspeWidget: function (widgetId, postbackUrl) {
             var widget = jQuery('#' + widgetId);
             //widget.attr(DropthingsUI.Attributes.EXPANDED, 'false');
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
-            widgetDef.expanded = false;
+            widgetDef.Expanded = false;
             Dropthings.Web.Framework.WidgetService.CollaspeWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onCollaspeWidgetComplete);
 
-            if (widgetDef.maximized) {
+            if (widgetDef.Maximized) {
                 if (null !== DropthingsUI._LastMaximizedWidget) {
                     jQuery('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetCollasped);
                 }
             }
         },
 
-        _onCollaspeWidgetComplete: function(postbackUrl) {
+        _onCollaspeWidgetComplete: function (postbackUrl) {
             eval(postbackUrl);
         },
 
-        expandWidget: function(widgetId, postbackUrl) {
+        expandWidget: function (widgetId, postbackUrl) {
             var widget = jQuery('#' + widgetId);
 
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
-            widgetDef.expanded = true;
+            widgetDef.Expanded = true;
             Dropthings.Web.Framework.WidgetService.ExpandWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onExpandWidgetComplete);
 
-            if (widgetDef.maximized) {
+            if (widgetDef.Maximized) {
                 if (null !== DropthingsUI._LastMaximizedWidget) {
                     jQuery('#widgetMaxBackground').css('height', DropthingsUI._LastMaximizedWidget.visibleHeightIfWidgetExpanded);
                 }
             }
         },
 
-        _onExpandWidgetComplete: function(postbackUrl) {
+        _onExpandWidgetComplete: function (postbackUrl) {
             eval(postbackUrl);
         },
 
-        resizeWidget: function(widget, resizeHeight) {
+        resizeWidget: function (widget, resizeHeight) {
             var instanceId = parseInt(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
 
-            if (!widgetDef.maximized) {
+            if (!widgetDef.Maximized) {
                 Dropthings.Web.Framework.WidgetService.ResizeWidgetInstance(instanceId, 0, resizeHeight);
-                widgetDef.resized = true;
-                widgetDef.height = resizeHeight;
+                widgetDef.Resized = true;
+                widgetDef.Height = resizeHeight;
             }
 
             return false;
         },
 
-        deletePage: function(pageId) {
+        deletePage: function (pageId) {
             Dropthings.Web.Framework.PageService.DeletePage(pageId, DropthingsUI.Actions._onDeletePageComplete);
             jQuery('#Tab' + pageId).remove();
         },
 
-        _onDeletePageComplete: function(currentPageName) {
+        _onDeletePageComplete: function (currentPageName) {
             document.location.href = '?' + encodeURI(currentPageName);
         },
 
-        changePageLayout: function(newLayout) {
+        changePageLayout: function (newLayout) {
             Dropthings.Web.Framework.PageService.ChangePageLayout(newLayout, DropthingsUI.Actions._onChangePageLayoutComplete);
         },
 
-        _onChangePageLayoutComplete: function(arg) {
+        _onChangePageLayoutComplete: function (arg) {
             document.location = document.location.href;
             //document.location.reload();
         },
 
-        newPage: function(newLayout) {
+        newPage: function (newLayout) {
             Dropthings.Web.Framework.PageService.NewPage(newLayout, DropthingsUI.Actions._onNewPageComplete);
         },
 
-        _onNewPageComplete: function(newPageName) {
+        _onNewPageComplete: function (newPageName) {
             document.location.href = '?' + encodeURI(newPageName);
             //__doPostBack('UpdatePanelTabAndLayout','');
         },
 
-        renamePage: function(newLabel) {
+        renamePage: function (newLabel) {
             var newPageName = document.getElementById(newLabel).value;
             Dropthings.Web.Framework.PageService.RenamePage(newPageName, DropthingsUI.Actions._onRenamePageComplete);
         },
 
-        _onRenamePageComplete: function() {
+        _onRenamePageComplete: function () {
             __doPostBack('TabUpdatePanel', '');
         },
 
-        changePage: function(pageId, pageName) {
+        changePage: function (pageId, pageName) {
             //Dropthings.Web.Framework.PageService.ChangeCurrentPage(pageId, OnChangePageComplete);
             document.location.href = '?' + encodeURI(pageName);
         },
 
-        _onChangePageComplete: function(arg) {
+        _onChangePageComplete: function (arg) {
             __doPostBack('UpdatePanelTabAndLayout', '');
         },
 
-        onDrop: function(columnNo, instanceId, row, callback) {
+        onDrop: function (columnNo, instanceId, row, callback) {
             Dropthings.Web.Framework.WidgetService.MoveWidgetInstance(instanceId, columnNo, row, callback);
         },
 
-        onWidgetAdd: function(widgetId, columnNo, row, callback) {
-            Dropthings.Web.Framework.WidgetService.AddWidgetInstance(widgetId, columnNo, row, function() { callback(); });
+        onWidgetAdd: function (widgetId, columnNo, row, callback) {
+            Dropthings.Web.Framework.WidgetService.AddWidgetInstance(widgetId, columnNo, row, function () { callback(); });
         },
-        hide: function(id) {
+        hide: function (id) {
             document.getElementById(id).style.display = "none";
         },
-        onTabItemDrop: function(tabId, orderNo, callback) {
+        onTabItemDrop: function (tabId, orderNo, callback) {
             Dropthings.Web.Framework.PageService.MoveTab(tabId, orderNo, callback);
         },
 
-        showHelp: function() {
+        showHelp: function () {
             var request = new Sys.Net.WebRequest();
             request.set_httpVerb("GET");
             request.set_url('help.aspx');
-            request.add_completed(function(executor) {
+            request.add_completed(function (executor) {
                 if (executor.get_responseAvailable()) {
                     var helpDiv = $get('HelpDiv');
                     var helpLink = $get('HelpLink');
@@ -1012,10 +1015,10 @@ var WidgetMaximizeBehavior = function(widgetId) {
 
     this.restore = function() {
         var widgetDef = DropthingsUI.getWidgetDef(this.instanceId);
-        var height = widgetDef.resized ? widgetDef.height + 'px' : 'auto';
+        var height = widgetDef.Resized ? widgetDef.Height + 'px' : 'auto';
         this.widget.css({ marginRight: '0px', left: 'auto', top: 'auto', width: 'auto', height: 'auto', position: 'static' });
 
-        widgetDef.maximized = false;
+        widgetDef.Maximized = false;
 
         var resizeFrame = this.widget.find('.widget_resize_frame');
         resizeFrame.css({ width: 'auto', height: height });
@@ -1058,7 +1061,7 @@ var WidgetMaximizeBehavior = function(widgetId) {
         this.widget.css({ zIndex: '10000', display: 'block', clear: 'both', marginRight: '15px' });
 
         var widgetDef = DropthingsUI.getWidgetDef(this.widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
-        widgetDef.maximized = true;
+        widgetDef.Maximized = true;
 
         //        var WidgetResizeFrame = this.widget.find('.widget_resize_frame');
 

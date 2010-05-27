@@ -16,16 +16,17 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Page_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Page))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "RoleTemplate", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.RoleTemplate))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Token_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "Token", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Token))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.UserSetting))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Column_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Page), "Column", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Column))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Column_WidgetZone", "WidgetZone", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.WidgetZone), "Column", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Column))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetInstance_Widget", "Widget", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Widget), "WidgetInstance", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetInstance))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetsInRoles_Widget", "Widget", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Widget), "WidgetsInRoles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetsInRoles))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetInstance_WidgetZone", "WidgetZone", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.WidgetZone), "WidgetInstance", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetInstance))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.aspnet_Role), "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.aspnet_User))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.UserSetting))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Page), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.UserSetting))]
 
 // Original file name:
-// Generation date: 5/1/2010 7:39:41 PM
+// Generation date: 5/27/2010 10:15:51 AM
 namespace Dropthings.Data
 {
     
@@ -196,23 +197,6 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<Token> _Tokens;
         /// <summary>
-        /// There are no comments for UserSettings in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<UserSetting> UserSettings
-        {
-            get
-            {
-                if ((this._UserSettings == null))
-                {
-                    this._UserSettings = base.CreateQuery<UserSetting>("[UserSettings]");
-                }
-                return this._UserSettings;
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<UserSetting> _UserSettings;
-        /// <summary>
         /// There are no comments for Widgets in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -281,6 +265,23 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<WidgetZone> _WidgetZones;
         /// <summary>
+        /// There are no comments for UserSettings in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Data.Objects.ObjectQuery<UserSetting> UserSettings
+        {
+            get
+            {
+                if ((this._UserSettings == null))
+                {
+                    this._UserSettings = base.CreateQuery<UserSetting>("[UserSettings]");
+                }
+                return this._UserSettings;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Data.Objects.ObjectQuery<UserSetting> _UserSettings;
+        /// <summary>
         /// There are no comments for aspnet_Memberships in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -345,14 +346,6 @@ namespace Dropthings.Data
             base.AddObject("Tokens", token);
         }
         /// <summary>
-        /// There are no comments for UserSettings in the schema.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToUserSettings(UserSetting userSetting)
-        {
-            base.AddObject("UserSettings", userSetting);
-        }
-        /// <summary>
         /// There are no comments for Widgets in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -383,6 +376,14 @@ namespace Dropthings.Data
         public void AddToWidgetZones(WidgetZone widgetZone)
         {
             base.AddObject("WidgetZones", widgetZone);
+        }
+        /// <summary>
+        /// There are no comments for UserSettings in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public void AddToUserSettings(UserSetting userSetting)
+        {
+            base.AddObject("UserSettings", userSetting);
         }
     }
     /// <summary>
@@ -1843,6 +1844,28 @@ namespace Dropthings.Data
             }
         }
         /// <summary>
+        /// There are no comments for aspnet_Roles in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Roles")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<aspnet_Role> aspnet_Roles
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<aspnet_Role>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<aspnet_Role>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles", value);
+                }
+            }
+        }
+        /// <summary>
         /// There are no comments for UserSetting in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "UserSetting")]
@@ -1878,28 +1901,6 @@ namespace Dropthings.Data
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<UserSetting>("Dropthings.Data.FK_UserSetting_aspnet_Users", "UserSetting", value);
-                }
-            }
-        }
-        /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Roles")]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<aspnet_Role> aspnet_Roles
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<aspnet_Role>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<aspnet_Role>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles", value);
                 }
             }
         }
@@ -2598,6 +2599,28 @@ namespace Dropthings.Data
                 }
             }
         }
+        /// <summary>
+        /// There are no comments for UserSettings in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_Page", "UserSetting")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<UserSetting> UserSettings
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<UserSetting>("Dropthings.Data.FK_UserSetting_Page", "UserSetting");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<UserSetting>("Dropthings.Data.FK_UserSetting_Page", "UserSetting", value);
+                }
+            }
+        }
     }
     /// <summary>
     /// There are no comments for Dropthings.Data.RoleTemplate in the schema.
@@ -2928,182 +2951,6 @@ namespace Dropthings.Data
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users", value);
-                }
-            }
-        }
-    }
-    /// <summary>
-    /// There are no comments for Dropthings.Data.UserSetting in the schema.
-    /// </summary>
-    /// <KeyProperties>
-    /// UserId
-    /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="UserSetting")]
-    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
-    [global::System.Serializable()]
-    public partial class UserSetting : global::System.Data.Objects.DataClasses.EntityObject
-    {
-        /// <summary>
-        /// Create a new UserSetting object.
-        /// </summary>
-        /// <param name="userId">Initial value of UserId.</param>
-        /// <param name="currentPageId">Initial value of CurrentPageId.</param>
-        /// <param name="createdDate">Initial value of CreatedDate.</param>
-        /// <param name="timestamp">Initial value of Timestamp.</param>
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static UserSetting CreateUserSetting(global::System.Guid userId, int currentPageId, global::System.DateTime createdDate, byte[] timestamp)
-        {
-            UserSetting userSetting = new UserSetting();
-            userSetting.UserId = userId;
-            userSetting.CurrentPageId = currentPageId;
-            userSetting.CreatedDate = createdDate;
-            userSetting.Timestamp = timestamp;
-            return userSetting;
-        }
-        /// <summary>
-        /// There are no comments for property UserId in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Guid UserId
-        {
-            get
-            {
-                return this._UserId;
-            }
-            set
-            {
-                this.OnUserIdChanging(value);
-                this.ReportPropertyChanging("UserId");
-                this._UserId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("UserId");
-                this.OnUserIdChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Guid _UserId;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnUserIdChanging(global::System.Guid value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnUserIdChanged();
-        /// <summary>
-        /// There are no comments for property CurrentPageId in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public int CurrentPageId
-        {
-            get
-            {
-                return this._CurrentPageId;
-            }
-            set
-            {
-                this.OnCurrentPageIdChanging(value);
-                this.ReportPropertyChanging("CurrentPageId");
-                this._CurrentPageId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("CurrentPageId");
-                this.OnCurrentPageIdChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private int _CurrentPageId;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnCurrentPageIdChanging(int value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnCurrentPageIdChanged();
-        /// <summary>
-        /// There are no comments for property CreatedDate in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.DateTime CreatedDate
-        {
-            get
-            {
-                return this._CreatedDate;
-            }
-            set
-            {
-                this.OnCreatedDateChanging(value);
-                this.ReportPropertyChanging("CreatedDate");
-                this._CreatedDate = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("CreatedDate");
-                this.OnCreatedDateChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.DateTime _CreatedDate;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnCreatedDateChanging(global::System.DateTime value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnCreatedDateChanged();
-        /// <summary>
-        /// There are no comments for property Timestamp in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public byte[] Timestamp
-        {
-            get
-            {
-                return global::System.Data.Objects.DataClasses.StructuralObject.GetValidValue(this._Timestamp);
-            }
-            set
-            {
-                this.OnTimestampChanging(value);
-                this.ReportPropertyChanging("Timestamp");
-                this._Timestamp = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("Timestamp");
-                this.OnTimestampChanged();
-            }
-        }
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private byte[] _Timestamp;
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnTimestampChanging(byte[] value);
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        partial void OnTimestampChanged();
-        /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_Users")]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_User aspnet_Users
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_Users").Value;
-            }
-            set
-            {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_Users").Value = value;
-            }
-        }
-        /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
-        /// </summary>
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_Users");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_Users", value);
                 }
             }
         }
@@ -4331,6 +4178,192 @@ namespace Dropthings.Data
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<WidgetInstance>("Dropthings.Data.FK_WidgetInstance_WidgetZone", "WidgetInstance", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for Dropthings.Data.UserSetting in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// UserId
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="UserSetting")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class UserSetting : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new UserSetting object.
+        /// </summary>
+        /// <param name="userId">Initial value of UserId.</param>
+        /// <param name="createdDate">Initial value of CreatedDate.</param>
+        /// <param name="timestamp">Initial value of Timestamp.</param>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public static UserSetting CreateUserSetting(global::System.Guid userId, global::System.DateTime createdDate, byte[] timestamp)
+        {
+            UserSetting userSetting = new UserSetting();
+            userSetting.UserId = userId;
+            userSetting.CreatedDate = createdDate;
+            userSetting.Timestamp = timestamp;
+            return userSetting;
+        }
+        /// <summary>
+        /// There are no comments for property UserId in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Guid UserId
+        {
+            get
+            {
+                return this._UserId;
+            }
+            set
+            {
+                this.OnUserIdChanging(value);
+                this.ReportPropertyChanging("UserId");
+                this._UserId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("UserId");
+                this.OnUserIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Guid _UserId;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnUserIdChanging(global::System.Guid value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnUserIdChanged();
+        /// <summary>
+        /// There are no comments for property CreatedDate in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.DateTime CreatedDate
+        {
+            get
+            {
+                return this._CreatedDate;
+            }
+            set
+            {
+                this.OnCreatedDateChanging(value);
+                this.ReportPropertyChanging("CreatedDate");
+                this._CreatedDate = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("CreatedDate");
+                this.OnCreatedDateChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.DateTime _CreatedDate;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnCreatedDateChanging(global::System.DateTime value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnCreatedDateChanged();
+        /// <summary>
+        /// There are no comments for property Timestamp in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public byte[] Timestamp
+        {
+            get
+            {
+                return global::System.Data.Objects.DataClasses.StructuralObject.GetValidValue(this._Timestamp);
+            }
+            set
+            {
+                this.OnTimestampChanging(value);
+                this.ReportPropertyChanging("Timestamp");
+                this._Timestamp = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Timestamp");
+                this.OnTimestampChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private byte[] _Timestamp;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnTimestampChanging(byte[] value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnTimestampChanged();
+        /// <summary>
+        /// There are no comments for aspnet_Users in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_User")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public aspnet_User aspnet_Users
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for aspnet_Users in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Page in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public Page Page
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for Page in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<Page> PageReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page", value);
                 }
             }
         }

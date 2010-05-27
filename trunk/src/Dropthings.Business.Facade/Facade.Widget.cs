@@ -284,7 +284,7 @@
             }
             else
             {
-                widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPageId, columnNo);
+                widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, columnNo);
             }
 
             PushDownWidgetInstancesOnWidgetZone(toRow, widgetZone.ID, true);

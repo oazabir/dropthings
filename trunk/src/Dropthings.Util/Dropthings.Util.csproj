@@ -103,6 +103,9 @@
     <Reference Include="Munq.DI">
       <HintPath>..\..\Thirdparty\Munq\Munq.DI.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json.Net20">
+      <HintPath>..\..\Thirdparty\Json\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
     <Reference Include="OmarALZabir.AspectF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\AspectF\OmarALZabir.AspectF.dll</HintPath>
@@ -129,6 +132,7 @@
     <Compile Include="EntlibCacheResolver.cs" />
     <Compile Include="EntLibLogger.cs" />
     <Compile Include="ExtensionFunctions.cs" />
+    <Compile Include="JsonHelper.cs" />
     <Compile Include="NameObjectCollection.cs" />
     <Compile Include="NoCacheResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -287,7 +287,7 @@ namespace Dropthings.Data
 
             public static readonly Func<DropthingsDataContext, Guid, IQueryable<UserSetting>> GetUserSettingByUserGuid =
                 Compile<Guid, UserSetting>((dc, userGuid) =>
-                    from u in dc.UserSettings.Include("aspnet_Users")
+                    from u in dc.UserSettings.Include("aspnet_Users").Include("Page")
                     where u.aspnet_Users.UserId == userGuid 
                     select u
                 );

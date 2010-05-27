@@ -98,16 +98,19 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         }
 
         ScriptManager.RegisterStartupScript(this.WidgetHeaderUpdatePanel, typeof(UpdatePanel), "SetWidgetDef" + this.WidgetInstance.Id, 
-            "DropthingsUI.setWidgetDef(/*id*/ '{0}', /*expanded*/ {1}, /*maximized*/ {2}, /*resized*/ {3}, /*width*/ {4}, /*height*/ {5}, /*zoneId*/ {6});"
-                .FormatWith(
-                    this.WidgetInstance.Id,
-                    this.WidgetInstance.Expanded.ToString().ToLower(),
-                    this.WidgetInstance.Maximized.ToString().ToLower(),
-                    this.WidgetInstance.Resized.ToString().ToLower(),
-                    this.WidgetInstance.Width,
-                    this.WidgetInstance.Height,
-                    this.WidgetInstance.WidgetZone.ID) + 
-            "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');",
+            //"DropthingsUI.setWidgetDef(/*id*/ '{0}', /*expanded*/ {1}, /*maximized*/ {2}, /*resized*/ {3}, /*width*/ {4}, /*height*/ {5}, /*zoneId*/ {6});"
+            //    .FormatWith(
+            //        this.WidgetInstance.Id,
+            //        this.WidgetInstance.Expanded.ToString().ToLower(),
+            //        this.WidgetInstance.Maximized.ToString().ToLower(),
+            //        this.WidgetInstance.Resized.ToString().ToLower(),
+            //        this.WidgetInstance.Width,
+            //        this.WidgetInstance.Height,
+            //        this.WidgetInstance.WidgetZone.ID) + 
+            "DropthingsUI.setWidgetDef(/*id*/ '{0}', {1})".FormatWith(
+                this.WidgetInstance.Id,
+                JsonHelper.Serialize(this.WidgetInstance))
+            + "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');",
             true);        
     }
 
