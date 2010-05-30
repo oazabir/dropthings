@@ -346,10 +346,6 @@
         {
             var widget = this.widgetRepository.GetWidgetById(widgetId);
             
-            // Flush all widget cache
-            CacheKeys.WidgetKeys.AllWidgetsKeys().Each(key => Services.Get<ICache>().Remove(key));
-            CacheKeys.WidgetKeys.AllWidgetIdBasedKeys(widgetId).Each(key => Services.Get<ICache>().Remove(key));
-
             widget.Icon = icon;
             widget.DefaultState = defaultState;
             widget.IsLocked = isLocked;

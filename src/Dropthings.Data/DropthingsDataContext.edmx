@@ -457,6 +457,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DeleteWidgetCascade" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WidgetId" Type="int" Mode="In" />
+        </Function>
         <Function Name="udfGetAppId" ReturnType="uniqueidentifier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -536,6 +539,9 @@
             <End Role="Page" EntitySet="Pages" />
             <End Role="UserSetting" EntitySet="UserSettings" />
           </AssociationSet>
+          <FunctionImport Name="DeleteWidgetCascade" ReturnType="Collection(Int32)">
+            <Parameter Name="WidgetId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="aspnet_Membership">
           <Key>
@@ -1113,6 +1119,7 @@
               <ScalarProperty Name="ID" ColumnName="CurrentPageId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteWidgetCascade" FunctionName="Dropthings.Data.Store.DeleteWidgetCascade" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

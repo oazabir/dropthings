@@ -7,6 +7,9 @@ using System.Data.Objects;
 using System.Data.Objects.DataClasses;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Data.Common;
+using System.Data.EntityClient;
 
 namespace Dropthings.Data
 {
@@ -26,7 +29,8 @@ namespace Dropthings.Data
                 new Dictionary<string, Action<DropthingsDataContext, object>>();
 
         public DropthingsDataContext2() : this(DropthingsDataContext2.ConnectionString) 
-        { 
+        {
+            
         }
 
         public DropthingsDataContext2(string connectionString) : base(connectionString)
@@ -121,6 +125,25 @@ namespace Dropthings.Data
         public static string GetConnectionString()
         {
             return ConfigurationManager.ConnectionStrings[DEFAULT_CONNECTION_STRING_NAME].ConnectionString;
+        }
+
+        public int ExecuteFunction(string functionName, params EntityParameter[] parameters)             
+        {
+            if (base.Connection.State != ConnectionState.Open)
+                base.Connection.Open();
+
+            using (var command = (base.Connection as EntityConnection).CreateCommand())
+            {
+                command.CommandText = this.DefaultContainerName + "." + functionName;
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddRange(parameters);
+                command.Parameters.Add("RESULT", DbType.Int32).Direction = ParameterDirection.Output;
+
+                var result = command.ExecuteScalar();
+
+                return (int)result;
+            }
         }
 
         private IQueryable<TReturnType> RunQuery<TReturnType>(IQueryable<TReturnType> query)
