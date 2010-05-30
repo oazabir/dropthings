@@ -9,6 +9,7 @@ using Dropthings.Business.Facade.Context;
 using Dropthings.Data;
 using Dropthings.Util;
 using OmarALZabir.AspectF;
+using System.Diagnostics;
 
 public partial class Admin_ManageWidgets : System.Web.UI.Page
 {
@@ -48,9 +49,11 @@ public partial class Admin_ManageWidgets : System.Web.UI.Page
         {
             var control = LoadControl(Field_Url.Value);
         }
-        catch
+        catch (Exception x)
         {
-            Error.Text = "Cannot load the widget from the specified location. Make sure you have given a correct relative path to an .ascx";
+            Debug.WriteLine(x.ToString());
+            Services.Get<ILogger>().LogException(x);
+            Error.Text = x.Message;
             Error.Visible = true;
             return;
         }

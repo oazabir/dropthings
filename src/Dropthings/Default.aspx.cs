@@ -85,34 +85,63 @@ public partial class _Default : BasePage
 
     #region Methods
 
-    public override Control FindControl(string id)
+    /// <summary>
+    /// Override the OnInit behavior to load the current user's pages and widgets. This
+    /// needs to be done in OnInit, not on Page_Load because the ASP.NET control tree 
+    /// is prepared after this and we need to create the widgets as dynamic controls. 
+    /// So, we need to load the widgets and pages before the control tree creation starts.
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnInit(EventArgs e)
     {
-        //var control = base.FindControl(id);
-        //if (control == null)
-        //{
-        //    return this.WidgetPage.FindControl(id);
-        //}
-        //else
-        //{
-        //    return control;
-        //}
+        base.OnInit(e);
 
+        AspectF.Define
+            .Retry(errors => errors.ToArray().Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
+            .Log(Services.Get<ILogger>(), "OnInit: " + Profile.UserName)
+            .Do(() =>
+            {
+                // Check if revisit is valid or not
+                if (!base.IsPostBack)
+                {
+                    // Block cookie less visit attempts
+                    if (Profile.IsFirstVisit)
+                    {
+                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.FirstVisit)) Response.End();
+                    }
+                    else
+                    {
+                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Revisit)) Response.End();
+                    }
+                }
+                else
+                {
+                    // Limit number of postbacks
+                    if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Postback)) Response.End();
+                }
+            });
+    }
+
+
+    /// <summary>
+    /// Each widget generates its own unique ClientID bypassing default ASP.NET ID generation scheme.
+    /// So, instead of ctl00_ctlMasterPage_defaultaspx_widgetcontainer001_Widget123 it generates clean
+    /// and simple Widget123 as the control ID. However, in order to make postback and viewstate stuff
+    /// work, the FindControl of the .aspx page needs to be overriden to let the WidgetPage handle the
+    /// ID resolution first and if it can't then use the default ASP.NET FindControl.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public override Control FindControl(string id)
+    {        
         return this.WidgetPage.FindControl(id) ?? base.FindControl(id);
     }
 
-    protected void ChangeTabSettingsLinkButton_Clicked(object sender, EventArgs e)
-    {
-        if (this.ChangePageSettingsPanel.Visible)
-            this.HideChangeSettingsPanel();
-        else
-            this.ShowChangeSettingsPanel();
-    }
-
-    private void CallBaseCreateChildControl()
-    {
-        base.CreateChildControls();
-    }
-
+    /// <summary>
+    /// Override this to ensure the control tree is created including the tabs and the widgets
+    /// before the LoadViewState is fired. Unless we do this at this time, the ViewState will fail
+    /// to load for all dynamically created controls, which includes the Widgets.
+    /// </summary>
     protected override void CreateChildControls()
     {
         var me = this;
@@ -131,6 +160,12 @@ public partial class _Default : BasePage
             });
     }
 
+    private void CallBaseCreateChildControl()
+    {
+        base.CreateChildControls();
+    }
+
+    
     private void LoadOptionsForTemplateUser()
     {
         if(_Setup.RoleTemplate.aspnet_Users.UserId == _Setup.CurrentUserId)
@@ -139,6 +174,15 @@ public partial class _Default : BasePage
         }
     }
 
+    protected void ChangeTabSettingsLinkButton_Clicked(object sender, EventArgs e)
+    {
+        if (this.ChangePageSettingsPanel.Visible)
+            this.HideChangeSettingsPanel();
+        else
+            this.ShowChangeSettingsPanel();
+    }
+
+    
     protected void DeleteTabLinkButton_Clicked(object sender, EventArgs e)
     {
         AspectF.Define.TrapLogThrow(Services.Get<ILogger>()).Do(() =>
@@ -168,36 +212,6 @@ public partial class _Default : BasePage
         this.AddContentPanel.Visible = false;
         this.HideAddContentPanel.Visible = false;
         this.ShowAddContentPanel.Visible = true;
-    }
-
-    protected override void OnInit(EventArgs e)
-    {
-        base.OnInit(e);
-
-        AspectF.Define
-            .Retry(errors => errors.ToArray().Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
-            .Log(Services.Get<ILogger>(), "OnInit: " + Profile.UserName)
-            .Do(() =>
-            {
-                // Check if revisit is valid or not
-                if (!base.IsPostBack)
-                {
-                    // Block cookie less visit attempts
-                    if (Profile.IsFirstVisit)
-                    {
-                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.FirstVisit)) Response.End();
-                    }
-                    else
-                    {
-                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Revisit)) Response.End();
-                    }
-                }
-                else
-                {
-                    // Limit number of postbacks
-                    if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Postback)) Response.End();
-                }
-            });
     }
 
     protected override void OnPreRender(EventArgs e)

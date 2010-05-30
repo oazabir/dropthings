@@ -101,11 +101,20 @@ var DropthingsUI = {
         var widgetInput = widget.find('.widget_title_input');
         var widgetSubmit = widget.find('.widget_title_submit');
 
+        var widgetCollaspe = widget.find('.widget_min');
+        var widgetExpand = widget.find('.widget_expand');
+        var widgetResizeFrame = widget.find('.widget_resize_frame');
+        var widgetCloseButton = widget.find('.widget_close');
+
         widgetTitle.show();
         widgetInput.hide();
         widgetSubmit.hide();
 
-        widgetTitle
+        if (widgetDef.Widget.IsLocked) {
+            
+        }
+        else {
+            widgetTitle
             .unbind('click')
             .bind('click', function () {
                 widgetTitle.hide();
@@ -136,24 +145,17 @@ var DropthingsUI = {
                 return false;
             });
 
-        //Expand/Collaspe widget
+            //Expand/Collaspe widget
+            if (widgetDef.Expanded) {
+                widgetCollaspe.show();
+                widgetExpand.hide();
+            }
+            else {
+                widgetCollaspe.hide();
+                widgetExpand.show();
+            }
 
-        var widgetCollaspe = widget.find('.widget_min');
-        var widgetExpand = widget.find('.widget_expand');
-        var widgetResizeFrame = widget.find('.widget_resize_frame');
-        var widgetCloseButton = widget.find('.widget_close');
-
-        //if (Boolean.parse(widget.attr(DropthingsUI.Attributes.EXPANDED))) {
-        if (widgetDef.Expanded) {
-            widgetCollaspe.show();
-            widgetExpand.hide();
-        }
-        else {
-            widgetCollaspe.hide();
-            widgetExpand.show();
-        }
-
-        widgetCloseButton
+            widgetCloseButton
             .unbind('click')
             .bind('click', function () {
                 widget.hide('slow');
@@ -161,74 +163,65 @@ var DropthingsUI = {
                 return false;
             });
 
-        widgetExpand
+            widgetExpand
 	        .unbind('click')
             .bind('click', function () {
                 widgetResizeFrame.show();
                 widgetExpand.hide();
                 widgetCollaspe.show();
                 eval(widgetExpand.attr("href"));
-                // Asynchronously notify server that widget expanded
-                //DropthingsUI.Actions.expandWidget(widgetId, jQuery(this).attr('href'));
                 return false;
             });
-        //.attr('href', nohref);
 
 
-        widgetCollaspe
+            widgetCollaspe
 		    .unbind('click')
             .bind('click', function () {
                 widgetResizeFrame.hide();
                 widgetExpand.show();
                 widgetCollaspe.hide();
                 eval(widgetCollaspe.attr("href"));
-                // Asynchronously notify server that widget collapsed
-                //DropthingsUI.Actions.collaspeWidget(widgetId, jQuery(this).attr('href'));
                 return false;
             });
 
-        //Maximize/Minimize widget
-        var widgetRestore = widget.find('.widget_restore');
-        var widgetMaximize = widget.find('.widget_max');
+            //Maximize/Minimize widget
+            var widgetRestore = widget.find('.widget_restore');
+            var widgetMaximize = widget.find('.widget_max');
 
-        if (widgetDef.Maximized) {
-            widgetRestore.show();
-            widgetMaximize.hide();
+            if (widgetDef.Maximized) {
+                widgetRestore.show();
+                widgetMaximize.hide();
 
-            DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
-            DropthingsUI._LastMaximizedWidget.maximize();
-        }
-        else {
-            widgetRestore.hide();
-            widgetMaximize.show();
-        }
+                DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
+                DropthingsUI._LastMaximizedWidget.maximize();
+            }
+            else {
+                widgetRestore.hide();
+                widgetMaximize.show();
+            }
 
-        widgetMaximize
+            widgetMaximize
 	        .unbind('click')
             .bind('click', function () {
                 //widgetDef.maximized = true;
                 widgetMaximize.hide();
                 widgetRestore.css({ display: 'block' });
-                //eval(widgetMaximize.attr("href"));
-
                 // Asynchronously notify server that widget maximized
                 DropthingsUI.Actions.maximizeWidget(widgetId);
                 return false;
             });
 
-        widgetRestore
+            widgetRestore
 		    .unbind('click')
             .bind('click', function () {
                 //widgetDef.maximized = true;
                 widgetMaximize.show();
                 widgetRestore.hide();
-
-                //eval(widgetRestore.attr("href"));
                 // Asynchronously notify server that widget restored
                 DropthingsUI.Actions.restoreWidget(widgetId);
                 return false;
             });
-
+        }
     },
     // Hook jQuery sortable plugin with the widget zones so that widgets
     // can be dragged & dropped between widegt zones.
@@ -245,10 +238,7 @@ var DropthingsUI = {
         });
 
         allZones.sortable({
-            //zone.sortable({
-            //items: '> .widget:not(.nodrag)',
             items: '.' + widgetClass + ':not(.nodrag)',
-            //handle: '.widget_header',
             handle: '.' + handleClass,
             cancel: 'a, input',
             cursor: 'move',
@@ -342,7 +332,7 @@ var DropthingsUI = {
                         var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
                         widgetDef.Expanded = false;
                         if (!widgetDef.Maximized) {
-                            //jQuery('#widgetMaxBackground').css({'height':jQuery('#widgetMaxBackground').height() + (ui.element.height() - ui.originalSize.height) });
+                            
                         }
                         else {
                             ui.element.css({ 'width': 'auto' });
@@ -377,15 +367,10 @@ var DropthingsUI = {
             connectToSortable: allZones,
             helper: 'clone',
             start: function () {
-                //jQuery(this).click(function() { return false; });
+                
             },
             stop: function () {
-                //jQuery(this).click(function() { return true; });
-
-                // Simulate a postback on the widget data list control so that
-                // the widget list is reloaded and the pesky bug where the third
-                // drag & drop no longer works is fixed.
-                //jQuery('.widget_data_list_dummy_postback').click();
+                
             }
         });
     },
@@ -440,10 +425,8 @@ var DropthingsUI = {
         },
 
         maximizeWidget: function (widgetId) {
-            //var widgetId = DropthingsUI.getWidgetDivId(instanceId);
             var widget = jQuery('#' + widgetId);
-            //widget.attr(DropthingsUI.Attributes.MAXIMIZED, 'true');
-
+            
             //if collaspe then expand it
             var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             widgetDef.Maximized = true;
@@ -466,20 +449,17 @@ var DropthingsUI = {
             var widget = jQuery('#' + widgetId);
             var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             widgetDef.Maximized = false;
-            //DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
             DropthingsUI._LastMaximizedWidget.restore();
 
             if (null !== DropthingsUI._LastMaximizedWidget) DropthingsUI._LastMaximizedWidget.dispose();
 
-            //DropthingsUI.initDragDrop();
             Dropthings.Web.Framework.WidgetService.RestoreWidgetInstance(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             return false;
         },
 
         collaspeWidget: function (widgetId, postbackUrl) {
             var widget = jQuery('#' + widgetId);
-            //widget.attr(DropthingsUI.Attributes.EXPANDED, 'false');
-
+            
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
             widgetDef.Expanded = false;
@@ -543,7 +523,6 @@ var DropthingsUI = {
 
         _onChangePageLayoutComplete: function (arg) {
             document.location = document.location.href;
-            //document.location.reload();
         },
 
         newPage: function (newLayout) {
@@ -552,7 +531,6 @@ var DropthingsUI = {
 
         _onNewPageComplete: function (newPageName) {
             document.location.href = '?' + encodeURI(newPageName);
-            //__doPostBack('UpdatePanelTabAndLayout','');
         },
 
         renamePage: function (newLabel) {
@@ -565,7 +543,6 @@ var DropthingsUI = {
         },
 
         changePage: function (pageId, pageName) {
-            //Dropthings.Web.Framework.PageService.ChangeCurrentPage(pageId, OnChangePageComplete);
             document.location.href = '?' + encodeURI(pageName);
         },
 
@@ -897,88 +874,88 @@ function winopen2(url, target, w, h) {
     return;
 }
 
-var LayoutPicker =
-{
-    yesCallback: null,
-    noCallback: null,
-    type1Callback: null,
-    type2Callback: null,
-    type3Callback: null,
-    type4Callback: null,
-    _initialized: false,
-    clientID: null,
-    init: function() {
-        if (LayoutPicker._initialized) return;
+//var LayoutPicker =
+//{
+//    yesCallback: null,
+//    noCallback: null,
+//    type1Callback: null,
+//    type2Callback: null,
+//    type3Callback: null,
+//    type4Callback: null,
+//    _initialized: false,
+//    clientID: null,
+//    init: function() {
+//        if (LayoutPicker._initialized) return;
 
-        var hiddenHtmlTextArea = $get('LayoutPickerPopupPlaceholder');
+//        var hiddenHtmlTextArea = $get('LayoutPickerPopupPlaceholder');
 
-        var html = hiddenHtmlTextArea.value;
-        var div = document.createElement('div');
-        div.innerHTML = html;
-        document.body.appendChild(div);
+//        var html = hiddenHtmlTextArea.value;
+//        var div = document.createElement('div');
+//        div.innerHTML = html;
+//        document.body.appendChild(div);
 
-        LayoutPicker._initialized = true;
-    },
-    show: function(Type1Callback, Type2Callback, Type3Callback, Type4Callback, noCallback, clientID) {
-        LayoutPicker.init();
+//        LayoutPicker._initialized = true;
+//    },
+//    show: function(Type1Callback, Type2Callback, Type3Callback, Type4Callback, noCallback, clientID) {
+//        LayoutPicker.init();
 
-        Utility.blockUI();
+//        Utility.blockUI();
 
-        var popup = $get('LayoutPickerPopup');
-        Utility.display(popup);
+//        var popup = $get('LayoutPickerPopup');
+//        Utility.display(popup);
 
-        LayoutPicker.type1Callback = Type1Callback;
-        LayoutPicker.type2Callback = Type2Callback;
-        LayoutPicker.type3Callback = Type3Callback;
-        LayoutPicker.type4Callback = Type4Callback;
-        LayoutPicker.clientID = clientID;
-        LayoutPicker.noCallback = noCallback;
+//        LayoutPicker.type1Callback = Type1Callback;
+//        LayoutPicker.type2Callback = Type2Callback;
+//        LayoutPicker.type3Callback = Type3Callback;
+//        LayoutPicker.type4Callback = Type4Callback;
+//        LayoutPicker.clientID = clientID;
+//        LayoutPicker.noCallback = noCallback;
 
-        $addHandler($get("SelectLayoutPopup_Cancel"), 'click', LayoutPicker._noHandler);
-        $addHandler($get("SelectLayoutPopup_Type1"), 'click', LayoutPicker._type1Handler);
-        $addHandler($get("SelectLayoutPopup_Type2"), 'click', LayoutPicker._type2Handler);
-        $addHandler($get("SelectLayoutPopup_Type3"), 'click', LayoutPicker._type3Handler);
-        $addHandler($get("SelectLayoutPopup_Type4"), 'click', LayoutPicker._type4Handler);
+//        $addHandler($get("SelectLayoutPopup_Cancel"), 'click', LayoutPicker._noHandler);
+//        $addHandler($get("SelectLayoutPopup_Type1"), 'click', LayoutPicker._type1Handler);
+//        $addHandler($get("SelectLayoutPopup_Type2"), 'click', LayoutPicker._type2Handler);
+//        $addHandler($get("SelectLayoutPopup_Type3"), 'click', LayoutPicker._type3Handler);
+//        $addHandler($get("SelectLayoutPopup_Type4"), 'click', LayoutPicker._type4Handler);
 
-    },
-    hide: function() {
-        LayoutPicker.init();
+//    },
+//    hide: function() {
+//        LayoutPicker.init();
 
 
-        var popup = $get('LayoutPickerPopup');
-        Utility.nodisplay(popup);
-        //is there a cleaner way to clear the handlers?
-        $clearHandlers($get('SelectLayoutPopup_Type1'));
-        $clearHandlers($get('SelectLayoutPopup_Type2'));
-        $clearHandlers($get('SelectLayoutPopup_Type3'));
-        $clearHandlers($get('SelectLayoutPopup_Type4'));
+//        var popup = $get('LayoutPickerPopup');
+//        Utility.nodisplay(popup);
+//        //is there a cleaner way to clear the handlers?
+//        $clearHandlers($get('SelectLayoutPopup_Type1'));
+//        $clearHandlers($get('SelectLayoutPopup_Type2'));
+//        $clearHandlers($get('SelectLayoutPopup_Type3'));
+//        $clearHandlers($get('SelectLayoutPopup_Type4'));
 
-        Utility.unblockUI();
+//        Utility.unblockUI();
 
-    },
+//    },
 
-    _type1Handler: function() {
-        LayoutPicker.hide();
-        LayoutPicker.type1Callback();
-    },
-    _type2Handler: function() {
-        LayoutPicker.hide();
-        LayoutPicker.type2Callback();
-    },
-    _type3Handler: function() {
-        LayoutPicker.hide();
-        LayoutPicker.type3Callback();
-    },
-    _type4Handler: function() {
-        LayoutPicker.hide();
-        LayoutPicker.type4Callback();
-    },
+//    _type1Handler: function() {
+//        LayoutPicker.hide();
+//        LayoutPicker.type1Callback();
+//    },
+//    _type2Handler: function() {
+//        LayoutPicker.hide();
+//        LayoutPicker.type2Callback();
+//    },
+//    _type3Handler: function() {
+//        LayoutPicker.hide();
+//        LayoutPicker.type3Callback();
+//    },
+//    _type4Handler: function() {
+//        LayoutPicker.hide();
+//        LayoutPicker.type4Callback();
+//    },
 
-    _noHandler: function() {
-        LayoutPicker.hide();
-        LayoutPicker.noCallback();
-    }
-};
+//    _noHandler: function() {
+//        LayoutPicker.hide();
+//        LayoutPicker.noCallback();
+//    }
+//};
 
 var WidgetMaximizeBehavior = function(widgetId) {
     this.visibleHeightIfWidgetExpanded = 0;

@@ -122,7 +122,7 @@ input[type="password"] {width: 200px; border: 1px solid #CCC;}
 
 		.widget {overflow:hidden; /*position: relative; left: 0px; top: 0px; */ margin-bottom:20px;background-color:white; border: solid 1px #EFEFEF; padding: 0px }
 			.widget_hover { border: solid 1px #999999; padding: 0px }
-			.widget_header { cursor:move; background-color: #EEF0EE; padding: 5px; margin-bottom: 5px; }
+			.widget_header { background-color: #EEF0EE; padding: 5px; margin-bottom: 5px; }
 				.nodragdrop .widget_header{cursor:default; background-color: #EEF0EE; padding: 5px; margin-bottom: 5px; }
 				.widget_header_table { width:100%; border:none}
 				.widget_title { width:90%; padding-left:2px;font-weight:bold;padding-right:5px; }
@@ -235,3 +235,5 @@ input[type="password"] {width: 200px; border: 1px solid #CCC;}
 		#altpageHeading2 { background: #FFFFFF; font-weight:bold; padding: 4px; }
 		.altpageHeading1 { font-weight: bold; }
 		.altpageHeading2 { font-size: -1; }
+		
+.draggable { cursor:move; }

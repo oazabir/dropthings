@@ -11,6 +11,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Web.Script.Serialization;
 using System.ComponentModel;
 using Dropthings.Business;
 using Dropthings.Widget.Framework;
@@ -21,6 +22,7 @@ using Dropthings.Business.Facade;
 using Dropthings.Model;
 using Dropthings.Business.Facade.Context;
 using Dropthings.Util;
+using Dropthings.Web.Util;
 
 public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
 {
@@ -97,21 +99,32 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
             this.WidgetResizeFrame.Style.Add("display", "none");
         }
 
-        ScriptManager.RegisterStartupScript(this.WidgetHeaderUpdatePanel, typeof(UpdatePanel), "SetWidgetDef" + this.WidgetInstance.Id, 
-            //"DropthingsUI.setWidgetDef(/*id*/ '{0}', /*expanded*/ {1}, /*maximized*/ {2}, /*resized*/ {3}, /*width*/ {4}, /*height*/ {5}, /*zoneId*/ {6});"
-            //    .FormatWith(
-            //        this.WidgetInstance.Id,
-            //        this.WidgetInstance.Expanded.ToString().ToLower(),
-            //        this.WidgetInstance.Maximized.ToString().ToLower(),
-            //        this.WidgetInstance.Resized.ToString().ToLower(),
-            //        this.WidgetInstance.Width,
-            //        this.WidgetInstance.Height,
-            //        this.WidgetInstance.WidgetZone.ID) + 
-            "DropthingsUI.setWidgetDef(/*id*/ '{0}', {1})".FormatWith(
-                this.WidgetInstance.Id,
-                JsonHelper.Serialize(this.WidgetInstance))
-            + "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');",
-            true);        
+        this.WidgetInstance.As(wi =>
+            {
+                var serialized = new
+                {
+                    Id = wi.Id,
+                    Expanded = wi.Expanded,
+                    Maximized = wi.Maximized,
+                    Resized = wi.Resized,
+                    Width = wi.Width,
+                    Height = wi.Height,
+                    Title = wi.Title,
+                    ZoneId = wi.WidgetZone.ID,
+                    Widget = new
+                    {
+                        Id = wi.Widget.ID,
+                        IsLocked = wi.Widget.IsLocked
+                    }
+                }.ToJson();
+
+                ScriptManager.RegisterStartupScript(this.WidgetHeaderUpdatePanel, typeof(UpdatePanel), "SetWidgetDef" + this.WidgetInstance.Id, 
+            
+                "DropthingsUI.setWidgetDef(/*id*/ '{0}', {1}); ".FormatWith(
+                    wi.Id, serialized)                
+                + "DropthingsUI.setActionOnWidget('" + this.Widget.ClientID + "');",
+                true);        
+            });
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -134,6 +147,10 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
             Widget.CssClass = "widget nodrag";
             Widget.Attributes.Add("onmouseover", "this.className='widget nodrag widget_hover'");
             Widget.Attributes.Add("onmouseout", "this.className='widget nodrag'");
+        }
+        else
+        {
+            WidgetHeader.CssClass = "widget_header draggable";
         }
 
         if (IsLocked || WidgetInstance.Widget.IsLocked)
@@ -199,9 +216,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
             MaximizeWidget.Style.Add("display", "none");
             RestoreWidget.Style.Add("display", "block");
         }
-    }
-
-    
+    }    
 
     protected void EditWidget_Click(object sender, EventArgs e)
     {
@@ -257,7 +272,16 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         SaveWidgetTitle.Visible = true;
         WidgetTitle.Visible = false;
     }
+  
 
+    public override void RenderControl(HtmlTextWriter writer)
+    {
+        writer.AddAttribute(ATTR_INSTANCE_ID, this.WidgetInstance.Id.ToString());
+        writer.AddAttribute(ATTR_ZONE_ID, this.WidgetInstance.WidgetZone.ID.ToString());
+        base.RenderControl(writer);
+    }
+
+    #region IWidgetHost Members
 
     int IWidgetHost.ID
     {
@@ -322,8 +346,7 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         WidgetBodyUpdatePanel.Update();
         WidgetHeaderUpdatePanel.Update();
 
-    }
-
+    }  
     void IWidgetHost.Close()
     {
         var facade = Services.Get<Facade>();
@@ -334,39 +357,12 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         Deleted(this.WidgetInstance, this);
     }
 
-    public override void RenderControl(HtmlTextWriter writer)
-    {
-        writer.AddAttribute(ATTR_INSTANCE_ID, this.WidgetInstance.Id.ToString());
-        writer.AddAttribute(ATTR_ZONE_ID, this.WidgetInstance.WidgetZone.ID.ToString());
-        base.RenderControl(writer);
-    }
-
     void IWidgetHost.SaveState(string state)
     {
         var facade = Services.Get<Facade>();
         {
             this.WidgetInstance = facade.SaveWidgetInstanceState(this._WidgetInstance.Id, state);
         }
-    }
-
-    /// <summary>
-    /// Detach associated objects from WidgetInstance so that
-    /// they do not get inserted again
-    /// </summary>
-    /// <param name="a"></param>
-    private void DetachAssociation(Action a)
-    {
-        //var pageRef = this.WidgetInstance.Page;
-        //var widgetRef = this.WidgetInstance.Widget;
-
-        //this.WidgetInstance.Detach();
-
-        a.Invoke();
-
-        //this.WidgetInstance.Detach();
-
-        //this.WidgetInstance.Page = pageRef;
-        //this.WidgetInstance.Widget = widgetRef;
     }
 
     string IWidgetHost.GetState()
@@ -396,10 +392,6 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
         this.WidgetBodyUpdatePanel.Update();
     }
 
-
-    #region IWidgetHost Members
-
-
     void IWidgetHost.Refresh(IWidget widget)
     {
         this.WidgetHeaderUpdatePanel.Update();
@@ -417,25 +409,5 @@ public partial class WidgetContainer : System.Web.UI.UserControl, IWidgetHost
     protected void Refresh_Clicked(object sender, EventArgs e)
     {
         (this as IWidgetHost).Refresh(_WidgetRef);
-    }
-
-    protected override void LoadViewState(object savedState)
-    {
-        base.LoadViewState(savedState);        
-    }
-
-    protected override object SaveViewState()
-    {
-        return base.SaveViewState();
-    }
-
-    protected override void LoadControlState(object savedState)
-    {
-        base.LoadControlState(savedState);
-    }
-
-    protected override object SaveControlState()
-    {
-        return base.SaveControlState();
     }
 }
