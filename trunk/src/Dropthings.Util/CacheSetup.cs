@@ -244,7 +244,7 @@ namespace Dropthings.Util
             if (ConstantHelper.DisableCache)
             {
 #if MUNQ
-                Services.RegisterType<ICache>(r => new NoCacheResolver());
+                Services.RegisterInstance<ICache>(r => new NoCacheResolver());
 #else
                 Services.RegisterType<ICache, NoCacheResolver>();
 #endif
@@ -254,7 +254,7 @@ namespace Dropthings.Util
                 if (ConstantHelper.EnableVelocity)
                 {
 #if MUNQ
-                    Services.RegisterType<ICache>(r => new VelocityCacheResolver());
+                    Services.RegisterInstance<ICache>(r => new VelocityCacheResolver());
 #else
                     Services.RegisterType<ICache, VelocityCacheResolver>();
 #endif
@@ -262,7 +262,7 @@ namespace Dropthings.Util
                 else
                 {
 #if MUNQ
-                    Services.RegisterType<ICache>(r => new EntlibCacheResolver());
+                    Services.RegisterInstance<ICache>(r => new EntlibCacheResolver());
 #else
                     Services.RegisterType<ICache, EntlibCacheResolver>();
 #endif

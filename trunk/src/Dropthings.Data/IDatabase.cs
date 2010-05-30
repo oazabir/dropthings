@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Data.Objects;
+using System.Data.Objects.DataClasses;
+using System.Linq;
+using System.Data.EntityClient;
 namespace Dropthings.Data
 {
     public interface IDatabase : IDisposable
@@ -28,5 +32,6 @@ namespace Dropthings.Data
         System.Linq.IQueryable<TReturnType> Query<TReturnType>(Func<DropthingsDataContext, System.Linq.IQueryable<TReturnType>> query);
         TEntity Update<TEntity>(TEntity entity) where TEntity : System.Data.Objects.DataClasses.EntityObject;
         void UpdateList<TEntity>(System.Collections.Generic.IEnumerable<TEntity> entities) where TEntity : System.Data.Objects.DataClasses.EntityObject;
+        int ExecuteFunction(string functionName, params EntityParameter[] parameters);
     }
 }

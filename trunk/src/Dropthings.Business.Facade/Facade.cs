@@ -135,7 +135,7 @@
                 CacheSetup.Register();
 
 #if MUNQ
-                Services.RegisterType<ILogger>(r => new EntLibLogger());
+                Services.RegisterInstance<ILogger>(r => new EntLibLogger());
 
                 Services.RegisterType<IDatabase>(r => new DropthingsDataContext2());
 

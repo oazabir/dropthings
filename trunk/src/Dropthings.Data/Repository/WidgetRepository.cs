@@ -6,6 +6,8 @@
     using System.Text;
     using OmarALZabir.AspectF;
     using Dropthings.Util;
+    using System.Data.Objects;
+    using System.Data.EntityClient;
 
     public class WidgetRepository : Dropthings.Data.Repository.IWidgetRepository 
     {
@@ -28,10 +30,25 @@
 
         #region Methods
 
+        private void FlushWidgetCache()
+        {
+            CacheKeys.WidgetKeys.AllWidgetsKeys().Each(key => _cacheResolver.Remove(key));
+        }
+
+        private void FlushWidgetCache(int widgetId)
+        {
+            CacheKeys.WidgetKeys.AllWidgetIdBasedKeys(widgetId).Each(key => _cacheResolver.Remove(key));
+            FlushWidgetCache();
+        }
 
         public void Delete(int widgetId)
         {
-            _database.Delete<Widget>(new Widget { ID = widgetId });
+            FlushWidgetCache(widgetId);
+
+            var param = new EntityParameter("WidgetId", System.Data.DbType.Int32);
+            param.Value = widgetId;
+            _database.ExecuteFunction("DeleteWidgetCascade", param);
+            //_database.Delete<Widget>(new Widget { ID = widgetId });
         }
 
 
@@ -80,12 +97,15 @@
 
         public Widget Insert(Widget w)
         {
-            return _database.Insert<Widget>(w);
+            var result = _database.Insert<Widget>(w);
+            FlushWidgetCache(result.ID);
+            return result;
         }
 
         public void Update(Widget wi)
         {
             _database.Update<Widget>(wi);
+            FlushWidgetCache(wi.ID);
         }
 
         #endregion Methods

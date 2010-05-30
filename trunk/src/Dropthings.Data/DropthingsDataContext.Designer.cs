@@ -26,7 +26,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Page), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.UserSetting))]
 
 // Original file name:
-// Generation date: 5/27/2010 10:15:51 AM
+// Generation date: 5/30/2010 4:25:36 PM
 namespace Dropthings.Data
 {
     
