@@ -29,6 +29,8 @@ FIX: Issue 98:	Lock widget instance > widget header is not fully disabled
 FIX: Issue 97:	Add tab, add widget: error 'sequence contains no elements'
 FIX: Issue 96:	Update widget: not all properties are updated
 FIX: Issue 95:	Delete widget: Reference constraint errors when widget is used in roles, or added to portal
+FIX: Issue 94:	Delete widget: cache is not emptied
+FIX: Issue 90:	changing page layout - loss of widgets
 
 Version 2.6.1
 ==============

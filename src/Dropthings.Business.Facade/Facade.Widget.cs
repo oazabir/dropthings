@@ -96,11 +96,26 @@
         public IEnumerable<WidgetInstance> GetWidgetInstancesInZoneWithWidget(int widgetZoneId)
         {
             var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneIdWithWidget(widgetZoneId);
+            var widgetInstacesToRemove = new List<WidgetInstance>();
+
+            var widgetsForUser = GetWidgetList(Context.CurrentUserName, Enumerations.WidgetTypeEnum.PersonalPage);
             widgetInstances.Each(wi =>
                 {
                     if (wi.Widget == default(Widget))
                         wi.Widget = this.widgetRepository.GetWidgetById(wi.Widget.ID);
+                    
+                    // Ensure the user has permission to see all the widgets. It's possible that
+                    // roles have been revoked from the widgets after it was added on the user's page
+                    if (!widgetsForUser.Exists(w => wi.Id == wi.Widget.ID))
+                    {
+                        // user can no longer have this widget
+                        
+                    }
                 });
+
+            
+            
+
             return widgetInstances;
         }
 
@@ -121,20 +136,9 @@
 
             var widgetInstance = this.GetWidgetInstanceById(widgetInstanceId);
             var fromZoneId = widgetInstance.WidgetZone.ID;
-            if (fromZoneId != toZoneId)
-            {
-                // widget moving from one zone to another. Need to clear all cached
-                // instances of widget instances on the source zone
-                CacheKeys.WidgetZoneKeys.AllWidgetZoneIdBasedKeys(fromZoneId)
-                    .Each(key => Services.Get<ICache>().Remove(key));
-            }
-
+            
             PushDownWidgetInstancesOnWidgetZoneAfterWidget(toRowId, widgetInstanceId, toZoneId);
             ChangeWidgetInstancePosition(widgetInstanceId, toZoneId, toRowId);
-
-            // The new dropped zone now has more widgets than before. So clear cache.
-            CacheKeys.WidgetZoneKeys.AllWidgetZoneIdBasedKeys(toZoneId)
-                    .Each(key => Services.Get<ICache>().Remove(key));
 
             // Refresh the order numbers of all widgets on the zones
             // to reset their sequence number from 0
@@ -175,16 +179,32 @@
             this.widgetInstanceRepository.UpdateList(list);
         }
 
-        private void ChangeWidgetInstancePosition(int widgetInstanceId, int widgetZoneId, int rowNo)
+        private void ChangeWidgetInstancePosition(int widgetInstanceId, int toZoneId, int rowNo)
         {
             this.GetWidgetInstanceById(widgetInstanceId).As(wi =>
                 {
-                    //wi.OrderNo = rowNo > wi.OrderNo ? rowNo + 1 : rowNo;
-                    wi.OrderNo = rowNo; 
-                    var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneById(widgetZoneId);
-                    wi.WidgetZone = new WidgetZone { ID = newWidgetZone.ID };
-                    wi.WidgetZoneReference = new EntityReference<WidgetZone> { EntityKey = newWidgetZone.EntityKey };
+                    var fromZoneId = wi.WidgetZone.ID;
+                    if (fromZoneId != toZoneId)
+                    {
+                        // widget moving from one zone to another. Need to clear all cached
+                        // instances of widgets on the source zone
+                        CacheKeys.WidgetZoneKeys.AllWidgetZoneIdBasedKeys(fromZoneId)
+                            .Each(key => Services.Get<ICache>().Remove(key));
 
+                        // Change the widget zone reference to reflect the new widgetzone for the
+                        // widget instance
+                        var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneById(toZoneId);
+                        wi.WidgetZone = new WidgetZone { ID = newWidgetZone.ID };
+                        wi.WidgetZoneReference = new EntityReference<WidgetZone> { EntityKey = newWidgetZone.EntityKey };
+
+                        // The new dropped zone now has more widgets than before. So clear cache for widgets
+                        // on that zone
+                        CacheKeys.WidgetZoneKeys.AllWidgetZoneIdBasedKeys(toZoneId)
+                                .Each(key => Services.Get<ICache>().Remove(key));
+                    }
+
+                    wi.OrderNo = rowNo; 
+                    
                     this.widgetInstanceRepository.Update(wi);
                 });
         }

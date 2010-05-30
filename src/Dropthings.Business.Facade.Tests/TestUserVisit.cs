@@ -131,5 +131,40 @@ namespace Dropthings.Test.IntegrationTests
                 facade.Dispose();
             });
         }
+
+        [Specification]
+        public void User_can_visit_a_page_directly_and_that_page_becomes_the_default()
+        {
+            var user = default(UserProfile);
+            var facade = default(Facade);
+            var userSetup = default(UserSetup);
+            var anotherPage = default(Page);
+
+            "Given a user who has more than one tabs".Context(() =>
+                {
+                    user = MembershipHelper.CreateNewAnonUser();
+                    facade = new Facade(new AppContext(user.UserName, user.UserName));
+                    userSetup = facade.FirstVisitHomePage(user.UserName, string.Empty, true, false);
+                });
+
+            "When the user visits another tab directly".Do(() =>
+                {
+                    anotherPage = userSetup.UserPages.Where(p => p.ID != userSetup.CurrentPage.ID).FirstOrDefault();
+                    if (null == anotherPage)
+                    {
+                        anotherPage = facade.CreatePage("Test Page", 0);
+                        facade.SetCurrentPage(facade.GetUserGuidFromUserName(user.UserName), userSetup.CurrentPage.ID);
+                    }
+
+                    facade.RepeatVisitHomePage(user.UserName, anotherPage.UserTabName, true, false);
+                });
+
+            "It becomes the default tab".Assert(() =>
+                {
+                    var revisit = facade.RepeatVisitHomePage(user.UserName, string.Empty, true, false);
+
+                    Assert.Equal(anotherPage.ID, revisit.CurrentPage.ID);
+                });
+        }
     }
 }

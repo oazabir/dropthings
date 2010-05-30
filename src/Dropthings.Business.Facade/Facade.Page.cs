@@ -250,6 +250,8 @@
             // page. This happens when a page is deleted.
             currentPage = (currentPageId == 0) ? pages.First() : this.GetPage(currentPageId);
 
+
+
             return currentPage;
         }
 
@@ -461,15 +463,21 @@
 
             if (newColumnDefs.Count() < existingColumns.Count)
             {
-                while (columnCounter + 1 > newColumnDefs.Length)
+                // No of columns decreased. So, we need to move widgets from the deceased column 
+                // to the last available column.
+
+                for (var existingColumnNo = newColumnNo + 1; existingColumnNo < existingColumns.Count; existingColumnNo ++)
                 {
-                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, columnCounter);
+                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, existingColumnNo);
                     var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, newColumnNo);
+                    
                     var widgetInstancesToMove = GetWidgetInstancesInZoneWithWidget(oldWidgetZone.ID);
-                    widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, 0));
-                    DeleteColumn(userSetting.Page.ID, columnCounter);
-                    --columnCounter;
-                }
+                    var originalWidgets = GetWidgetInstancesInZoneWithWidget(newWidgetZone.ID);
+                    var lastWidgetPosition = originalWidgets.Max(w => w.OrderNo);
+                    
+                    widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, ++lastWidgetPosition));
+                    DeleteColumn(userSetting.Page.ID, existingColumnNo);                    
+                }                
             }
             else
             {
