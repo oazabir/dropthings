@@ -26,6 +26,7 @@ Version 2.6.2
 FIX: Issue-100: UserSetting.CurrentPageID now has foreign key to Page object
 FIX: Issue 99:	Unique page titles create UI issues
 FIX: Issue 98:	Lock widget instance > widget header is not fully disabled
+FIX: Issue 97:	Add tab, add widget: error 'sequence contains no elements'
 
 Version 2.6.1
 ==============

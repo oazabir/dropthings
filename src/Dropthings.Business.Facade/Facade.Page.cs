@@ -70,6 +70,7 @@
                 Title = title,
                 LayoutType = layoutType,
                 OrderNo = toOrder,
+                ColumnCount = Page.GetColumnWidths(layoutType).Length,
                 CreatedDate = DateTime.Now
             });
 
