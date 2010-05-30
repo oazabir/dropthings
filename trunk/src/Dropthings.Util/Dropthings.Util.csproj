@@ -115,6 +115,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -132,7 +133,6 @@
     <Compile Include="EntlibCacheResolver.cs" />
     <Compile Include="EntLibLogger.cs" />
     <Compile Include="ExtensionFunctions.cs" />
-    <Compile Include="JsonHelper.cs" />
     <Compile Include="NameObjectCollection.cs" />
     <Compile Include="NoCacheResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -75,6 +75,7 @@
     <Compile Include="ActionValidator.cs" />
     <Compile Include="CombineScripts.cs" />
     <Compile Include="CookieHelper.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="WebUtil.cs" />
     <Compile Include="MailManage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
