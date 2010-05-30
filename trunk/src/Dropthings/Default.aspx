@@ -70,12 +70,11 @@
                                         <h1><asp:Literal ID="ltlChangeColumn" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeColumn%>" /></h1>
                                         
                                         <p><asp:Literal ID="ltlChoiceColumnLayout" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChoiceColumnLayout%>" /><br />
-                                        <input id="SelectLayoutPopup_Type1" type="image" value="1"  src="img/Layout1.jpg" onclick="DropthingsUI.Actions.changePageLayout(1)" /> 
-                                        <input id="SelectLayoutPopup_Type2" type="image" value="2" src="img/Layout2.jpg" onclick="DropthingsUI.Actions.changePageLayout(2)" />         
-                                        <input id="SelectLayoutPopup_Type3" type="image" value="3" src="img/Layout3.jpg" onclick="DropthingsUI.Actions.changePageLayout(3)" />      
-                                        <input id="SelectLayoutPopup_Type4" type="image" value="4" src="img/Layout4.jpg" onclick="DropthingsUI.Actions.changePageLayout(4)" />
-                                        </p>                                    
-                                        
+                                            <asp:ImageButton ImageUrl="img/Layout1.jpg" runat="server" OnClick="Layout1_Clicked" />
+                                            <asp:ImageButton ImageUrl="img/Layout2.jpg" runat="server" OnClick="Layout2_Clicked" />
+                                            <asp:ImageButton ImageUrl="img/Layout3.jpg" runat="server" OnClick="Layout3_Clicked" />
+                                            <asp:ImageButton ImageUrl="img/Layout4.jpg" runat="server" OnClick="Layout4_Clicked" />                                        
+                                        </p>                                        
                                     </div>
                                 </div>
                                 <div style="clear:both"></div>

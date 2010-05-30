@@ -414,5 +414,31 @@ public partial class _Default : BasePage
         }
     }
 
+
+    protected void Layout1_Clicked(object sender, EventArgs e)
+    {
+        Services.Get<Facade>().ModifyPageLayout(1);
+        ReloadPage();
+    }
+    protected void Layout2_Clicked(object sender, EventArgs e)
+    {
+        Services.Get<Facade>().ModifyPageLayout(2);
+        ReloadPage();
+    }
+    protected void Layout3_Clicked(object sender, EventArgs e)
+    {
+        Services.Get<Facade>().ModifyPageLayout(3);
+        ReloadPage();
+    }
+    protected void Layout4_Clicked(object sender, EventArgs e)
+    {
+        Services.Get<Facade>().ModifyPageLayout(4);
+        ReloadPage();
+    }
+
+    private void ReloadPage()
+    {
+        Response.Redirect(Request.Url.ToString());
+    }
     #endregion Methods
 }

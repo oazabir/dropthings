@@ -124,8 +124,9 @@ namespace Dropthings.Business.Facade
 
                     if (userSetting.Page.ID != response.CurrentPage.ID)
                     {
-                        userSetting.Page.ID = response.CurrentPage.ID;
-                        this.userSettingRepository.Update(userSetting);
+                        //userSetting.Page.ID = response.CurrentPage.ID;
+                        //this.userSettingRepository.Update(userSetting);
+                        SetCurrentPage(userGuid, response.CurrentPage.ID);
                     }
 
                     response.UserSetting = GetUserSetting(userGuid);
