@@ -356,6 +356,11 @@
             widget.OrderNo = orderNo;
             widget.RoleName = roleName;
             widget.WidgetType = widgetType;
+            widget.Name = name;
+            widget.Url = url;
+            widget.Description = description;
+            widget.IsDefault = isDefault;
+            widget.OrderNo = orderNo;
 
             this.widgetRepository.Update(widget);
         }
