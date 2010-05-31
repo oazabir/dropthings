@@ -15,11 +15,11 @@
     using Dropthings.Data;
     using Dropthings.Data.Repository;
 
-	public class PageRepositoryTest
+	public class TabRepositoryTest
 	{
 		#region Constructors
 
-		public PageRepositoryTest()
+		public TabRepositoryTest()
 		{
 		}
 
@@ -28,31 +28,31 @@
 		#region Methods
 
 		[Specification]
-		public void GetPage_Should_Return_A_Page_from_database_when_cache_is_empty_and_then_caches_it()
+		public void GetTab_Should_Return_A_Tab_from_database_when_cache_is_empty_and_then_caches_it()
 		{
 			var cache = new Mock<ICache>();
 			var database = new Mock<IDatabase>();
-			IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
+			ITabRepository pageRepository = new TabRepository(database.Object, cache.Object);
 
 			const int pageId = 1;
-			var page = default(Page);
-			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now };
+			var page = default(Tab);
+			var sampleTab = new Tab() { ID = pageId, Title = "Test Tab", ColumnCount = 3, LayoutType = 3, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalTab, CreatedDate = DateTime.Now };
 
 			database
-					.Expect<IQueryable<Page>>(d => d.Query<int, Page>(CompiledQueries.PageQueries.GetPageById, 1))
-					.Returns(new Page[] { samplePage }.AsQueryable()).Verifiable();
+					.Expect<IQueryable<Tab>>(d => d.Query<int, Tab>(CompiledQueries.TabQueries.GetTabById, 1))
+					.Returns(new Tab[] { sampleTab }.AsQueryable()).Verifiable();
 
-			"Given PageRepository and empty cache".Context(() =>
+			"Given TabRepository and empty cache".Context(() =>
 			{
 				// cache is empty
 				cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
-				// It will cache the Page object afte loading from database
-				cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheKeys.PageKeys.PageId(pageId)),
-						It.Is<Page>(cachePage => object.ReferenceEquals(cachePage, samplePage)))).Verifiable();
+				// It will cache the Tab object afte loading from database
+				cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheKeys.TabKeys.TabId(pageId)),
+						It.Is<Tab>(cacheTab => object.ReferenceEquals(cacheTab, sampleTab)))).Verifiable();
 			});
 
-			"when GetPageById is called".Do(() =>
-					page = pageRepository.GetPageById(1));
+			"when GetTabById is called".Do(() =>
+					page = pageRepository.GetTabById(1));
 
 			"it checks in the cache first and finds nothing and then caches it".Assert(() =>
 					cache.VerifyAll());
@@ -68,25 +68,25 @@
 		}
 
 		[Specification]
-		public void GetPage_Should_Return_A_Page_from_cache_when_it_is_already_cached()
+		public void GetTab_Should_Return_A_Tab_from_cache_when_it_is_already_cached()
 		{
 			var cache = new Mock<ICache>();
 			var database = new Mock<IDatabase>();
-			IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
+			ITabRepository pageRepository = new TabRepository(database.Object, cache.Object);
 
 			const int pageId = 1;
-			var page = default(Page);
-			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, VersionNo = 1, 
-                PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now };
+			var page = default(Tab);
+			var sampleTab = new Tab() { ID = pageId, Title = "Test Tab", ColumnCount = 3, LayoutType = 3, VersionNo = 1, 
+                PageType = (int)Enumerations.PageType.PersonalTab, CreatedDate = DateTime.Now };
 
-			"Given PageRepository and the requested page in cache".Context(() =>
+			"Given TabRepository and the requested page in cache".Context(() =>
 			{
-				cache.Expect(c => c.Get(CacheKeys.PageKeys.PageId(samplePage.ID)))
-						.Returns(samplePage).AtMostOnce();
+				cache.Expect(c => c.Get(CacheKeys.TabKeys.TabId(sampleTab.ID)))
+						.Returns(sampleTab).AtMostOnce();
 			});
 
-			"when GetPageById is called".Do(() =>
-					page = pageRepository.GetPageById(1));
+			"when GetTabById is called".Do(() =>
+					page = pageRepository.GetTabById(1));
 
 			"it checks in the cache first and finds the object is in cache".Assert(() =>
 			{
@@ -101,24 +101,24 @@
 
 
 		[Specification]
-		public void GetPageIdByUserGuid_should_return_a_list_of_pageId_from_database_if_not_already_cached_and_then_cache_it()
+		public void GetTabIdByUserGuid_should_return_a_list_of_pageId_from_database_if_not_already_cached_and_then_cache_it()
 		{
-			RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
+			RepositoryHelper.UseRepository<TabRepository>((pageRepository, database, cache) =>
 			{
                 Guid userId = Guid.NewGuid();
 
-				List<Page> userPages = new List<Page>();
-				userPages.Add(new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now });
-				userPages.Add(new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now });
+				List<Tab> userTabs = new List<Tab>();
+				userTabs.Add(new Tab() { ID = 1, Title = "Test Tab 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalTab, CreatedDate = DateTime.Now });
+				userTabs.Add(new Tab() { ID = 2, Title = "Test Tab 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalTab, CreatedDate = DateTime.Now });
 
-				database.Expect<IQueryable<Page>>(d => d.Query<Guid, Page>(CompiledQueries.PageQueries.GetPagesByUserId, userId))
-						.Returns(userPages.AsQueryable()).Verifiable();
+				database.Expect<IQueryable<Tab>>(d => d.Query<Guid, Tab>(CompiledQueries.TabQueries.GetTabsByUserId, userId))
+						.Returns(userTabs.AsQueryable()).Verifiable();
 
-				List<int> pageIds = userPages.Select(p => p.ID).ToList();
+				List<int> pageIds = userTabs.Select(p => p.ID).ToList();
 
-				var returnedPageIds = default(List<int>);
+				var returnedTabIds = default(List<int>);
 
-				"Given PageRepository and empty cache".Context(() =>
+				"Given TabRepository and empty cache".Context(() =>
 				{
 					// cache is empty
 					cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
@@ -129,7 +129,7 @@
 
 				"when GetpageIdByUserGuid is called with a userId".Do(() =>
 				{
-					returnedPageIds = pageRepository.GetPageIdByUserGuid(userId);
+					returnedTabIds = pageRepository.GetTabIdByUserGuid(userId);
 				});
 
 				"it looks up in the cache and finds not in cache".Assert(() =>
@@ -139,41 +139,41 @@
 				"it returns a collection of pageId from database".Assert(() =>
 				{
 					database.VerifyAll();
-					Assert.Equal<int>(2, returnedPageIds.Count);
+					Assert.Equal<int>(2, returnedTabIds.Count);
 				});
 
 				"it returns the pages in exact order as it is returned from database".Assert(() =>
 				{
-					Assert.Equal<int>(1, returnedPageIds[0]);
-					Assert.Equal<int>(2, returnedPageIds[1]);
+					Assert.Equal<int>(1, returnedTabIds[0]);
+					Assert.Equal<int>(2, returnedTabIds[1]);
 				});
 			});
 		}
 
 		[Specification]
-		public void GetPageOwnerName_Should_Return_UserName_Given_PageId_from_database_if_not_already_cached()
+		public void GetTabOwnerName_Should_Return_UserName_Given_TabId_from_database_if_not_already_cached()
 		{
-			RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
+			RepositoryHelper.UseRepository<TabRepository>((pageRepository, database, cache) =>
 			{
 				const string ownerName = "some user name";
 				const int pageId = 1;
-				database.Expect<IQueryable<string>>(d => d.Query<int, string>(CompiledQueries.PageQueries.GetPageOwnerName, 1))
+				database.Expect<IQueryable<string>>(d => d.Query<int, string>(CompiledQueries.TabQueries.GetTabOwnerName, 1))
 						.Returns(new string[] { ownerName }.AsQueryable()).Verifiable();
 
 				var userName = default(string);
 
-				"Given PageRepository and empty cache".Context(() =>
+				"Given TabRepository and empty cache".Context(() =>
 						{
 							// cache is empty
 							cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
 							// ensure the page owner name is cached after loading from database
-							cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheKeys.PageKeys.PageOwnerName(pageId)),
+							cache.Expect(c => c.Add(It.Is<string>(cacheKey => cacheKey == CacheKeys.TabKeys.TabOwnerName(pageId)),
 									It.Is<string>(cacheOwnerName => cacheOwnerName == ownerName))).Verifiable();
 						});
 
-				"when GetPageOwnerName is called with a PageId".Do(() =>
+				"when GetTabOwnerName is called with a TabId".Do(() =>
 				{
-					userName = pageRepository.GetPageOwnerName(pageId);
+					userName = pageRepository.GetTabOwnerName(pageId);
 				});
 
 				"it looks up in the cache first and find nothing and then it caches the owner name".Assert(() =>
@@ -188,41 +188,41 @@
 		}
 
 		[Specification]
-		public void GetPagesOfUser_Should_Return_List_Of_Pages()
+		public void GetTabsOfUser_Should_Return_List_Of_Tabs()
 		{
-			RepositoryHelper.UseRepository<PageRepository>((pageRepository, database, cache) =>
+			RepositoryHelper.UseRepository<TabRepository>((pageRepository, database, cache) =>
 			{
                 Guid userId = Guid.NewGuid();
 
-				List<Page> userPages = new List<Page>();
-                var page1 = new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now, AspNetUser = new AspNetUser { UserId = userId } };
-                var page2 = new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now, AspNetUser = new AspNetUser { UserId = userId } };
-				userPages.Add(page1);
-				userPages.Add(page2);
+				List<Tab> userTabs = new List<Tab>();
+                var page1 = new Tab() { ID = 1, Title = "Test Tab 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalTab, CreatedDate = DateTime.Now, AspNetUser = new AspNetUser { UserId = userId } };
+                var page2 = new Tab() { ID = 2, Title = "Test Tab 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalTab, CreatedDate = DateTime.Now, AspNetUser = new AspNetUser { UserId = userId } };
+				userTabs.Add(page1);
+				userTabs.Add(page2);
 
-				database.Expect<IQueryable<Page>>(d => d.Query<Guid, Page>(CompiledQueries.PageQueries.GetPagesByUserId, userId))                    
-						.Returns(userPages.AsQueryable()).Verifiable();
+				database.Expect<IQueryable<Tab>>(d => d.Query<Guid, Tab>(CompiledQueries.TabQueries.GetTabsByUserId, userId))                    
+						.Returns(userTabs.AsQueryable()).Verifiable();
 
 				var cacheMap = new Dictionary<string, object>();
-				var collectionKey = CacheKeys.UserKeys.PagesOfUser(userId);
-				cacheMap.Add(collectionKey, userPages);
-				cacheMap.Add(CacheKeys.PageKeys.PageId(1), page1);
-				cacheMap.Add(CacheKeys.PageKeys.PageId(2), page2);
+				var collectionKey = CacheKeys.UserKeys.TabsOfUser(userId);
+				cacheMap.Add(collectionKey, userTabs);
+				cacheMap.Add(CacheKeys.TabKeys.TabId(1), page1);
+				cacheMap.Add(CacheKeys.TabKeys.TabId(2), page2);
 
-				"Given PageRepository and Empty cache".Context(() =>
+				"Given TabRepository and Empty cache".Context(() =>
 						{
 							cache.Expect(c => c.Get(It.IsAny<string>())).Returns(default(object));
-							cache.Expect(c => c.Add(collectionKey, It.IsAny<List<Page>>())).Verifiable();
+							cache.Expect(c => c.Add(collectionKey, It.IsAny<List<Tab>>())).Verifiable();
 							cache.Expect(c =>
 											c.Set(It.Is<string>(cacheKey => cacheMap.ContainsKey(cacheKey)),
 													It.Is<object>(cacheValue => cacheMap.Values.Contains(cacheValue))))
 									.Verifiable();
 						});
 
-				var pages = default(List<Page>);
+				var pages = default(List<Tab>);
 
-				"when GetPagesOfUser is called".Do(() =>
-						pages = pageRepository.GetPagesOfUser(userId));
+				"when GetTabsOfUser is called".Do(() =>
+						pages = pageRepository.GetTabsOfUser(userId));
 
 				"it first looks into cache for the pages and finds nothing and then it caches it".Assert(() =>
 						cache.VerifyAll());
@@ -232,50 +232,50 @@
 
 				"it returns the pages of the user".Assert(() =>
 				{
-					Assert.Equal<int>(userPages.Count, pages.Count);
+					Assert.Equal<int>(userTabs.Count, pages.Count);
 					pages.Each(page => Assert.Equal(userId, page.AspNetUser.UserId));
 				});
 			});
 		}
 
 		[Specification]
-		public void InsertPage_should_insert_a_page_in_database_and_cache_it()
+		public void InsertTab_should_insert_a_page_in_database_and_cache_it()
 		{
 			var cache = new Mock<ICache>();
 			var database = new Mock<IDatabase>();
-			IPageRepository pageRepository = new PageRepository(database.Object, cache.Object);
+			ITabRepository pageRepository = new TabRepository(database.Object, cache.Object);
 
 			const int pageId = 1;
             Guid userId = Guid.NewGuid();
-			var page = default(Page);
-			var samplePage = new Page() { Title = "Test Page", ColumnCount = 3, 
+			var page = default(Tab);
+			var sampleTab = new Tab() { Title = "Test Tab", ColumnCount = 3, 
 				LayoutType = 3, AspNetUser = new AspNetUser { UserId = userId }, VersionNo = 1, 
-				PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now };
+				PageType = (int)Enumerations.PageType.PersonalTab, CreatedDate = DateTime.Now };
 
-			database.Expect<Page>(d => d.Insert<AspNetUser, Page>(
+			database.Expect<Tab>(d => d.Insert<AspNetUser, Tab>(
                         It.Is<AspNetUser>(u => u.UserId == userId),
-                        It.IsAny<Action<AspNetUser, Page>>(),
-                        It.Is<Page>(p => p.ID == default(int))))
-                    .Callback(() => samplePage.ID = pageId)
-					.Returns(samplePage)
+                        It.IsAny<Action<AspNetUser, Tab>>(),
+                        It.Is<Tab>(p => p.ID == default(int))))
+                    .Callback(() => sampleTab.ID = pageId)
+					.Returns(sampleTab)
                     .AtMostOnce()
                     .Verifiable();
 
-			"Given PageRepository".Context(() =>
+			"Given TabRepository".Context(() =>
 			{
 				// It will clear items from cache
-				cache.Expect(c => c.Remove(CacheKeys.UserKeys.PagesOfUser(samplePage.AspNetUser.UserId)));
+				cache.Expect(c => c.Remove(CacheKeys.UserKeys.TabsOfUser(sampleTab.AspNetUser.UserId)));
 			});
 
 			"when Insert is called".Do(() =>
-					page = pageRepository.Insert(new Page
+					page = pageRepository.Insert(new Tab
 					{
-						Title = samplePage.Title,
-						ColumnCount = samplePage.ColumnCount,
-						LayoutType = samplePage.LayoutType,
+						Title = sampleTab.Title,
+						ColumnCount = sampleTab.ColumnCount,
+						LayoutType = sampleTab.LayoutType,
 						AspNetUser = new AspNetUser { UserId = userId },
-						VersionNo = samplePage.VersionNo,
-						PageType = samplePage.PageType
+						VersionNo = sampleTab.VersionNo,
+						PageType = sampleTab.PageType
 					}));
 
 			("then it should insert the page in database" +

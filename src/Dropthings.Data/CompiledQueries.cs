@@ -83,21 +83,21 @@ namespace Dropthings.Data
                 );
 
             // TODO: See the query generated from this and ensure it's optimal
-            public static readonly Func<DropthingsDataContext, int, IQueryable<WidgetInstance>> GetWidgetInstancesByPageId =
-                Compile<int, WidgetInstance>((dc, pageId) =>
-                    from page in dc.Pages
-                    from column in page.Column
+            public static readonly Func<DropthingsDataContext, int, IQueryable<WidgetInstance>> GetWidgetInstancesByTabId =
+                Compile<int, WidgetInstance>((dc, TabId) =>
+                    from Tab in dc.Tabs
+                    from column in Tab.Column
                     from widgetInstance in column.WidgetZone.WidgetInstance
-                    where page.ID == pageId
+                    where Tab.ID == TabId
                     orderby widgetInstance.OrderNo
                     select widgetInstance
                 );
 
-            public static readonly Func<DropthingsDataContext, int, int, IQueryable<WidgetZone>> GetWidgetZoneByPageId_ColumnNo =
-                Compile<int, int, WidgetZone>((dc, pageId, columnNo) =>
-                    from page in dc.Pages
-                    from column in page.Column
-                    where page.ID == pageId && column.ColumnNo == columnNo
+            public static readonly Func<DropthingsDataContext, int, int, IQueryable<WidgetZone>> GetWidgetZoneByTabId_ColumnNo =
+                Compile<int, int, WidgetZone>((dc, TabId, columnNo) =>
+                    from Tab in dc.Tabs
+                    from column in Tab.Column
+                    where Tab.ID == TabId && column.ColumnNo == columnNo
                     select column.WidgetZone
                 );
 
@@ -120,7 +120,7 @@ namespace Dropthings.Data
                 Compile<int, string>((dc, widgetInstanceId) =>
                     from widgetInstance in dc.WidgetInstances.Include("Widget").Include("WidgetZone")
                     where widgetInstance.Id == widgetInstanceId
-                    select widgetInstance.WidgetZone.Column.FirstOrDefault().Page.AspNetUser.LoweredUserName
+                    select widgetInstance.WidgetZone.Column.FirstOrDefault().Tab.AspNetUser.LoweredUserName
                 );
 
 
@@ -128,63 +128,63 @@ namespace Dropthings.Data
                 Compile<int, string>((dc, widgetZoneId) =>
                     from widgetZone in dc.WidgetZones
                     where widgetZone.ID == widgetZoneId
-                    select widgetZone.Column.FirstOrDefault().Page.AspNetUser.LoweredUserName
+                    select widgetZone.Column.FirstOrDefault().Tab.AspNetUser.LoweredUserName
                 );
 
         }
 
-        public class PageQueries
+        public class TabQueries
         {
-            public static readonly Func<DropthingsDataContext, int, IQueryable<string>> GetPageOwnerName =
-                Compile<int, string>((dc, pageId) =>
-                    from p in dc.Pages
-                    where p.ID == pageId
+            public static readonly Func<DropthingsDataContext, int, IQueryable<string>> GetTabOwnerName =
+                Compile<int, string>((dc, TabId) =>
+                    from p in dc.Tabs
+                    where p.ID == TabId
                     select p.AspNetUser.LoweredUserName
                 );
 
-            public static readonly Func<DropthingsDataContext, int, IQueryable<Column>> GetColumnsByPageId =
-                Compile<int, Column>((dc, pageId) =>
-                    from column in dc.Columns.Include("WidgetZone").Include("Page")
-                    where column.Page.ID == pageId
+            public static readonly Func<DropthingsDataContext, int, IQueryable<Column>> GetColumnsByTabId =
+                Compile<int, Column>((dc, TabId) =>
+                    from column in dc.Columns.Include("WidgetZone").Include("Tab")
+                    where column.Tab.ID == TabId
                     orderby column.ColumnNo
                     select column
                 );
 
             public static readonly Func<DropthingsDataContext, int, IQueryable<Column>> GetColumnById =
                 Compile<int, Column>((dc, columnId) =>
-                    from column in dc.Columns.Include("WidgetZone").Include("Page")
+                    from column in dc.Columns.Include("WidgetZone").Include("Tab")
                     where column.ID == columnId
                     select column
                 );
 
-            public static readonly Func<DropthingsDataContext, int, int, IQueryable<Column>> GetColumnByPageId_ColumnNo =
-                Compile<int, int, Column>((dc, pageId, columnNo) =>
-                    from column in dc.Columns.Include("WidgetZone").Include("Page")
-                    where column.Page.ID == pageId && column.ColumnNo == columnNo 
+            public static readonly Func<DropthingsDataContext, int, int, IQueryable<Column>> GetColumnByTabId_ColumnNo =
+                Compile<int, int, Column>((dc, TabId, columnNo) =>
+                    from column in dc.Columns.Include("WidgetZone").Include("Tab")
+                    where column.Tab.ID == TabId && column.ColumnNo == columnNo 
                     select column
                 );
 
-            public static readonly Func<DropthingsDataContext, int, IQueryable<Page>> GetPageById =
-                Compile<int, Page>((dc, id) =>
-                    from page in dc.Pages.Include("AspNetUser")
-                    where page.ID == id
-                    select page
+            public static readonly Func<DropthingsDataContext, int, IQueryable<Tab>> GetTabById =
+                Compile<int, Tab>((dc, id) =>
+                    from Tab in dc.Tabs.Include("AspNetUser")
+                    where Tab.ID == id
+                    select Tab
                 );
 
-            //public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> GetOverridableStartPageByUser =
-            //    Compile<Guid, Page>((dc, userId) =>
+            //public static readonly Func<DropthingsDataContext, Guid, IQueryable<Tab>> GetOverridableStartTabByUser =
+            //    Compile<Guid, Tab>((dc, userId) =>
             //        from user in dc.AspNetUsers
-            //        from page in dc.Pages.Include("AspNetUsers")
-            //        where user.UserId == userId && page.ServeAsStartPageAfterLogin.GetValueOrDefault()
-            //        select page
+            //        from Tab in dc.Tabs.Include("AspNetUsers")
+            //        where user.UserId == userId && Tab.ServeAsStartTabAfterLogin.GetValueOrDefault()
+            //        select Tab
             //    );
             
-            public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> GetPagesByUserId =
-                Compile<Guid, Page>((dc, userId) =>
-                    from page in dc.Pages.Include("AspNetUser")
-                    where page.AspNetUser.UserId == userId
-                    orderby page.OrderNo
-                    select page
+            public static readonly Func<DropthingsDataContext, Guid, IQueryable<Tab>> GetTabsByUserId =
+                Compile<Guid, Tab>((dc, userId) =>
+                    from Tab in dc.Tabs.Include("AspNetUser")
+                    where Tab.AspNetUser.UserId == userId
+                    orderby Tab.OrderNo
+                    select Tab
                 );
 
         
@@ -287,7 +287,7 @@ namespace Dropthings.Data
 
             public static readonly Func<DropthingsDataContext, Guid, IQueryable<UserSetting>> GetUserSettingByUserGuid =
                 Compile<Guid, UserSetting>((dc, userGuid) =>
-                    from u in dc.UserSettings.Include("AspNetUser").Include("CurrentPage")
+                    from u in dc.UserSettings.Include("AspNetUser").Include("CurrentTab")
                     where u.AspNetUser.UserId == userGuid 
                     select u
                 );
@@ -345,22 +345,22 @@ namespace Dropthings.Data
         //        join column in dc.Columns 
         //            on widgetInstance.WidgetZoneId equals column.WidgetZoneId
         //        join user in dc.AspNetUsers 
-        //            on column.Page.AspNetUser.LoweredUserName equals user.LoweredUserName
+        //            on column.Tab.AspNetUser.LoweredUserName equals user.LoweredUserName
         //        join usersInRoles in dc.AspNetUsersInRoles 
         //            on new {user.UserId, widgetsInRoles.RoleId} equals new {usersInRoles.UserId, usersInRoles.RoleId}
         //        where widgetInstance.Id == widgetInstanceId 
         //            && widgetsInRoles.RoleId != roleId
-        //            && column.Page.AspNetUser.ApplicationId == DropthingsDataContext2.ApplicationGuid
+        //            && column.Tab.AspNetUser.ApplicationId == DropthingsDataContext2.ApplicationGuid
                     
         //        select widgetInstance.Id
         //);
 
         /*
-        public static readonly Func<DropthingsDataContext, int, int, IQueryable<WidgetInstance>> GetWidgetInstancesByPageId_ColumnNo =
-            Compile<int, int, IQueryable<WidgetInstance>>((dc, pageId, columnNo) =>
+        public static readonly Func<DropthingsDataContext, int, int, IQueryable<WidgetInstance>> GetWidgetInstancesByTabId_ColumnNo =
+            Compile<int, int, IQueryable<WidgetInstance>>((dc, TabId, columnNo) =>
                 from widgetInstance in dc.WidgetInstances
                 join column in dc.Columns on widgetInstance.WidgetZoneId equals column.WidgetZoneId
-                where column.PageId == pageId && column.ColumnNo == columnNo
+                where column.TabId == TabId && column.ColumnNo == columnNo
                 orderby widgetInstance.OrderNo
                 select widgetInstance
             );
@@ -375,11 +375,11 @@ namespace Dropthings.Data
         //    }))();
 
         /*
-        public static readonly Func<DropthingsDataContext, int, IQueryable<WidgetInstance>> GetWidgetInstancesByPageId_With_Widget =
-            Compile<int, IQueryable<WidgetInstance>>((dc, pageId) =>
+        public static readonly Func<DropthingsDataContext, int, IQueryable<WidgetInstance>> GetWidgetInstancesByTabId_With_Widget =
+            Compile<int, IQueryable<WidgetInstance>>((dc, TabId) =>
                 from widgetInstance in dc.WidgetInstances
                 join column in dc.Columns on widgetInstance.WidgetZoneId equals column.WidgetZoneId
-                where column.PageId == pageId
+                where column.TabId == TabId
                 orderby widgetInstance.OrderNo
                 select widgetInstance
             );
@@ -400,66 +400,66 @@ namespace Dropthings.Data
 
         
 
-        #region Redundant Page related queries
+        #region Redundant Tab related queries
 
         // OMAR: Do not create queries for every possible WHERE clause combination.
         // All such queries results in database hits. Does not benefit from the caching.
-        // We get all users pages cached and we can retrive those pages from cache and
+        // We get all users Tabs cached and we can retrive those Tabs from cache and
         // do further filtering. That's faster than hitting database.
-        //public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> GetLockedPagesByUserId =
-        //    Compile<Guid, Page>((dc, userId) =>
-        //        from page in dc.Page
-        //        where page.AspNetUser.UserId == userId && page.IsLocked
-        //        orderby page.OrderNo
-        //        select page
+        //public static readonly Func<DropthingsDataContext, Guid, IQueryable<Tab>> GetLockedTabsByUserId =
+        //    Compile<Guid, Tab>((dc, userId) =>
+        //        from Tab in dc.Tab
+        //        where Tab.AspNetUser.UserId == userId && Tab.IsLocked
+        //        orderby Tab.OrderNo
+        //        select Tab
         //    );
 
-        //public static readonly Func<DropthingsDataContext, Guid, bool, IQueryable<Page>> GetLockedPages_ByUserId_DownForMaintenence =
-        //    Compile<Guid, bool, Page>((dc, userId, isDownForMaintenance) =>
-        //        from page in dc.Page
-        //        where page.AspNetUser.UserId == userId && page.IsLocked && page.IsDownForMaintenance == isDownForMaintenance
-        //        orderby page.OrderNo
-        //        select page
+        //public static readonly Func<DropthingsDataContext, Guid, bool, IQueryable<Tab>> GetLockedTabs_ByUserId_DownForMaintenence =
+        //    Compile<Guid, bool, Tab>((dc, userId, isDownForMaintenance) =>
+        //        from Tab in dc.Tab
+        //        where Tab.AspNetUser.UserId == userId && Tab.IsLocked && Tab.IsDownForMaintenance == isDownForMaintenance
+        //        orderby Tab.OrderNo
+        //        select Tab
         //    );
 
-        //public static readonly Func<DropthingsDataContext, Guid, IQueryable<Page>> GetPagesWhichIsDownForMaintenanceByUserId =
-        //    Compile<Guid, Page>((dc, userId) =>
-        //        from page in dc.Page
-        //        where page.AspNetUser.UserId == userId && page.IsDownForMaintenance
-        //        orderby page.OrderNo
-        //        select page
+        //public static readonly Func<DropthingsDataContext, Guid, IQueryable<Tab>> GetTabsWhichIsDownForMaintenanceByUserId =
+        //    Compile<Guid, Tab>((dc, userId) =>
+        //        from Tab in dc.Tab
+        //        where Tab.AspNetUser.UserId == userId && Tab.IsDownForMaintenance
+        //        orderby Tab.OrderNo
+        //        select Tab
         //    );
 
-        //public static readonly Func<DropthingsDataContext, Guid, int, IQueryable<Page>> GetPagesOfUserAfterPosition =
-        //    Compile<Guid, int, Page>((dc, userId, position) =>
-        //        from page in dc.Page
-        //        where page.UserId == userId && page.OrderNo > position
-        //        orderby page.OrderNo
-        //        select page
+        //public static readonly Func<DropthingsDataContext, Guid, int, IQueryable<Tab>> GetTabsOfUserAfterPosition =
+        //    Compile<Guid, int, Tab>((dc, userId, position) =>
+        //        from Tab in dc.Tab
+        //        where Tab.UserId == userId && Tab.OrderNo > position
+        //        orderby Tab.OrderNo
+        //        select Tab
         //    );
 
-        //public static readonly Func<DropthingsDataContext, Guid, int, IQueryable<Page>> GetPagesOfUserFromPosition =
-        //    Compile<Guid, int, IQueryable<Page>>((dc, userId, position) =>
-        //        from page in dc.Pages
-        //        where page.UserId == userId && page.OrderNo >= position
-        //        orderby page.OrderNo
-        //        select page
+        //public static readonly Func<DropthingsDataContext, Guid, int, IQueryable<Tab>> GetTabsOfUserFromPosition =
+        //    Compile<Guid, int, IQueryable<Tab>>((dc, userId, position) =>
+        //        from Tab in dc.Tabs
+        //        where Tab.UserId == userId && Tab.OrderNo >= position
+        //        orderby Tab.OrderNo
+        //        select Tab
         //    );
 
         
         #endregion
 
-        //public static readonly Func<DropthingsDataContext, Guid, IQueryable<int>> GetPageIdByUserGuid =
+        //public static readonly Func<DropthingsDataContext, Guid, IQueryable<int>> GetTabIdByUserGuid =
         //    Compile<Guid, IQueryable<int>>((dc, userGuid) =>
-        //        from page in dc.Pages
-        //        where page.UserId == userGuid
-        //        select page.ID
+        //        from Tab in dc.Tabs
+        //        where Tab.UserId == userGuid
+        //        select Tab.ID
         //    );
 
 
-        public struct PageIdColumnNoPosition
+        public struct TabIdColumnNoPosition
         {
-            public int PageId;
+            public int TabId;
             public int ColumnNo;
             public int Position;
         }
@@ -471,20 +471,20 @@ namespace Dropthings.Data
         }
 
         /*
-        public static readonly Func<DropthingsDataContext, PageIdColumnNoPosition, IQueryable<WidgetInstance>> GetWidgetInstanceOnPageColumnAfterPosition =
-            Compile<PageIdColumnNoPosition, IQueryable<WidgetInstance>>((dc, param) =>
+        public static readonly Func<DropthingsDataContext, TabIdColumnNoPosition, IQueryable<WidgetInstance>> GetWidgetInstanceOnTabColumnAfterPosition =
+            Compile<TabIdColumnNoPosition, IQueryable<WidgetInstance>>((dc, param) =>
                 from wi in dc.WidgetInstances
                 join column in dc.Columns on wi.WidgetZoneId equals column.WidgetZoneId
-                where column.PageId == param.PageId && column.ColumnNo == param.ColumnNo && wi.OrderNo > param.Position
+                where column.TabId == param.TabId && column.ColumnNo == param.ColumnNo && wi.OrderNo > param.Position
                 orderby wi.OrderNo
                 select wi
             );
 
-        public static readonly Func<DropthingsDataContext, PageIdColumnNoPosition, IQueryable<WidgetInstance>> GetWidgetInstanceOnPageColumnFromPosition =
-            Compile<PageIdColumnNoPosition, IQueryable<WidgetInstance>>((dc, param) =>
+        public static readonly Func<DropthingsDataContext, TabIdColumnNoPosition, IQueryable<WidgetInstance>> GetWidgetInstanceOnTabColumnFromPosition =
+            Compile<TabIdColumnNoPosition, IQueryable<WidgetInstance>>((dc, param) =>
                 from wi in dc.WidgetInstances
                 join column in dc.Columns on wi.WidgetZoneId equals column.WidgetZoneId
-                where column.PageId == param.PageId && column.ColumnNo == param.ColumnNo && wi.OrderNo >= param.Position
+                where column.TabId == param.TabId && column.ColumnNo == param.ColumnNo && wi.OrderNo >= param.Position
                 orderby wi.OrderNo
                 select wi
             );

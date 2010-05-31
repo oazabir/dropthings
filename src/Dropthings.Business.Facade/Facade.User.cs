@@ -65,7 +65,7 @@ namespace Dropthings.Business.Facade
                     {
                         AspNetUser = new AspNetUser { UserId = userGuid },
                         CreatedDate = DateTime.Now,
-                        CurrentPage = new Page { ID = this.pageRepository.GetPageIdByUserGuid(userGuid).First() }
+                        CurrentTab = new Tab { ID = this.pageRepository.GetTabIdByUserGuid(userGuid).First() }
                     });
             }
 
@@ -81,7 +81,7 @@ namespace Dropthings.Business.Facade
                 // TODO: Since changing the page object will change the object
                 // directly into the cache, next time getting the same pages will
                 // return the new user ID for the pages. We need to clone the pages.
-                IEnumerable<Page> pages = this.GetPagesOfUser(userOldGuid);
+                IEnumerable<Tab> pages = this.GetTabsOfUser(userOldGuid);
                 pages.Each(page => page.AspNetUser = new AspNetUser { UserId = userGuid });
                 this.pageRepository.UpdateList(pages);
                 
@@ -93,7 +93,7 @@ namespace Dropthings.Business.Facade
                 this.userSettingRepository.Insert(new UserSetting
                 {
                     AspNetUser = new AspNetUser { UserId = userGuid },
-                    CurrentPage = new Page { ID = userSetting.CurrentPage.ID },
+                    CurrentTab = new Tab { ID = userSetting.CurrentTab.ID },
                     CreatedDate = DateTime.Now
                 });
 
@@ -117,12 +117,12 @@ namespace Dropthings.Business.Facade
                 SetUserRoles(requestedUserName, new string[] { roleName });
                 AddUserToRoleTemplate(newUserGuid, templateRoleName);
 
-                var createdPage = CreatePage(newUserGuid, string.Empty, 0, 0);
+                var createdTab = CreateTab(newUserGuid, string.Empty, 0, 0);
 
-                if (createdPage != null && createdPage.ID > 0)
+                if (createdTab != null && createdTab.ID > 0)
                 {
                     var userSetting = GetUserSetting(newUserGuid);
-                    CreateDefaultWidgetsOnPage(requestedUserName, createdPage.ID);
+                    CreateDefaultWidgetsOnTab(requestedUserName, createdTab.ID);
                 }
                 else
                 {

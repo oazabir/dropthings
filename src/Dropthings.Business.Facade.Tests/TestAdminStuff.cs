@@ -37,7 +37,7 @@ namespace Dropthings.Business.Facade.Tests
                     newWidget = facade.AddWidget("Test Widget", 
                         "omaralzabir.com", string.Empty, "Test widget", 
                         string.Empty, false, false, 0, "guest", 
-                        (int)Enumerations.WidgetType.PersonalPage);
+                        (int)Enumerations.WidgetType.PersonalTab);
                     facade.AssignWidgetRoles(newWidget.ID, new string[] { GUEST_ROLE });
                 });
 
@@ -45,7 +45,7 @@ namespace Dropthings.Business.Facade.Tests
                 {
                     var newUserProfile = MembershipHelper.CreateNewAnonUser();
                     facade.SetUserRoles(newUserProfile.UserName, new string[] { GUEST_ROLE });
-                    var widgetsAvailable = facade.GetWidgetList(newUserProfile.UserName, Enumerations.WidgetType.PersonalPage);
+                    var widgetsAvailable = facade.GetWidgetList(newUserProfile.UserName, Enumerations.WidgetType.PersonalTab);
                     Assert.Equal(1, widgetsAvailable.Where(w => w.ID == newWidget.ID).Count());
                 });
         }
@@ -66,12 +66,12 @@ namespace Dropthings.Business.Facade.Tests
                     newWidget = facade.AddWidget("Test Widget",
                         "omaralzabir.com", string.Empty, "Test widget",
                         string.Empty, false, false, 0, "guest",
-                        (int)Enumerations.WidgetType.PersonalPage);
+                        (int)Enumerations.WidgetType.PersonalTab);
                     facade.AssignWidgetRoles(newWidget.ID, new string[] { GUEST_ROLE });
 
                     someNewUser = MembershipHelper.CreateNewAnonUser();
                     userFacade = new Facade(new AppContext(someNewUser.UserName, someNewUser.UserName));
-                    var userSetup = userFacade.FirstVisitHomePage(someNewUser.UserName, string.Empty, true, false);
+                    var userSetup = userFacade.FirstVisitHomeTab(someNewUser.UserName, string.Empty, true, false);
                     newWi = userFacade.AddWidgetInstance(newWidget.ID, 0, 0, 0);
                     Assert.NotNull(newWi);
                 });

@@ -23,7 +23,6 @@ using System.Workflow.Runtime;
 
 using Dropthings.Business;
 using Dropthings.Data;
-using Page = Dropthings.Data.Page;
 using Dropthings.Web.Framework;
 using Dropthings.Web.UI;
 using Dropthings.Web.Util;
@@ -99,7 +98,7 @@ public partial class _Default : BasePage
     /// <returns></returns>
     public override Control FindControl(string id)
     {        
-        return this.WidgetPage.FindControl(id) ?? base.FindControl(id);
+        return this.WidgetTabHost.FindControl(id) ?? base.FindControl(id);
     }
 
     /// <summary>
@@ -118,9 +117,9 @@ public partial class _Default : BasePage
             {
                 me.CallBaseCreateChildControl();
                 me.LoadUserPageSetup(false);
-                me.UserTabPage.LoadTabs(_Setup.CurrentUserId, _Setup.UserPages, _Setup.UserSharedPages, _Setup.CurrentPage, 
+                me.UserTabBar.LoadTabs(_Setup.CurrentUserId, _Setup.UserTabs, _Setup.UserSharedTabs, _Setup.CurrentTab, 
                     _Setup.CurrentUserId == _Setup.RoleTemplate.AspNetUser.UserId);
-                me.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
+                me.WidgetTabHost.LoadWidgets(_Setup.CurrentTab, WIDGET_CONTAINER_CONTROL);
                 me.SetupChangeSettingsArea();
             });
     }
@@ -142,22 +141,22 @@ public partial class _Default : BasePage
                     // First visit
                     Profile.IsFirstVisit = false;
                     Profile.Save();
-                    _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
+                    _Setup = facade.FirstVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                 }
                 else
                 {
-                    _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
+                    _Setup = facade.RepeatVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                 }
             }
             else
             {
-                _Setup = facade.RepeatVisitHomePage(Profile.UserName, pageTitle, false, Profile.IsFirstVisitAfterLogin);
+                _Setup = facade.RepeatVisitHomeTab(Profile.UserName, pageTitle, false, Profile.IsFirstVisitAfterLogin);
 
                 // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
                 // to recrate the pages
-                if (_Setup == null || _Setup.UserPages == null || _Setup.UserPages.Count() == 0)
+                if (_Setup == null || _Setup.UserTabs == null || _Setup.UserTabs.Count() == 0)
                 {
-                    _Setup = facade.FirstVisitHomePage(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
+                    _Setup = facade.FirstVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
                 }
             }
 
@@ -171,10 +170,10 @@ public partial class _Default : BasePage
 
     private void SetupChangeSettingsArea()
     {
-        this.ChangeSettingsControl.Init(_Setup.CurrentPage,
+        this.ChangeSettingsControl.Init(_Setup.CurrentTab,
             _Setup.CurrentUserId == _Setup.RoleTemplate.AspNetUser.UserId,
-            _Setup.UserPages.Count == 1,
-            _Setup.CurrentUserId == _Setup.CurrentPage.AspNetUser.UserId,
+            _Setup.UserTabs.Count == 1,
+            _Setup.CurrentUserId == _Setup.CurrentTab.AspNetUser.UserId,
             this.NewWidgetAdded);
     }
 
@@ -196,13 +195,13 @@ public partial class _Default : BasePage
     {
         this.LoadUserPageSetup(false);
         //this.SetupTabs();
-        this.WidgetPage.LoadWidgets(_Setup.CurrentPage, WIDGET_CONTAINER_CONTROL);
+        this.WidgetTabHost.LoadWidgets(_Setup.CurrentTab, WIDGET_CONTAINER_CONTROL);
     }
 
     public void NewWidgetAdded(WidgetInstance newWidget)
     {
         this.ReloadCurrentPage();
-        this.WidgetPage.RefreshZone(newWidget.WidgetZone.ID);
+        this.WidgetTabHost.RefreshZone(newWidget.WidgetZone.ID);
     }
     
     #endregion Methods

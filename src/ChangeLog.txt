@@ -1,12 +1,13 @@
 Notes:
 Test all UI behaviors to make sure the refactoring did not break anything
 Regenerate the CreateNewDatabase-SQL2005 script.
+Refactor firstvisit and repeatvisit functions parameters
 
 Next version target:
 ====================
+* ADD: WatiN test suite to test the UI behaviors
 * ADD: Make the widget gallery a jQuery slider.
 * ADD: Code and production site installer using Microsoft Web Platform installer
-* CHANGE: Change Page to Tab to prevent conflict with Page
 * CHANGE: Convert Javascripts to Script#
 * ADD: Comment all Facade methods and mention the "why" and "how"
 * CHANGE: Update Velocity reference to latest release
@@ -26,6 +27,7 @@ CHANGE: Refactor Page settings panel to a user control.
 CHANGE: Refactor tab bar to a user control.
 CHANGE: Refactor default.aspx and move all page specific behavior to WidgetPage.ascx
 CHANGE: Change all AspNetUsers, AspNetRoles to proper names like User, Role
+CHANGE: Change Page to Tab to prevent conflict with Page
 
 Version 2.6.1
 ==============

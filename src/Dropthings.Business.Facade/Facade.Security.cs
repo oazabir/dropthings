@@ -160,12 +160,12 @@
                 if (!roleTemplate.AspNetUser.UserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    var templateUserPages = this.GetPagesOfUser(roleTemplate.AspNetUser.UserId);
-                    foreach (Page templatePage in templateUserPages)
+                    var templateUserTabs = this.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
+                    foreach (Tab templateTab in templateUserTabs)
                     {
-                        if (!templatePage.IsLocked)
+                        if (!templateTab.IsLocked)
                         {
-                            ClonePage(userGuid, templatePage);
+                            CloneTab(userGuid, templateTab);
                         }
                     }
                 }
@@ -191,13 +191,13 @@
         {
             if (pageId == 0 && widgetInstanceId == 0 && widgetZoneId == 0)
             {
-                throw new ApplicationException("Nothing specified to check. Must have one of these: PageID, WidgetInstanceID, WidgetZoneID");
+                throw new ApplicationException("Nothing specified to check. Must have one of these: TabID, WidgetInstanceID, WidgetZoneID");
             }
 
             if (pageId > 0)
             {
                 // Get the user who is the owner of the page. Then see if the current user is the same
-                var ownerName = this.pageRepository.GetPageOwnerName(pageId);
+                var ownerName = this.pageRepository.GetTabOwnerName(pageId);
 
                 if (!Context.CurrentUserName.ToLower().Equals(ownerName))
                     throw new ApplicationException(string.Format("User {0} is not the owner of the page {1}", Context.CurrentUserName, pageId));

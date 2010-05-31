@@ -51,7 +51,7 @@ namespace Dropthings.Web.Framework
                     {
                         using (var facade = new Facade(AppContext.GetContext(Context)))
                         {
-                            facade.ModifyPageLayout(newLayout);
+                            facade.ModifyTabLayout(newLayout);
                         }
                     });
         }
@@ -66,7 +66,7 @@ namespace Dropthings.Web.Framework
                     {
                         using (var facade = new Facade(AppContext.GetContext(Context)))
                         {
-                            facade.MovePage(pageId, orderNo);
+                            facade.MoveTab(pageId, orderNo);
                         }
                     });
         }

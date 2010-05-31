@@ -14,28 +14,28 @@
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Facade subsystem for Pages, Columns, WidgetZones
+    /// Facade subsystem for Tabs, Columns, WidgetZones
     /// </summary>
     partial class Facade
     {
         #region Methods
 
-        public Page GetPage(int pageId)
+        public Tab GetTab(int pageId)
         {
-            return this.pageRepository.GetPageById(pageId);
+            return this.pageRepository.GetTabById(pageId);
         }
 
-        public List<Page> GetPagesOfUser(Guid userGuid)
+        public List<Tab> GetTabsOfUser(Guid userGuid)
         {
-            return this.pageRepository.GetPagesOfUser(userGuid);
+            return this.pageRepository.GetTabsOfUser(userGuid);
         }
 
-        public List<Column> GetColumnsInPage(int pageId)
+        public List<Column> GetColumnsInTab(int pageId)
         {
-            return this.columnRepository.GetColumnsByPageId(pageId);
+            return this.columnRepository.GetColumnsByTabId(pageId);
         }
 
-        public Column CloneColumn(Page clonedPage, Column columnToClone)
+        public Column CloneColumn(Tab clonedTab, Column columnToClone)
         {
             var widgetZoneToClone = this.widgetZoneRepository.GetWidgetZoneById(columnToClone.WidgetZone.ID);
 
@@ -49,7 +49,7 @@
             widgetInstancesToClone.Each(widgetInstanceToClone => CloneWidgetInstance(clonedWidgetZone.ID, widgetInstanceToClone));
             var newColumn = new Column
             {
-                Page = new Page { ID = clonedPage.ID },
+                Tab = new Tab { ID = clonedTab.ID },
                 WidgetZone = new WidgetZone { ID = clonedWidgetZone.ID },
                 ColumnNo = columnToClone.ColumnNo,
                 ColumnWidth = columnToClone.ColumnWidth
@@ -58,25 +58,25 @@
             return this.columnRepository.Insert(newColumn);
         }
 
-        public Page CreatePage(Guid userGuid, string title, int layoutType, int toOrder)
+        public Tab CreateTab(Guid userGuid, string title, int layoutType, int toOrder)
         {
-            PushDownPages(0, toOrder);
+            PushDownTabs(0, toOrder);
             
-            title = string.IsNullOrEmpty(title) ? DecideUniquePageName() : title;
+            title = string.IsNullOrEmpty(title) ? DecideUniqueTabName() : title;
 
-            var insertedPage = this.pageRepository.Insert(new Page
+            var insertedTab = this.pageRepository.Insert(new Tab
             {
                 AspNetUser = new AspNetUser { UserId = userGuid },
                 Title = title,
                 LayoutType = layoutType,
                 OrderNo = toOrder,
-                ColumnCount = Page.GetColumnWidths(layoutType).Length,
+                ColumnCount = Tab.GetColumnWidths(layoutType).Length,
                 CreatedDate = DateTime.Now
             });
 
-            var page = this.pageRepository.GetPageById(insertedPage.ID);
+            var page = this.pageRepository.GetTabById(insertedTab.ID);
 
-            for (int i = 0; i < insertedPage.ColumnCount; ++i)
+            for (int i = 0; i < insertedTab.ColumnCount; ++i)
             {
                 var insertedWidgetZone = this.widgetZoneRepository.Insert(new WidgetZone
                 {
@@ -88,28 +88,28 @@
                 var insertedColumn = this.columnRepository.Insert(new Column
                 {
                     ColumnNo = i,
-                    ColumnWidth = (100 / insertedPage.ColumnCount),
+                    ColumnWidth = (100 / insertedTab.ColumnCount),
                     WidgetZone = new WidgetZone { ID = insertedWidgetZone.ID },
-                    Page = new Page { ID = insertedPage.ID }
+                    Tab = new Tab { ID = insertedTab.ID }
                 });
             }
             
-            ReorderPagesOfUser();
+            ReorderTabsOfUser();
 
-            return SetCurrentPage(userGuid, page.ID);
+            return SetCurrentTab(userGuid, page.ID);
         }
 
-        public Page CreatePage(string title, int layoutType)
+        public Tab CreateTab(string title, int layoutType)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName); 
-            return CreatePage(userGuid, title, layoutType, 9999);
+            return CreateTab(userGuid, title, layoutType, 9999);
         }
 
-        public Page ClonePage(Guid userGuid, Page pageToClone)
+        public Tab CloneTab(Guid userGuid, Tab pageToClone)
         {
             if (userGuid != Guid.Empty)
             {
-                var clonedPage = this.pageRepository.Insert(new Page
+                var clonedTab = this.pageRepository.Insert(new Tab
                 {
                     AspNetUser = new AspNetUser { UserId = userGuid },
                     CreatedDate = DateTime.Now,
@@ -122,12 +122,12 @@
                     OrderNo = pageToClone.OrderNo,
                 });
 
-                //ReorderPagesOfUser();
+                //ReorderTabsOfUser();
 
-                var columns = this.GetColumnsInPage(pageToClone.ID);
-                columns.Each(columnToClone => CloneColumn(clonedPage, columnToClone));
+                var columns = this.GetColumnsInTab(pageToClone.ID);
+                columns.Each(columnToClone => CloneColumn(clonedTab, columnToClone));
 
-                return clonedPage;
+                return clonedTab;
             }
 
             return null;
@@ -155,24 +155,24 @@
             return newWidgetInstance;
         }
 
-        public Page SetCurrentPage(Guid userGuid, int currentPageId)
+        public Tab SetCurrentTab(Guid userGuid, int currentTabId)
         {
             var userSetting = GetUserSetting(userGuid);
-            var newPage = GetPage(currentPageId);
+            var newTab = GetTab(currentTabId);
 
-            userSetting.CurrentPage = new Page { ID = newPage.ID };
-            userSetting.CurrentPageReference = new EntityReference<Page> { EntityKey = newPage.EntityKey };
+            userSetting.CurrentTab = new Tab { ID = newTab.ID };
+            userSetting.CurrentTabReference = new EntityReference<Tab> { EntityKey = newTab.EntityKey };
 
             this.userSettingRepository.Update(userSetting);
 
-            return newPage;
+            return newTab;
         }
 
-        public Page DecideCurrentPage(Guid userGuid, string pageTitle, int currentPageId, bool? isAnonymous, bool? isFirstVisitAfterLogin)
+        public Tab DecideCurrentTab(Guid userGuid, string pageTitle, int currentTabId, bool? isAnonymous, bool? isFirstVisitAfterLogin)
         {
-            Page currentPage = null;
-            var pages = this.GetPagesOfUser(userGuid);
-            List<Page> sharedPages = null;
+            Tab currentTab = null;
+            var pages = this.GetTabsOfUser(userGuid);
+            List<Tab> sharedTabs = null;
             RoleTemplate roleTemplate = null;
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 
@@ -185,33 +185,33 @@
                     // Get template user pages so that it can be cloned for new user
                     if (roleTemplate.AspNetUser.UserId != userGuid)
                     {
-                        sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.AspNetUser.UserId, false);
+                        sharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
                     }
                 }
             }
-            // Find the page that has the specified Page Name and make it as current
+            // Find the page that has the specified Tab Name and make it as current
             // page. This is needed to make a tab as current tab when the tab name is
             // known
             if (!string.IsNullOrEmpty(pageTitle))
             {
-                foreach (Page page in pages)
+                foreach (Tab page in pages)
                 {
                     if (string.Equals(page.Title.Replace(' ', '_'), pageTitle))
                     {
-                        currentPageId = page.ID;
-                        currentPage = page;
+                        currentTabId = page.ID;
+                        currentTab = page;
                         break;
                     }
                 }
 
-                if (sharedPages != null)
+                if (sharedTabs != null)
                 {
-                    foreach (Page page in sharedPages)
+                    foreach (Tab page in sharedTabs)
                     {
                         if (string.Equals(page.Title.Replace(' ', '_') + "_Locked", pageTitle))
                         {
-                            currentPageId = page.ID;
-                            currentPage = page;
+                            currentTabId = page.ID;
+                            currentTab = page;
                             break;
                         }
                     }
@@ -219,12 +219,12 @@
             }
             else if (roleTemplate != null && settingTemplate.CloneRegisteredProfileEnabled && roleTemplate.AspNetUser.UserId.Equals(userGuid) && CheckRoleTemplateIsRegisterUserTemplate(roleTemplate))
             {
-                foreach (Page page in pages)
+                foreach (Tab page in pages)
                 {
                     if (page.ServeAsStartPageAfterLogin.GetValueOrDefault())
                     {
-                        currentPageId = page.ID;
-                        currentPage = page;
+                        currentTabId = page.ID;
+                        currentTab = page;
                         break;
                     }
                 }
@@ -232,14 +232,14 @@
             else if (settingTemplate.CloneRegisteredProfileEnabled && isFirstVisitAfterLogin.GetValueOrDefault() && !isAnonymous.GetValueOrDefault() && !CheckRoleTemplateIsAnonymousUserTemplate(roleTemplate))
             {
                 //For register user check for the first load after login and find if there any defined page should load after login set by register template user
-                if (sharedPages != null)
+                if (sharedTabs != null)
                 {
-                    foreach (Page page in sharedPages)
+                    foreach (Tab page in sharedTabs)
                     {
                         if(page.ServeAsStartPageAfterLogin.GetValueOrDefault())
                         {
-                            currentPageId = page.ID;
-                            currentPage = page;
+                            currentTabId = page.ID;
+                            currentTab = page;
                             break;
                         }
                     }
@@ -248,17 +248,17 @@
 
             // If there's no such page, then the first page user has will be the current
             // page. This happens when a page is deleted.
-            currentPage = (currentPageId == 0) ? pages.First() : this.GetPage(currentPageId);
+            currentTab = (currentTabId == 0) ? pages.First() : this.GetTab(currentTabId);
 
 
 
-            return currentPage;
+            return currentTab;
         }
 
-        public string DecideUniquePageName()
+        public string DecideUniqueTabName()
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
-            List<Page> pages = this.GetPagesOfUser(userGuid).ToList();
+            List<Tab> pages = this.GetTabsOfUser(userGuid).ToList();
             
             string uniqueNamePrefix = DEFAULT_FIRST_PAGE_NAME;
             string pageUniqueName = uniqueNamePrefix;
@@ -276,24 +276,24 @@
             return pageUniqueName;
         }
 
-        public bool ChangePageName(string title)
+        public bool ChangeTabName(string title)
         {
             var success = false;
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPage.ID > 0)
+            if (userSetting != null && userSetting.CurrentTab.ID > 0)
             {
-                var currentPage = this.GetPage(userSetting.CurrentPage.ID);
+                var currentTab = this.GetTab(userSetting.CurrentTab.ID);
 
                 // Ensure the title is unique and does not match with other pages
-                var otherPages = this.GetPagesOfUser(userGuid).Where(p => p.ID != currentPage.ID);
+                var otherTabs = this.GetTabsOfUser(userGuid).Where(p => p.ID != currentTab.ID);
                 
                 // Keep incrementing the last digit on the page title until there's no 
                 // such duplicate
                 int loopCounter = 0;
                 while (loopCounter++ < 100 
-                    && otherPages.FirstOrDefault(p => p.Title == title) != null)
+                    && otherTabs.FirstOrDefault(p => p.Title == title) != null)
                 {
                     var match = Regex.Match(title, "\\d+$");
                     if (match.Success)
@@ -314,8 +314,8 @@
                     }
                 }
 
-                currentPage.Title = title;
-                this.pageRepository.Update(currentPage);
+                currentTab.Title = title;
+                this.pageRepository.Update(currentTab);
 
                 success = true;
             }
@@ -323,15 +323,15 @@
             return success;
         }
 
-        public bool LockPage()
+        public bool LockTab()
         {
             var success = false;
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPage.ID > 0)
+            if (userSetting != null && userSetting.CurrentTab.ID > 0)
             {
-                this.GetPage(userSetting.CurrentPage.ID).As(page =>
+                this.GetTab(userSetting.CurrentTab.ID).As(page =>
                     {
                         page.IsLocked = true;
                         page.LastLockedStatusChangedAt = DateTime.Now;
@@ -344,15 +344,15 @@
             return success;
         }
 
-        public bool UnLockPage()
+        public bool UnLockTab()
         {
             var success = false;
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPage.ID > 0)
+            if (userSetting != null && userSetting.CurrentTab.ID > 0)
             {
-                this.GetPage(userSetting.CurrentPage.ID).As(page =>
+                this.GetTab(userSetting.CurrentTab.ID).As(page =>
                     {
                         page.IsLocked = false;
                         page.IsDownForMaintenance = false;
@@ -366,15 +366,15 @@
             return success;
         }
 
-        public bool ChangePageMaintenenceStatus(bool isInMaintenenceMode)
+        public bool ChangeTabMaintenenceStatus(bool isInMaintenenceMode)
         {
             var success = false;
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPage.ID > 0)
+            if (userSetting != null && userSetting.CurrentTab.ID > 0)
             {
-                this.GetPage(userSetting.CurrentPage.ID).As(page =>
+                this.GetTab(userSetting.CurrentTab.ID).As(page =>
                     {
                         page.IsDownForMaintenance = isInMaintenenceMode;
 
@@ -391,30 +391,30 @@
             return success;
         }
 
-        public bool ChangeServeAsStartPageAfterLoginStatus(bool shouldServeAsStartPage)
+        public bool ChangeServeAsStartPageAfterLoginStatus(bool shouldServeAsStartTab)
         {
             var success = false;
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentPage.ID > 0)
+            if (userSetting != null && userSetting.CurrentTab.ID > 0)
             {
                 //check if there any previously overridable start page and make it false if request is for changing the start page to true
-                if (shouldServeAsStartPage)
+                if (shouldServeAsStartTab)
                 {
-                    Page overridablePage = this.pageRepository.GetOverridableStartPageOfUser(userGuid);
+                    Tab overridableTab = this.pageRepository.GetOverridableStartTabOfUser(userGuid);
 
-                    if (overridablePage != null)
+                    if (overridableTab != null)
                     {
-                        overridablePage.ServeAsStartPageAfterLogin = false;
-                        this.pageRepository.Update(overridablePage);
+                        overridableTab.ServeAsStartPageAfterLogin = false;
+                        this.pageRepository.Update(overridableTab);
                     }
                 }
 
                 //change the overridable start page status
-                this.GetPage(userSetting.CurrentPage.ID).As(page =>
+                this.GetTab(userSetting.CurrentTab.ID).As(page =>
                     {
-                        page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;                    
+                        page.ServeAsStartPageAfterLogin = shouldServeAsStartTab;                    
                         this.pageRepository.Update(page);
                     });
 
@@ -426,8 +426,8 @@
 
         public void DeleteColumn(int pageId, int columnNo)
         {
-            var columnToDelete = this.columnRepository.GetColumnByPageId_ColumnNo(pageId, columnNo);
-            WidgetZone widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(pageId, columnNo);
+            var columnToDelete = this.columnRepository.GetColumnByTabId_ColumnNo(pageId, columnNo);
+            WidgetZone widgetZone = this.widgetZoneRepository.GetWidgetZoneByTabId_ColumnNo(pageId, columnNo);
 
             var widgetInstances = this.GetWidgetInstancesInZoneWithWidget(widgetZone.ID);
             widgetInstances.Each((widgetInstance) => this.widgetInstanceRepository.Delete(widgetInstance.Id));
@@ -441,18 +441,18 @@
         /// </summary>
         /// <param name="pageId"></param>
         /// <returns></returns>
-        public Page DeletePage(int pageId)
+        public Tab DeleteTab(int pageId)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             
-            var columns = this.GetColumnsInPage(pageId);
+            var columns = this.GetColumnsInTab(pageId);
             columns.Each((column) => DeleteColumn(pageId, column.ColumnNo));
 
             var userSetting = GetUserSetting(userGuid);
-            if (pageId == userSetting.CurrentPage.ID)
+            if (pageId == userSetting.CurrentTab.ID)
             {
                 // Choose either the page before or after as the current page
-                var pagesOfUser = GetPagesOfUser(userGuid);
+                var pagesOfUser = GetTabsOfUser(userGuid);
                 if (pagesOfUser.Count == 1)
                     throw new ApplicationException("Cannot delete the only page.");
 
@@ -462,23 +462,23 @@
                 else
                     index--;
 
-                var newCurrentPage = pagesOfUser[index];
-                SetCurrentPage(userGuid, newCurrentPage.ID);
+                var newCurrentTab = pagesOfUser[index];
+                SetCurrentTab(userGuid, newCurrentTab.ID);
             }
 
-            this.pageRepository.Delete(new Page { ID = pageId });
+            this.pageRepository.Delete(new Tab { ID = pageId });
             
-            ReorderPagesOfUser();
+            ReorderTabsOfUser();
 
-            return GetUserSetting(userGuid).CurrentPage;
+            return GetUserSetting(userGuid).CurrentTab;
         }
 
-        public void ModifyPageLayout(int newLayout)
+        public void ModifyTabLayout(int newLayout)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
-            var newColumnDefs = Page.GetColumnWidths(newLayout);
-            var existingColumns = GetColumnsInPage(userSetting.CurrentPage.ID);
+            var newColumnDefs = Tab.GetColumnWidths(newLayout);
+            var existingColumns = GetColumnsInTab(userSetting.CurrentTab.ID);
             var columnCounter = existingColumns.Count - 1;
             var newColumnNo = newColumnDefs.Count() - 1;
 
@@ -489,15 +489,15 @@
 
                 for (var existingColumnNo = newColumnNo + 1; existingColumnNo < existingColumns.Count; existingColumnNo ++)
                 {
-                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPage.ID, existingColumnNo);
-                    var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPage.ID, newColumnNo);
+                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByTabId_ColumnNo(userSetting.CurrentTab.ID, existingColumnNo);
+                    var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByTabId_ColumnNo(userSetting.CurrentTab.ID, newColumnNo);
                     
                     var widgetInstancesToMove = GetWidgetInstancesInZoneWithWidget(oldWidgetZone.ID);
                     var originalWidgets = GetWidgetInstancesInZoneWithWidget(newWidgetZone.ID);
                     var lastWidgetPosition = originalWidgets.Max(w => w.OrderNo);
                     
                     widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, ++lastWidgetPosition));
-                    DeleteColumn(userSetting.CurrentPage.ID, existingColumnNo);                    
+                    DeleteColumn(userSetting.CurrentTab.ID, existingColumnNo);                    
                 }                
             }
             else
@@ -524,45 +524,45 @@
                         ColumnNo = columnCounter + 1,
                         ColumnWidth = newColumnWidth,
                         WidgetZone = new WidgetZone { ID = insertedWidgetZone.ID },
-                        Page = new Page { ID = userSetting.CurrentPage.ID }
+                        Tab = new Tab { ID = userSetting.CurrentTab.ID }
                     });
                     
                     ++columnCounter;
                 }
             }
 
-            var columns = this.columnRepository.GetColumnsByPageId(userSetting.CurrentPage.ID);
+            var columns = this.columnRepository.GetColumnsByTabId(userSetting.CurrentTab.ID);
             columns.Each(column => column.ColumnWidth = newColumnDefs[column.ColumnNo]);
             this.columnRepository.UpdateList(columns);
 
-            var currentPage = this.GetPage(userSetting.CurrentPage.ID);
-            currentPage.LayoutType = newLayout;
-            currentPage.ColumnCount = Page.GetColumnWidths(newLayout).Length;
-            this.pageRepository.Update(currentPage);
+            var currentTab = this.GetTab(userSetting.CurrentTab.ID);
+            currentTab.LayoutType = newLayout;
+            currentTab.ColumnCount = Tab.GetColumnWidths(newLayout).Length;
+            this.pageRepository.Update(currentTab);
         }
 
-        public void MovePage(int pageId, int toOrderNo)
+        public void MoveTab(int pageId, int toOrderNo)
         {
             EnsureOwner(pageId, 0 , 0);
-            PushDownPages(pageId, toOrderNo);
-            ChangePagePosition(pageId, toOrderNo);
-            ReorderPagesOfUser();
+            PushDownTabs(pageId, toOrderNo);
+            ChangeTabPosition(pageId, toOrderNo);
+            ReorderTabsOfUser();
         }
 
-        public void PushDownPages(int pageId, int toOrderNo)
+        public void PushDownTabs(int pageId, int toOrderNo)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var isMovingDown = toOrderNo > (pageId > 0 ? 
-                this.GetPage(pageId).OrderNo.GetValueOrDefault() 
+                this.GetTab(pageId).OrderNo.GetValueOrDefault() 
                 : 0);
 
-            IEnumerable<Page> list = this.pageRepository.GetPagesOfUser(userGuid)
+            IEnumerable<Tab> list = this.pageRepository.GetTabsOfUser(userGuid)
                 .Where(page => (isMovingDown ? page.OrderNo > toOrderNo : page.OrderNo >= toOrderNo));
 
-            //list = isMovingDown ? this.pageRepository.GetPagesOfUserAfterPosition(userGuid, toOrderNo) : this.pageRepository.GetPagesOfUserFromPosition(userGuid, toOrderNo);
+            //list = isMovingDown ? this.pageRepository.GetTabsOfUserAfterPosition(userGuid, toOrderNo) : this.pageRepository.GetTabsOfUserFromPosition(userGuid, toOrderNo);
 
             int orderNo = toOrderNo + 1;
-            foreach (Page item in list)
+            foreach (Tab item in list)
             {
                 item.OrderNo = ++orderNo;
             }
@@ -570,21 +570,21 @@
             this.pageRepository.UpdateList(list);
         }
 
-        public void ChangePagePosition(int pageId, int orderNo)
+        public void ChangeTabPosition(int pageId, int orderNo)
         {
-            var page = this.GetPage(pageId);
+            var page = this.GetTab(pageId);
             page.OrderNo = orderNo > page.OrderNo.GetValueOrDefault() ? orderNo + 1 : orderNo;
             this.pageRepository.Update(page);
         }
 
-        public void ReorderPagesOfUser()
+        public void ReorderTabsOfUser()
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
 
-            var list = this.GetPagesOfUser(userGuid);
+            var list = this.GetTabsOfUser(userGuid);
 
             int orderNo = 0;
-            foreach (Page page in list)
+            foreach (Tab page in list)
             {
                 page.OrderNo = orderNo++;
             }

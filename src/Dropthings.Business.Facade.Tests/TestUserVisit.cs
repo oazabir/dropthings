@@ -30,7 +30,7 @@ namespace Dropthings.Test.IntegrationTests
             UserSetup userVisitModel = null;
             var facade = default(Facade);
             var anonUserName = default(string);
-            var anonPages = default(List<Page>);
+            var anonTabs = default(List<Tab>);
 
            
             "Given anonymous user who has never visited the site before".Context(() => 
@@ -40,27 +40,27 @@ namespace Dropthings.Test.IntegrationTests
 
                 // Load the anonymous user pages and widgets
                 anonUserName = facade.GetUserSettingTemplate().AnonUserSettingTemplate.UserName;
-                anonPages = facade.GetPagesOfUser(facade.GetUserGuidFromUserName(anonUserName));
+                anonTabs = facade.GetTabsOfUser(facade.GetUserGuidFromUserName(anonUserName));
 
             });
 
             "when the user visits for the first time".Do(() =>
             {                
-                userVisitModel = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userVisitModel = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "it creates widgets on the newly created page at exact columns and positions as the anon user's pages".Assert(() =>
             {
-                anonPages.Each(anonPage =>
+                anonTabs.Each(anonTab =>
                 {
-                    var userPage = userVisitModel.UserPages.First(page =>
-                                    page.Title == anonPage.Title
-                                    && page.OrderNo == anonPage.OrderNo
-                                    && page.PageType == anonPage.PageType);
+                    var userTab = userVisitModel.UserTabs.First(page =>
+                                    page.Title == anonTab.Title
+                                    && page.OrderNo == anonTab.OrderNo
+                                    && page.PageType == anonTab.PageType);
 
-                    facade.GetColumnsInPage(anonPage.ID).Each(anonColumn =>
+                    facade.GetColumnsInTab(anonTab.ID).Each(anonColumn =>
                     {
-                        var userColumns = facade.GetColumnsInPage(userPage.ID);
+                        var userColumns = facade.GetColumnsInTab(userTab.ID);
                         var userColumn = userColumns.First(column =>
                                         column.ColumnNo == anonColumn.ColumnNo);
 
@@ -98,26 +98,26 @@ namespace Dropthings.Test.IntegrationTests
             {
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
-                userVisitModel = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userVisitModel = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "when the same user visits again".Do(() =>
             {
-                userRevisitModel = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
+                userRevisitModel = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "it should load the exact same pages, column and widgets as the first visit produced".Assert(() =>
             {
-                userVisitModel.UserPages.Each(firstVisitPage =>
+                userVisitModel.UserTabs.Each(firstVisitTab =>
                 {
-                    Assert.True(userRevisitModel.UserPages.Exists(page => page.ID == firstVisitPage.ID));
+                    Assert.True(userRevisitModel.UserTabs.Exists(page => page.ID == firstVisitTab.ID));
 
-                    var revisitPage = userRevisitModel.UserPages.First(page => page.ID == firstVisitPage.ID);
-                    var revisitPageColumns = facade.GetColumnsInPage(revisitPage.ID);
+                    var revisitTab = userRevisitModel.UserTabs.First(page => page.ID == firstVisitTab.ID);
+                    var revisitTabColumns = facade.GetColumnsInTab(revisitTab.ID);
 
-                    facade.GetColumnsInPage(firstVisitPage.ID).Each(firstVisitColumn =>
+                    facade.GetColumnsInTab(firstVisitTab.ID).Each(firstVisitColumn =>
                     {
-                        var revisitColumn = revisitPageColumns.First(column => column.ID == firstVisitColumn.ID);
+                        var revisitColumn = revisitTabColumns.First(column => column.ID == firstVisitColumn.ID);
 
                         var firstVisitWidgets = facade.GetWidgetInstancesInZoneWithWidget(firstVisitColumn.WidgetZone.ID);
                         var revisitWidgets = facade.GetWidgetInstancesInZoneWithWidget(revisitColumn.WidgetZone.ID);
@@ -138,32 +138,32 @@ namespace Dropthings.Test.IntegrationTests
             var user = default(UserProfile);
             var facade = default(Facade);
             var userSetup = default(UserSetup);
-            var anotherPage = default(Page);
+            var anotherTab = default(Tab);
 
             "Given a user who has more than one tabs".Context(() =>
                 {
                     user = MembershipHelper.CreateNewAnonUser();
                     facade = new Facade(new AppContext(user.UserName, user.UserName));
-                    userSetup = facade.FirstVisitHomePage(user.UserName, string.Empty, true, false);
+                    userSetup = facade.FirstVisitHomeTab(user.UserName, string.Empty, true, false);
                 });
 
             "When the user visits another tab directly".Do(() =>
                 {
-                    anotherPage = userSetup.UserPages.Where(p => p.ID != userSetup.CurrentPage.ID).FirstOrDefault();
-                    if (null == anotherPage)
+                    anotherTab = userSetup.UserTabs.Where(p => p.ID != userSetup.CurrentTab.ID).FirstOrDefault();
+                    if (null == anotherTab)
                     {
-                        anotherPage = facade.CreatePage("Test Page", 0);
-                        facade.SetCurrentPage(facade.GetUserGuidFromUserName(user.UserName), userSetup.CurrentPage.ID);
+                        anotherTab = facade.CreateTab("Test Tab", 0);
+                        facade.SetCurrentTab(facade.GetUserGuidFromUserName(user.UserName), userSetup.CurrentTab.ID);
                     }
 
-                    facade.RepeatVisitHomePage(user.UserName, anotherPage.UserTabName, true, false);
+                    facade.RepeatVisitHomeTab(user.UserName, anotherTab.UserTabName, true, false);
                 });
 
             "It becomes the default tab".Assert(() =>
                 {
-                    var revisit = facade.RepeatVisitHomePage(user.UserName, string.Empty, true, false);
+                    var revisit = facade.RepeatVisitHomeTab(user.UserName, string.Empty, true, false);
 
-                    Assert.Equal(anotherPage.ID, revisit.CurrentPage.ID);
+                    Assert.Equal(anotherTab.ID, revisit.CurrentTab.ID);
                 });
         }
     }

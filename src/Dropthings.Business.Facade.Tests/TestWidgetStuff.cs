@@ -34,9 +34,9 @@ namespace Dropthings.Business.Facade.Tests
                 {
                     profile = MembershipHelper.CreateNewAnonUser();
                     facade = new Facade(new AppContext(string.Empty, profile.UserName));
-                    userVisitModel = facade.FirstVisitHomePage(profile.UserName, "Test", true, false);
+                    userVisitModel = facade.FirstVisitHomeTab(profile.UserName, "Test", true, false);
 
-                    userColumns = facade.GetColumnsInPage(userVisitModel.CurrentPage.ID);
+                    userColumns = facade.GetColumnsInTab(userVisitModel.CurrentTab.ID);
                     var firstColumn = userColumns.First();
                     var widgetsOnColumn = facade.GetWidgetInstancesInZoneWithWidget(firstColumn.WidgetZone.ID);
 
@@ -84,13 +84,13 @@ namespace Dropthings.Business.Facade.Tests
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userSetup = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "When user adds a new page".Do(() =>
             {
                 var widgets = facade.GetWidgetInstancesInZoneWithWidget(
-                    facade.GetColumnsInPage(userSetup.CurrentPage.ID).First().WidgetZone.ID);
+                    facade.GetColumnsInTab(userSetup.CurrentTab.ID).First().WidgetZone.ID);
 
                 wiId = widgets.First().Id;
                 facade.DeleteWidgetInstance(wiId);
@@ -98,10 +98,10 @@ namespace Dropthings.Business.Facade.Tests
 
             "It should add a new blank page as current page".Assert(() =>
             {
-                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
+                var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
 
                 var widgets = facade.GetWidgetInstancesInZoneWithWidget(
-                    facade.GetColumnsInPage(userSetup.CurrentPage.ID).First().WidgetZone.ID);
+                    facade.GetColumnsInTab(userSetup.CurrentTab.ID).First().WidgetZone.ID);
 
                 Assert.Equal(0, widgets.Where(wi => wi.Id == wiId).Count());
             });
@@ -121,13 +121,13 @@ namespace Dropthings.Business.Facade.Tests
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userSetup = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "When user changes a widget's state and saves it".Do(() =>
             {
                 var widgets = facade.GetWidgetInstancesInZoneWithWidget(
-                    facade.GetColumnsInPage(userSetup.CurrentPage.ID).First().WidgetZone.ID);
+                    facade.GetColumnsInTab(userSetup.CurrentTab.ID).First().WidgetZone.ID);
 
                 var widgetInstance = widgets.First();
                 wiId = widgetInstance.Id;
@@ -137,10 +137,10 @@ namespace Dropthings.Business.Facade.Tests
 
             "It should preserve the state on the next visit".Assert(() =>
             {
-                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
+                var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
 
                 var widgets = facade.GetWidgetInstancesInZoneWithWidget(
-                    facade.GetColumnsInPage(userSetup.CurrentPage.ID).First().WidgetZone.ID);
+                    facade.GetColumnsInTab(userSetup.CurrentTab.ID).First().WidgetZone.ID);
 
                 var widgetInstance = widgets.Where(wi => wi.Id == wiId).First();
                 Assert.Equal(newState, widgetInstance.State);
@@ -163,14 +163,14 @@ namespace Dropthings.Business.Facade.Tests
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userSetup = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "When user adds a new widget on a column".Do(() =>
             {
-                var widgets = facade.GetWidgetList(profile.UserName, Enumerations.WidgetType.PersonalPage);
+                var widgets = facade.GetWidgetList(profile.UserName, Enumerations.WidgetType.PersonalTab);
                 widgetToAdd = widgets.First();
-                //var columns = facade.GetColumnsInPage(userSetup.CurrentPage.ID);
+                //var columns = facade.GetColumnsInTab(userSetup.CurrentTab.ID);
                 //var firstColumn = columns.First();
 
                 //addedWidgetInstance = facade.AddWidgetInstance(widgets.First().ID, 0, firstColumn.ColumnNo, firstColumn.WidgetZone.ID);
@@ -180,10 +180,10 @@ namespace Dropthings.Business.Facade.Tests
 
             "It should add the widget at the first position and push down other widgets and the widget is visible".Assert(() =>
             {
-                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
+                var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
 
                 var widgets = facade.GetWidgetInstancesInZoneWithWidget(
-                    facade.GetColumnsInPage(userSetup.CurrentPage.ID).First().WidgetZone.ID);
+                    facade.GetColumnsInTab(userSetup.CurrentTab.ID).First().WidgetZone.ID);
 
                 Assert.Equal(addedWidgetInstance.Id, widgets.First().Id);
                 Assert.Equal(addedWidgetInstance.Widget.ID, widgetToAdd.ID);

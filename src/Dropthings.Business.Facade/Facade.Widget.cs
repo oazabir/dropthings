@@ -33,12 +33,12 @@
         //    return this.widgetInstanceRepository.GetWidgetInstanceOwnerName(widgetInstanceId);
         //}
 
-        public void CreateDefaultWidgetsOnPage(string userName, int pageId)
+        public void CreateDefaultWidgetsOnTab(string userName, int pageId)
         {
             List<Widget> defaultWidgets = null;
 
             defaultWidgets = (System.Web.Security.Roles.Enabled && !string.IsNullOrEmpty(userName)) ?
-                this.GetWidgetList(userName, Enumerations.WidgetType.PersonalPage).Where(w => w.IsDefault).ToList() :
+                this.GetWidgetList(userName, Enumerations.WidgetType.PersonalTab).Where(w => w.IsDefault).ToList() :
                 this.widgetRepository.GetWidgetByIsDefault(true);
             
             var widgetsPerColumn = (int)Math.Ceiling((float)defaultWidgets.Count / 3.0);
@@ -46,7 +46,7 @@
             var row = 0;
             var col = 0;
 
-            var widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(pageId, col);
+            var widgetZone = this.widgetZoneRepository.GetWidgetZoneByTabId_ColumnNo(pageId, col);
             List<WidgetInstance> wis = defaultWidgets.ConvertAll<WidgetInstance>(widget =>
                 {
                     var instance = new WidgetInstance();
@@ -98,7 +98,7 @@
             var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneIdWithWidget(widgetZoneId);
             var widgetInstacesToRemove = new List<WidgetInstance>();
 
-            var widgetsForUser = GetWidgetList(Context.CurrentUserName, Enumerations.WidgetType.PersonalPage);
+            var widgetsForUser = GetWidgetList(Context.CurrentUserName, Enumerations.WidgetType.PersonalTab);
             widgetInstances.Each(wi =>
                 {
                     if (wi.Widget == default(Widget))
@@ -304,7 +304,7 @@
             }
             else
             {
-                widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPage.ID, columnNo);
+                widgetZone = this.widgetZoneRepository.GetWidgetZoneByTabId_ColumnNo(userSetting.CurrentTab.ID, columnNo);
             }
 
             PushDownWidgetInstancesOnWidgetZone(toRow, widgetZone.ID, true);

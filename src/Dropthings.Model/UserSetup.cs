@@ -11,19 +11,19 @@
     {
         #region Properties
 
-        public Page CurrentPage
+        public Tab CurrentTab
         {
             get;
             set;
         }
 
-        public List<Page> UserPages
+        public List<Tab> UserTabs
         {
             get;
             set;
         }
 
-        public List<Page> UserSharedPages
+        public List<Tab> UserSharedTabs
         {
             get;
             set;

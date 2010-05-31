@@ -6,42 +6,41 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Dropthings.Util;
 using Dropthings.Business.Facade;
-using Page = Dropthings.Data.Page;
 using OmarALZabir.AspectF;
 using Dropthings.Data;
 
 public partial class ChangeSettingsControl : System.Web.UI.UserControl
 {
 
-    private int AddStuffPageIndex
+    private int AddStuffTabIndex
     {
-        get { object val = ViewState["AddStuffPageIndex"]; if (val == null) return 0; else return (int)val; }
-        set { ViewState["AddStuffPageIndex"] = value; }
+        get { object val = ViewState["AddStuffTabIndex"]; if (val == null) return 0; else return (int)val; }
+        set { ViewState["AddStuffTabIndex"] = value; }
     }
 
-    public Page CurrentPage { get; set; }
+    public Tab CurrentTab { get; set; }
     public bool IsTemplateUser { get; set; }
-    public bool IsOnlyPage { get; set; }
+    public bool IsOnlyTab { get; set; }
     public bool IsOwner { get; set; }
     
     public delegate void NewWidgetAddedDelegate(WidgetInstance wi);
     private NewWidgetAddedDelegate _OnNewWidgetCallback;
     
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Tab_Load(object sender, EventArgs e)
     {
 
     }
 
-    public void Init(Page currentPage, bool isTemplateUser, bool isOnlyPage, bool isOwner, NewWidgetAddedDelegate onNewWidget)
+    public void Init(Tab currentTab, bool isTemplateUser, bool isOnlyTab, bool isOwner, NewWidgetAddedDelegate onNewWidget)
     {
         this.IsTemplateUser = isTemplateUser;
-        this.IsOnlyPage = isOnlyPage;
+        this.IsOnlyTab = isOnlyTab;
         this.IsOwner = isOwner;
-        this.CurrentPage = currentPage;
+        this.CurrentTab = currentTab;
         this._OnNewWidgetCallback = onNewWidget;
 
         this.LoadAddStuff();
-        this.LockPageContent();
+        this.LockTabContent();
         this.LoadOptionsForTemplateUser();
     }
 
@@ -49,14 +48,14 @@ public partial class ChangeSettingsControl : System.Web.UI.UserControl
     {
         var newTitle = this.NewTitleTextBox.Text.Trim();
 
-        if (newTitle != this.CurrentPage.Title)
+        if (newTitle != this.CurrentTab.Title)
         {
             var facade = Services.Get<Facade>();
             {
-                facade.ChangePageName(newTitle);
+                facade.ChangeTabName(newTitle);
             }
 
-            ReloadPage();
+            ReloadTab();
         }
     }
 
@@ -64,21 +63,21 @@ public partial class ChangeSettingsControl : System.Web.UI.UserControl
     {
         var isLocked = this.TabLocked.Checked;
 
-        if (isLocked != this.CurrentPage.IsLocked)
+        if (isLocked != this.CurrentTab.IsLocked)
         {
             var facade = Services.Get<Facade>();
             {
                 if (isLocked)
                 {
-                    facade.LockPage();
+                    facade.LockTab();
                 }
                 else
                 {
-                    facade.UnLockPage();
+                    facade.UnLockTab();
                 }
             }
 
-            ReloadPage();
+            ReloadTab();
         }
     }
 
@@ -86,29 +85,29 @@ public partial class ChangeSettingsControl : System.Web.UI.UserControl
     {
         var isInMaintenenceModeLocked = this.TabMaintanance.Checked;
 
-        if (isInMaintenenceModeLocked != this.CurrentPage.IsDownForMaintenance)
+        if (isInMaintenenceModeLocked != this.CurrentTab.IsDownForMaintenance)
         {
             var facade = Services.Get<Facade>();
             {
-                facade.ChangePageMaintenenceStatus(isInMaintenenceModeLocked);
+                facade.ChangeTabMaintenenceStatus(isInMaintenenceModeLocked);
             }
 
-            ReloadPage();
+            ReloadTab();
         }
     }
 
     protected void SaveTabServeAsStartPageSettingButton_Clicked(object sender, EventArgs e)
     {
-        var shouldServeAsStartPage = this.TabServeAsStartPage.Checked;
+        var shouldServeAsStartTab = this.TabServeAsStartPage.Checked;
 
-        if (shouldServeAsStartPage != this.CurrentPage.ServeAsStartPageAfterLogin.GetValueOrDefault())
+        if (shouldServeAsStartTab != this.CurrentTab.ServeAsStartPageAfterLogin.GetValueOrDefault())
         {
             var facade = Services.Get<Facade>();
             {
-                facade.ChangeServeAsStartPageAfterLoginStatus(shouldServeAsStartPage);
+                facade.ChangeServeAsStartPageAfterLoginStatus(shouldServeAsStartTab);
             }
 
-            ReloadPage();
+            ReloadTab();
         }
     }
 
@@ -123,64 +122,64 @@ public partial class ChangeSettingsControl : System.Web.UI.UserControl
 
     private void HideChangeSettingsPanel()
     {
-        this.ChangePageSettingsPanel.Visible = false;
-        this.ChangePageTitleLinkButton.Text = (String)GetGlobalResourceObject("SharedResources", "ChangeSettings");
+        this.ChangeTabSettingsPanel.Visible = false;
+        this.ChangeTabTitleLinkButton.Text = (String)GetGlobalResourceObject("SharedResources", "ChangeSettings");
     }
 
     
     private void ShowChangeSettingsPanel()
     {
         //if tab counts 1 or less deleting disabled
-        if (this.IsOnlyPage)
+        if (this.IsOnlyTab)
             this.DeleteTabLinkButton.Enabled = false;
 
-        this.ChangePageSettingsPanel.Visible = true;
-        this.ChangePageTitleLinkButton.Text = (String)GetGlobalResourceObject("SharedResources", "HideSettings");
+        this.ChangeTabSettingsPanel.Visible = true;
+        this.ChangeTabTitleLinkButton.Text = (String)GetGlobalResourceObject("SharedResources", "HideSettings");
 
-        this.NewTitleTextBox.Text = this.CurrentPage.Title;
-        this.TabLocked.Checked = this.CurrentPage.IsLocked;
+        this.NewTitleTextBox.Text = this.CurrentTab.Title;
+        this.TabLocked.Checked = this.CurrentTab.IsLocked;
 
         //show options for the maintenence mode
-        this.maintenenceOption.Visible = this.CurrentPage.IsLocked;
-        this.TabMaintanance.Checked = this.CurrentPage.IsDownForMaintenance;
+        this.maintenenceOption.Visible = this.CurrentTab.IsLocked;
+        this.TabMaintanance.Checked = this.CurrentTab.IsDownForMaintenance;
         
         // TODO: Find out what this code does and see if there's a better way to do this
-        //this.serveAsStartPageOption.Visible = this.CurrentPage.IsLocked && _Setup.IsRoleTemplateForRegisterUser;
+        //this.serveAsStartTabOption.Visible = this.CurrentTab.IsLocked && _Setup.IsRoleTemplateForRegisterUser;
         
-        this.TabServeAsStartPage.Checked = this.CurrentPage.ServeAsStartPageAfterLogin.GetValueOrDefault();
+        this.TabServeAsStartPage.Checked = this.CurrentTab.ServeAsStartPageAfterLogin.GetValueOrDefault();
     }
 
-    private void LockPageContent()
+    private void LockTabContent()
     {
         if (this.IsOwner)
         {
-            ShowAddContentPanel.Enabled = HideAddContentPanel.Enabled = ChangePageTitleLinkButton.Enabled = !this.CurrentPage.IsLocked;
+            ShowAddContentPanel.Enabled = HideAddContentPanel.Enabled = ChangeTabTitleLinkButton.Enabled = !this.CurrentTab.IsLocked;
         }
     }
 
 
     protected void Layout1_Clicked(object sender, EventArgs e)
     {
-        Services.Get<Facade>().ModifyPageLayout(1);
-        ReloadPage();
+        Services.Get<Facade>().ModifyTabLayout(1);
+        ReloadTab();
     }
     protected void Layout2_Clicked(object sender, EventArgs e)
     {
-        Services.Get<Facade>().ModifyPageLayout(2);
-        ReloadPage();
+        Services.Get<Facade>().ModifyTabLayout(2);
+        ReloadTab();
     }
     protected void Layout3_Clicked(object sender, EventArgs e)
     {
-        Services.Get<Facade>().ModifyPageLayout(3);
-        ReloadPage();
+        Services.Get<Facade>().ModifyTabLayout(3);
+        ReloadTab();
     }
     protected void Layout4_Clicked(object sender, EventArgs e)
     {
-        Services.Get<Facade>().ModifyPageLayout(4);
-        ReloadPage();
+        Services.Get<Facade>().ModifyTabLayout(4);
+        ReloadTab();
     }
 
-    private void ReloadPage()
+    private void ReloadTab()
     {
         Response.Redirect(Request.Url.ToString());
     }
@@ -203,7 +202,7 @@ public partial class ChangeSettingsControl : System.Web.UI.UserControl
 
     protected void ChangeTabSettingsLinkButton_Clicked(object sender, EventArgs e)
     {
-        if (this.ChangePageSettingsPanel.Visible)
+        if (this.ChangeTabSettingsPanel.Visible)
             this.HideChangeSettingsPanel();
         else
             this.ShowChangeSettingsPanel();
@@ -216,21 +215,21 @@ public partial class ChangeSettingsControl : System.Web.UI.UserControl
         {
             var facade = Services.Get<Facade>();
             {
-                var newCurrentPage = facade.DeletePage(this.CurrentPage.ID);
-                RedirectToTab(newCurrentPage);
+                var newCurrentTab = facade.DeleteTab(this.CurrentTab.ID);
+                RedirectToTab(newCurrentTab);
             }
         });
     }
 
-    public void RedirectToTab(Page page)
+    public void RedirectToTab(Tab Tab)
     {
-        if (!page.IsLocked)
+        if (!Tab.IsLocked)
         {
-            Response.Redirect("Default.aspx?" + page.UserTabName);
+            Response.Redirect("Default.aspx?" + Tab.UserTabName);
         }
         else
         {
-            Response.Redirect("Default.aspx?" + page.LockedTabName);
+            Response.Redirect("Default.aspx?" + Tab.LockedTabName);
         }
     }
 

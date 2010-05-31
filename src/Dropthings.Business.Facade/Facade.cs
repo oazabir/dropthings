@@ -37,7 +37,7 @@
         #region Fields
 
         private IColumnRepository columnRepository { get { return Resolve<IColumnRepository>(columnRepositoryResolver); } }
-        private IPageRepository pageRepository { get { return Resolve<IPageRepository>(pageRepositoryResolver); } }
+        private ITabRepository pageRepository { get { return Resolve<ITabRepository>(pageRepositoryResolver); } }
         private IRoleRepository roleRepository { get { return Resolve<IRoleRepository>(roleRepositoryResolver); } }
         private IRoleTemplateRepository roleTemplateRepository { get { return Resolve<IRoleTemplateRepository>(roleTemplateRepositoryResolver); } }
         private ITokenRepository tokenRepository { get { return Resolve<ITokenRepository>(tokenRepositoryResolver); } }
@@ -49,7 +49,7 @@
         private IUserSettingRepository userSettingRepository { get { return Resolve<IUserSettingRepository>(userSettingRepositoryResolver); } }
 
         private readonly Func<IColumnRepository> columnRepositoryResolver;
-        private readonly Func<IPageRepository> pageRepositoryResolver;
+        private readonly Func<ITabRepository> pageRepositoryResolver;
         private readonly Func<IRoleRepository> roleRepositoryResolver;
         private readonly Func<IRoleTemplateRepository> roleTemplateRepositoryResolver;
         private readonly Func<ITokenRepository> tokenRepositoryResolver;
@@ -72,7 +72,7 @@
         public Facade(AppContext context) :
             this(context,
             Services.LazyGet<IColumnRepository>(),
-            Services.LazyGet<IPageRepository>(),
+            Services.LazyGet<ITabRepository>(),
             Services.LazyGet<IUserRepository>(),
             Services.LazyGet<IRoleRepository>(),
             Services.LazyGet<IRoleTemplateRepository>(),
@@ -88,7 +88,7 @@
 
         public Facade(AppContext context,
             Func<IColumnRepository> columnRepository,
-            Func<IPageRepository> pageRepository,
+            Func<ITabRepository> pageRepository,
             Func<IUserRepository> userRepository,
             Func<IRoleRepository> roleRepository,
             Func<IRoleTemplateRepository> roleTemplateRepository,
@@ -142,7 +142,7 @@
                 Services.RegisterTypeForLazyGet<IColumnRepository>( r => new ColumnRepository(
                     r.Resolve<IDatabase>(), r.Resolve<ICache>()));
 
-                Services.RegisterTypeForLazyGet<IPageRepository>(r => new PageRepository(
+                Services.RegisterTypeForLazyGet<ITabRepository>(r => new TabRepository(
                     r.Resolve<IDatabase>(), r.Resolve<ICache>()));
 
                 Services.RegisterTypeForLazyGet<IUserRepository>(r => new UserRepository(
@@ -191,7 +191,7 @@
                 Services.RegisterType<IDatabase, DropthingsDataContext2>(
                     new InjectionConstructor(DropthingsDataContext.GetConnectionString()));
                 Services.RegisterType<IColumnRepository, ColumnRepository>(dalConstructor);
-                Services.RegisterType<IPageRepository, PageRepository>(dalConstructor);
+                Services.RegisterType<ITabRepository, TabRepository>(dalConstructor);
                 Services.RegisterType<IUserRepository, UserRepository>(dalConstructor);
                 Services.RegisterType<IRoleRepository, RoleRepository>(dalConstructor);
                 Services.RegisterType<IRoleTemplateRepository, RoleTemplateRepository>(dalConstructor);

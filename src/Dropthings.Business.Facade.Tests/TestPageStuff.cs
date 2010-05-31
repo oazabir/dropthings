@@ -12,9 +12,9 @@ using Dropthings.Data;
 
 namespace Dropthings.Business.Facade.Tests
 {
-    public class TestPageStuff
+    public class TestTabStuff
     {
-        public TestPageStuff()
+        public TestTabStuff()
         {
             Facade.BootStrap();
         }
@@ -30,18 +30,18 @@ namespace Dropthings.Business.Facade.Tests
                     profile = MembershipHelper.CreateNewAnonUser();
                     facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                    facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                    facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
                 });
 
             "When user adds a new page".Do(() =>
                 {
-                    var newPage = facade.CreatePage("Some New Page", 0);
+                    var newTab = facade.CreateTab("Some New Tab", 0);
                 });
 
             "It should add a new blank page as current page".Assert(() =>
                 {
-                    var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
-                    Assert.Equal("Some New Page", userPageSetup.CurrentPage.Title);
+                    var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
+                    Assert.Equal("Some New Tab", userTabSetup.CurrentTab.Title);
                 });
         }
 
@@ -57,18 +57,18 @@ namespace Dropthings.Business.Facade.Tests
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userSetup = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "When user changes title of current page".Do(() =>
             {
-                facade.ChangePageName(newName);
+                facade.ChangeTabName(newName);
             });
 
             "It should persist and on next visit the new page title should reflect".Assert(() =>
             {
-                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
-                Assert.Equal(newName, userPageSetup.CurrentPage.Title);
+                var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
+                Assert.Equal(newName, userTabSetup.CurrentTab.Title);
             });
         }
 
@@ -83,18 +83,18 @@ namespace Dropthings.Business.Facade.Tests
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userSetup = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "When user changes title of current page".Do(() =>
             {
-                facade.ChangePageName(userSetup.CurrentPage.Title);
+                facade.ChangeTabName(userSetup.CurrentTab.Title);
             });
 
             "It should persist and on next visit the page title should remain the same".Assert(() =>
             {
-                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
-                Assert.Equal(userPageSetup.CurrentPage.Title, userPageSetup.CurrentPage.Title);
+                var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
+                Assert.Equal(userTabSetup.CurrentTab.Title, userTabSetup.CurrentTab.Title);
             });
         }
 
@@ -111,27 +111,27 @@ namespace Dropthings.Business.Facade.Tests
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userSetup = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "When user changes title of one page to the title of another page".Do(() =>
             {
                 // Create a new page
-                var newPage = facade.CreatePage(Guid.NewGuid().ToString(), 0);
-                newTitle = newPage.Title;
+                var newTab = facade.CreateTab(Guid.NewGuid().ToString(), 0);
+                newTitle = newTab.Title;
                 // Change back to the old page
-                facade.SetCurrentPage(facade.GetUserGuidFromUserName(profile.UserName), userSetup.CurrentPage.ID);
+                facade.SetCurrentTab(facade.GetUserGuidFromUserName(profile.UserName), userSetup.CurrentTab.ID);
                 // Set the same title as the newly created page
-                facade.ChangePageName(newTitle);
+                facade.ChangeTabName(newTitle);
             });
 
             "It should automatically change the title to some unique title by adding some number".Assert(() =>
             {
-                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
-                Assert.NotEqual(newTitle, userPageSetup.CurrentPage.Title);
+                var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
+                Assert.NotEqual(newTitle, userTabSetup.CurrentTab.Title);
                 
                 // Ensure there's no two pages with same title
-                Assert.False(userPageSetup.UserPages.Exists(p1 => userPageSetup.UserPages.Exists(p2 => p1.Title == p2.Title 
+                Assert.False(userTabSetup.UserTabs.Exists(p1 => userTabSetup.UserTabs.Exists(p2 => p1.Title == p2.Title 
                     && p1.ID != p2.ID)));
             });
         }
@@ -143,26 +143,26 @@ namespace Dropthings.Business.Facade.Tests
             var facade = default(Facade);
             var profile = default(UserProfile);
             var userSetup = default(UserSetup);
-            var deletedPageId = default(int);
+            var deletedTabId = default(int);
 
             "Given a new user".Context(() =>
             {
                 profile = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(string.Empty, profile.UserName));
 
-                userSetup = facade.FirstVisitHomePage(profile.UserName, string.Empty, true, false);
+                userSetup = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
             "When user deletes the current page".Do(() =>
             {
-                facade.DeletePage(userSetup.CurrentPage.ID);
+                facade.DeleteTab(userSetup.CurrentTab.ID);
             });
 
             "It should not appear on next visit".Assert(() =>
             {
-                var userPageSetup = facade.RepeatVisitHomePage(profile.UserName, string.Empty, true, false);
-                Assert.DoesNotContain<int>(deletedPageId, 
-                    facade.GetPagesOfUser(userPageSetup.CurrentUserId).Select(p => p.ID));
+                var userTabSetup = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
+                Assert.DoesNotContain<int>(deletedTabId, 
+                    facade.GetTabsOfUser(userTabSetup.CurrentUserId).Select(p => p.ID));
             });
         }
 
@@ -184,11 +184,11 @@ namespace Dropthings.Business.Facade.Tests
                     user = MembershipHelper.CreateNewAnonUser();
                     facade = new Facade(new AppContext(user.UserName, user.UserName));
 
-                    userSetup = facade.FirstVisitHomePage(user.UserName, string.Empty, true, false);
-                    facade.CreatePage("Test Page for Widget Delete", threeColumnLayoutNo);
+                    userSetup = facade.FirstVisitHomeTab(user.UserName, string.Empty, true, false);
+                    facade.CreateTab("Test Tab for Widget Delete", threeColumnLayoutNo);
 
                     // Add all the widgets on each column
-                    widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetType.PersonalPage);
+                    widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetType.PersonalTab);
                     for (int columnNo = 0; columnNo < 3; columnNo++)
                     {
                         widgetMap[columnNo] = new List<int>();
@@ -202,15 +202,15 @@ namespace Dropthings.Business.Facade.Tests
 
             "When the page is switched to 2 column mode".Do(() =>
                 {
-                    facade.ModifyPageLayout(twoColumnLayoutNo);                    
+                    facade.ModifyTabLayout(twoColumnLayoutNo);                    
                 });
 
             "It should move all the widgets on 3rd column to 2nd column after the existing 2nd column widgets".Assert(() =>
                 {
-                    userSetup = facade.RepeatVisitHomePage(user.UserName, string.Empty, true, false);
-                    Assert.Equal(2, userSetup.CurrentPage.ColumnCount);
+                    userSetup = facade.RepeatVisitHomeTab(user.UserName, string.Empty, true, false);
+                    Assert.Equal(2, userSetup.CurrentTab.ColumnCount);
 
-                    var columns = facade.GetColumnsInPage(userSetup.CurrentPage.ID);
+                    var columns = facade.GetColumnsInTab(userSetup.CurrentTab.ID);
                     Assert.Equal(2, columns.Count);
 
                     var firstColumn = columns[0];
@@ -267,11 +267,11 @@ namespace Dropthings.Business.Facade.Tests
                 user = MembershipHelper.CreateNewAnonUser();
                 facade = new Facade(new AppContext(user.UserName, user.UserName));
 
-                userSetup = facade.FirstVisitHomePage(user.UserName, string.Empty, true, false);
-                facade.CreatePage("Test Page for Widget Delete", threeColumnLayoutNo);
+                userSetup = facade.FirstVisitHomeTab(user.UserName, string.Empty, true, false);
+                facade.CreateTab("Test Tab for Widget Delete", threeColumnLayoutNo);
 
                 // Add all the widgets on each column
-                widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetType.PersonalPage);
+                widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetType.PersonalTab);
                 for (int columnNo = 0; columnNo < 3; columnNo++)
                 {
                     widgetMap[columnNo] = new List<int>();
@@ -285,15 +285,15 @@ namespace Dropthings.Business.Facade.Tests
 
             "When the page is switched to 2 column mode".Do(() =>
             {
-                facade.ModifyPageLayout(oneColumnLayoutNo);
+                facade.ModifyTabLayout(oneColumnLayoutNo);
             });
 
             "It should move all the widgets on 3rd column to 2nd column after the existing 2nd column widgets".Assert(() =>
             {
-                userSetup = facade.RepeatVisitHomePage(user.UserName, string.Empty, true, false);
-                Assert.Equal(1, userSetup.CurrentPage.ColumnCount);
+                userSetup = facade.RepeatVisitHomeTab(user.UserName, string.Empty, true, false);
+                Assert.Equal(1, userSetup.CurrentTab.ColumnCount);
 
-                var columns = facade.GetColumnsInPage(userSetup.CurrentPage.ID);
+                var columns = facade.GetColumnsInTab(userSetup.CurrentTab.ID);
                 Assert.Equal(1, columns.Count);
 
                 var firstColumn = columns[0];
@@ -332,19 +332,19 @@ namespace Dropthings.Business.Facade.Tests
                     user = MembershipHelper.CreateNewAnonUser();
                     facade = new Facade(new AppContext(user.UserName, user.UserName));
 
-                    userSetup = facade.FirstVisitHomePage(user.UserName, string.Empty, true, false);
-                    facade.CreatePage("Test Page 1 column", oneColumnLayoutNo);
+                    userSetup = facade.FirstVisitHomeTab(user.UserName, string.Empty, true, false);
+                    facade.CreateTab("Test Tab 1 column", oneColumnLayoutNo);
                 });
 
             "When user changes the page layout to two columns".Do(() =>
                 {
-                    facade.ModifyPageLayout(twoColumnLayoutNo);
+                    facade.ModifyTabLayout(twoColumnLayoutNo);
                 });
 
             "It should introduce a blank column after the two columns".Assert(() =>
                 {
-                    userSetup = facade.RepeatVisitHomePage(user.UserName, string.Empty, true, false);
-                    var columns = facade.GetColumnsInPage(userSetup.CurrentPage.ID);
+                    userSetup = facade.RepeatVisitHomeTab(user.UserName, string.Empty, true, false);
+                    var columns = facade.GetColumnsInTab(userSetup.CurrentTab.ID);
                     Assert.Equal(2, columns.Count);
 
                     var secondColumn = columns[1];

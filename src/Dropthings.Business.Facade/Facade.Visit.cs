@@ -15,12 +15,12 @@ namespace Dropthings.Business.Facade
     partial class Facade
     {
         #region Constants
-        private const string DEFAULT_FIRST_PAGE_NAME = "First Page";
+        private const string DEFAULT_FIRST_PAGE_NAME = "First Tab";
         #endregion
 
         #region Methods
 
-        public UserSetup FirstVisitHomePage(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
+        public UserSetup FirstVisitHomeTab(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
             return AspectF.Define
                 //.Transaction()
@@ -43,20 +43,20 @@ namespace Dropthings.Business.Facade
                     if (roleTemplate != default(RoleTemplate))
                     {
                         // Get template user pages so that it can be cloned for new user
-                        var templateUserPages = this.GetPagesOfUser(roleTemplate.AspNetUser.UserId);
+                        var templateUserTabs = this.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
 
-                        foreach (Page templatePage in templateUserPages)
+                        foreach (Tab templateTab in templateUserTabs)
                         {
-                            if (!templatePage.IsLocked)
+                            if (!templateTab.IsLocked)
                             {
-                                ClonePage(userGuid, templatePage);
+                                CloneTab(userGuid, templateTab);
                             }
                         }
 
                         if (roleTemplate.AspNetUser.UserId != userGuid)
                         {
                             //bring only the locked pages which are not in maintenence mode
-                            response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.AspNetUser.UserId, false);
+                            response.UserSharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
                         }
 
                         response.RoleTemplate = roleTemplate;
@@ -66,12 +66,12 @@ namespace Dropthings.Business.Facade
                 else
                 {
                     // Setup some default pages
-                    var page = CreatePage(userGuid, string.Empty, 0, 0);
+                    var page = CreateTab(userGuid, string.Empty, 0, 0);
 
                     if (page != null && page.ID > 0)
                     {
-                        CreateDefaultWidgetsOnPage(userName, page.ID);
-                        RepeatVisitHomePage(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);    // non-recursive. this will hit the outter most else block
+                        CreateDefaultWidgetsOnTab(userName, page.ID);
+                        RepeatVisitHomeTab(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);    // non-recursive. this will hit the outter most else block
                     }
                     else
                     {
@@ -79,16 +79,16 @@ namespace Dropthings.Business.Facade
                     }
                 }
 
-                var currentPages = this.GetPagesOfUser(userGuid);
-                response.UserPages = currentPages;
+                var currentTabs = this.GetTabsOfUser(userGuid);
+                response.UserTabs = currentTabs;
                 response.UserSetting = GetUserSetting(userGuid);
-                response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPage.ID, isAnonymous, isFirstVisitAfterLogin);
+                response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserSetting.CurrentTab.ID, isAnonymous, isFirstVisitAfterLogin);
                 response.CurrentUserId = userGuid;
                 return response;
             });
         }
 
-        public UserSetup RepeatVisitHomePage(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
+        public UserSetup RepeatVisitHomeTab(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
             return AspectF.Define
                 //.Transaction()
@@ -108,25 +108,25 @@ namespace Dropthings.Business.Facade
                     if (roleTemplate.AspNetUser.UserId != userGuid)
                     {
                         //bring only the locked pages which are not in maintenence mode
-                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.AspNetUser.UserId, false);
+                        response.UserSharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
                     }
                 }
 
-                var pages = this.GetPagesOfUser(userGuid);
+                var pages = this.GetTabsOfUser(userGuid);
 
                 if (pages != null && pages.Count() > 0)
                 {
                     // User has pages
-                    response.UserPages = pages;
+                    response.UserTabs = pages;
 
                     var userSetting = GetUserSetting(userGuid);
-                    response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, userSetting.CurrentPage.ID, isAnonymous, isFirstVisitAfterLogin);
+                    response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, userSetting.CurrentTab.ID, isAnonymous, isFirstVisitAfterLogin);
 
-                    if (userSetting.CurrentPage.ID != response.CurrentPage.ID)
+                    if (userSetting.CurrentTab.ID != response.CurrentTab.ID)
                     {
-                        //userSetting.CurrentPage.ID = response.CurrentPage.ID;
+                        //userSetting.CurrentTab.ID = response.CurrentTab.ID;
                         //this.userSettingRepository.Update(userSetting);
-                        SetCurrentPage(userGuid, response.CurrentPage.ID);
+                        SetCurrentTab(userGuid, response.CurrentTab.ID);
                     }
 
                     response.UserSetting = GetUserSetting(userGuid);
@@ -135,7 +135,7 @@ namespace Dropthings.Business.Facade
                 else
                 {
                     // User has no pages
-                    response = FirstVisitHomePage(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);
+                    response = FirstVisitHomeTab(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);
                 }
 
                 return response;

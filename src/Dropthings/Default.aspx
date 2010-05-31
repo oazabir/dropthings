@@ -3,8 +3,8 @@
 
 <%@ Register Src="~/Header.ascx" TagName="Header" TagPrefix="dropthings" %>
 <%@ Register Src="~/Footer.ascx" TagName="Footer" TagPrefix="dropthings" %>
-<%@ Register Src="~/WidgetPage.ascx" TagName="WidgetPage" TagPrefix="dropthings" %>
-<%@ Register src="~/TabPage.ascx" TagName="TabPage" TagPrefix="dropthings" %>
+<%@ Register Src="~/WidgetTabHost.ascx" TagName="WidgetTabHost" TagPrefix="dropthings" %>
+<%@ Register src="~/TabBar.ascx" TagName="TabBar" TagPrefix="dropthings" %>
 <%@ Register Src="~/ScriptManagerControl.ascx" TagName="ScriptManagerControl" TagPrefix="dropthings" %>
 <%@ Register Src="~/ChangeSettingsControl.ascx" TagName="ChangeSettingsControl" TagPrefix="dropthings"  %>
 
@@ -25,7 +25,7 @@
         <!-- Render header first so that user can start typing search criteria while the huge runtime and other scripts download -->
         <dropthings:Header ID="Header1" runat="server" />
 
-        <dropthings:TabPage ID="UserTabPage" runat="server" />
+        <dropthings:TabBar ID="UserTabBar" runat="server" />
         
         <div id="onpage_menu">
             <div id="onpage_menu_wrapper">
@@ -37,7 +37,7 @@
             <div id="contents_wrapper">
                 <div id="widget_area">
                     <div id="widget_area_wrapper">
-                        <dropthings:WidgetPage runat="server" ID="WidgetPage" />                        
+                        <dropthings:WidgetTabHost runat="server" ID="WidgetTabHost" />                        
                     </div>
                 </div>
             </div>

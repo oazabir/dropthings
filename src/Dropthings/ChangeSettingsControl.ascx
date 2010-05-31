@@ -7,10 +7,10 @@
         <div id="onpage_menu_bar" onmouseover="this.className='onpage_menu_bar_hover'" onmouseout="this.className=''">
             <asp:LinkButton CssClass="onpage_menu_action" ID="ShowAddContentPanel" runat="server" Text="<%$Resources:SharedResources, AddStuff%>" OnClick="ShowAddContentPanel_Click"/>
             <asp:LinkButton CssClass="onpage_menu_action" ID="HideAddContentPanel" runat="server" Text="<%$Resources:SharedResources, HideStuff%>" OnClick="HideAddContentPanel_Click" Visible="false" OnClientClick="DropthingsUI.hideWidgetGallery();" />
-            <asp:LinkButton ID="ChangePageTitleLinkButton" CssClass="onpage_menu_action" Text="<%$Resources:SharedResources, ChangeSettings%>" runat="server" OnClick="ChangeTabSettingsLinkButton_Clicked" />
+            <asp:LinkButton ID="ChangeTabTitleLinkButton" CssClass="onpage_menu_action" Text="<%$Resources:SharedResources, ChangeSettings%>" runat="server" OnClick="ChangeTabSettingsLinkButton_Clicked" />
         </div>
         <div id="onpage_menu_panels">
-            <asp:Panel ID="ChangePageSettingsPanel" runat="server" Visible="false" CssClass="onpage_menu_panel">
+            <asp:Panel ID="ChangeTabSettingsPanel" runat="server" Visible="false" CssClass="onpage_menu_panel">
                 <div>
                     <div class="onpage_menu_panel_column">
                         <h1><asp:Literal ID="ltlChangeTabTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeTabTitle%>" /></h1>
@@ -62,12 +62,3 @@
         </div>
     </ContentTemplate>
 </asp:UpdatePanel>
-
-            
-<textarea id="DeletePageConfirmPopupPlaceholder" style="display:none">
-&lt;div id="DeletePageConfirmPopup"&gt;
-    &lt;h1&gt;Delete a Page&lt;/h1&gt;
-    &lt;p&gt;Are you sure you want to delete the page?&lt;/p&gt;
-    &lt;input id="DeletePageConfirmPopup_Yes" type="button" value="Yes" /&gt;&lt;input id="DeletePageConfirmPopup_No" type="button" value="No" /&gt;
-&lt;/div&gt;    
-</textarea>

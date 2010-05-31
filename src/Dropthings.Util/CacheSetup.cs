@@ -102,34 +102,34 @@ namespace Dropthings.Util
 
         }
 
-        public class PageKeys
+        public class TabKeys
         {
             // TODO: This should not be used, find out who uses this
-            public static string WidgetZoneByPageIdColumnNo(int pageId, int columnNo)
+            public static string WidgetZoneByTabIdColumnNo(int TabId, int columnNo)
             {
-                return "WidgetZoneByPageIdColumnNo.PageId." + pageId + ".ColumnNo." + columnNo;
+                return "WidgetZoneByTabIdColumnNo.TabId." + TabId + ".ColumnNo." + columnNo;
             }
 
-            public static string PageId(int pageId)
+            public static string TabId(int TabId)
             {
-                return "Page." + pageId;
+                return "Tab." + TabId;
             }
-            public static string ColumnsInPage(int pageId)
+            public static string ColumnsInTab(int TabId)
             {
-                return "ColumnsInPage." + pageId.ToString();
+                return "ColumnsInTab." + TabId.ToString();
             }
-            public static string PageOwnerName(int pageId)
+            public static string TabOwnerName(int TabId)
             {
-                return "PageOwnerName." + pageId;
+                return "TabOwnerName." + TabId;
             }
 
-            public static string[] PageIdKeys(int pageId)
+            public static string[] TabIdKeys(int tabId)
             {
                 return new string[] 
                 {
-                    PageOwnerName(pageId),
-                    PageId(pageId),
-                    ColumnsInPage(pageId)
+                    TabOwnerName(tabId),
+                    TabId(tabId),
+                    ColumnsInTab(tabId)
                 };
 
             }
@@ -149,9 +149,9 @@ namespace Dropthings.Util
             {
                 return "UserFromUserGuid." + userGuid.ToString();
             }
-            public static string PagesOfUser(Guid userGuid)
+            public static string TabsOfUser(Guid userGuid)
             {
-                return "PagesOfUser." + userGuid.ToString();
+                return "TabsOfUser." + userGuid.ToString();
             }
             public static string RoleTemplateByUser(string userName)
             {
@@ -180,7 +180,7 @@ namespace Dropthings.Util
                 {
                     UserSettingByUserGuid(userGuid),
                     UserFromUserGuid(userGuid), 
-                    PagesOfUser(userGuid),
+                    TabsOfUser(userGuid),
                     TemplateKeys.RoleTemplateByUser(userGuid),
                     RolesOfUser(userGuid)
                 };

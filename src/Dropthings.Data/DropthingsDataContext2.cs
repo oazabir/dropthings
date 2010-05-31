@@ -40,7 +40,7 @@ namespace Dropthings.Data
             //this.AspNetRole.MergeOption =
             //this.AspNetUser.MergeOption =
             //this.Columns.MergeOption =
-            //this.Pages.MergeOption =
+            //this.Tabs.MergeOption =
             //this.RoleTemplates.MergeOption =
             //this.Tokens.MergeOption =
             //this.UserSettings.MergeOption =
@@ -65,8 +65,8 @@ namespace Dropthings.Data
                             (context, entity) => context.AddToAspNetUsers(entity as AspNetUser));
                         _AddToMethodCache.Add(typeof(Column).Name,
                             (context, entity) => context.AddToColumns(entity as Column));
-                        _AddToMethodCache.Add(typeof(Page).Name,
-                            (context, entity) => context.AddToPages(entity as Page));
+                        _AddToMethodCache.Add(typeof(Tab).Name,
+                            (context, entity) => context.AddToTabs(entity as Tab));
                         _AddToMethodCache.Add(typeof(RoleTemplate).Name,
                             (context, entity) => context.AddToRoleTemplates(entity as RoleTemplate));
                         _AddToMethodCache.Add(typeof(Token).Name,
@@ -101,8 +101,8 @@ namespace Dropthings.Data
                             (context, entity) => context.AttachTo("AspNetUsers", entity));
                         _AttachMethodCache.Add(typeof(Column).Name,
                             (context, entity) => context.AttachTo("Columns", entity));
-                        _AttachMethodCache.Add(typeof(Page).Name,
-                            (context, entity) => context.AttachTo("Pages", entity));
+                        _AttachMethodCache.Add(typeof(Tab).Name,
+                            (context, entity) => context.AttachTo("Tabs", entity));
                         _AttachMethodCache.Add(typeof(RoleTemplate).Name,
                             (context, entity) => context.AttachTo("RoleTemplates",entity));
                         _AttachMethodCache.Add(typeof(Token).Name,

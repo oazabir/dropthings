@@ -28,68 +28,68 @@
 
         #region Methods
 
-        private void RemoveColumnInPageCacheEntries(Column column)
+        private void RemoveColumnInTabCacheEntries(Column column)
         {
-            _cacheResolver.Remove(CacheKeys.PageKeys.ColumnsInPage(column.Page.ID));
+            _cacheResolver.Remove(CacheKeys.TabKeys.ColumnsInTab(column.Tab.ID));
         }
 
         public void Delete(Column column)
         {
-            RemoveColumnInPageCacheEntries(column);
+            RemoveColumnInTabCacheEntries(column);
             _database.Delete<Column>(column);
         }
 
         public Column GetColumnById(int id)
         {
             return _database.Query(
-                    CompiledQueries.PageQueries.GetColumnById, id)
+                    CompiledQueries.TabQueries.GetColumnById, id)
                 .First();
         }
 
-        public Column GetColumnByPageId_ColumnNo(int pageId, int columnNo)
+        public Column GetColumnByTabId_ColumnNo(int TabId, int columnNo)
         {
-            return this.GetColumnsByPageId(pageId).Where(page => page.ColumnNo == columnNo)
+            return this.GetColumnsByTabId(TabId).Where(Tab => Tab.ColumnNo == columnNo)
                 .First();
         }
 
-        public List<Column> GetColumnsByPageId(int pageId)
+        public List<Column> GetColumnsByTabId(int TabId)
         {
             return AspectF.Define
-                .Cache<List<Column>>(_cacheResolver, CacheKeys.PageKeys.ColumnsInPage(pageId))
+                .Cache<List<Column>>(_cacheResolver, CacheKeys.TabKeys.ColumnsInTab(TabId))
                 .Return<List<Column>>(() =>
                     _database.Query(
-                        CompiledQueries.PageQueries.GetColumnsByPageId, pageId)
+                        CompiledQueries.TabQueries.GetColumnsByTabId, TabId)
                         .ToList());
         }
 
         public Column Insert(Column column)
         {
-            var page = column.Page;
+            var Tab = column.Tab;
             var zone = column.WidgetZone;
 
-            column.Page = null;
+            column.Tab = null;
             column.WidgetZone = null;
-            _database.Insert<Page, WidgetZone, Column>(page, zone,
-                (p, col) => col.Page = page,
+            _database.Insert<Tab, WidgetZone, Column>(Tab, zone,
+                (p, col) => col.Tab = Tab,
                 (z, col) => col.WidgetZone = zone,
                 column);
 
-            column.Page = page;
+            column.Tab = Tab;
             column.WidgetZone = zone;
-            RemoveColumnInPageCacheEntries(column);
+            RemoveColumnInTabCacheEntries(column);
             return column;
 
         }
 
         public void Update(Column column)
         {
-            RemoveColumnInPageCacheEntries(column);
+            RemoveColumnInTabCacheEntries(column);
             _database.Update<Column>(column);
         }
 
         public void UpdateList(List<Column> columns)
         {
-            columns.Each(column => RemoveColumnInPageCacheEntries(column));
+            columns.Each(column => RemoveColumnInTabCacheEntries(column));
             _database.UpdateList<Column>(columns);
         }
 

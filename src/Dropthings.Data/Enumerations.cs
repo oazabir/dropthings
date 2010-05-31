@@ -11,12 +11,12 @@
 
         public enum PageType
         {
-            PersonalPage = 0
+            PersonalTab = 0
         }
 
         public enum WidgetType
         {
-            PersonalPage = 0
+            PersonalTab = 0
         }
 
         #endregion Enumerations
