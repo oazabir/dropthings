@@ -957,12 +957,12 @@ function winopen2(url, target, w, h) {
 //    }
 //};
 
-var WidgetMaximizeBehavior = function(widgetId) {
+var WidgetMaximizeBehavior = function (widgetId) {
     this.visibleHeightIfWidgetExpanded = 0;
     this.visibleHeightIfWidgetCollasped = 0;
     this.LastDomLocation = null;
 
-    this.init = function(widgetId) {
+    this.init = function (widgetId) {
         if (this.initialized) return;
 
         this.widget = jQuery('#' + widgetId);
@@ -974,23 +974,24 @@ var WidgetMaximizeBehavior = function(widgetId) {
 
     this.init(widgetId);
 
-    this.dispose = function() {
+    this.dispose = function () {
         this.initialized = false;
         this.instanceId = 0;
         this.widget = null;
     };
 
-    this.maximize = function() {
+    this.maximize = function () {
         this.fitToViewPort();
         window.scrollTo(0, 0);
+        this.widget.find('.widget_header').removeClass('draggable');
     };
 
-    this.restorePreviouslyMaximizedWidget = function() {
+    this.restorePreviouslyMaximizedWidget = function () {
         if (this.widget != null)
             this.widget.find('.widget_restore').click();
     };
 
-    this.restore = function() {
+    this.restore = function () {
         var widgetDef = DropthingsUI.getWidgetDef(this.instanceId);
         var height = widgetDef.Resized ? widgetDef.Height + 'px' : 'auto';
         this.widget.css({ marginRight: '0px', left: 'auto', top: 'auto', width: 'auto', height: 'auto', position: 'static' });
@@ -1019,12 +1020,13 @@ var WidgetMaximizeBehavior = function(widgetId) {
             }
         }
 
+        this.widget.find('.widget_header').addClass('draggable');
         //this.widget.prependTo(this.LastDomLocation.container);
         this.restoredInstanceId = this.instanceId;
         this.dispose();
     };
 
-    this.fitToViewPort = function() {
+    this.fitToViewPort = function () {
         var maxBackground = jQuery('#widget_area_wrapper');
         //var visibleHeight = (Utility.getViewPortHeight() - Utility.getAbsolutePosition(maxBackground[0], 'Top'));
         var visibleHeight = (Utility.getViewPortHeight() - maxBackground.offset().top);
