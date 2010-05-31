@@ -471,7 +471,7 @@
           <EntitySet Name="AspNetRoles" EntityType="Dropthings.Data.AspNetRole" />
           <EntitySet Name="AspNetUsers" EntityType="Dropthings.Data.AspNetUser" />
           <EntitySet Name="Columns" EntityType="Dropthings.Data.Column" />
-          <EntitySet Name="Pages" EntityType="Dropthings.Data.Page" />
+          <EntitySet Name="Tabs" EntityType="Dropthings.Data.Tab" />
           <EntitySet Name="RoleTemplates" EntityType="Dropthings.Data.RoleTemplate" />
           <EntitySet Name="Tokens" EntityType="Dropthings.Data.Token" />
           <EntitySet Name="Widgets" EntityType="Dropthings.Data.Widget" />
@@ -496,7 +496,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_Page_aspnet_Users" Association="Dropthings.Data.FK_Page_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="AspNetUsers" />
-            <End Role="Page" EntitySet="Pages" />
+            <End Role="Page" EntitySet="Tabs" />
           </AssociationSet>
           <AssociationSet Name="FK_RoleTemplate_aspnet_Users" Association="Dropthings.Data.FK_RoleTemplate_aspnet_Users">
             <End Role="aspnet_Users" EntitySet="AspNetUsers" />
@@ -507,7 +507,7 @@
             <End Role="Token" EntitySet="Tokens" />
           </AssociationSet>
           <AssociationSet Name="FK_Column_Page" Association="Dropthings.Data.FK_Column_Page">
-            <End Role="Page" EntitySet="Pages" />
+            <End Role="Page" EntitySet="Tabs" />
             <End Role="Column" EntitySet="Columns" />
           </AssociationSet>
           <AssociationSet Name="FK_Column_WidgetZone" Association="Dropthings.Data.FK_Column_WidgetZone">
@@ -536,7 +536,7 @@
             <End Role="UserSetting" EntitySet="UserSettings" />
           </AssociationSet>
           <AssociationSet Name="FK_UserSetting_Page" Association="Dropthings.Data.FK_UserSetting_Page">
-            <End Role="Page" EntitySet="Pages" />
+            <End Role="Page" EntitySet="Tabs" />
             <End Role="UserSetting" EntitySet="UserSettings" />
           </AssociationSet>
           <FunctionImport Name="DeleteWidgetCascade" ReturnType="Collection(Int32)">
@@ -621,10 +621,10 @@
           <Property Name="ColumnNo" Type="Int32" Nullable="false" />
           <Property Name="ColumnWidth" Type="Int32" Nullable="false" />
           <Property Name="LastUpdated" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
-          <NavigationProperty Name="Page" Relationship="Dropthings.Data.FK_Column_Page" FromRole="Column" ToRole="Page" />
+          <NavigationProperty Name="Tab" Relationship="Dropthings.Data.FK_Column_Page" FromRole="Column" ToRole="Page" />
           <NavigationProperty Name="WidgetZone" Relationship="Dropthings.Data.FK_Column_WidgetZone" FromRole="Column" ToRole="WidgetZone" />
         </EntityType>
-        <EntityType Name="Page">
+        <EntityType Name="Tab">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -758,7 +758,7 @@
         </Association>
         <Association Name="FK_Page_aspnet_Users">
           <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="1" />
-          <End Role="Page" Type="Dropthings.Data.Page" Multiplicity="*" />
+          <End Role="Page" Type="Dropthings.Data.Tab" Multiplicity="*" />
         </Association>
         <Association Name="FK_RoleTemplate_aspnet_Users">
           <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="1" />
@@ -769,7 +769,7 @@
           <End Role="Token" Type="Dropthings.Data.Token" Multiplicity="*" />
         </Association>
         <Association Name="FK_Column_Page">
-          <End Role="Page" Type="Dropthings.Data.Page" Multiplicity="1" />
+          <End Role="Page" Type="Dropthings.Data.Tab" Multiplicity="1" />
           <End Role="Column" Type="Dropthings.Data.Column" Multiplicity="*" />
         </Association>
         <Association Name="FK_Column_WidgetZone">
@@ -800,7 +800,7 @@
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <Property Type="Binary" Name="Timestamp" Nullable="false" MaxLength="8" FixedLength="true" a:StoreGeneratedPattern="Computed" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <NavigationProperty Name="AspNetUser" Relationship="Dropthings.Data.FK_UserSetting_aspnet_Users" FromRole="UserSetting" ToRole="aspnet_User" />
-          <NavigationProperty Name="CurrentPage" Relationship="Dropthings.Data.FK_UserSetting_Page" FromRole="UserSetting" ToRole="Page" />
+          <NavigationProperty Name="CurrentTab" Relationship="Dropthings.Data.FK_UserSetting_Page" FromRole="UserSetting" ToRole="Page" />
         </EntityType>
         <Association Name="FK_UserSetting_aspnet_Users">
           <End Type="Dropthings.Data.AspNetUser" Role="aspnet_User" Multiplicity="1" />
@@ -816,7 +816,7 @@
           
         </Association>
         <Association Name="FK_UserSetting_Page">
-          <End Type="Dropthings.Data.Page" Role="Page" Multiplicity="1" />
+          <End Type="Dropthings.Data.Tab" Role="Page" Multiplicity="1" />
           <End Type="Dropthings.Data.UserSetting" Role="UserSetting" Multiplicity="*" />
         </Association>
       </Schema>
@@ -897,8 +897,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Pages">
-            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.Page)">
+          <EntitySetMapping Name="Tabs">
+            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.Tab)">
               <MappingFragment StoreEntitySet="Page">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1146,7 +1146,7 @@
         <EntityTypeShape EntityType="Dropthings.Data.AspNetRole" Width="1.5" PointX="0.75" PointY="12.375" Height="2.5571907552083317" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.AspNetUser" Width="1.5" PointX="3" PointY="16.75" Height="3.7109993489583317" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.Column" Width="1.5" PointX="7.5" PointY="18.625" Height="2.1725878906250031" IsExpanded="true" />
-        <EntityTypeShape EntityType="Dropthings.Data.Page" Width="1.5" PointX="5.25" PointY="17.75" Height="4.0956022135416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dropthings.Data.Tab" Width="1.5" PointX="5.25" PointY="17.75" Height="4.0956022135416674" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.RoleTemplate" Width="1.5" PointX="8.25" PointY="15.5" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.Token" Width="1.5" PointX="5.25" PointY="9.375" Height="1.9802864583333317" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.Widget" Width="1.5" PointX="0.75" PointY="6.625" Height="4.0956022135416665" IsExpanded="true" />

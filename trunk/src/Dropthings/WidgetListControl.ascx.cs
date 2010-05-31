@@ -54,12 +54,12 @@ public partial class WidgetListControl : System.Web.UI.UserControl
             if (Roles.Enabled && Convert.ToBoolean(ConstantHelper.EnableWidgetPermission, CultureInfo.InvariantCulture))
             {
                 var facade = Services.Get<Facade>();
-                    return facade.GetWidgetList(Profile.UserName, Enumerations.WidgetType.PersonalPage);                
+                    return facade.GetWidgetList(Profile.UserName, Enumerations.WidgetType.PersonalTab);                
             }
             else
             {
                 var facade = Services.Get<Facade>();
-                    return facade.GetWidgetList(Enumerations.WidgetType.PersonalPage);
+                    return facade.GetWidgetList(Enumerations.WidgetType.PersonalTab);
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dropthings.Data
 {
-    public partial class Page
+    public partial class Tab
     {
         #region Properties
 

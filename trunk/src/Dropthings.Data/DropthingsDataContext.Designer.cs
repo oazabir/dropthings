@@ -13,20 +13,20 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "aspnet_Profile", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.AspNetProfile))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Roles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetRole), "RoleTemplate", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.RoleTemplate))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetRole), "WidgetsInRoles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetsInRoles))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Page_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Page))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Page_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Tab))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "RoleTemplate", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.RoleTemplate))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Token_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "Token", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Token))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Column_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Page), "Column", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Column))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Column_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Tab), "Column", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Column))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Column_WidgetZone", "WidgetZone", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.WidgetZone), "Column", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Column))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetInstance_Widget", "Widget", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Widget), "WidgetInstance", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetInstance))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetsInRoles_Widget", "Widget", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Widget), "WidgetsInRoles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetsInRoles))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetInstance_WidgetZone", "WidgetZone", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.WidgetZone), "WidgetInstance", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetInstance))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.AspNetRole), "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.AspNetUser))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.UserSetting))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Page), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.UserSetting))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Tab), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.UserSetting))]
 
 // Original file name:
-// Generation date: 5/31/2010 8:16:00 PM
+// Generation date: 5/31/2010 8:44:20 PM
 namespace Dropthings.Data
 {
     
@@ -146,22 +146,22 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<Column> _Columns;
         /// <summary>
-        /// There are no comments for Pages in the schema.
+        /// There are no comments for Tabs in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<Page> Pages
+        public global::System.Data.Objects.ObjectQuery<Tab> Tabs
         {
             get
             {
-                if ((this._Pages == null))
+                if ((this._Tabs == null))
                 {
-                    this._Pages = base.CreateQuery<Page>("[Pages]");
+                    this._Tabs = base.CreateQuery<Tab>("[Tabs]");
                 }
-                return this._Pages;
+                return this._Tabs;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<Page> _Pages;
+        private global::System.Data.Objects.ObjectQuery<Tab> _Tabs;
         /// <summary>
         /// There are no comments for RoleTemplates in the schema.
         /// </summary>
@@ -322,12 +322,12 @@ namespace Dropthings.Data
             base.AddObject("Columns", column);
         }
         /// <summary>
-        /// There are no comments for Pages in the schema.
+        /// There are no comments for Tabs in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToPages(Page page)
+        public void AddToTabs(Tab tab)
         {
-            base.AddObject("Pages", page);
+            base.AddObject("Tabs", tab);
         }
         /// <summary>
         /// There are no comments for RoleTemplates in the schema.
@@ -1785,17 +1785,17 @@ namespace Dropthings.Data
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<Page> Page
+        public global::System.Data.Objects.DataClasses.EntityCollection<Tab> Page
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Page>("Dropthings.Data.FK_Page_aspnet_Users", "Page");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Tab>("Dropthings.Data.FK_Page_aspnet_Users", "Page");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Page>("Dropthings.Data.FK_Page_aspnet_Users", "Page", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Tab>("Dropthings.Data.FK_Page_aspnet_Users", "Page", value);
                 }
             }
         }
@@ -2042,41 +2042,41 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnLastUpdatedChanged();
         /// <summary>
-        /// There are no comments for Page in the schema.
+        /// There are no comments for Tab in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_Column_Page", "Page")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public Page Page
+        public Tab Tab
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_Column_Page", "Page").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Tab>("Dropthings.Data.FK_Column_Page", "Page").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_Column_Page", "Page").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Tab>("Dropthings.Data.FK_Column_Page", "Page").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for Page in the schema.
+        /// There are no comments for Tab in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<Page> PageReference
+        public global::System.Data.Objects.DataClasses.EntityReference<Tab> TabReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_Column_Page", "Page");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Tab>("Dropthings.Data.FK_Column_Page", "Page");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Page>("Dropthings.Data.FK_Column_Page", "Page", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Tab>("Dropthings.Data.FK_Column_Page", "Page", value);
                 }
             }
         }
@@ -2121,18 +2121,18 @@ namespace Dropthings.Data
         }
     }
     /// <summary>
-    /// There are no comments for Dropthings.Data.Page in the schema.
+    /// There are no comments for Dropthings.Data.Tab in the schema.
     /// </summary>
     /// <KeyProperties>
     /// ID
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="Page")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="Tab")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class Page : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class Tab : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new Page object.
+        /// Create a new Tab object.
         /// </summary>
         /// <param name="id">Initial value of ID.</param>
         /// <param name="title">Initial value of Title.</param>
@@ -2145,20 +2145,20 @@ namespace Dropthings.Data
         /// <param name="isLocked">Initial value of IsLocked.</param>
         /// <param name="isDownForMaintenance">Initial value of IsDownForMaintenance.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Page CreatePage(int id, string title, global::System.DateTime createdDate, int versionNo, int layoutType, int pageType, int columnCount, byte[] lastUpdated, bool isLocked, bool isDownForMaintenance)
+        public static Tab CreateTab(int id, string title, global::System.DateTime createdDate, int versionNo, int layoutType, int pageType, int columnCount, byte[] lastUpdated, bool isLocked, bool isDownForMaintenance)
         {
-            Page page = new Page();
-            page.ID = id;
-            page.Title = title;
-            page.CreatedDate = createdDate;
-            page.VersionNo = versionNo;
-            page.LayoutType = layoutType;
-            page.PageType = pageType;
-            page.ColumnCount = columnCount;
-            page.LastUpdated = lastUpdated;
-            page.IsLocked = isLocked;
-            page.IsDownForMaintenance = isDownForMaintenance;
-            return page;
+            Tab tab = new Tab();
+            tab.ID = id;
+            tab.Title = title;
+            tab.CreatedDate = createdDate;
+            tab.VersionNo = versionNo;
+            tab.LayoutType = layoutType;
+            tab.PageType = pageType;
+            tab.ColumnCount = columnCount;
+            tab.LastUpdated = lastUpdated;
+            tab.IsLocked = isLocked;
+            tab.IsDownForMaintenance = isDownForMaintenance;
+            return tab;
         }
         /// <summary>
         /// There are no comments for property ID in the schema.
@@ -4329,41 +4329,41 @@ namespace Dropthings.Data
             }
         }
         /// <summary>
-        /// There are no comments for CurrentPage in the schema.
+        /// There are no comments for CurrentTab in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public Page CurrentPage
+        public Tab CurrentTab
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Tab>("Dropthings.Data.FK_UserSetting_Page", "Page").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Tab>("Dropthings.Data.FK_UserSetting_Page", "Page").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for CurrentPage in the schema.
+        /// There are no comments for CurrentTab in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<Page> CurrentPageReference
+        public global::System.Data.Objects.DataClasses.EntityReference<Tab> CurrentTabReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Tab>("Dropthings.Data.FK_UserSetting_Page", "Page");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Page>("Dropthings.Data.FK_UserSetting_Page", "Page", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Tab>("Dropthings.Data.FK_UserSetting_Page", "Page", value);
                 }
             }
         }

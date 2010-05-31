@@ -20,12 +20,12 @@
         {
             // Create default page setup which is expected to populate all three columns with widgets
             //var response = WorkflowTest.Run<FirstVisitWorkflow, UserVisitWorkflowRequest, UserVisitWorkflowResponse>(
-            //    new UserVisitWorkflowRequest { IsAnonymous = true, PageName = "", UserName = userName }
+            //    new UserVisitWorkflowRequest { IsAnonymous = true, TabName = "", UserName = userName }
             //    );
-            var response = new Facade(new AppContext(Guid.NewGuid().ToString(), userName)).FirstVisitHomePage(userName, string.Empty, true, false);
+            var response = new Facade(new AppContext(Guid.NewGuid().ToString(), userName)).FirstVisitHomeTab(userName, string.Empty, true, false);
 
-            Assert.NotNull(response.CurrentPage);
-            Assert.NotEqual(0, response.UserPages.Count());
+            Assert.NotNull(response.CurrentTab);
+            Assert.NotEqual(0, response.UserTabs.Count());
             Assert.NotNull(response.UserSetting);
 
             try
@@ -44,9 +44,9 @@
             // Create default page setup which is expected to populate all three columns with widgets
             using(var facade = new Facade(new AppContext(string.Empty, userName)))
             {
-                var response = facade.FirstVisitHomePage(userName, string.Empty, true, false);
-                Assert.NotNull(response.CurrentPage);
-                Assert.NotEqual(0, response.UserPages.Count());
+                var response = facade.FirstVisitHomeTab(userName, string.Empty, true, false);
+                Assert.NotNull(response.CurrentTab);
+                Assert.NotEqual(0, response.UserTabs.Count());
                 Assert.NotNull(response.UserSetting);
 
                 try

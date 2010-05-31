@@ -52,13 +52,13 @@
                         .First());
         }
 
-        public WidgetZone GetWidgetZoneByPageId_ColumnNo(int pageId, int columnNo)
+        public WidgetZone GetWidgetZoneByTabId_ColumnNo(int TabId, int columnNo)
         {
             return AspectF.Define
-                .Cache<WidgetZone>(_cacheResolver, CacheKeys.PageKeys.WidgetZoneByPageIdColumnNo(pageId, columnNo))
+                .Cache<WidgetZone>(_cacheResolver, CacheKeys.TabKeys.WidgetZoneByTabIdColumnNo(TabId, columnNo))
                 .Return<WidgetZone>(() =>
                     _database.Query(
-                        CompiledQueries.WidgetQueries.GetWidgetZoneByPageId_ColumnNo, pageId, columnNo)
+                        CompiledQueries.WidgetQueries.GetWidgetZoneByTabId_ColumnNo, TabId, columnNo)
                         .First()
                     );
         }

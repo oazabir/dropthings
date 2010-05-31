@@ -65,18 +65,18 @@ namespace Dropthings.Web.Framework
 
         //}
 
-        [WebMethod]
-        [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
-        public void ChangePageLayout(int newLayout)
-        {
-            AspectF.Define.Log(Services.Get<ILogger>(), "ChangePageLayout {0}", newLayout).Do(() =>
-            {
-                var facade = Services.Get<Facade>();
-                {
-                    facade.ModifyPageLayout(newLayout);
-                }
-            });
-        }
+        //[WebMethod]
+        //[ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
+        //public void ChangePageLayout(int newLayout)
+        //{
+        //    AspectF.Define.Log(Services.Get<ILogger>(), "ChangePageLayout {0}", newLayout).Do(() =>
+        //    {
+        //        var facade = Services.Get<Facade>();
+        //        {
+        //            facade.ModifyTabLayout(newLayout);
+        //        }
+        //    });
+        //}
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = false, XmlSerializeString = true)]
