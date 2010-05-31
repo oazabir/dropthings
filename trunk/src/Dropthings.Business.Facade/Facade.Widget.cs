@@ -38,7 +38,7 @@
             List<Widget> defaultWidgets = null;
 
             defaultWidgets = (System.Web.Security.Roles.Enabled && !string.IsNullOrEmpty(userName)) ?
-                this.GetWidgetList(userName, Enumerations.WidgetTypeEnum.PersonalPage).Where(w => w.IsDefault).ToList() :
+                this.GetWidgetList(userName, Enumerations.WidgetType.PersonalPage).Where(w => w.IsDefault).ToList() :
                 this.widgetRepository.GetWidgetByIsDefault(true);
             
             var widgetsPerColumn = (int)Math.Ceiling((float)defaultWidgets.Count / 3.0);
@@ -72,25 +72,25 @@
             this.widgetInstanceRepository.InsertList(wis);
         }
 
-        public List<Widget> GetWidgetList(Enumerations.WidgetTypeEnum widgetType)
+        public List<Widget> GetWidgetList(Enumerations.WidgetType widgetType)
         {
             return this.widgetRepository.GetAllWidgets(widgetType);
         }
 
-        public List<Widget> GetWidgetList(string username, Enumerations.WidgetTypeEnum widgetType)
+        public List<Widget> GetWidgetList(string username, Enumerations.WidgetType widgetType)
         {            
             var userGuid = this.GetUserGuidFromUserName(username);
             var userRoles = this.userRepository.GetRolesOfUser(userGuid);
             var widgets = this.widgetRepository.GetAllWidgets(widgetType);
             return widgets.Where(w => this.widgetsInRolesRepository.GetWidgetsInRolesByWidgetId(w.ID)
-                .Exists(wr => userRoles.Exists(role => role.RoleId == wr.aspnet_Roles.RoleId))).ToList();
+                .Exists(wr => userRoles.Exists(role => role.RoleId == wr.AspNetRole.RoleId))).ToList();
         }
 
         public bool IsWidgetInRole(int widgetId, string roleName)
         {
             List<WidgetsInRoles> widgetsInRole = this.widgetsInRolesRepository.GetWidgetsInRolesByWidgetId(widgetId);
             var roleId = this.roleRepository.GetRoleByRoleName(roleName).RoleId;
-            return widgetsInRole.Exists(r => r.aspnet_Roles.RoleId == roleId);            
+            return widgetsInRole.Exists(r => r.AspNetRole.RoleId == roleId);            
         }
 
         public IEnumerable<WidgetInstance> GetWidgetInstancesInZoneWithWidget(int widgetZoneId)
@@ -98,7 +98,7 @@
             var widgetInstances = this.widgetInstanceRepository.GetWidgetInstancesByWidgetZoneIdWithWidget(widgetZoneId);
             var widgetInstacesToRemove = new List<WidgetInstance>();
 
-            var widgetsForUser = GetWidgetList(Context.CurrentUserName, Enumerations.WidgetTypeEnum.PersonalPage);
+            var widgetsForUser = GetWidgetList(Context.CurrentUserName, Enumerations.WidgetType.PersonalPage);
             widgetInstances.Each(wi =>
                 {
                     if (wi.Widget == default(Widget))
@@ -304,7 +304,7 @@
             }
             else
             {
-                widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, columnNo);
+                widgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPage.ID, columnNo);
             }
 
             PushDownWidgetInstancesOnWidgetZone(toRow, widgetZone.ID, true);

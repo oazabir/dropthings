@@ -1,25 +1,15 @@
 Notes:
-Create schema change script for UserSetting table change
+Test all UI behaviors to make sure the refactoring did not break anything
 Regenerate the CreateNewDatabase-SQL2005 script.
 
 Next version target:
 ====================
-* FIX: When you decrease columns by selecting a layout, some widgets are lost.
-* FIX: Click on a new widget does not always add the widget on the top most position. 
-when there are other widgets which were added by dragging.
 * ADD: Make the widget gallery a jQuery slider.
 * ADD: Code and production site installer using Microsoft Web Platform installer
-* CHANGE: In MyFramework.js, change DropthingsUI to UI to save JS space.
-* ADD: When a user first logs in which was created in ASP.NET Membership in some other way than the Dropthings registration, during first login, users page setup needs to be created.
-* ADD: When a widget is deleted, do a cascade delete
-* CHANGE: Change all aspnet_Users, aspnet_Roles to proper names like User, Role
 * CHANGE: Change Page to Tab to prevent conflict with Page
-* CHANGE: Remove Enum suffix from Enums
 * CHANGE: Convert Javascripts to Script#
 * ADD: Comment all Facade methods and mention the "why" and "how"
-* CHANGE: Refactor Page settings panel to a user control.
-* CHANGE: Refactor tab bar to a user control.
-* CHANGE: Refactor default.aspx and move all page specific behavior to WidgetPage.ascx
+* CHANGE: Update Velocity reference to latest release
 
 Version 2.6.2
 =============
@@ -32,6 +22,10 @@ FIX: Issue 95:	Delete widget: Reference constraint errors when widget is used in
 FIX: Issue 94:	Delete widget: cache is not emptied
 FIX: Issue 90:	changing page layout - loss of widgets
 FIX: Issue 88:	Maximized widget has 'Move' cursor in widgetheader
+CHANGE: Refactor Page settings panel to a user control.
+CHANGE: Refactor tab bar to a user control.
+CHANGE: Refactor default.aspx and move all page specific behavior to WidgetPage.ascx
+CHANGE: Change all AspNetUsers, AspNetRoles to proper names like User, Role
 
 Version 2.6.1
 ==============

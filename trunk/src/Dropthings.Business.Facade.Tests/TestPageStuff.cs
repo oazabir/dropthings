@@ -188,7 +188,7 @@ namespace Dropthings.Business.Facade.Tests
                     facade.CreatePage("Test Page for Widget Delete", threeColumnLayoutNo);
 
                     // Add all the widgets on each column
-                    widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetTypeEnum.PersonalPage);
+                    widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetType.PersonalPage);
                     for (int columnNo = 0; columnNo < 3; columnNo++)
                     {
                         widgetMap[columnNo] = new List<int>();
@@ -271,7 +271,7 @@ namespace Dropthings.Business.Facade.Tests
                 facade.CreatePage("Test Page for Widget Delete", threeColumnLayoutNo);
 
                 // Add all the widgets on each column
-                widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetTypeEnum.PersonalPage);
+                widgets = facade.GetWidgetList(user.UserName, Data.Enumerations.WidgetType.PersonalPage);
                 for (int columnNo = 0; columnNo < 3; columnNo++)
                 {
                     widgetMap[columnNo] = new List<int>();

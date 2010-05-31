@@ -51,12 +51,29 @@ public partial class TabPage : System.Web.UI.UserControl
         set;
     }
 
+    public bool IsTemplateUser { get; set; }
+
+    public bool EnableTabSorting
+    {
+        get
+        {
+            if (!ConstantHelper.EnableTabSorting && IsTemplateUser)
+            {
+                return ConstantHelper.EnableTabSorting;
+            }
+
+            return ConstantHelper.EnableTabSorting;
+        }
+    }
+
+
     #endregion Properties
 
     #region Methods
 
-    public void LoadTabs(Guid currentUserId, IEnumerable<Page> pages, List<Page> sharedPages, Page page)
+    public void LoadTabs(Guid currentUserId, IEnumerable<Page> pages, List<Page> sharedPages, Page page, bool isTemplateUser)
     {
+        this.IsTemplateUser = isTemplateUser;
         this.CurrentPage = page;
         this.Pages = pages;
         this.LockedPages = sharedPages;
@@ -66,7 +83,7 @@ public partial class TabPage : System.Web.UI.UserControl
 
     public void RedirectToTab(Page page)
     {
-        if (!page.IsLocked || CurrentUserId == page.aspnet_Users.UserId)
+        if (!page.IsLocked || CurrentUserId == page.AspNetUser.UserId)
         {
             Response.Redirect("Default.aspx?" + page.UserTabName);
         }
@@ -108,7 +125,7 @@ public partial class TabPage : System.Web.UI.UserControl
         var facade = Services.Get<Facade>();
         {
             var roleTemplate = facade.GetRoleTemplate(CurrentUserId);
-            isTemplateUser = roleTemplate.aspnet_Users.UserId.Equals(CurrentUserId);
+            isTemplateUser = roleTemplate.AspNetUser.UserId.Equals(CurrentUserId);
         }
 
         var viewablePages = this.Pages.ToList();
@@ -140,7 +157,7 @@ public partial class TabPage : System.Web.UI.UserControl
             {
                 var url = "?";
 
-                if (!page.IsLocked || CurrentUserId == page.aspnet_Users.UserId)
+                if (!page.IsLocked || CurrentUserId == page.AspNetUser.UserId)
                 {
                     url += page.UserTabName;
                 }

@@ -62,7 +62,7 @@
                     .ToList());
         }
 
-        public List<Widget> GetAllWidgets(Enumerations.WidgetTypeEnum widgetType)
+        public List<Widget> GetAllWidgets(Enumerations.WidgetType widgetType)
         {
             return this.GetAllWidgets().Where(w => w.WidgetType == (int)widgetType).ToList();
             //return AspectF.Define

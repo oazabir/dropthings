@@ -66,7 +66,7 @@
             
             if (page != null)
             {
-                var userGuid = page.aspnet_Users.UserId;
+                var userGuid = page.AspNetUser.UserId;
                 _cacheResolver.Remove(CacheKeys.UserKeys.PagesOfUser(userGuid));
             }
         }
@@ -128,14 +128,14 @@
 
         public Page Insert(Page page)
         {
-            var user = page.aspnet_Users;
-            page.aspnet_Users = null;
-            var newPage = _database.Insert<aspnet_User, Page>(
+            var user = page.AspNetUser;
+            page.AspNetUser = null;
+            var newPage = _database.Insert<AspNetUser, Page>(
                 user,
-                (u, p) => p.aspnet_Users = u,
+                (u, p) => p.AspNetUser = u,
                 page);
-            page.aspnet_Users = user;
-            RemoveUserPagesCollection(newPage.aspnet_Users.UserId);
+            page.AspNetUser = user;
+            RemoveUserPagesCollection(newPage.AspNetUser.UserId);
             return newPage;
         }
 

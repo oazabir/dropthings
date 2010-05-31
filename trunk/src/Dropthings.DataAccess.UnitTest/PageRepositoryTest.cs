@@ -36,7 +36,7 @@
 
 			const int pageId = 1;
 			var page = default(Page);
-			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now };
 
 			database
 					.Expect<IQueryable<Page>>(d => d.Query<int, Page>(CompiledQueries.PageQueries.GetPageById, 1))
@@ -77,7 +77,7 @@
 			const int pageId = 1;
 			var page = default(Page);
 			var samplePage = new Page() { ID = pageId, Title = "Test Page", ColumnCount = 3, LayoutType = 3, VersionNo = 1, 
-                PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+                PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now };
 
 			"Given PageRepository and the requested page in cache".Context(() =>
 			{
@@ -108,8 +108,8 @@
                 Guid userId = Guid.NewGuid();
 
 				List<Page> userPages = new List<Page>();
-				userPages.Add(new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
-				userPages.Add(new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now });
+				userPages.Add(new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now });
+				userPages.Add(new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now });
 
 				database.Expect<IQueryable<Page>>(d => d.Query<Guid, Page>(CompiledQueries.PageQueries.GetPagesByUserId, userId))
 						.Returns(userPages.AsQueryable()).Verifiable();
@@ -195,8 +195,8 @@
                 Guid userId = Guid.NewGuid();
 
 				List<Page> userPages = new List<Page>();
-                var page1 = new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now, aspnet_Users = new aspnet_User { UserId = userId } };
-                var page2 = new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now, aspnet_Users = new aspnet_User { UserId = userId } };
+                var page1 = new Page() { ID = 1, Title = "Test Page 1", ColumnCount = 1, LayoutType = 1, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now, AspNetUser = new AspNetUser { UserId = userId } };
+                var page2 = new Page() { ID = 2, Title = "Test Page 2", ColumnCount = 2, LayoutType = 2, VersionNo = 1, PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now, AspNetUser = new AspNetUser { UserId = userId } };
 				userPages.Add(page1);
 				userPages.Add(page2);
 
@@ -233,7 +233,7 @@
 				"it returns the pages of the user".Assert(() =>
 				{
 					Assert.Equal<int>(userPages.Count, pages.Count);
-					pages.Each(page => Assert.Equal(userId, page.aspnet_Users.UserId));
+					pages.Each(page => Assert.Equal(userId, page.AspNetUser.UserId));
 				});
 			});
 		}
@@ -249,12 +249,12 @@
             Guid userId = Guid.NewGuid();
 			var page = default(Page);
 			var samplePage = new Page() { Title = "Test Page", ColumnCount = 3, 
-				LayoutType = 3, aspnet_Users = new aspnet_User { UserId = userId }, VersionNo = 1, 
-				PageType = (int)Enumerations.PageTypeEnum.PersonalPage, CreatedDate = DateTime.Now };
+				LayoutType = 3, AspNetUser = new AspNetUser { UserId = userId }, VersionNo = 1, 
+				PageType = (int)Enumerations.PageType.PersonalPage, CreatedDate = DateTime.Now };
 
-			database.Expect<Page>(d => d.Insert<aspnet_User, Page>(
-                        It.Is<aspnet_User>(u => u.UserId == userId),
-                        It.IsAny<Action<aspnet_User, Page>>(),
+			database.Expect<Page>(d => d.Insert<AspNetUser, Page>(
+                        It.Is<AspNetUser>(u => u.UserId == userId),
+                        It.IsAny<Action<AspNetUser, Page>>(),
                         It.Is<Page>(p => p.ID == default(int))))
                     .Callback(() => samplePage.ID = pageId)
 					.Returns(samplePage)
@@ -264,7 +264,7 @@
 			"Given PageRepository".Context(() =>
 			{
 				// It will clear items from cache
-				cache.Expect(c => c.Remove(CacheKeys.UserKeys.PagesOfUser(samplePage.aspnet_Users.UserId)));
+				cache.Expect(c => c.Remove(CacheKeys.UserKeys.PagesOfUser(samplePage.AspNetUser.UserId)));
 			});
 
 			"when Insert is called".Do(() =>
@@ -273,7 +273,7 @@
 						Title = samplePage.Title,
 						ColumnCount = samplePage.ColumnCount,
 						LayoutType = samplePage.LayoutType,
-						aspnet_Users = new aspnet_User { UserId = userId },
+						AspNetUser = new AspNetUser { UserId = userId },
 						VersionNo = samplePage.VersionNo,
 						PageType = samplePage.PageType
 					}));

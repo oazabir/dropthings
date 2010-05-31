@@ -168,7 +168,7 @@ namespace Dropthings.Business.Facade.Tests
 
             "When user adds a new widget on a column".Do(() =>
             {
-                var widgets = facade.GetWidgetList(profile.UserName, Enumerations.WidgetTypeEnum.PersonalPage);
+                var widgets = facade.GetWidgetList(profile.UserName, Enumerations.WidgetType.PersonalPage);
                 widgetToAdd = widgets.First();
                 //var columns = facade.GetColumnsInPage(userSetup.CurrentPage.ID);
                 //var firstColumn = columns.First();

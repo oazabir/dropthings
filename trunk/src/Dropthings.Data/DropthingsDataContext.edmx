@@ -466,10 +466,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="Dropthings.Data" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
         <EntityContainer Name="DropthingsDataContext">
-          <EntitySet Name="aspnet_Memberships" EntityType="Dropthings.Data.aspnet_Membership" />
-          <EntitySet Name="aspnet_Profiles" EntityType="Dropthings.Data.aspnet_Profile" />
-          <EntitySet Name="aspnet_Roles" EntityType="Dropthings.Data.aspnet_Role" />
-          <EntitySet Name="aspnet_Users" EntityType="Dropthings.Data.aspnet_User" />
+          <EntitySet Name="AspNetMemberships" EntityType="Dropthings.Data.AspNetMembership" />
+          <EntitySet Name="AspNetProfiles" EntityType="Dropthings.Data.AspNetProfile" />
+          <EntitySet Name="AspNetRoles" EntityType="Dropthings.Data.AspNetRole" />
+          <EntitySet Name="AspNetUsers" EntityType="Dropthings.Data.AspNetUser" />
           <EntitySet Name="Columns" EntityType="Dropthings.Data.Column" />
           <EntitySet Name="Pages" EntityType="Dropthings.Data.Page" />
           <EntitySet Name="RoleTemplates" EntityType="Dropthings.Data.RoleTemplate" />
@@ -479,31 +479,31 @@
           <EntitySet Name="WidgetsInRolesSet" EntityType="Dropthings.Data.WidgetsInRoles" />
           <EntitySet Name="WidgetZones" EntityType="Dropthings.Data.WidgetZone" />
           <AssociationSet Name="FK__aspnet_Me__UserI__1A14E395" Association="Dropthings.Data.FK__aspnet_Me__UserI__1A14E395">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="aspnet_Membership" EntitySet="aspnet_Memberships" />
+            <End Role="aspnet_Users" EntitySet="AspNetUsers" />
+            <End Role="aspnet_Membership" EntitySet="AspNetMemberships" />
           </AssociationSet>
           <AssociationSet Name="FK__aspnet_Pr__UserI__2E1BDC42" Association="Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="aspnet_Profile" EntitySet="aspnet_Profiles" />
+            <End Role="aspnet_Users" EntitySet="AspNetUsers" />
+            <End Role="aspnet_Profile" EntitySet="AspNetProfiles" />
           </AssociationSet>
           <AssociationSet Name="FK_RoleTemplate_aspnet_Roles" Association="Dropthings.Data.FK_RoleTemplate_aspnet_Roles">
-            <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
+            <End Role="aspnet_Roles" EntitySet="AspNetRoles" />
             <End Role="RoleTemplate" EntitySet="RoleTemplates" />
           </AssociationSet>
           <AssociationSet Name="FK_WidgetsInRoles_aspnet_Roles" Association="Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles">
-            <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
+            <End Role="aspnet_Roles" EntitySet="AspNetRoles" />
             <End Role="WidgetsInRoles" EntitySet="WidgetsInRolesSet" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_aspnet_Users" Association="Dropthings.Data.FK_Page_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Users" EntitySet="AspNetUsers" />
             <End Role="Page" EntitySet="Pages" />
           </AssociationSet>
           <AssociationSet Name="FK_RoleTemplate_aspnet_Users" Association="Dropthings.Data.FK_RoleTemplate_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Users" EntitySet="AspNetUsers" />
             <End Role="RoleTemplate" EntitySet="RoleTemplates" />
           </AssociationSet>
           <AssociationSet Name="FK_Token_aspnet_Users" Association="Dropthings.Data.FK_Token_aspnet_Users">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Users" EntitySet="AspNetUsers" />
             <End Role="Token" EntitySet="Tokens" />
           </AssociationSet>
           <AssociationSet Name="FK_Column_Page" Association="Dropthings.Data.FK_Column_Page">
@@ -527,12 +527,12 @@
             <End Role="WidgetInstance" EntitySet="WidgetInstances" />
           </AssociationSet>
           <AssociationSet Name="aspnet_UsersInRoles" Association="Dropthings.Data.aspnet_UsersInRoles">
-            <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Roles" EntitySet="AspNetRoles" />
+            <End Role="aspnet_Users" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="UserSettings" EntityType="Dropthings.Data.UserSetting" />
           <AssociationSet Name="FK_UserSetting_aspnet_Users" Association="Dropthings.Data.FK_UserSetting_aspnet_Users">
-            <End Role="aspnet_User" EntitySet="aspnet_Users" />
+            <End Role="aspnet_User" EntitySet="AspNetUsers" />
             <End Role="UserSetting" EntitySet="UserSettings" />
           </AssociationSet>
           <AssociationSet Name="FK_UserSetting_Page" Association="Dropthings.Data.FK_UserSetting_Page">
@@ -543,7 +543,7 @@
             <Parameter Name="WidgetId" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
-        <EntityType Name="aspnet_Membership">
+        <EntityType Name="AspNetMembership">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
@@ -568,9 +568,9 @@
           <Property Name="FailedPasswordAnswerAttemptCount" Type="Int32" Nullable="false" />
           <Property Name="FailedPasswordAnswerAttemptWindowStart" Type="DateTime" Nullable="false" />
           <Property Name="Comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Dropthings.Data.FK__aspnet_Me__UserI__1A14E395" FromRole="aspnet_Membership" ToRole="aspnet_Users" />
+          <NavigationProperty Name="AspNetUser" Relationship="Dropthings.Data.FK__aspnet_Me__UserI__1A14E395" FromRole="aspnet_Membership" ToRole="aspnet_Users" />
         </EntityType>
-        <EntityType Name="aspnet_Profile">
+        <EntityType Name="AspNetProfile">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
@@ -579,9 +579,9 @@
           <Property Name="PropertyValuesString" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="PropertyValuesBinary" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42" FromRole="aspnet_Profile" ToRole="aspnet_Users" />
+          <NavigationProperty Name="AspNetUser" Relationship="Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42" FromRole="aspnet_Profile" ToRole="aspnet_Users" />
         </EntityType>
-        <EntityType Name="aspnet_Role">
+        <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="RoleId" />
           </Key>
@@ -592,9 +592,9 @@
           <Property Name="Description" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="RoleTemplate" Relationship="Dropthings.Data.FK_RoleTemplate_aspnet_Roles" FromRole="aspnet_Roles" ToRole="RoleTemplate" />
           <NavigationProperty Name="WidgetsInRoles" Relationship="Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles" FromRole="aspnet_Roles" ToRole="WidgetsInRoles" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Dropthings.Data.aspnet_UsersInRoles" FromRole="aspnet_Roles" ToRole="aspnet_Users" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Dropthings.Data.aspnet_UsersInRoles" FromRole="aspnet_Roles" ToRole="aspnet_Users" />
         </EntityType>
-        <EntityType Name="aspnet_User">
+        <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
@@ -605,12 +605,12 @@
           <Property Name="MobileAlias" Type="String" MaxLength="16" Unicode="true" FixedLength="false" />
           <Property Name="IsAnonymous" Type="Boolean" Nullable="false" />
           <Property Name="LastActivityDate" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="aspnet_Membership" Relationship="Dropthings.Data.FK__aspnet_Me__UserI__1A14E395" FromRole="aspnet_Users" ToRole="aspnet_Membership" />
-          <NavigationProperty Name="aspnet_Profile" Relationship="Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42" FromRole="aspnet_Users" ToRole="aspnet_Profile" />
+          <NavigationProperty Name="AspNetMembership" Relationship="Dropthings.Data.FK__aspnet_Me__UserI__1A14E395" FromRole="aspnet_Users" ToRole="aspnet_Membership" />
+          <NavigationProperty Name="AspNetProfile" Relationship="Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42" FromRole="aspnet_Users" ToRole="aspnet_Profile" />
           <NavigationProperty Name="Page" Relationship="Dropthings.Data.FK_Page_aspnet_Users" FromRole="aspnet_Users" ToRole="Page" />
           <NavigationProperty Name="RoleTemplate" Relationship="Dropthings.Data.FK_RoleTemplate_aspnet_Users" FromRole="aspnet_Users" ToRole="RoleTemplate" />
           <NavigationProperty Name="Token" Relationship="Dropthings.Data.FK_Token_aspnet_Users" FromRole="aspnet_Users" ToRole="Token" />
-          <NavigationProperty Name="aspnet_Roles" Relationship="Dropthings.Data.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Dropthings.Data.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
           <NavigationProperty Name="UserSetting" Relationship="Dropthings.Data.FK_UserSetting_aspnet_Users" FromRole="aspnet_User" ToRole="UserSetting" />
         </EntityType>
         <EntityType Name="Column">
@@ -642,7 +642,7 @@
           <Property Name="LastDownForMaintenanceAt" Type="DateTime" />
           <Property Name="ServeAsStartPageAfterLogin" Type="Boolean" />
           <Property Name="OrderNo" Type="Int32" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Dropthings.Data.FK_Page_aspnet_Users" FromRole="Page" ToRole="aspnet_Users" />
+          <NavigationProperty Name="AspNetUser" Relationship="Dropthings.Data.FK_Page_aspnet_Users" FromRole="Page" ToRole="aspnet_Users" />
           <NavigationProperty Name="Column" Relationship="Dropthings.Data.FK_Column_Page" FromRole="Page" ToRole="Column" />
           <NavigationProperty Name="UserSettings" Relationship="Dropthings.Data.FK_UserSetting_Page" FromRole="Page" ToRole="UserSetting" />
         </EntityType>
@@ -652,8 +652,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Priority" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="aspnet_Roles" Relationship="Dropthings.Data.FK_RoleTemplate_aspnet_Roles" FromRole="RoleTemplate" ToRole="aspnet_Roles" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Dropthings.Data.FK_RoleTemplate_aspnet_Users" FromRole="RoleTemplate" ToRole="aspnet_Users" />
+          <NavigationProperty Name="AspNetRole" Relationship="Dropthings.Data.FK_RoleTemplate_aspnet_Roles" FromRole="RoleTemplate" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="AspNetUser" Relationship="Dropthings.Data.FK_RoleTemplate_aspnet_Users" FromRole="RoleTemplate" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="Token">
           <Key>
@@ -663,7 +663,7 @@
           <Property Name="UniqueID" Type="Guid" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="LastUpdated" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Dropthings.Data.FK_Token_aspnet_Users" FromRole="Token" ToRole="aspnet_Users" />
+          <NavigationProperty Name="AspNetUser" Relationship="Dropthings.Data.FK_Token_aspnet_Users" FromRole="Token" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -710,7 +710,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="aspnet_Roles" Relationship="Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles" FromRole="WidgetsInRoles" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="AspNetRole" Relationship="Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles" FromRole="WidgetsInRoles" ToRole="aspnet_Roles" />
           <NavigationProperty Name="Widget" Relationship="Dropthings.Data.FK_WidgetsInRoles_Widget" FromRole="WidgetsInRoles" ToRole="Widget" />
         </EntityType>
         <EntityType Name="WidgetZone">
@@ -725,8 +725,8 @@
           <NavigationProperty Name="WidgetInstance" Relationship="Dropthings.Data.FK_WidgetInstance_WidgetZone" FromRole="WidgetZone" ToRole="WidgetInstance" />
         </EntityType>
         <Association Name="FK__aspnet_Me__UserI__1A14E395">
-          <End Role="aspnet_Users" Type="Dropthings.Data.aspnet_User" Multiplicity="1" />
-          <End Role="aspnet_Membership" Type="Dropthings.Data.aspnet_Membership" Multiplicity="0..1" />
+          <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="1" />
+          <End Role="aspnet_Membership" Type="Dropthings.Data.AspNetMembership" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -737,8 +737,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__aspnet_Pr__UserI__2E1BDC42">
-          <End Role="aspnet_Users" Type="Dropthings.Data.aspnet_User" Multiplicity="1" />
-          <End Role="aspnet_Profile" Type="Dropthings.Data.aspnet_Profile" Multiplicity="0..1" />
+          <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="1" />
+          <End Role="aspnet_Profile" Type="Dropthings.Data.AspNetProfile" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -749,23 +749,23 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RoleTemplate_aspnet_Roles">
-          <End Role="aspnet_Roles" Type="Dropthings.Data.aspnet_Role" Multiplicity="1" />
+          <End Role="aspnet_Roles" Type="Dropthings.Data.AspNetRole" Multiplicity="1" />
           <End Role="RoleTemplate" Type="Dropthings.Data.RoleTemplate" Multiplicity="*" />
         </Association>
         <Association Name="FK_WidgetsInRoles_aspnet_Roles">
-          <End Role="aspnet_Roles" Type="Dropthings.Data.aspnet_Role" Multiplicity="1" />
+          <End Role="aspnet_Roles" Type="Dropthings.Data.AspNetRole" Multiplicity="1" />
           <End Role="WidgetsInRoles" Type="Dropthings.Data.WidgetsInRoles" Multiplicity="*" />
         </Association>
         <Association Name="FK_Page_aspnet_Users">
-          <End Role="aspnet_Users" Type="Dropthings.Data.aspnet_User" Multiplicity="1" />
+          <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="1" />
           <End Role="Page" Type="Dropthings.Data.Page" Multiplicity="*" />
         </Association>
         <Association Name="FK_RoleTemplate_aspnet_Users">
-          <End Role="aspnet_Users" Type="Dropthings.Data.aspnet_User" Multiplicity="1" />
+          <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="1" />
           <End Role="RoleTemplate" Type="Dropthings.Data.RoleTemplate" Multiplicity="*" />
         </Association>
         <Association Name="FK_Token_aspnet_Users">
-          <End Role="aspnet_Users" Type="Dropthings.Data.aspnet_User" Multiplicity="1" />
+          <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="1" />
           <End Role="Token" Type="Dropthings.Data.Token" Multiplicity="*" />
         </Association>
         <Association Name="FK_Column_Page">
@@ -789,8 +789,8 @@
           <End Role="WidgetInstance" Type="Dropthings.Data.WidgetInstance" Multiplicity="*" />
         </Association>
         <Association Name="aspnet_UsersInRoles">
-          <End Role="aspnet_Roles" Type="Dropthings.Data.aspnet_Role" Multiplicity="*" />
-          <End Role="aspnet_Users" Type="Dropthings.Data.aspnet_User" Multiplicity="*" />
+          <End Role="aspnet_Roles" Type="Dropthings.Data.AspNetRole" Multiplicity="*" />
+          <End Role="aspnet_Users" Type="Dropthings.Data.AspNetUser" Multiplicity="*" />
         </Association>
         <EntityType Name="UserSetting">
           <Key>
@@ -799,11 +799,11 @@
           <Property Type="Guid" Name="UserId" Nullable="false" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <Property Type="Binary" Name="Timestamp" Nullable="false" MaxLength="8" FixedLength="true" a:StoreGeneratedPattern="Computed" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Dropthings.Data.FK_UserSetting_aspnet_Users" FromRole="UserSetting" ToRole="aspnet_User" />
-          <NavigationProperty Name="Page" Relationship="Dropthings.Data.FK_UserSetting_Page" FromRole="UserSetting" ToRole="Page" />
+          <NavigationProperty Name="AspNetUser" Relationship="Dropthings.Data.FK_UserSetting_aspnet_Users" FromRole="UserSetting" ToRole="aspnet_User" />
+          <NavigationProperty Name="CurrentPage" Relationship="Dropthings.Data.FK_UserSetting_Page" FromRole="UserSetting" ToRole="Page" />
         </EntityType>
         <Association Name="FK_UserSetting_aspnet_Users">
-          <End Type="Dropthings.Data.aspnet_User" Role="aspnet_User" Multiplicity="1" />
+          <End Type="Dropthings.Data.AspNetUser" Role="aspnet_User" Multiplicity="1" />
           <End Type="Dropthings.Data.UserSetting" Role="UserSetting" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_User">
@@ -825,8 +825,8 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
         <EntityContainerMapping StorageEntityContainer="DropthingsDataStoreContainer" CdmEntityContainer="DropthingsDataContext">
-          <EntitySetMapping Name="aspnet_Memberships">
-            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.aspnet_Membership)">
+          <EntitySetMapping Name="AspNetMemberships">
+            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.AspNetMembership)">
               <MappingFragment StoreEntitySet="aspnet_Membership">
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -852,8 +852,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="aspnet_Profiles">
-            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.aspnet_Profile)">
+          <EntitySetMapping Name="AspNetProfiles">
+            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.AspNetProfile)">
               <MappingFragment StoreEntitySet="aspnet_Profile">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="PropertyNames" ColumnName="PropertyNames" />
@@ -863,8 +863,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="aspnet_Roles">
-            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.aspnet_Role)">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.AspNetRole)">
               <MappingFragment StoreEntitySet="aspnet_Roles">
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
@@ -874,8 +874,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="aspnet_Users">
-            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.aspnet_User)">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="IsTypeOf(Dropthings.Data.AspNetUser)">
               <MappingFragment StoreEntitySet="aspnet_Users">
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1141,10 +1141,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="DropthingsDataContext">
-        <EntityTypeShape EntityType="Dropthings.Data.aspnet_Membership" Width="1.5" PointX="5.25" PointY="22.5" Height="5.2494108072916674" IsExpanded="true" />
-        <EntityTypeShape EntityType="Dropthings.Data.aspnet_Profile" Width="1.5" PointX="5.25" PointY="14.75" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="Dropthings.Data.aspnet_Role" Width="1.5" PointX="0.75" PointY="12.375" Height="2.5571907552083317" IsExpanded="true" />
-        <EntityTypeShape EntityType="Dropthings.Data.aspnet_User" Width="1.5" PointX="3" PointY="16.75" Height="3.7109993489583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dropthings.Data.AspNetMembership" Width="1.5" PointX="5.25" PointY="22.5" Height="5.2494108072916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dropthings.Data.AspNetProfile" Width="1.5" PointX="5.25" PointY="14.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dropthings.Data.AspNetRole" Width="1.5" PointX="0.75" PointY="12.375" Height="2.5571907552083317" IsExpanded="true" />
+        <EntityTypeShape EntityType="Dropthings.Data.AspNetUser" Width="1.5" PointX="3" PointY="16.75" Height="3.7109993489583317" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.Column" Width="1.5" PointX="7.5" PointY="18.625" Height="2.1725878906250031" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.Page" Width="1.5" PointX="5.25" PointY="17.75" Height="4.0956022135416674" IsExpanded="true" />
         <EntityTypeShape EntityType="Dropthings.Data.RoleTemplate" Width="1.5" PointX="8.25" PointY="15.5" Height="1.7879850260416674" IsExpanded="true" />

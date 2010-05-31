@@ -45,19 +45,19 @@ namespace Dropthings.Data.Repository
 
 	    public UserSetting Insert(UserSetting setting)
         {
-            var user = setting.aspnet_Users;
-            var page = setting.Page;
+            var user = setting.AspNetUser;
+            var page = setting.CurrentPage;
             
-            setting.aspnet_Users = null;
-            setting.Page = null;
+            setting.AspNetUser = null;
+            setting.CurrentPage = null;
 
-            _database.Insert<aspnet_User, Page, UserSetting>(user, page,
-                (u, s) => s.aspnet_Users = u,
-                (p, s) => s.Page = p,
+            _database.Insert<AspNetUser, Page, UserSetting>(user, page,
+                (u, s) => s.AspNetUser = u,
+                (p, s) => s.CurrentPage = p,
                 setting);
             
-            setting.aspnet_Users = user;
-            setting.Page = page;
+            setting.AspNetUser = user;
+            setting.CurrentPage = page;
             return setting;
         }
 

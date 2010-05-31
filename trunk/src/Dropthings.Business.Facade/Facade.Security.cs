@@ -49,7 +49,7 @@
                             {
                                 Roles.CreateRole(roleName);
 
-                                var aspnet_Role = this.roleRepository.GetRoleByRoleName(roles[i]);
+                                var AspNetRole = this.roleRepository.GetRoleByRoleName(roles[i]);
                                 var defaultWidgets = this.widgetRepository.GetWidgetByIsDefault(true);
                                     
                                 if (defaultWidgets != null && defaultWidgets.Count > 0)
@@ -59,7 +59,7 @@
                                         this.widgetsInRolesRepository.Insert(new WidgetsInRoles
                                            {
                                                Widget = new Widget { ID = defaultWidget.ID },
-                                               aspnet_Roles = new aspnet_Role { RoleId = aspnet_Role.RoleId }
+                                               AspNetRole = new AspNetRole { RoleId = AspNetRole.RoleId }
                                            });
                                     }
                                 }
@@ -74,7 +74,7 @@
         {
             var token = new Token
             {
-                aspnet_Users = new aspnet_User { UserId = userGuid },
+                AspNetUser = new AspNetUser { UserId = userGuid },
                 UserName = userName,
                 UniqueID = Guid.NewGuid()
             };
@@ -129,7 +129,7 @@
 
             int priority = RoleTemplates.Count == 0 ? 0 : RoleTemplates.Max(r => r.Priority);
 
-            var aspnet_Role = this.roleRepository.GetRoleByRoleName(templateRoleName);
+            var AspNetRole = this.roleRepository.GetRoleByRoleName(templateRoleName);
 
             var RoleTemplate = this.roleTemplateRepository.GetRoleTemplateByRoleName(templateRoleName);
             
@@ -137,8 +137,8 @@
             {
                 var insertedRoleTemplate = this.roleTemplateRepository.Insert(new RoleTemplate
                 {
-                    aspnet_Roles = new aspnet_Role { RoleId = aspnet_Role.RoleId },
-                    aspnet_Users = new aspnet_User { UserId = userGuid },
+                    AspNetRole = new AspNetRole { RoleId = AspNetRole.RoleId },
+                    AspNetUser = new AspNetUser { UserId = userGuid },
                     Priority = priority + 1
                 });
             }
@@ -157,10 +157,10 @@
                 // Get the template user so that its page setup can be cloned for new user
                 var roleTemplate = GetRoleTemplate(userGuid);
 
-                if (!roleTemplate.aspnet_Users.UserId.IsEmpty())
+                if (!roleTemplate.AspNetUser.UserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    var templateUserPages = this.GetPagesOfUser(roleTemplate.aspnet_Users.UserId);
+                    var templateUserPages = this.GetPagesOfUser(roleTemplate.AspNetUser.UserId);
                     foreach (Page templatePage in templateUserPages)
                     {
                         if (!templatePage.IsLocked)
@@ -172,8 +172,8 @@
             }
             else
             {
-                var aspnet_user = this.userRepository.GetUserFromUserName(Context.CurrentUserName);
-                TransferOwnership(userGuid, aspnet_user.UserId);
+                var AspNetUser = this.userRepository.GetUserFromUserName(Context.CurrentUserName);
+                TransferOwnership(userGuid, AspNetUser.UserId);
             }
 
             registerUserResponse = new RegisterUserResponse();
@@ -227,14 +227,14 @@
             roleNames = roleNames.Select(r => r.ToLower()).ToArray();
             roles.Each(role =>
                 {
-                    var existingRole = existingRoles.FirstOrDefault(wr => wr.aspnet_Roles.RoleId == role.RoleId);
+                    var existingRole = existingRoles.FirstOrDefault(wr => wr.AspNetRole.RoleId == role.RoleId);
                     if (roleNames.Contains(role.RoleName.ToLower()))
                     {
                         // Need to give this role, if not already exists
                         if (existingRole == default(WidgetsInRoles))
                             this.widgetsInRolesRepository.Insert(new WidgetsInRoles
                                 {
-                                    aspnet_Roles = new aspnet_Role { RoleId = role.RoleId },
+                                    AspNetRole = new AspNetRole { RoleId = role.RoleId },
                                     Widget = new Widget { ID = widgetId }
                                 });
                     }
@@ -273,7 +273,7 @@
 
         //                var existingWidgetsInRoles = this.widgetsInRolesRepository.GetWidgetsInRoleByWidgetId(WidgetId);
 
-        //                foreach (aspnet_Role role in roles)
+        //                foreach (AspNetRole role in roles)
         //                {
         //                    bool isEnable = incomingRoles != null && incomingRoles.Contains(role.RoleName);
         //                    var existingWidgetsInRole = existingWidgetsInRoles.Where(wir => wir.RoleId == role.RoleId).SingleOrDefault();

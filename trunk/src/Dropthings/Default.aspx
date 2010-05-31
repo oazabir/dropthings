@@ -1,12 +1,12 @@
 <%@ Page Language="C#" Culture="auto:en-US" UICulture="auto:en-US" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default"  EnableSessionState="False" ValidateRequest="false" Trace="False" TraceMode="SortByCategory" %>
 <%@ OutputCache Location="None" NoStore="true" %>
 
-<%@ Register Src="~/Header.ascx" TagName="Header" TagPrefix="uc1" %>
-<%@ Register Src="~/Footer.ascx" TagName="Footer" TagPrefix="uc2" %>
-<%@ Register src="~/WidgetListControl.ascx" tagname="WidgetListControl" tagprefix="widgets" %>
-<%@ Register Src="~/WidgetPage.ascx" TagName="WidgetPage" TagPrefix="widgets" %>
-<%@ Register src="~/TabPage.ascx" tagname="TabPage" tagprefix="tab" %>
-<%@ Register Src="~/ScriptManagerControl.ascx" TagName="ScriptManagerControl" TagPrefix="common" %>
+<%@ Register Src="~/Header.ascx" TagName="Header" TagPrefix="dropthings" %>
+<%@ Register Src="~/Footer.ascx" TagName="Footer" TagPrefix="dropthings" %>
+<%@ Register Src="~/WidgetPage.ascx" TagName="WidgetPage" TagPrefix="dropthings" %>
+<%@ Register src="~/TabPage.ascx" TagName="TabPage" TagPrefix="dropthings" %>
+<%@ Register Src="~/ScriptManagerControl.ascx" TagName="ScriptManagerControl" TagPrefix="dropthings" %>
+<%@ Register Src="~/ChangeSettingsControl.ascx" TagName="ChangeSettingsControl" TagPrefix="dropthings"  %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19,76 +19,17 @@
 </head>
 <body>
 <form id="default_form" runat="server">
-<common:ScriptManagerControl ID="TheScriptManager" runat="server" />
+<dropthings:ScriptManagerControl ID="TheScriptManager" runat="server" />
 
     <div id="container">
         <!-- Render header first so that user can start typing search criteria while the huge runtime and other scripts download -->
-        <uc1:Header ID="Header1" runat="server" />
+        <dropthings:Header ID="Header1" runat="server" />
 
-        <tab:TabPage ID="UserTabPage" runat="server" />
+        <dropthings:TabPage ID="UserTabPage" runat="server" />
         
         <div id="onpage_menu">
             <div id="onpage_menu_wrapper">
-                <asp:UpdatePanel ID="OnPageMenuUpdatePanel" runat="server" UpdateMode="Conditional" >
-                    <ContentTemplate>
-                        <div id="onpage_menu_bar" onmouseover="this.className='onpage_menu_bar_hover'" onmouseout="this.className=''">
-                            <asp:LinkButton CssClass="onpage_menu_action" ID="ShowAddContentPanel" runat="server" Text="<%$Resources:SharedResources, AddStuff%>" OnClick="ShowAddContentPanel_Click"/>
-                            <asp:LinkButton CssClass="onpage_menu_action" ID="HideAddContentPanel" runat="server" Text="<%$Resources:SharedResources, HideStuff%>" OnClick="HideAddContentPanel_Click" Visible="false" OnClientClick="DropthingsUI.hideWidgetGallery();" />
-                            <asp:LinkButton ID="ChangePageTitleLinkButton" CssClass="onpage_menu_action" Text="<%$Resources:SharedResources, ChangeSettings%>" runat="server" OnClick="ChangeTabSettingsLinkButton_Clicked" />
-                        </div>
-                        <div id="onpage_menu_panels">
-                            <asp:Panel ID="ChangePageSettingsPanel" runat="server" Visible="false" CssClass="onpage_menu_panel">
-                                <div>
-                                    <div class="onpage_menu_panel_column">
-                                        <h1><asp:Literal ID="ltlChangeTabTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeTabTitle%>" /></h1>
-                                        <p>
-                                            <asp:Literal ID="ltlTitle" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Title%>" />: <asp:TextBox ID="NewTitleTextBox" runat="server" />
-                                            <asp:Button ID="SaveNewTitleButton" runat="server" OnClick="SaveNewTitleButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
-                                        </p>
-                                        <asp:Panel ID="pnlTemplateUserSettings" runat="server" Visible="false">
-                                        <p>
-                                            <asp:Literal ID="ltlLocked" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Locked%>" />: <asp:CheckBox ID="TabLocked" runat="server" />
-                                            <asp:Button ID="SaveTabLockSetting" runat="server" OnClick="SaveTabLockSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
-                                        </p>
-                                        <p id="maintenenceOption" runat="server" visible="false">
-                                            <asp:Literal ID="ltlMaintence" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, MaintenanceModeMessage%>" />: <asp:CheckBox ID="TabMaintanance" runat="server" />
-                                            <asp:Button ID="SaveTabMaintenenceSetting" runat="server" OnClick="SaveTabMaintenenceSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
-                                        </p>
-                                        <p id="serveAsStartPageOption" runat="server" visible="false">
-                                            <asp:Literal ID="ltlServeAsStartPage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ServeAsStartPageMessage%>" />: <asp:CheckBox ID="TabServeAsStartPage" runat="server" />
-                                            <asp:Button ID="SaveTabServeAsStartPageSetting" runat="server" OnClick="SaveTabServeAsStartPageSettingButton_Clicked" Text="<%$Resources:SharedResources, Save%>" />
-                                        </p>
-                                        </asp:Panel>
-                                    </div>
-                                    <div class="onpage_menu_panel_column">
-                                        <h1><asp:Literal ID="ltlDeleteTab" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" /></h1>
-                                        <p>
-                                        <asp:Literal ID="ltlDeleteTab2" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, DeleteTab%>" />? <asp:Button ID="DeleteTabLinkButton" runat="server" OnClick="DeleteTabLinkButton_Clicked" Text="<%$Resources:SharedResources, Yes%>" />
-                                        </p>
-                                    </div>                                
-                                    <div class="onpage_menu_panel_column" style="clear:right">
-                                        <h1><asp:Literal ID="ltlChangeColumn" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChangeColumn%>" /></h1>
-                                        
-                                        <p><asp:Literal ID="ltlChoiceColumnLayout" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, ChoiceColumnLayout%>" /><br />
-                                            <asp:ImageButton ImageUrl="img/Layout1.jpg" runat="server" OnClick="Layout1_Clicked" />
-                                            <asp:ImageButton ImageUrl="img/Layout2.jpg" runat="server" OnClick="Layout2_Clicked" />
-                                            <asp:ImageButton ImageUrl="img/Layout3.jpg" runat="server" OnClick="Layout3_Clicked" />
-                                            <asp:ImageButton ImageUrl="img/Layout4.jpg" runat="server" OnClick="Layout4_Clicked" />                                        
-                                        </p>                                        
-                                    </div>
-                                </div>
-                                <div style="clear:both"></div>
-                            </asp:Panel>
-                            <div id="Widget_Gallery" style="display:none">
-                                <asp:Panel ID="AddContentPanel" runat="Server" CssClass="onpage_menu_panel widget_showcase" Visible="false">                                
-                                    <widgets:WidgetListControl ID="WidgetListControlAdd" runat="server" />                    
-                                    
-                                    <div class="clear"></div>
-                                </asp:Panel>            
-                            </div>
-                        </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                <dropthings:ChangeSettingsControl ID="ChangeSettingsControl" runat="server" />
             </div>
         </div>
         <div class="clear"></div>
@@ -96,13 +37,13 @@
             <div id="contents_wrapper">
                 <div id="widget_area">
                     <div id="widget_area_wrapper">
-                        <widgets:WidgetPage runat="server" ID="WidgetPage" />                        
+                        <dropthings:WidgetPage runat="server" ID="WidgetPage" />                        
                     </div>
                 </div>
             </div>
         </div>
                         
-        <uc2:Footer ID="Footer1" runat="server"></uc2:Footer>
+        <dropthings:Footer ID="Footer1" runat="server" />
                     
     </div>
     
@@ -114,8 +55,35 @@
     onclick="return false" onmousedown="return false" onmousemove="return false"
     onmouseup="return false" ondblclick="return false">&nbsp;</div>        
     
-    <textarea id="TraceConsole" rows="10" cols="80" style="display:none"></textarea>
-            
+    <textarea id="TraceConsole" rows="10" cols="80" style="display:none"></textarea>    
+
+    <!-- Template for a new widget placeholder. It's used to create a fake widget
+    when you drag & drop a widget from the widget gallery, until the real widget
+    is loaded. -->
+    <!-- Begin template -->
+    <div class="nodisplay">
+        <div id="new_widget_template" class="widget">
+            <div class="widget_header">
+                <table class="widget_header_table" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td class="widget_title"><a class="widget_title_label"><!=json.title!></a></td>
+                            <td class="widget_button"><a class="widget_close widget_box"> </a></td>
+                        </tr>
+                    </tbody>
+                </table>            
+            </div>
+            <div id="WidgetResizeFrame" class="widget_resize_frame" >
+                <div class="widget_body">
+                    Loading widget...
+                </div>
+            </div>            
+        </div>
+    </div>
+    <!-- End template -->
+
+
+    <!-- HTML for the delete popup dialog box -->
     <textarea id="DeleteConfirmPopupPlaceholder" style="display:none">
     &lt;div id="DeleteConfirmPopup"&gt;
         &lt;h1&gt;Delete a Widget&lt;/h1&gt;
@@ -124,50 +92,9 @@
     &lt;/div&gt;    
     </textarea>    
     
-     <textarea id="DeletePageConfirmPopupPlaceholder" style="display:none">
-    &lt;div id="DeletePageConfirmPopup"&gt;
-        &lt;h1&gt;Delete a Page&lt;/h1&gt;
-        &lt;p&gt;Are you sure you want to delete the page?&lt;/p&gt;
-        &lt;input id="DeletePageConfirmPopup_Yes" type="button" value="Yes" /&gt;&lt;input id="DeletePageConfirmPopup_No" type="button" value="No" /&gt;
-    &lt;/div&gt;    
-    </textarea>
-    
-    <textarea id="LayoutPickerPopupPlaceholder" style="display:none">
-    
-    </textarea>
-    
-    <!-- Template for a new widget placeholder -->
-    <!-- Begin template -->
-    <div class="nodisplay">
-        <div ID="new_widget_template" class="widget">
-            <div class="widget_header">
-                <table class="widget_header_table" cellspacing="0" cellpadding="0">
-                    <tbody>
-                        <tr>
-                            <td class="widget_title"><a class="widget_title_label"><!=json.title !></a></td>
-                            <td class="widget_edit"><a class="widget_edit">edit</a></td>
-                            <td class="widget_button"><a class="widget_close widget_box">x</a></td>
-                        </tr>
-                    </tbody>
-                </table>            
-            </div>
-            <div ID="WidgetResizeFrame" class="widget_resize_frame" >
-                <div class="widget_body">
-                    Loading widget...
-                </div>
-            </div>            
-        </div>
-    </div>
-    <!-- End template -->
 </form>
 
 </body>
 
-
-<script type="text/javascript">
-     jQuery(document).ready(function() {
-        DropthingsUI.init("<%= this.EnableTabSorting %>");
-    });
-</script>
 
 </html>

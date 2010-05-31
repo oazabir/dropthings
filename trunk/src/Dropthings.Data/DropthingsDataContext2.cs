@@ -35,10 +35,10 @@ namespace Dropthings.Data
 
         public DropthingsDataContext2(string connectionString) : base(connectionString)
         {
-            //this.aspnet_Memberships.MergeOption =
-            //this.aspnet_Profiles.MergeOption =
-            //this.aspnet_Roles.MergeOption =
-            //this.aspnet_Users.MergeOption =
+            //this.AspNetMemberships.MergeOption =
+            //this.AspNetProfiles.MergeOption =
+            //this.AspNetRole.MergeOption =
+            //this.AspNetUser.MergeOption =
             //this.Columns.MergeOption =
             //this.Pages.MergeOption =
             //this.RoleTemplates.MergeOption =
@@ -55,14 +55,14 @@ namespace Dropthings.Data
                 {
                     if (_AddToMethodCache.Count == 0)
                     {
-                        _AddToMethodCache.Add(typeof(aspnet_Membership).Name,
-                            (context, entity) => context.AddToaspnet_Memberships(entity as aspnet_Membership));
-                        _AddToMethodCache.Add(typeof(aspnet_Profile).Name,
-                            (context, entity) => context.AddToaspnet_Profiles(entity as aspnet_Profile));
-                        _AddToMethodCache.Add(typeof(aspnet_Role).Name,
-                            (context, entity) => context.AddToaspnet_Roles(entity as aspnet_Role));
-                        _AddToMethodCache.Add(typeof(aspnet_User).Name,
-                            (context, entity) => context.AddToaspnet_Users(entity as aspnet_User));
+                        _AddToMethodCache.Add(typeof(AspNetMembership).Name,
+                            (context, entity) => context.AddToAspNetMemberships(entity as AspNetMembership));
+                        _AddToMethodCache.Add(typeof(AspNetProfile).Name,
+                            (context, entity) => context.AddToAspNetProfiles(entity as AspNetProfile));
+                        _AddToMethodCache.Add(typeof(AspNetRole).Name,
+                            (context, entity) => context.AddToAspNetRoles(entity as AspNetRole));
+                        _AddToMethodCache.Add(typeof(AspNetUser).Name,
+                            (context, entity) => context.AddToAspNetUsers(entity as AspNetUser));
                         _AddToMethodCache.Add(typeof(Column).Name,
                             (context, entity) => context.AddToColumns(entity as Column));
                         _AddToMethodCache.Add(typeof(Page).Name,
@@ -91,14 +91,14 @@ namespace Dropthings.Data
                 {
                     if (_AttachMethodCache.Count == 0)
                     {
-                        _AttachMethodCache.Add(typeof(aspnet_Membership).Name,
-                            (context, entity) => context.AttachTo("aspnet_Memberships", entity));
-                        _AttachMethodCache.Add(typeof(aspnet_Profile).Name,
-                            (context, entity) => context.AttachTo("aspnet_Profiles", entity));
-                        _AttachMethodCache.Add(typeof(aspnet_Role).Name,
-                            (context, entity) => context.AttachTo("aspnet_Roles", entity));
-                        _AttachMethodCache.Add(typeof(aspnet_User).Name,
-                            (context, entity) => context.AttachTo("aspnet_Users", entity));
+                        _AttachMethodCache.Add(typeof(AspNetMembership).Name,
+                            (context, entity) => context.AttachTo("AspNetMemberships", entity));
+                        _AttachMethodCache.Add(typeof(AspNetProfile).Name,
+                            (context, entity) => context.AttachTo("AspNetProfiles", entity));
+                        _AttachMethodCache.Add(typeof(AspNetRole).Name,
+                            (context, entity) => context.AttachTo("AspNetRoles", entity));
+                        _AttachMethodCache.Add(typeof(AspNetUser).Name,
+                            (context, entity) => context.AttachTo("AspNetUsers", entity));
                         _AttachMethodCache.Add(typeof(Column).Name,
                             (context, entity) => context.AttachTo("Columns", entity));
                         _AttachMethodCache.Add(typeof(Page).Name,

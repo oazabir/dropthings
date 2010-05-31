@@ -117,9 +117,9 @@ public partial class Widgets_MemberInRoleWidget : System.Web.UI.UserControl, IWi
 
         var facade = Services.Get<Facade>();
         {
-            List<aspnet_Role> roles = facade.GetAllRole();
+            List<AspNetRole> roles = facade.GetAllRole();
 
-            foreach (aspnet_Role role in roles)
+            foreach (AspNetRole role in roles)
             {
                 ddlRole.Items.Add(role.RoleName);
             }

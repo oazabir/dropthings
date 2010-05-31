@@ -3,9 +3,9 @@ namespace Dropthings.Data.Repository
 {
     public interface IUserRepository : IDisposable
     {
-        System.Collections.Generic.List<Dropthings.Data.aspnet_Role> GetRolesOfUser(Guid userGuid);
-        Dropthings.Data.aspnet_User GetUserByUserGuid(Guid userGuid);
-        Dropthings.Data.aspnet_User GetUserFromUserName(string userName);
+        System.Collections.Generic.List<Dropthings.Data.AspNetRole> GetRolesOfUser(Guid userGuid);
+        Dropthings.Data.AspNetUser GetUserByUserGuid(Guid userGuid);
+        Dropthings.Data.AspNetUser GetUserFromUserName(string userName);
         Guid GetUserGuidFromUserName(string userName);
     }
 }

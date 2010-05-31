@@ -16,6 +16,7 @@ namespace Dropthings.Util
 
         public void Log(string message)
         {
+            Debug.WriteLine(message);
             if (Logger.IsLoggingEnabled())
             {
                 var newLogEntry = new LogEntry
@@ -31,6 +32,8 @@ namespace Dropthings.Util
 
         public void Log(string[] categories, string message)
         {
+            Debug.WriteLine(message);
+
             if (Logger.IsLoggingEnabled())
             {
                 var newLogEntry = new LogEntry
@@ -45,13 +48,10 @@ namespace Dropthings.Util
             }
         }
 
-        #endregion
-
-        #region ILogger Members
-
-
+        
         public void LogException(Exception x)
         {
+            Debug.WriteLine(x);
             Exception outException;
             bool rethrow = ExceptionPolicy.HandleException(x, "Log Only", out outException);
             if (rethrow)
