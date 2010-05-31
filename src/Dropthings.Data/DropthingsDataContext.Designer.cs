@@ -9,24 +9,24 @@
 //------------------------------------------------------------------------------
 
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK__aspnet_Me__UserI__1A14E395", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "aspnet_Membership", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.aspnet_Membership))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "aspnet_Profile", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.aspnet_Profile))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Roles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_Role), "RoleTemplate", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.RoleTemplate))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_Role), "WidgetsInRoles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetsInRoles))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Page_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Page))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "RoleTemplate", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.RoleTemplate))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Token_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "Token", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Token))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK__aspnet_Me__UserI__1A14E395", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "aspnet_Membership", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.AspNetMembership))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "aspnet_Profile", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.AspNetProfile))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Roles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetRole), "RoleTemplate", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.RoleTemplate))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetRole), "WidgetsInRoles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetsInRoles))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Page_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Page))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "RoleTemplate", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.RoleTemplate))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Token_aspnet_Users", "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "Token", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Token))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Column_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Page), "Column", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Column))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_Column_WidgetZone", "WidgetZone", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.WidgetZone), "Column", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.Column))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetInstance_Widget", "Widget", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Widget), "WidgetInstance", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetInstance))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetsInRoles_Widget", "Widget", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Widget), "WidgetsInRoles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetsInRoles))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_WidgetInstance_WidgetZone", "WidgetZone", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.WidgetZone), "WidgetInstance", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.WidgetInstance))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.aspnet_Role), "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.aspnet_User))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.aspnet_User), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.UserSetting))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Roles", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.AspNetRole), "aspnet_Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.AspNetUser))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.AspNetUser), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Dropthings.Data.UserSetting))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Dropthings.Data.Page), "UserSetting", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Dropthings.Data.UserSetting))]
 
 // Original file name:
-// Generation date: 5/30/2010 4:25:36 PM
+// Generation date: 5/31/2010 8:16:00 PM
 namespace Dropthings.Data
 {
     
@@ -61,73 +61,73 @@ namespace Dropthings.Data
         }
         partial void OnContextCreated();
         /// <summary>
-        /// There are no comments for aspnet_Memberships in the schema.
+        /// There are no comments for AspNetMemberships in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<aspnet_Membership> aspnet_Memberships
+        public global::System.Data.Objects.ObjectQuery<AspNetMembership> AspNetMemberships
         {
             get
             {
-                if ((this._aspnet_Memberships == null))
+                if ((this._AspNetMemberships == null))
                 {
-                    this._aspnet_Memberships = base.CreateQuery<aspnet_Membership>("[aspnet_Memberships]");
+                    this._AspNetMemberships = base.CreateQuery<AspNetMembership>("[AspNetMemberships]");
                 }
-                return this._aspnet_Memberships;
+                return this._AspNetMemberships;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<aspnet_Membership> _aspnet_Memberships;
+        private global::System.Data.Objects.ObjectQuery<AspNetMembership> _AspNetMemberships;
         /// <summary>
-        /// There are no comments for aspnet_Profiles in the schema.
+        /// There are no comments for AspNetProfiles in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<aspnet_Profile> aspnet_Profiles
+        public global::System.Data.Objects.ObjectQuery<AspNetProfile> AspNetProfiles
         {
             get
             {
-                if ((this._aspnet_Profiles == null))
+                if ((this._AspNetProfiles == null))
                 {
-                    this._aspnet_Profiles = base.CreateQuery<aspnet_Profile>("[aspnet_Profiles]");
+                    this._AspNetProfiles = base.CreateQuery<AspNetProfile>("[AspNetProfiles]");
                 }
-                return this._aspnet_Profiles;
+                return this._AspNetProfiles;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<aspnet_Profile> _aspnet_Profiles;
+        private global::System.Data.Objects.ObjectQuery<AspNetProfile> _AspNetProfiles;
         /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
+        /// There are no comments for AspNetRoles in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<aspnet_Role> aspnet_Roles
+        public global::System.Data.Objects.ObjectQuery<AspNetRole> AspNetRoles
         {
             get
             {
-                if ((this._aspnet_Roles == null))
+                if ((this._AspNetRoles == null))
                 {
-                    this._aspnet_Roles = base.CreateQuery<aspnet_Role>("[aspnet_Roles]");
+                    this._AspNetRoles = base.CreateQuery<AspNetRole>("[AspNetRoles]");
                 }
-                return this._aspnet_Roles;
+                return this._AspNetRoles;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<aspnet_Role> _aspnet_Roles;
+        private global::System.Data.Objects.ObjectQuery<AspNetRole> _AspNetRoles;
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUsers in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public global::System.Data.Objects.ObjectQuery<aspnet_User> aspnet_Users
+        public global::System.Data.Objects.ObjectQuery<AspNetUser> AspNetUsers
         {
             get
             {
-                if ((this._aspnet_Users == null))
+                if ((this._AspNetUsers == null))
                 {
-                    this._aspnet_Users = base.CreateQuery<aspnet_User>("[aspnet_Users]");
+                    this._AspNetUsers = base.CreateQuery<AspNetUser>("[AspNetUsers]");
                 }
-                return this._aspnet_Users;
+                return this._AspNetUsers;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        private global::System.Data.Objects.ObjectQuery<aspnet_User> _aspnet_Users;
+        private global::System.Data.Objects.ObjectQuery<AspNetUser> _AspNetUsers;
         /// <summary>
         /// There are no comments for Columns in the schema.
         /// </summary>
@@ -282,36 +282,36 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<UserSetting> _UserSettings;
         /// <summary>
-        /// There are no comments for aspnet_Memberships in the schema.
+        /// There are no comments for AspNetMemberships in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToaspnet_Memberships(aspnet_Membership aspnet_Membership)
+        public void AddToAspNetMemberships(AspNetMembership aspNetMembership)
         {
-            base.AddObject("aspnet_Memberships", aspnet_Membership);
+            base.AddObject("AspNetMemberships", aspNetMembership);
         }
         /// <summary>
-        /// There are no comments for aspnet_Profiles in the schema.
+        /// There are no comments for AspNetProfiles in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToaspnet_Profiles(aspnet_Profile aspnet_Profile)
+        public void AddToAspNetProfiles(AspNetProfile aspNetProfile)
         {
-            base.AddObject("aspnet_Profiles", aspnet_Profile);
+            base.AddObject("AspNetProfiles", aspNetProfile);
         }
         /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
+        /// There are no comments for AspNetRoles in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToaspnet_Roles(aspnet_Role aspnet_Role)
+        public void AddToAspNetRoles(AspNetRole aspNetRole)
         {
-            base.AddObject("aspnet_Roles", aspnet_Role);
+            base.AddObject("AspNetRoles", aspNetRole);
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUsers in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public void AddToaspnet_Users(aspnet_User aspnet_User)
+        public void AddToAspNetUsers(AspNetUser aspNetUser)
         {
-            base.AddObject("aspnet_Users", aspnet_User);
+            base.AddObject("AspNetUsers", aspNetUser);
         }
         /// <summary>
         /// There are no comments for Columns in the schema.
@@ -387,18 +387,18 @@ namespace Dropthings.Data
         }
     }
     /// <summary>
-    /// There are no comments for Dropthings.Data.aspnet_Membership in the schema.
+    /// There are no comments for Dropthings.Data.AspNetMembership in the schema.
     /// </summary>
     /// <KeyProperties>
     /// UserId
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="aspnet_Membership")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="AspNetMembership")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class aspnet_Membership : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class AspNetMembership : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new aspnet_Membership object.
+        /// Create a new AspNetMembership object.
         /// </summary>
         /// <param name="applicationId">Initial value of ApplicationId.</param>
         /// <param name="userId">Initial value of UserId.</param>
@@ -416,25 +416,25 @@ namespace Dropthings.Data
         /// <param name="failedPasswordAnswerAttemptCount">Initial value of FailedPasswordAnswerAttemptCount.</param>
         /// <param name="failedPasswordAnswerAttemptWindowStart">Initial value of FailedPasswordAnswerAttemptWindowStart.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static aspnet_Membership Createaspnet_Membership(global::System.Guid applicationId, global::System.Guid userId, string password, int passwordFormat, string passwordSalt, bool isApproved, bool isLockedOut, global::System.DateTime createDate, global::System.DateTime lastLoginDate, global::System.DateTime lastPasswordChangedDate, global::System.DateTime lastLockoutDate, int failedPasswordAttemptCount, global::System.DateTime failedPasswordAttemptWindowStart, int failedPasswordAnswerAttemptCount, global::System.DateTime failedPasswordAnswerAttemptWindowStart)
+        public static AspNetMembership CreateAspNetMembership(global::System.Guid applicationId, global::System.Guid userId, string password, int passwordFormat, string passwordSalt, bool isApproved, bool isLockedOut, global::System.DateTime createDate, global::System.DateTime lastLoginDate, global::System.DateTime lastPasswordChangedDate, global::System.DateTime lastLockoutDate, int failedPasswordAttemptCount, global::System.DateTime failedPasswordAttemptWindowStart, int failedPasswordAnswerAttemptCount, global::System.DateTime failedPasswordAnswerAttemptWindowStart)
         {
-            aspnet_Membership aspnet_Membership = new aspnet_Membership();
-            aspnet_Membership.ApplicationId = applicationId;
-            aspnet_Membership.UserId = userId;
-            aspnet_Membership.Password = password;
-            aspnet_Membership.PasswordFormat = passwordFormat;
-            aspnet_Membership.PasswordSalt = passwordSalt;
-            aspnet_Membership.IsApproved = isApproved;
-            aspnet_Membership.IsLockedOut = isLockedOut;
-            aspnet_Membership.CreateDate = createDate;
-            aspnet_Membership.LastLoginDate = lastLoginDate;
-            aspnet_Membership.LastPasswordChangedDate = lastPasswordChangedDate;
-            aspnet_Membership.LastLockoutDate = lastLockoutDate;
-            aspnet_Membership.FailedPasswordAttemptCount = failedPasswordAttemptCount;
-            aspnet_Membership.FailedPasswordAttemptWindowStart = failedPasswordAttemptWindowStart;
-            aspnet_Membership.FailedPasswordAnswerAttemptCount = failedPasswordAnswerAttemptCount;
-            aspnet_Membership.FailedPasswordAnswerAttemptWindowStart = failedPasswordAnswerAttemptWindowStart;
-            return aspnet_Membership;
+            AspNetMembership aspNetMembership = new AspNetMembership();
+            aspNetMembership.ApplicationId = applicationId;
+            aspNetMembership.UserId = userId;
+            aspNetMembership.Password = password;
+            aspNetMembership.PasswordFormat = passwordFormat;
+            aspNetMembership.PasswordSalt = passwordSalt;
+            aspNetMembership.IsApproved = isApproved;
+            aspNetMembership.IsLockedOut = isLockedOut;
+            aspNetMembership.CreateDate = createDate;
+            aspNetMembership.LastLoginDate = lastLoginDate;
+            aspNetMembership.LastPasswordChangedDate = lastPasswordChangedDate;
+            aspNetMembership.LastLockoutDate = lastLockoutDate;
+            aspNetMembership.FailedPasswordAttemptCount = failedPasswordAttemptCount;
+            aspNetMembership.FailedPasswordAttemptWindowStart = failedPasswordAttemptWindowStart;
+            aspNetMembership.FailedPasswordAnswerAttemptCount = failedPasswordAnswerAttemptCount;
+            aspNetMembership.FailedPasswordAnswerAttemptWindowStart = failedPasswordAnswerAttemptWindowStart;
+            return aspNetMembership;
         }
         /// <summary>
         /// There are no comments for property ApplicationId in the schema.
@@ -1004,58 +1004,58 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnCommentChanged();
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK__aspnet_Me__UserI__1A14E395", "aspnet_Users")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_User aspnet_Users
+        public AspNetUser AspNetUser
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetUser> AspNetUserReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Users", value);
                 }
             }
         }
     }
     /// <summary>
-    /// There are no comments for Dropthings.Data.aspnet_Profile in the schema.
+    /// There are no comments for Dropthings.Data.AspNetProfile in the schema.
     /// </summary>
     /// <KeyProperties>
     /// UserId
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="aspnet_Profile")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="AspNetProfile")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class aspnet_Profile : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class AspNetProfile : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new aspnet_Profile object.
+        /// Create a new AspNetProfile object.
         /// </summary>
         /// <param name="userId">Initial value of UserId.</param>
         /// <param name="propertyNames">Initial value of PropertyNames.</param>
@@ -1063,15 +1063,15 @@ namespace Dropthings.Data
         /// <param name="propertyValuesBinary">Initial value of PropertyValuesBinary.</param>
         /// <param name="lastUpdatedDate">Initial value of LastUpdatedDate.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static aspnet_Profile Createaspnet_Profile(global::System.Guid userId, string propertyNames, string propertyValuesString, byte[] propertyValuesBinary, global::System.DateTime lastUpdatedDate)
+        public static AspNetProfile CreateAspNetProfile(global::System.Guid userId, string propertyNames, string propertyValuesString, byte[] propertyValuesBinary, global::System.DateTime lastUpdatedDate)
         {
-            aspnet_Profile aspnet_Profile = new aspnet_Profile();
-            aspnet_Profile.UserId = userId;
-            aspnet_Profile.PropertyNames = propertyNames;
-            aspnet_Profile.PropertyValuesString = propertyValuesString;
-            aspnet_Profile.PropertyValuesBinary = propertyValuesBinary;
-            aspnet_Profile.LastUpdatedDate = lastUpdatedDate;
-            return aspnet_Profile;
+            AspNetProfile aspNetProfile = new AspNetProfile();
+            aspNetProfile.UserId = userId;
+            aspNetProfile.PropertyNames = propertyNames;
+            aspNetProfile.PropertyValuesString = propertyValuesString;
+            aspNetProfile.PropertyValuesBinary = propertyValuesBinary;
+            aspNetProfile.LastUpdatedDate = lastUpdatedDate;
+            return aspNetProfile;
         }
         /// <summary>
         /// There are no comments for property UserId in the schema.
@@ -1209,72 +1209,72 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnLastUpdatedDateChanged();
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_User aspnet_Users
+        public AspNetUser AspNetUser
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetUser> AspNetUserReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetUser>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Users", value);
                 }
             }
         }
     }
     /// <summary>
-    /// There are no comments for Dropthings.Data.aspnet_Role in the schema.
+    /// There are no comments for Dropthings.Data.AspNetRole in the schema.
     /// </summary>
     /// <KeyProperties>
     /// RoleId
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="aspnet_Role")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="AspNetRole")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class aspnet_Role : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class AspNetRole : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new aspnet_Role object.
+        /// Create a new AspNetRole object.
         /// </summary>
         /// <param name="applicationId">Initial value of ApplicationId.</param>
         /// <param name="roleId">Initial value of RoleId.</param>
         /// <param name="roleName">Initial value of RoleName.</param>
         /// <param name="loweredRoleName">Initial value of LoweredRoleName.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static aspnet_Role Createaspnet_Role(global::System.Guid applicationId, global::System.Guid roleId, string roleName, string loweredRoleName)
+        public static AspNetRole CreateAspNetRole(global::System.Guid applicationId, global::System.Guid roleId, string roleName, string loweredRoleName)
         {
-            aspnet_Role aspnet_Role = new aspnet_Role();
-            aspnet_Role.ApplicationId = applicationId;
-            aspnet_Role.RoleId = roleId;
-            aspnet_Role.RoleName = roleName;
-            aspnet_Role.LoweredRoleName = loweredRoleName;
-            return aspnet_Role;
+            AspNetRole aspNetRole = new AspNetRole();
+            aspNetRole.ApplicationId = applicationId;
+            aspNetRole.RoleId = roleId;
+            aspNetRole.RoleName = roleName;
+            aspNetRole.LoweredRoleName = loweredRoleName;
+            return aspNetRole;
         }
         /// <summary>
         /// There are no comments for property ApplicationId in the schema.
@@ -1456,41 +1456,41 @@ namespace Dropthings.Data
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUsers in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Users")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<aspnet_User> aspnet_Users
+        public global::System.Data.Objects.DataClasses.EntityCollection<AspNetUser> AspNetUsers
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<aspnet_User>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Users");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<AspNetUser>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<aspnet_User>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Users", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<AspNetUser>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Users", value);
                 }
             }
         }
     }
     /// <summary>
-    /// There are no comments for Dropthings.Data.aspnet_User in the schema.
+    /// There are no comments for Dropthings.Data.AspNetUser in the schema.
     /// </summary>
     /// <KeyProperties>
     /// UserId
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="aspnet_User")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Dropthings.Data", Name="AspNetUser")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class aspnet_User : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class AspNetUser : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new aspnet_User object.
+        /// Create a new AspNetUser object.
         /// </summary>
         /// <param name="applicationId">Initial value of ApplicationId.</param>
         /// <param name="userId">Initial value of UserId.</param>
@@ -1499,16 +1499,16 @@ namespace Dropthings.Data
         /// <param name="isAnonymous">Initial value of IsAnonymous.</param>
         /// <param name="lastActivityDate">Initial value of LastActivityDate.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static aspnet_User Createaspnet_User(global::System.Guid applicationId, global::System.Guid userId, string userName, string loweredUserName, bool isAnonymous, global::System.DateTime lastActivityDate)
+        public static AspNetUser CreateAspNetUser(global::System.Guid applicationId, global::System.Guid userId, string userName, string loweredUserName, bool isAnonymous, global::System.DateTime lastActivityDate)
         {
-            aspnet_User aspnet_User = new aspnet_User();
-            aspnet_User.ApplicationId = applicationId;
-            aspnet_User.UserId = userId;
-            aspnet_User.UserName = userName;
-            aspnet_User.LoweredUserName = loweredUserName;
-            aspnet_User.IsAnonymous = isAnonymous;
-            aspnet_User.LastActivityDate = lastActivityDate;
-            return aspnet_User;
+            AspNetUser aspNetUser = new AspNetUser();
+            aspNetUser.ApplicationId = applicationId;
+            aspNetUser.UserId = userId;
+            aspNetUser.UserName = userName;
+            aspNetUser.LoweredUserName = loweredUserName;
+            aspNetUser.IsAnonymous = isAnonymous;
+            aspNetUser.LastActivityDate = lastActivityDate;
+            return aspNetUser;
         }
         /// <summary>
         /// There are no comments for property ApplicationId in the schema.
@@ -1700,80 +1700,80 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnLastActivityDateChanged();
         /// <summary>
-        /// There are no comments for aspnet_Membership in the schema.
+        /// There are no comments for AspNetMembership in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_Membership aspnet_Membership
+        public AspNetMembership AspNetMembership
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Membership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetMembership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Membership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetMembership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Membership in the schema.
+        /// There are no comments for AspNetMembership in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_Membership> aspnet_MembershipReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetMembership> AspNetMembershipReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Membership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetMembership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_Membership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetMembership>("Dropthings.Data.FK__aspnet_Me__UserI__1A14E395", "aspnet_Membership", value);
                 }
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Profile in the schema.
+        /// There are no comments for AspNetProfile in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_Profile aspnet_Profile
+        public AspNetProfile AspNetProfile
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Profile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetProfile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Profile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetProfile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Profile in the schema.
+        /// There are no comments for AspNetProfile in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_Profile> aspnet_ProfileReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetProfile> AspNetProfileReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Profile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetProfile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_Profile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetProfile>("Dropthings.Data.FK__aspnet_Pr__UserI__2E1BDC42", "aspnet_Profile", value);
                 }
             }
         }
@@ -1844,24 +1844,24 @@ namespace Dropthings.Data
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
+        /// There are no comments for AspNetRoles in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "aspnet_UsersInRoles", "aspnet_Roles")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<aspnet_Role> aspnet_Roles
+        public global::System.Data.Objects.DataClasses.EntityCollection<AspNetRole> AspNetRoles
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<aspnet_Role>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<AspNetRole>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<aspnet_Role>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<AspNetRole>("Dropthings.Data.aspnet_UsersInRoles", "aspnet_Roles", value);
                 }
             }
         }
@@ -2539,41 +2539,41 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnOrderNoChanged();
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_Page_aspnet_Users", "aspnet_Users")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_User aspnet_Users
+        public AspNetUser AspNetUser
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetUser> AspNetUserReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetUser>("Dropthings.Data.FK_Page_aspnet_Users", "aspnet_Users", value);
                 }
             }
         }
@@ -2701,80 +2701,80 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnPriorityChanged();
         /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
+        /// There are no comments for AspNetRole in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Roles", "aspnet_Roles")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_Role aspnet_Roles
+        public AspNetRole AspNetRole
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Role>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetRole>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Role>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetRole>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
+        /// There are no comments for AspNetRole in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_Role> aspnet_RolesReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetRole> AspNetRoleReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Role>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetRole>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_Role>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetRole>("Dropthings.Data.FK_RoleTemplate_aspnet_Roles", "aspnet_Roles", value);
                 }
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_RoleTemplate_aspnet_Users", "aspnet_Users")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_User aspnet_Users
+        public AspNetUser AspNetUser
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetUser> AspNetUserReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetUser>("Dropthings.Data.FK_RoleTemplate_aspnet_Users", "aspnet_Users", value);
                 }
             }
         }
@@ -2916,41 +2916,41 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnLastUpdatedChanged();
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_Token_aspnet_Users", "aspnet_Users")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_User aspnet_Users
+        public AspNetUser AspNetUser
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetUser> AspNetUserReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetUser>("Dropthings.Data.FK_Token_aspnet_Users", "aspnet_Users", value);
                 }
             }
         }
@@ -3923,41 +3923,41 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnIdChanged();
         /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
+        /// There are no comments for AspNetRole in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_Role aspnet_Roles
+        public AspNetRole AspNetRole
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Role>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetRole>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Role>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetRole>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Roles in the schema.
+        /// There are no comments for AspNetRole in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_Role> aspnet_RolesReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetRole> AspNetRoleReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_Role>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetRole>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_Role>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetRole>("Dropthings.Data.FK_WidgetsInRoles_aspnet_Roles", "aspnet_Roles", value);
                 }
             }
         }
@@ -4290,53 +4290,53 @@ namespace Dropthings.Data
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         partial void OnTimestampChanged();
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_aspnet_Users", "aspnet_User")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public aspnet_User aspnet_Users
+        public AspNetUser AspNetUser
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for aspnet_Users in the schema.
+        /// There are no comments for AspNetUser in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<aspnet_User> aspnet_UsersReference
+        public global::System.Data.Objects.DataClasses.EntityReference<AspNetUser> AspNetUserReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AspNetUser>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<aspnet_User>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AspNetUser>("Dropthings.Data.FK_UserSetting_aspnet_Users", "aspnet_User", value);
                 }
             }
         }
         /// <summary>
-        /// There are no comments for Page in the schema.
+        /// There are no comments for CurrentPage in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Dropthings.Data", "FK_UserSetting_Page", "Page")]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public Page Page
+        public Page CurrentPage
         {
             get
             {
@@ -4348,12 +4348,12 @@ namespace Dropthings.Data
             }
         }
         /// <summary>
-        /// There are no comments for Page in the schema.
+        /// There are no comments for CurrentPage in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<Page> PageReference
+        public global::System.Data.Objects.DataClasses.EntityReference<Page> CurrentPageReference
         {
             get
             {

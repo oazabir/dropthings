@@ -16,17 +16,17 @@ namespace Dropthings.Business.Facade
     {
         #region Methods
 
-        public aspnet_Role GetRole(string roleName)
+        public AspNetRole GetRole(string roleName)
         {
             return roleRepository.GetRoleByRoleName(roleName);
         }
 
-        public List<aspnet_Role> GetAllRole()
+        public List<AspNetRole> GetAllRole()
         {
             return roleRepository.GetAllRole();
         }
 
-        public aspnet_Role InsertRole(string roleName)
+        public AspNetRole InsertRole(string roleName)
         {
             // TODO: Facade is not supposed to do this. It's the job of repositorys
             Roles.CreateRole(roleName);

@@ -51,18 +51,18 @@
         public WidgetsInRoles Insert(WidgetsInRoles wir)
         {
             var widget = wir.Widget;
-            var role = wir.aspnet_Roles;
+            var role = wir.AspNetRole;
 
             wir.Widget = null;
-            wir.aspnet_Roles = null;
+            wir.AspNetRole = null;
 
-            _database.Insert<Widget, aspnet_Role, WidgetsInRoles>(widget, role, 
+            _database.Insert<Widget, AspNetRole, WidgetsInRoles>(widget, role, 
                 (w, wr) => wr.Widget = w,
-                (r, wr) => wr.aspnet_Roles = role,
+                (r, wr) => wr.AspNetRole = role,
                 wir);
 
             wir.Widget = widget;
-            wir.aspnet_Roles = role;
+            wir.AspNetRole = role;
 
             _cacheResolver.Remove(CacheKeys.WidgetsInRolesKeys.WidgetsInRolesByWidgetId(wir.Widget.ID));
             return wir;

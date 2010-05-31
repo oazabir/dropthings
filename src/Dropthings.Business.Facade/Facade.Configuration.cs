@@ -34,8 +34,8 @@
 
         public bool CheckRoleTemplateIsRegisterUserTemplate(RoleTemplate template)
         {
-            //MembershipUser user = this.GetUser(template.aspnet_Users.UserId);
-            aspnet_User user = userRepository.GetUserByUserGuid(template.aspnet_Users.UserId);
+            //MembershipUser user = this.GetUser(template.AspNetUser.UserId);
+            AspNetUser user = userRepository.GetUserByUserGuid(template.AspNetUser.UserId);
             
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 
@@ -44,8 +44,8 @@
 
         public bool CheckRoleTemplateIsAnonymousUserTemplate(RoleTemplate template)
         {
-            //MembershipUser user = this.GetUser(template.aspnet_Users.UserId);
-            aspnet_User user = userRepository.GetUserByUserGuid(template.aspnet_Users.UserId);
+            //MembershipUser user = this.GetUser(template.AspNetUser.UserId);
+            AspNetUser user = userRepository.GetUserByUserGuid(template.AspNetUser.UserId);
 
             UserTemplateSetting settingTemplate = GetUserSettingTemplate();
 

@@ -66,7 +66,7 @@
 
             var insertedPage = this.pageRepository.Insert(new Page
             {
-                aspnet_Users = new aspnet_User { UserId = userGuid },
+                AspNetUser = new AspNetUser { UserId = userGuid },
                 Title = title,
                 LayoutType = layoutType,
                 OrderNo = toOrder,
@@ -111,7 +111,7 @@
             {
                 var clonedPage = this.pageRepository.Insert(new Page
                 {
-                    aspnet_Users = new aspnet_User { UserId = userGuid },
+                    AspNetUser = new AspNetUser { UserId = userGuid },
                     CreatedDate = DateTime.Now,
                     Title = pageToClone.Title,
                     LastUpdated = pageToClone.LastUpdated,
@@ -160,8 +160,8 @@
             var userSetting = GetUserSetting(userGuid);
             var newPage = GetPage(currentPageId);
 
-            userSetting.Page = new Page { ID = newPage.ID };
-            userSetting.PageReference = new EntityReference<Page> { EntityKey = newPage.EntityKey };
+            userSetting.CurrentPage = new Page { ID = newPage.ID };
+            userSetting.CurrentPageReference = new EntityReference<Page> { EntityKey = newPage.EntityKey };
 
             this.userSettingRepository.Update(userSetting);
 
@@ -180,12 +180,12 @@
             {
                 roleTemplate = GetRoleTemplate(userGuid);
 
-                if (!roleTemplate.aspnet_Users.UserId.IsEmpty())
+                if (!roleTemplate.AspNetUser.UserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    if (roleTemplate.aspnet_Users.UserId != userGuid)
+                    if (roleTemplate.AspNetUser.UserId != userGuid)
                     {
-                        sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.aspnet_Users.UserId, false);
+                        sharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.AspNetUser.UserId, false);
                     }
                 }
             }
@@ -217,7 +217,7 @@
                     }
                 }
             }
-            else if (roleTemplate != null && settingTemplate.CloneRegisteredProfileEnabled && roleTemplate.aspnet_Users.UserId.Equals(userGuid) && CheckRoleTemplateIsRegisterUserTemplate(roleTemplate))
+            else if (roleTemplate != null && settingTemplate.CloneRegisteredProfileEnabled && roleTemplate.AspNetUser.UserId.Equals(userGuid) && CheckRoleTemplateIsRegisterUserTemplate(roleTemplate))
             {
                 foreach (Page page in pages)
                 {
@@ -282,9 +282,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.Page.ID > 0)
+            if (userSetting != null && userSetting.CurrentPage.ID > 0)
             {
-                var currentPage = this.GetPage(userSetting.Page.ID);
+                var currentPage = this.GetPage(userSetting.CurrentPage.ID);
 
                 // Ensure the title is unique and does not match with other pages
                 var otherPages = this.GetPagesOfUser(userGuid).Where(p => p.ID != currentPage.ID);
@@ -329,9 +329,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.Page.ID > 0)
+            if (userSetting != null && userSetting.CurrentPage.ID > 0)
             {
-                this.GetPage(userSetting.Page.ID).As(page =>
+                this.GetPage(userSetting.CurrentPage.ID).As(page =>
                     {
                         page.IsLocked = true;
                         page.LastLockedStatusChangedAt = DateTime.Now;
@@ -350,9 +350,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.Page.ID > 0)
+            if (userSetting != null && userSetting.CurrentPage.ID > 0)
             {
-                this.GetPage(userSetting.Page.ID).As(page =>
+                this.GetPage(userSetting.CurrentPage.ID).As(page =>
                     {
                         page.IsLocked = false;
                         page.IsDownForMaintenance = false;
@@ -372,9 +372,9 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.Page.ID > 0)
+            if (userSetting != null && userSetting.CurrentPage.ID > 0)
             {
-                this.GetPage(userSetting.Page.ID).As(page =>
+                this.GetPage(userSetting.CurrentPage.ID).As(page =>
                     {
                         page.IsDownForMaintenance = isInMaintenenceMode;
 
@@ -397,7 +397,7 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.Page.ID > 0)
+            if (userSetting != null && userSetting.CurrentPage.ID > 0)
             {
                 //check if there any previously overridable start page and make it false if request is for changing the start page to true
                 if (shouldServeAsStartPage)
@@ -412,7 +412,7 @@
                 }
 
                 //change the overridable start page status
-                this.GetPage(userSetting.Page.ID).As(page =>
+                this.GetPage(userSetting.CurrentPage.ID).As(page =>
                     {
                         page.ServeAsStartPageAfterLogin = shouldServeAsStartPage;                    
                         this.pageRepository.Update(page);
@@ -435,7 +435,12 @@
             this.columnRepository.Delete(columnToDelete);
             this.widgetZoneRepository.Delete(widgetZone);
         }
-
+        /// <summary>
+        /// Delete the specified page. If the specified page is the current
+        /// page, then select the page before or after it as the current page
+        /// </summary>
+        /// <param name="pageId"></param>
+        /// <returns></returns>
         public Page DeletePage(int pageId)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
@@ -443,13 +448,29 @@
             var columns = this.GetColumnsInPage(pageId);
             columns.Each((column) => DeleteColumn(pageId, column.ColumnNo));
 
+            var userSetting = GetUserSetting(userGuid);
+            if (pageId == userSetting.CurrentPage.ID)
+            {
+                // Choose either the page before or after as the current page
+                var pagesOfUser = GetPagesOfUser(userGuid);
+                if (pagesOfUser.Count == 1)
+                    throw new ApplicationException("Cannot delete the only page.");
+
+                var index = pagesOfUser.FindIndex(p => p.ID == pageId);
+                if (index == 0)
+                    index++;
+                else
+                    index--;
+
+                var newCurrentPage = pagesOfUser[index];
+                SetCurrentPage(userGuid, newCurrentPage.ID);
+            }
+
             this.pageRepository.Delete(new Page { ID = pageId });
             
-            var currentPage = DecideCurrentPage(userGuid, string.Empty, 0, null, null);   // 0 - since current page has been deleted.
-
             ReorderPagesOfUser();
 
-            return SetCurrentPage(userGuid, currentPage.ID);
+            return GetUserSetting(userGuid).CurrentPage;
         }
 
         public void ModifyPageLayout(int newLayout)
@@ -457,7 +478,7 @@
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
             var newColumnDefs = Page.GetColumnWidths(newLayout);
-            var existingColumns = GetColumnsInPage(userSetting.Page.ID);
+            var existingColumns = GetColumnsInPage(userSetting.CurrentPage.ID);
             var columnCounter = existingColumns.Count - 1;
             var newColumnNo = newColumnDefs.Count() - 1;
 
@@ -468,15 +489,15 @@
 
                 for (var existingColumnNo = newColumnNo + 1; existingColumnNo < existingColumns.Count; existingColumnNo ++)
                 {
-                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, existingColumnNo);
-                    var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.Page.ID, newColumnNo);
+                    var oldWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPage.ID, existingColumnNo);
+                    var newWidgetZone = this.widgetZoneRepository.GetWidgetZoneByPageId_ColumnNo(userSetting.CurrentPage.ID, newColumnNo);
                     
                     var widgetInstancesToMove = GetWidgetInstancesInZoneWithWidget(oldWidgetZone.ID);
                     var originalWidgets = GetWidgetInstancesInZoneWithWidget(newWidgetZone.ID);
                     var lastWidgetPosition = originalWidgets.Max(w => w.OrderNo);
                     
                     widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, ++lastWidgetPosition));
-                    DeleteColumn(userSetting.Page.ID, existingColumnNo);                    
+                    DeleteColumn(userSetting.CurrentPage.ID, existingColumnNo);                    
                 }                
             }
             else
@@ -503,18 +524,18 @@
                         ColumnNo = columnCounter + 1,
                         ColumnWidth = newColumnWidth,
                         WidgetZone = new WidgetZone { ID = insertedWidgetZone.ID },
-                        Page = new Page { ID = userSetting.Page.ID }
+                        Page = new Page { ID = userSetting.CurrentPage.ID }
                     });
                     
                     ++columnCounter;
                 }
             }
 
-            var columns = this.columnRepository.GetColumnsByPageId(userSetting.Page.ID);
+            var columns = this.columnRepository.GetColumnsByPageId(userSetting.CurrentPage.ID);
             columns.Each(column => column.ColumnWidth = newColumnDefs[column.ColumnNo]);
             this.columnRepository.UpdateList(columns);
 
-            var currentPage = this.GetPage(userSetting.Page.ID);
+            var currentPage = this.GetPage(userSetting.CurrentPage.ID);
             currentPage.LayoutType = newLayout;
             currentPage.ColumnCount = Page.GetColumnWidths(newLayout).Length;
             this.pageRepository.Update(currentPage);

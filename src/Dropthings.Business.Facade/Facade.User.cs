@@ -63,9 +63,9 @@ namespace Dropthings.Business.Facade
 
                 userSetting = this.userSettingRepository.Insert(new UserSetting
                     {
-                        aspnet_Users = new aspnet_User { UserId = userGuid },
+                        AspNetUser = new AspNetUser { UserId = userGuid },
                         CreatedDate = DateTime.Now,
-                        Page = new Page { ID = this.pageRepository.GetPageIdByUserGuid(userGuid).First() }
+                        CurrentPage = new Page { ID = this.pageRepository.GetPageIdByUserGuid(userGuid).First() }
                     });
             }
 
@@ -82,7 +82,7 @@ namespace Dropthings.Business.Facade
                 // directly into the cache, next time getting the same pages will
                 // return the new user ID for the pages. We need to clone the pages.
                 IEnumerable<Page> pages = this.GetPagesOfUser(userOldGuid);
-                pages.Each(page => page.aspnet_Users = new aspnet_User { UserId = userGuid });
+                pages.Each(page => page.AspNetUser = new AspNetUser { UserId = userGuid });
                 this.pageRepository.UpdateList(pages);
                 
                 var userSetting = GetUserSetting(userOldGuid);
@@ -92,8 +92,8 @@ namespace Dropthings.Business.Facade
 
                 this.userSettingRepository.Insert(new UserSetting
                 {
-                    aspnet_Users = new aspnet_User { UserId = userGuid },
-                    Page = new Page { ID = userSetting.Page.ID },
+                    AspNetUser = new AspNetUser { UserId = userGuid },
+                    CurrentPage = new Page { ID = userSetting.CurrentPage.ID },
                     CreatedDate = DateTime.Now
                 });
 

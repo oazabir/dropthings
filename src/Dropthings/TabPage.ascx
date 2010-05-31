@@ -17,3 +17,10 @@
         </div>
     </ContentTemplate>
 </asp:UpdatePanel>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        DropthingsUI.init("<%= this.EnableTabSorting %>");
+    });
+</script>
+

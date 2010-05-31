@@ -43,7 +43,7 @@ namespace Dropthings.Business.Facade
                     if (roleTemplate != default(RoleTemplate))
                     {
                         // Get template user pages so that it can be cloned for new user
-                        var templateUserPages = this.GetPagesOfUser(roleTemplate.aspnet_Users.UserId);
+                        var templateUserPages = this.GetPagesOfUser(roleTemplate.AspNetUser.UserId);
 
                         foreach (Page templatePage in templateUserPages)
                         {
@@ -53,10 +53,10 @@ namespace Dropthings.Business.Facade
                             }
                         }
 
-                        if (roleTemplate.aspnet_Users.UserId != userGuid)
+                        if (roleTemplate.AspNetUser.UserId != userGuid)
                         {
                             //bring only the locked pages which are not in maintenence mode
-                            response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.aspnet_Users.UserId, false);
+                            response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.AspNetUser.UserId, false);
                         }
 
                         response.RoleTemplate = roleTemplate;
@@ -82,7 +82,7 @@ namespace Dropthings.Business.Facade
                 var currentPages = this.GetPagesOfUser(userGuid);
                 response.UserPages = currentPages;
                 response.UserSetting = GetUserSetting(userGuid);
-                response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.Page.ID, isAnonymous, isFirstVisitAfterLogin);
+                response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, response.UserSetting.CurrentPage.ID, isAnonymous, isFirstVisitAfterLogin);
                 response.CurrentUserId = userGuid;
                 return response;
             });
@@ -102,13 +102,13 @@ namespace Dropthings.Business.Facade
                 response.RoleTemplate = roleTemplate;
                 response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);
 
-                if (!roleTemplate.aspnet_Users.UserId.IsEmpty())
+                if (!roleTemplate.AspNetUser.UserId.IsEmpty())
                 {
                     // Get template user pages so that it can be cloned for new user
-                    if (roleTemplate.aspnet_Users.UserId != userGuid)
+                    if (roleTemplate.AspNetUser.UserId != userGuid)
                     {
                         //bring only the locked pages which are not in maintenence mode
-                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.aspnet_Users.UserId, false);
+                        response.UserSharedPages = this.pageRepository.GetLockedPagesOfUser(roleTemplate.AspNetUser.UserId, false);
                     }
                 }
 
@@ -120,11 +120,11 @@ namespace Dropthings.Business.Facade
                     response.UserPages = pages;
 
                     var userSetting = GetUserSetting(userGuid);
-                    response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, userSetting.Page.ID, isAnonymous, isFirstVisitAfterLogin);
+                    response.CurrentPage = DecideCurrentPage(userGuid, pageTitle, userSetting.CurrentPage.ID, isAnonymous, isFirstVisitAfterLogin);
 
-                    if (userSetting.Page.ID != response.CurrentPage.ID)
+                    if (userSetting.CurrentPage.ID != response.CurrentPage.ID)
                     {
-                        //userSetting.Page.ID = response.CurrentPage.ID;
+                        //userSetting.CurrentPage.ID = response.CurrentPage.ID;
                         //this.userSettingRepository.Update(userSetting);
                         SetCurrentPage(userGuid, response.CurrentPage.ID);
                     }

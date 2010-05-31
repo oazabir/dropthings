@@ -46,10 +46,10 @@
                 </LayoutTemplate>
                 <ItemTemplate>
                     <tr id="item" runat="server" class="row">
-                        <td><%# Eval("aspnet_User.Username")%></td>
+                        <td><%# Eval("AspNetUser.Username")%></td>
                         <td><%# Convert.ToBoolean(Eval("IsApproved")) ? "Yes" : "No"%></td>
                         <td style="text-align: left; white-space: nowrap;">
-                            <asp:ImageButton ID="btnDelete" runat="server" SkinID="sknImageDelete" ToolTip="Delete" CommandName="DeleteItem" CommandArgument=<%# Eval("aspnet_User.Username")%>></asp:ImageButton>
+                            <asp:ImageButton ID="btnDelete" runat="server" SkinID="sknImageDelete" ToolTip="Delete" CommandName="DeleteItem" CommandArgument=<%# Eval("AspNetUser.Username")%>></asp:ImageButton>
                         </td>
                     </tr>
                 </ItemTemplate>

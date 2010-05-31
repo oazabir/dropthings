@@ -29,29 +29,29 @@
 
         #region Methods
 
-        public List<aspnet_Role> GetRolesOfUser(Guid userGuid)
+        public List<AspNetRole> GetRolesOfUser(Guid userGuid)
         {
             return AspectF.Define
-                .Cache<List<aspnet_Role>>(_cacheResolver, CacheKeys.UserKeys.RolesOfUser(userGuid))
-                .Return<List<aspnet_Role>>(() =>
+                .Cache<List<AspNetRole>>(_cacheResolver, CacheKeys.UserKeys.RolesOfUser(userGuid))
+                .Return<List<AspNetRole>>(() =>
                     _database.Query(CompiledQueries.UserQueries.GetRolesOfUser, userGuid)
                     .ToList());
         }
 
-        public aspnet_User GetUserByUserGuid(Guid userGuid)
+        public AspNetUser GetUserByUserGuid(Guid userGuid)
         {
             return AspectF.Define
-                .Cache<aspnet_User>(_cacheResolver, CacheKeys.UserKeys.UserFromUserGuid(userGuid))
-                .Return<aspnet_User>(() =>
+                .Cache<AspNetUser>(_cacheResolver, CacheKeys.UserKeys.UserFromUserGuid(userGuid))
+                .Return<AspNetUser>(() =>
                     _database.Query(CompiledQueries.UserQueries.GetUserByUserGuid, userGuid)
                             .First());
         }
 
-        public aspnet_User GetUserFromUserName(string userName)
+        public AspNetUser GetUserFromUserName(string userName)
         {
             return AspectF.Define
-                .Cache<aspnet_User>(_cacheResolver, CacheKeys.UserKeys.UserFromUserName(userName))
-                .Return<aspnet_User>(() =>
+                .Cache<AspNetUser>(_cacheResolver, CacheKeys.UserKeys.UserFromUserName(userName))
+                .Return<AspNetUser>(() =>
                     _database.Query(CompiledQueries.UserQueries.GetUserFromUserName, userName)
                     .FirstOrDefault());
         }
@@ -70,15 +70,15 @@
         //    return _database.aspnet_Members.Count();
         //}
 
-        //public List<aspnet_Membership> GetPagedMember(int startIndex, int maxRows, string sortExpression)
+        //public List<AspNetMembership> GetPagedMember(int startIndex, int maxRows, string sortExpression)
         //{
-        //    List<aspnet_Membership> members = new List<aspnet_Membership>();
+        //    List<AspNetMembership> members = new List<AspNetMembership>();
         //    bool asc = !sortExpression.Contains("DESC");
 
         //    switch (sortExpression.Split(' ')[0])
         //    {
         //        case "Username":
-        //            members = Page<string>(startIndex, maxRows, m => m.aspnet_User.UserName, asc);
+        //            members = Page<string>(startIndex, maxRows, m => m.AspNetUser.UserName, asc);
         //            break;
         //        default:
         //            members = Page<DateTime>(startIndex, maxRows, m => m.CreateDate, false);
@@ -90,33 +90,33 @@
 
         //public int GetMemberCountByRole(string roleName)
         //{
-        //    return _database.GetQueryResult<aspnet_Membership, string, int>(
+        //    return _database.GetQueryResult<AspNetMembership, string, int>(
                                     
         //                            roleName,
         //                            CompiledQueries.UserQueries.GetMembersInRoleCount,
         //                            (query) => query.Count());
         //}
 
-        //public List<aspnet_Membership> GetPagedMemberByRole(string roleName, int startIndex, int maxRows)
+        //public List<AspNetMembership> GetPagedMemberByRole(string roleName, int startIndex, int maxRows)
         //{
-        //    return _database.GetPagedList<aspnet_Membership, string>(
+        //    return _database.GetPagedList<AspNetMembership, string>(
         //                roleName,startIndex, maxRows,
-        //                CompiledQueries.UserQueries.GetMembersInRole, LinqQueries.aspnet_Membership_Options_With_aspnet_Users);
+        //                CompiledQueries.UserQueries.GetMembersInRole, LinqQueries.AspNetMembership_Options_With_AspNetUsers);
         //}
 
-        //private List<aspnet_Membership> Page<TResult>(int startIndex, int maxRows, Expression<Func<aspnet_Membership, TResult>> sortKeySelector, bool asc)
+        //private List<AspNetMembership> Page<TResult>(int startIndex, int maxRows, Expression<Func<AspNetMembership, TResult>> sortKeySelector, bool asc)
         //{
         //    if (asc)
         //    {
-        //        return _database.GetPagedList<aspnet_Membership>(
+        //        return _database.GetPagedList<AspNetMembership>(
         //                startIndex, maxRows,
-        //                ((dc) => dc.aspnet_Memberships.OrderBy(sortKeySelector)), LinqQueries.aspnet_Membership_Options_With_aspnet_Users);
+        //                ((dc) => dc.AspNetMemberships.OrderBy(sortKeySelector)), LinqQueries.AspNetMembership_Options_With_AspNetUsers);
         //    }
         //    else
         //    {
-        //        return _database.GetPagedList<aspnet_Membership>(
+        //        return _database.GetPagedList<AspNetMembership>(
         //                startIndex, maxRows,
-        //                ((dc) => dc.aspnet_Memberships.OrderByDescending(sortKeySelector)), LinqQueries.aspnet_Membership_Options_With_aspnet_Users);
+        //                ((dc) => dc.AspNetMemberships.OrderByDescending(sortKeySelector)), LinqQueries.AspNetMembership_Options_With_AspNetUsers);
         //    }
         //}
 

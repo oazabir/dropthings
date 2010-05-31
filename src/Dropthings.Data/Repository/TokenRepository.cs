@@ -41,12 +41,12 @@
 
         public Token Insert(Token token)
         {
-            var user = token.aspnet_Users;
-            token.aspnet_Users = null;
-            _database.Insert<aspnet_User, Token>(user,
-                (u, t) => t.aspnet_Users = u,
+            var user = token.AspNetUser;
+            token.AspNetUser = null;
+            _database.Insert<AspNetUser, Token>(user,
+                (u, t) => t.AspNetUser = u,
                 token);
-            token.aspnet_Users = user;
+            token.AspNetUser = user;
             return token;
         }
 

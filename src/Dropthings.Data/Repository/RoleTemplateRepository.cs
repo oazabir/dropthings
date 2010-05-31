@@ -68,20 +68,20 @@
 
         public RoleTemplate Insert(RoleTemplate roleTemplate)
         {
-            var user = roleTemplate.aspnet_Users;
-            var role = roleTemplate.aspnet_Roles;
+            var user = roleTemplate.AspNetUser;
+            var role = roleTemplate.AspNetRole;
 
-            roleTemplate.aspnet_Users = null;
-            roleTemplate.aspnet_Roles = null;
+            roleTemplate.AspNetUser = null;
+            roleTemplate.AspNetRole = null;
 
-            var result = _database.Insert<aspnet_User, aspnet_Role, RoleTemplate>(
+            var result = _database.Insert<AspNetUser, AspNetRole, RoleTemplate>(
                 user, role,    
-                (u, rt) => rt.aspnet_Users = u,
-                (r, rt) => rt.aspnet_Roles = r,
+                (u, rt) => rt.AspNetUser = u,
+                (r, rt) => rt.AspNetRole = r,
                 roleTemplate);
 
-            result.aspnet_Users = user;
-            result.aspnet_Roles = role;
+            result.AspNetUser = user;
+            result.AspNetRole = role;
             
             return result;
         }

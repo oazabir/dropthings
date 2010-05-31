@@ -9,12 +9,12 @@
     {
         #region Enumerations
 
-        public enum PageTypeEnum
+        public enum PageType
         {
             PersonalPage = 0
         }
 
-        public enum WidgetTypeEnum
+        public enum WidgetType
         {
             PersonalPage = 0
         }

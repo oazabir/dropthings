@@ -46,7 +46,7 @@
                 profile.Save();
             });
 
-            "it should not change the LastActivityDate in aspnet_Users table".Assert(() =>
+            "it should not change the LastActivityDate in AspNetUsers table".Assert(() =>
             {
                 ProfileInfoCollection profiles = ProfileManager.FindProfilesByUserName(ProfileAuthenticationOption.Anonymous, profile.UserName);
                 ProfileInfo existingProfile = profiles[profile.UserName];
