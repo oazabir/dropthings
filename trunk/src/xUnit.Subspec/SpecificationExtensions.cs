@@ -18,5 +18,10 @@ namespace SubSpec
         {
             SpecificationContext.Assert(message, assert);
         }
+
+        public static void Finally(this string message, Action finallyHandler)
+        {
+            SpecificationContext.Finally(finallyHandler);
+        }
     }
 }

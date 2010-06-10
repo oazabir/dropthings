@@ -36,7 +36,7 @@
                 firstLastActivityDate = profile.LastActivityDate;
             });
 
-            "when profile is updated within 30 mins".Do(() =>
+            "When profile is updated within 30 mins".Do(() =>
             {
                 TimeSpan diff = DateTime.Now.ToUniversalTime() - profile.LastActivityDate;
                 Assert.True(diff.TotalMinutes < 1, "LastActivityDate was not set to current date time");
@@ -46,7 +46,7 @@
                 profile.Save();
             });
 
-            "it should not change the LastActivityDate in AspNetUsers table".Assert(() =>
+            "It should not change the LastActivityDate in AspNetUsers table".Assert(() =>
             {
                 ProfileInfoCollection profiles = ProfileManager.FindProfilesByUserName(ProfileAuthenticationOption.Anonymous, profile.UserName);
                 ProfileInfo existingProfile = profiles[profile.UserName];

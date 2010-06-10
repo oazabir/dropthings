@@ -77,7 +77,7 @@
             <Columns>
                 <asp:ButtonColumn ButtonType="LinkButton" CommandName="Edit" Text="Edit" />
                 <asp:BoundColumn DataField="ID" HeaderText="ID" />
-                <asp:BoundColumn DataField="Name" HeaderText="Name" />
+                <asp:BoundColumn DataField="Name" HeaderText="Name" ItemStyle-Font-Bold="true" />
                 <asp:BoundColumn DataField="Url" HeaderText="Url" />
                 <asp:BoundColumn DataField="Description" HeaderText="Description" />
                 <asp:TemplateColumn HeaderText="State">

@@ -120,7 +120,7 @@ public partial class _Default : BasePage
                 me.UserTabBar.LoadTabs(_Setup.CurrentUserId, _Setup.UserTabs, _Setup.UserSharedTabs, _Setup.CurrentTab, 
                     _Setup.CurrentUserId == _Setup.RoleTemplate.AspNetUser.UserId);
                 me.WidgetTabHost.LoadWidgets(_Setup.CurrentTab, WIDGET_CONTAINER_CONTROL);
-                me.SetupChangeSettingsArea();
+                me.SetupTabControlPanel();
             });
     }
 
@@ -168,9 +168,9 @@ public partial class _Default : BasePage
         });
     }
 
-    private void SetupChangeSettingsArea()
+    private void SetupTabControlPanel()
     {
-        this.ChangeSettingsControl.Init(_Setup.CurrentTab,
+        this.TabControlPanel.Init(_Setup.CurrentTab,
             _Setup.CurrentUserId == _Setup.RoleTemplate.AspNetUser.UserId,
             _Setup.UserTabs.Count == 1,
             _Setup.CurrentUserId == _Setup.CurrentTab.AspNetUser.UserId,

@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Data", "Dropthin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmarALZabir.AspectF", "..\..\..\..\RND\AspectF\AspectF_Src\AspectF\OmarALZabir.AspectF.csproj", "{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test.WatiN", "Dropthings.Test.WatiN\Dropthings.Test.WatiN.csproj", "{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dropthings.vsmdi
@@ -251,6 +253,16 @@ Global
 		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|Any CPU.Build.0 = Release|Any CPU
 		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|.NET.ActiveCfg = Release|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

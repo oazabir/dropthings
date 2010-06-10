@@ -44,12 +44,12 @@ namespace Dropthings.Test.IntegrationTests
 
             });
 
-            "when the user visits for the first time".Do(() =>
+            "When the user visits for the first time".Do(() =>
             {                
                 userVisitModel = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
-            "it creates widgets on the newly created page at exact columns and positions as the anon user's pages".Assert(() =>
+            "It creates widgets on the newly created page at exact columns and positions as the anon user's pages".Assert(() =>
             {
                 anonTabs.Each(anonTab =>
                 {
@@ -101,12 +101,12 @@ namespace Dropthings.Test.IntegrationTests
                 userVisitModel = facade.FirstVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
-            "when the same user visits again".Do(() =>
+            "When the same user visits again".Do(() =>
             {
                 userRevisitModel = facade.RepeatVisitHomeTab(profile.UserName, string.Empty, true, false);
             });
 
-            "it should load the exact same pages, column and widgets as the first visit produced".Assert(() =>
+            "It should load the exact same pages, column and widgets as the first visit produced".Assert(() =>
             {
                 userVisitModel.UserTabs.Each(firstVisitTab =>
                 {

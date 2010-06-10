@@ -55,8 +55,8 @@ function doSearch()
         <div id="search_bar_wrapper">
             <div id="google_search">
                 <img class="google_logo" src="img/google.jpg" alt="Google" />
-                <input id="query" size="40" maxlength="2048" value="" type="text" onkeypress="if( event.keyCode == 13 ) return doSearch(); " />
-                <asp:Button runat="server" Text="<%$Resources:SharedResources, Search%>" OnClientClick="return doSearch();" />
+                <input id="query" name="ctl00$masterWebpartManager$gwpCustomLogin1$CustomLogin1$UserName" size="40" maxlength="2048" value="" type="text" onkeypress="if( event.keyCode == 13 ) return doSearch(); " />
+                <asp:Button ID="SearchButton" runat="server" Text="<%$Resources:SharedResources, Search%>" OnClientClick="return doSearch();" />
             </div>
             
             <!--
