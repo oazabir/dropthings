@@ -12,6 +12,7 @@ namespace SubSpec
         static KeyValuePair<string, Action>? context;
         static KeyValuePair<string, Action>? @do;
         static Exception exception;
+        static Action finallyHandler;
 
         static SpecificationContext()
         {
@@ -57,6 +58,11 @@ namespace SubSpec
         public static void Assert(string message, Action assertAction)
         {
             asserts.Add(new KeyValuePair<string, Action>(message, assertAction));
+        }
+
+        public static void Finally(Action finallyAction)
+        {
+            finallyHandler = finallyAction;
         }
 
         public static void Reset()
@@ -115,6 +121,9 @@ namespace SubSpec
             }
             finally
             {
+                if (finallyHandler != null)
+                    finallyHandler();
+
                 Reset();
             }
         }

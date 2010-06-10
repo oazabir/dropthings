@@ -23,6 +23,7 @@ FIX: Issue 95:	Delete widget: Reference constraint errors when widget is used in
 FIX: Issue 94:	Delete widget: cache is not emptied
 FIX: Issue 90:	changing page layout - loss of widgets
 FIX: Issue 88:	Maximized widget has 'Move' cursor in widgetheader
+FIX: Issue 85:	Problem with the editing Widgets
 CHANGE: Refactor Page settings panel to a user control.
 CHANGE: Refactor tab bar to a user control.
 CHANGE: Refactor default.aspx and move all page specific behavior to WidgetPage.ascx

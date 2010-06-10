@@ -8,6 +8,7 @@ using Dropthings.Data;
 using Dropthings.Business.Facade.Test.Helper;
 using Xunit;
 using Dropthings.Web.Framework;
+using System.Security.Permissions;
 
 namespace Dropthings.Business.Facade.Tests
 {

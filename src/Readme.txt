@@ -54,6 +54,9 @@ GO
 3) Change the web.config's connection string to:
 <add name="DropthingsConnectionString" connectionString="Data Source=.;Initial Catalog=dropthings;user id=dropthings;password=dropthings" providerName="System.Data.SqlClient"/>
 
+4) Change the web.config's DropthingsDataContext value and update the connection string to point to the right database using the right username and password.
+
+
 or if you are using SqlExpress
 
 <add name="DropthingsConnectionString" connectionString="Data Source=.\SQLEXPRESS;Initial Catalog=dropthings;user id=dropthings;password=dropthings" providerName="System.Data.SqlClient"/>
