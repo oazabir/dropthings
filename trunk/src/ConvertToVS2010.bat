@@ -1,0 +1,1 @@
+..\thirdparty\fart\fart.exe -r *.csproj "3.5" "4.0"

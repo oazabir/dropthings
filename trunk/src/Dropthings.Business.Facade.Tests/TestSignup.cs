@@ -21,7 +21,7 @@ namespace Dropthings.Business.Facade.Tests
             var facade = default(Facade);
             var anonUserProfile = default(UserProfile);
             var newlyAddedWidgetId = default(int);
-            var registredUserName = default(string);
+            var registeredUserName = default(string);
             var registeredUserPassword = default(string);
 
             "Given an anonymous user who has made some changes to the page".Context(() =>
@@ -39,7 +39,7 @@ namespace Dropthings.Business.Facade.Tests
                 {
                     registeredUserName = Guid.NewGuid().ToString();
                     registeredUserPassword = Guid.NewGuid().ToString();
-                    facade.RegisterUser(registredUserName, registeredUserPassword, registredUserName, false);
+                    facade.RegisterUser(registeredUserName, registeredUserPassword, registeredUserName, false);
                 });
 
             "It should save the changes permanently".Assert(() =>
