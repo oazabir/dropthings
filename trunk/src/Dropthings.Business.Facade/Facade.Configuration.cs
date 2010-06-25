@@ -17,19 +17,12 @@
     {
         #region Methods
 
-        public RoleTemplate GetRoleTemplate(Guid userGuid)
+        public RoleTemplate GetRoleTemplate(string templateUserName)
         {
+            var userGuid = this.userRepository.GetUserGuidFromUserName(templateUserName);
             var template = this.roleTemplateRepository.GetRoleTemplatesByUserId(userGuid);
 
-            if (template == null)
-            {
-                var setting = GetUserSettingTemplate();
-                //as template is null system will look for guest template
-                template = this.roleTemplateRepository.GetRoleTemplateByTemplateUserName(setting.AnonUserSettingTemplate.UserName);
-            }
-
             return template;
-
         }
 
         public bool CheckRoleTemplateIsRegisterUserTemplate(RoleTemplate template)

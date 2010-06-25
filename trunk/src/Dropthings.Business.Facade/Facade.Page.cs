@@ -12,6 +12,7 @@
     using OmarALZabir.AspectF;
     using System.Data.Objects.DataClasses;
     using System.Text.RegularExpressions;
+    using System.Web.Security;
 
     /// <summary>
     /// Facade subsystem for Tabs, Columns, WidgetZones
@@ -168,97 +169,67 @@
             return newTab;
         }
 
-        public Tab DecideCurrentTab(Guid userGuid, string pageTitle, int currentTabId, bool? isAnonymous, bool? isFirstVisitAfterLogin)
+
+        /// <summary>
+        /// Returns the shared tabs the user can see as read-only.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public List<Tab> GetSharedTabs(string userName)
         {
-            Tab currentTab = null;
-            var pages = this.GetTabsOfUser(userGuid);
-            List<Tab> sharedTabs = null;
-            RoleTemplate roleTemplate = null;
-            UserTemplateSetting settingTemplate = GetUserSettingTemplate();
-
-            if((isAnonymous.GetValueOrDefault() && settingTemplate.CloneAnonProfileEnabled) || (!isAnonymous.GetValueOrDefault() && settingTemplate.CloneRegisteredProfileEnabled))
+            if (this.IsUserAnonymous(userName))
             {
-                roleTemplate = GetRoleTemplate(userGuid);
-
-                if (!roleTemplate.AspNetUser.UserId.IsEmpty())
-                {
-                    // Get template user pages so that it can be cloned for new user
-                    if (roleTemplate.AspNetUser.UserId != userGuid)
-                    {
-                        sharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
-                    }
-                }
+                var anonUserName = GetUserSettingTemplate().AnonUserSettingTemplate.UserName;
+                return this.pageRepository.GetLockedTabsOfUser(this.GetUserGuidFromUserName(anonUserName), false);
             }
+            else
+            {
+                var registeredUserName = GetUserSettingTemplate().RegisteredUserSettingTemplate.UserName;
+                var userGuid = this.GetUserGuidFromUserName(registeredUserName);
+                if (userGuid != null)
+                    return this.pageRepository.GetLockedTabsOfUser(userGuid, false);
+                else
+                    return new List<Tab>();
+            }
+        }
+
+        
+        public Tab DecideCurrentTab(Guid userGuid, string pageTitle, List<Tab> ownTabs, List<Tab> sharedTabs)
+        {
             // Find the page that has the specified Tab Name and make it as current
             // page. This is needed to make a tab as current tab when the tab name is
             // known
             if (!string.IsNullOrEmpty(pageTitle))
             {
-                foreach (Tab page in pages)
+                foreach (Tab tab in ownTabs)
                 {
-                    if (string.Equals(page.Title.Replace(' ', '_'), pageTitle))
+                    if (string.Equals(tab.Title.Replace(' ', '_'), pageTitle))
                     {
-                        currentTabId = page.ID;
-                        currentTab = page;
-                        break;
+                        return tab;
                     }
                 }
 
                 if (sharedTabs != null)
                 {
-                    foreach (Tab page in sharedTabs)
+                    foreach (Tab tab in sharedTabs)
                     {
-                        if (string.Equals(page.Title.Replace(' ', '_') + "_Locked", pageTitle))
+                        if (string.Equals(tab.Title.Replace(' ', '_') + "_Locked", pageTitle))
                         {
-                            currentTabId = page.ID;
-                            currentTab = page;
-                            break;
+                            return tab;
                         }
                     }
                 }
             }
-            else if (roleTemplate != null && settingTemplate.CloneRegisteredProfileEnabled && roleTemplate.AspNetUser.UserId.Equals(userGuid) && CheckRoleTemplateIsRegisterUserTemplate(roleTemplate))
-            {
-                foreach (Tab page in pages)
-                {
-                    if (page.ServeAsStartPageAfterLogin.GetValueOrDefault())
-                    {
-                        currentTabId = page.ID;
-                        currentTab = page;
-                        break;
-                    }
-                }
-            }
-            else if (settingTemplate.CloneRegisteredProfileEnabled && isFirstVisitAfterLogin.GetValueOrDefault() && !isAnonymous.GetValueOrDefault() && !CheckRoleTemplateIsAnonymousUserTemplate(roleTemplate))
-            {
-                //For register user check for the first load after login and find if there any defined page should load after login set by register template user
-                if (sharedTabs != null)
-                {
-                    foreach (Tab page in sharedTabs)
-                    {
-                        if(page.ServeAsStartPageAfterLogin.GetValueOrDefault())
-                        {
-                            currentTabId = page.ID;
-                            currentTab = page;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // If there's no such page, then the first page user has will be the current
-            // page. This happens when a page is deleted.
-            currentTab = (currentTabId == 0) ? pages.First() : this.GetTab(currentTabId);
-
-
-
-            return currentTab;
+            
+            // If we are here, then we haven't found a tab to show yet. so return the
+            // current default tab
+            return this.GetTab(this.GetUserSetting(userGuid).CurrentTab.ID);
         }
 
         public string DecideUniqueTabName()
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
-            List<Tab> pages = this.GetTabsOfUser(userGuid).ToList();
+            List<Tab> pages = this.pageRepository.GetTabsOfUser(userGuid);
             
             string uniqueNamePrefix = DEFAULT_FIRST_PAGE_NAME;
             string pageUniqueName = uniqueNamePrefix;
@@ -276,51 +247,42 @@
             return pageUniqueName;
         }
 
-        public bool ChangeTabName(string title)
+        public void ChangeTabName(string title)
         {
-            var success = false;
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             var userSetting = GetUserSetting(userGuid);
 
-            if (userSetting != null && userSetting.CurrentTab.ID > 0)
-            {
-                var currentTab = this.GetTab(userSetting.CurrentTab.ID);
-
-                // Ensure the title is unique and does not match with other pages
-                var otherTabs = this.GetTabsOfUser(userGuid).Where(p => p.ID != currentTab.ID);
+            var currentTab = this.GetTab(userSetting.CurrentTab.ID);
+            // Ensure the title is unique and does not match with other pages
+            var otherTabs = this.pageRepository.GetTabsOfUser(userGuid).Where(p => p.ID != currentTab.ID);
                 
-                // Keep incrementing the last digit on the page title until there's no 
-                // such duplicate
-                int loopCounter = 0;
-                while (loopCounter++ < 100 
-                    && otherTabs.FirstOrDefault(p => p.Title == title) != null)
+            // Keep incrementing the last digit on the page title until there's no 
+            // such duplicate
+            int loopCounter = 0;
+            while (loopCounter++ < 100 
+                && otherTabs.FirstOrDefault(p => p.Title == title) != null)
+            {
+                var match = Regex.Match(title, "\\d+$");
+                if (match.Success)
                 {
-                    var match = Regex.Match(title, "\\d+$");
-                    if (match.Success)
+                    var existingNumber = default(int);
+                    if (int.TryParse(match.Value, out existingNumber))
                     {
-                        var existingNumber = default(int);
-                        if (int.TryParse(match.Value, out existingNumber))
-                        {
-                            title = Regex.Replace(title, "\\d+$", (existingNumber + 1).ToString());
-                        }
-                        else
-                        {
-                            title = title + " " + (existingNumber + 1);
-                        }
+                        title = Regex.Replace(title, "\\d+$", (existingNumber + 1).ToString());
                     }
                     else
                     {
-                        title = title + " 1";
+                        title = title + " " + (existingNumber + 1);
                     }
                 }
-
-                currentTab.Title = title;
-                this.pageRepository.Update(currentTab);
-
-                success = true;
+                else
+                {
+                    title = title + " 1";
+                }
             }
 
-            return success;
+            currentTab.Title = title;
+            this.pageRepository.Update(currentTab);
         }
 
         public bool LockTab()
@@ -452,7 +414,7 @@
             if (pageId == userSetting.CurrentTab.ID)
             {
                 // Choose either the page before or after as the current page
-                var pagesOfUser = GetTabsOfUser(userGuid);
+                var pagesOfUser = this.pageRepository.GetTabsOfUser(userGuid);
                 if (pagesOfUser.Count == 1)
                     throw new ApplicationException("Cannot delete the only page.");
 
@@ -581,7 +543,7 @@
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
 
-            var list = this.GetTabsOfUser(userGuid);
+            var list = this.pageRepository.GetTabsOfUser(userGuid);
 
             int orderNo = 0;
             foreach (Tab page in list)

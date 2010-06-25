@@ -12,6 +12,10 @@ Next version target:
 * ADD: Comment all Facade methods and mention the "why" and "how"
 * CHANGE: Update Velocity reference to latest release
 
+Version 2.6.5
+=============
+FIX: Issue 118: Fixed role template issues where it was not correctly returning the registered user's template.
+
 Version 2.6.2
 =============
 FIX: Issue-100: UserSetting.CurrentPageID now has foreign key to Page object

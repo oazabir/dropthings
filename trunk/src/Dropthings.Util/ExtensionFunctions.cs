@@ -20,6 +20,14 @@ public static class ExtensionFunctions
 {
     #region Methods
 
+    public static bool IsEmpty<T>(this IEnumerable<T> items)
+    {
+        if (items == null)
+            return false;
+        else
+            return !items.GetEnumerator().MoveNext();
+    }
+
     public static void As<T>(this T item, Action<T> work)
     {
         work(item);
@@ -117,6 +125,11 @@ public static class ExtensionFunctions
     public static bool HasItems<T>(this List<T> list)
     {
         return (list != null) && (list.Count > 0);
+    }
+
+    public static bool IsSameAs(this string str1, string str2)
+    {
+        return string.Compare(str1, str2, true) == 0;
     }
 
     #endregion Methods

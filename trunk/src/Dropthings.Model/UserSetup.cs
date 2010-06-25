@@ -41,18 +41,20 @@
             set;
         }
 
-        public RoleTemplate RoleTemplate
-        {
-            get; 
-            set;
-        }
+        //public RoleTemplate RoleTemplate
+        //{
+        //    get; 
+        //    set;
+        //}
 
-        public bool IsRoleTemplateForRegisterUser
-        {
-            get;
-            set;
-        }
+        //public bool IsRoleTemplateForRegisterUser
+        //{
+        //    get;
+        //    set;
+        //}
 
         #endregion Properties
+
+        public bool IsTemplateUser { get; set; }
     }
 }

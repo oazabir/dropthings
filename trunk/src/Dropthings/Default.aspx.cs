@@ -118,7 +118,7 @@ public partial class _Default : BasePage
                 me.CallBaseCreateChildControl();
                 me.LoadUserPageSetup(false);
                 me.UserTabBar.LoadTabs(_Setup.CurrentUserId, _Setup.UserTabs, _Setup.UserSharedTabs, _Setup.CurrentTab, 
-                    _Setup.CurrentUserId == _Setup.RoleTemplate.AspNetUser.UserId);
+                    _Setup.IsTemplateUser);
                 me.WidgetTabHost.LoadWidgets(_Setup.CurrentTab, WIDGET_CONTAINER_CONTROL);
                 me.SetupTabControlPanel();
             });
@@ -171,7 +171,7 @@ public partial class _Default : BasePage
     private void SetupTabControlPanel()
     {
         this.TabControlPanel.Init(_Setup.CurrentTab,
-            _Setup.CurrentUserId == _Setup.RoleTemplate.AspNetUser.UserId,
+            _Setup.IsTemplateUser,
             _Setup.UserTabs.Count == 1,
             _Setup.CurrentUserId == _Setup.CurrentTab.AspNetUser.UserId,
             this.NewWidgetAdded);

@@ -10,7 +10,7 @@ namespace Dropthings.Test.WatiN.Pages
     [Page(UrlRegex=Urls.Homepage)]
     public class HomePage : Page
     {
-        [FindBy(Id = "ChangeSettingsControl_ShowAddContentPanel")]
+        [FindBy(Id = "TabControlPanel_ShowAddContentPanel")]
         public Link AddStuffLink;
 
         public void ShowAddStuff()
@@ -22,7 +22,7 @@ namespace Dropthings.Test.WatiN.Pages
         {
             get
             {
-                return base.Document.Table("ChangeSettingsControl_WidgetListControlAdd_WidgetDataList");
+                return base.Document.Table("TabControlPanel_WidgetListControlAdd_WidgetDataList");
             }
         }
 
