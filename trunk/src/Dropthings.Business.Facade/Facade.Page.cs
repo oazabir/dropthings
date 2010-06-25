@@ -456,9 +456,13 @@
                     
                     var widgetInstancesToMove = GetWidgetInstancesInZoneWithWidget(oldWidgetZone.ID);
                     var originalWidgets = GetWidgetInstancesInZoneWithWidget(newWidgetZone.ID);
-                    var lastWidgetPosition = originalWidgets.Max(w => w.OrderNo);
-                    
-                    widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, ++lastWidgetPosition));
+                    if (originalWidgets.Count() > 0)
+                    {
+                        var lastWidgetPosition = originalWidgets.Max(w => w.OrderNo);
+
+                        widgetInstancesToMove.Each((wi) => ChangeWidgetInstancePosition(wi.Id, newWidgetZone.ID, ++lastWidgetPosition));
+                    }
+
                     DeleteColumn(userSetting.CurrentTab.ID, existingColumnNo);                    
                 }                
             }
