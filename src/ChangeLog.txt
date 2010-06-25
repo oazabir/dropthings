@@ -15,6 +15,7 @@ Next version target:
 Version 2.6.5
 =============
 FIX: Issue 118: Fixed role template issues where it was not correctly returning the registered user's template.
+FIX: Issue 117:	Facade.Page thrown InvalidOperationException when chaning column layout on a tab without any widgets
 
 Version 2.6.2
 =============
