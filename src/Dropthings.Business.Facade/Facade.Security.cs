@@ -144,6 +144,19 @@
             }
         }
 
+        /// <summary>
+        /// Register the current anonymous user using the username and password given.
+        /// This converts the anonymous user to a registered user. It creates ASP.NET Membership
+        /// entry for the user. Then it transfers the tabs from the anonymous user profile to
+        /// the newly created user profile. However, if registered user template is enabled in 
+        /// web.config, then it will just clone the tabs from the registered user template, and 
+        /// get rid of the tabs which were there during the time user was anonymous.
+        /// </summary>
+        /// <param name="registeredUserName"></param>
+        /// <param name="password"></param>
+        /// <param name="email"></param>
+        /// <param name="isActivationRequired"></param>
+        /// <returns></returns>
         public RegisterUserResponse RegisterUser(string registeredUserName, string password, string email, bool isActivationRequired)
         {
             RegisterUserResponse registerUserResponse = null;
@@ -152,15 +165,17 @@
             var userSettingTemplate = GetUserSettingTemplate();
             SetUserRoles(registeredUserName, new string[] { userSettingTemplate.RegisteredUserSettingTemplate.RoleNames });
 
+            // When registered user profile is enabled, it will get rid of all the tabs from the anon
+            // user and then give the tabs defined in the registered user template.
             if (userSettingTemplate.CloneRegisteredProfileEnabled)
             {
                 // Get the template user so that its page setup can be cloned for new user
-                var roleTemplate = GetRoleTemplate(userGuid);
+                var roleTemplate = GetRoleTemplate(userSettingTemplate.RegisteredUserSettingTemplate.UserName);
 
-                if (!roleTemplate.AspNetUser.UserId.IsEmpty())
+                if (roleTemplate != null)
                 {
-                    // Get template user pages so that it can be cloned for new user
-                    var templateUserTabs = this.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
+                    // Add the tabs from the template registered user to the newly registered user
+                    var templateUserTabs = this.pageRepository.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
                     foreach (Tab templateTab in templateUserTabs)
                     {
                         if (!templateTab.IsLocked)

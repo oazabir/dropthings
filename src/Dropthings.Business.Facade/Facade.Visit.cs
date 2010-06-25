@@ -37,13 +37,13 @@ namespace Dropthings.Business.Facade
                 if (userSettingTemplate.CloneAnonProfileEnabled)
                 {
                     // Get the template user so that its page setup can be cloned for new user
-                    var templateUserGuid = this.GetUserGuidFromUserName(userSettingTemplate.AnonUserSettingTemplate.UserName);
-                    var roleTemplate = GetRoleTemplate(templateUserGuid);
+                    //var templateUserGuid = this.GetUserGuidFromUserName(userSettingTemplate.AnonUserSettingTemplate.UserName);
+                    var roleTemplate = GetRoleTemplate(userSettingTemplate.AnonUserSettingTemplate.UserName);
 
                     if (roleTemplate != default(RoleTemplate))
                     {
                         // Get template user pages so that it can be cloned for new user
-                        var templateUserTabs = this.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
+                        var templateUserTabs = this.pageRepository.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
 
                         foreach (Tab templateTab in templateUserTabs)
                         {
@@ -53,14 +53,15 @@ namespace Dropthings.Business.Facade
                             }
                         }
 
+                        // If it's not the same user as the template user, then show the tabs 
+                        // from template user as read-only tabs.
                         if (roleTemplate.AspNetUser.UserId != userGuid)
                         {
-                            //bring only the locked pages which are not in maintenence mode
                             response.UserSharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
                         }
 
-                        response.RoleTemplate = roleTemplate;
-                        response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);                
+                        response.IsTemplateUser = (roleTemplate.AspNetUser.UserId == userGuid);
+                        //response.RoleTemplate = roleTemplate;
                     }
                 }
                 else
@@ -79,10 +80,9 @@ namespace Dropthings.Business.Facade
                     }
                 }
 
-                var currentTabs = this.GetTabsOfUser(userGuid);
-                response.UserTabs = currentTabs;
+                response.UserTabs = this.pageRepository.GetTabsOfUser(userGuid);
                 response.UserSetting = GetUserSetting(userGuid);
-                response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserSetting.CurrentTab.ID, isAnonymous, isFirstVisitAfterLogin);
+                response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserTabs, response.UserSharedTabs);
                 response.CurrentUserId = userGuid;
                 return response;
             });
@@ -98,39 +98,28 @@ namespace Dropthings.Business.Facade
                 var response = new UserSetup();
                 var userGuid = this.GetUserGuidFromUserName(userName);
 
-                var roleTemplate = GetRoleTemplate(userGuid);
-                response.RoleTemplate = roleTemplate;
-                response.IsRoleTemplateForRegisterUser = CheckRoleTemplateIsRegisterUserTemplate(roleTemplate);
+                var pages = this.pageRepository.GetTabsOfUser(userGuid);
 
-                if (!roleTemplate.AspNetUser.UserId.IsEmpty())
-                {
-                    // Get template user pages so that it can be cloned for new user
-                    if (roleTemplate.AspNetUser.UserId != userGuid)
-                    {
-                        //bring only the locked pages which are not in maintenence mode
-                        response.UserSharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
-                    }
-                }
-
-                var pages = this.GetTabsOfUser(userGuid);
-
-                if (pages != null && pages.Count() > 0)
+                if (!pages.IsEmpty())
                 {
                     // User has pages
                     response.UserTabs = pages;
+                    response.UserSharedTabs = this.GetSharedTabs(userName);
 
                     var userSetting = GetUserSetting(userGuid);
-                    response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, userSetting.CurrentTab.ID, isAnonymous, isFirstVisitAfterLogin);
+                    response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserTabs, response.UserSharedTabs);
 
                     if (userSetting.CurrentTab.ID != response.CurrentTab.ID)
                     {
-                        //userSetting.CurrentTab.ID = response.CurrentTab.ID;
-                        //this.userSettingRepository.Update(userSetting);
                         SetCurrentTab(userGuid, response.CurrentTab.ID);
                     }
 
                     response.UserSetting = GetUserSetting(userGuid);
                     response.CurrentUserId = userGuid;
+
+                    var templateSetup = this.GetUserSettingTemplate();
+                    response.IsTemplateUser = templateSetup.AnonUserSettingTemplate.UserName.IsSameAs(userName)
+                        || templateSetup.RegisteredUserSettingTemplate.UserName.IsSameAs(userName);
                 }
                 else
                 {

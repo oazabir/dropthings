@@ -120,12 +120,14 @@ public partial class TabBar : System.Web.UI.UserControl
     private void SetupTabs()
     {
         tabList.Controls.Clear();
-        bool isTemplateUser = false;
         var facade = Services.Get<Facade>();
-        {
-            var roleTemplate = facade.GetRoleTemplate(CurrentUserId);
-            isTemplateUser = roleTemplate.AspNetUser.UserId.Equals(CurrentUserId);
-        }
+
+        // True if the currently logged in user is the user defined in web.config
+        // as the template user for the registered user template or anonymous user template
+        var templateSetting = facade.GetUserSettingTemplate();
+        var isTemplateUser = !Profile.IsAnonymous
+            && (Profile.UserName.IsSameAs(templateSetting.RegisteredUserSettingTemplate.UserName)
+            || Profile.UserName.IsSameAs(templateSetting.AnonUserSettingTemplate.UserName));
 
         var viewablePages = this.Pages.ToList();
 

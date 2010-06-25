@@ -9,12 +9,19 @@ using System.Web.Security;
 using Dropthings.Configuration;
 using OmarALZabir.AspectF;
 using Dropthings.Util;
+using System.Web.Profile;
+using System.Data.Objects.DataClasses;
 
 namespace Dropthings.Business.Facade
 {
 	partial class Facade
     {
         #region Methods
+
+        public bool Login(string userName, string password)
+        {
+            return Membership.ValidateUser(userName, password);
+        }
 
         public void UpdateAccount(string email, string userName)
         {
@@ -81,8 +88,17 @@ namespace Dropthings.Business.Facade
                 // TODO: Since changing the page object will change the object
                 // directly into the cache, next time getting the same pages will
                 // return the new user ID for the pages. We need to clone the pages.
-                IEnumerable<Tab> pages = this.GetTabsOfUser(userOldGuid);
-                pages.Each(page => page.AspNetUser = new AspNetUser { UserId = userGuid });
+                IEnumerable<Tab> pages = this.pageRepository.GetTabsOfUser(userOldGuid);
+
+                var newUser = this.userRepository.GetUserByUserGuid(userGuid);
+                pages.Each(page =>
+                    {
+                        page.AspNetUser = newUser;
+                        page.AspNetUserReference = new EntityReference<AspNetUser>
+                        {
+                            EntityKey = newUser.EntityKey
+                        };
+                    });
                 this.pageRepository.UpdateList(pages);
                 
                 var userSetting = GetUserSetting(userOldGuid);
@@ -146,6 +162,15 @@ namespace Dropthings.Business.Facade
         public Guid GetUserGuidFromUserName(string userName)
         {
             return this.userRepository.GetUserGuidFromUserName(userName);
+        }
+
+        public bool IsUserAnonymous(string userName)
+        {
+            var user = this.userRepository.GetUserByUserGuid(this.userRepository.GetUserGuidFromUserName(userName));
+            if (user == null)
+                throw new ApplicationException("User does not exist:" + userName);
+            else
+                return user.IsAnonymous;
         }
 
         #endregion

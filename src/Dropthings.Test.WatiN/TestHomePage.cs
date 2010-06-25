@@ -74,7 +74,7 @@ namespace Dropthings.Test.WatiN
                 BrowserHelper.ClearCookies();
                 browser = BrowserHelper.OpenNewBrowser(Urls.Homepage);
             });
-            "When user changes title of a widget".Do(() =>
+            "When user chagnes title of a widget".Do(() =>
             {
                 using (browser)
                 {
@@ -117,13 +117,11 @@ namespace Dropthings.Test.WatiN
 
             "It should show the widget gallery".Assert(() =>
             {
-                Assert.True(page.WidgetDataList.Exists);
-                Assert.NotEqual(0, page.AddWidgetLinks.Count);
-            });
-
-            "Shutdown".Finally(() =>
-            {
-                browser.Dispose();
+                using (browser)
+                {
+                    Assert.True(page.WidgetDataList.Exists);
+                    Assert.NotEqual(0, page.AddWidgetLinks.Count);
+                }
             });
         }
 
@@ -199,15 +197,51 @@ namespace Dropthings.Test.WatiN
 
         public void User_can_delete_widget()
         {
-            
+            var browser = default(Browser);
+            var page = default(HomePage);
+            var deletedWidgetId = default(int);
+
+            "Given a user having some widgets on his page".Context(() =>
+                {
+
+                });
+
+            "When user deletes one of the widget".Do(() =>
+                {
+                });
+
+            "It should remove the widget from the page".Assert(() =>
+                {
+                });
+
+            "It should not come on revisit".Assert(() =>
+                {
+                });
         }
 
         public void User_can_collapse_widget()
         {
+
         }
 
         public void User_can_maximize_widget()
         {
+
+        }
+
+        public void User_can_add_new_page()
+        {
+
+        }
+
+        public void User_can_delete_a_page()
+        {
+
+        }
+
+        public void User_can_reduce_columns_on_a_page()
+        {
+
         }
 
         [Specification]
@@ -282,8 +316,11 @@ namespace Dropthings.Test.WatiN
                 });
             "It should move the widget to the second column".Assert(() =>
                 {
-                    newColumn = widget.Element.Parent as Div;
-                    Assert.NotEqual(newColumn.Id, originalColumn.Id);
+                    using (browser)
+                    {
+                        newColumn = widget.Element.Parent as Div;
+                        Assert.NotEqual(newColumn.Id, originalColumn.Id);
+                    }
                 });
             //"It should remain the widget on second column after page reload".Assert(() =>
             //    {
