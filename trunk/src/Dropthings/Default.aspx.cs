@@ -200,8 +200,9 @@ public partial class _Default : BasePage
 
     public void NewWidgetAdded(WidgetInstance newWidget)
     {
-        this.ReloadCurrentPage();
-        this.WidgetTabHost.RefreshZone(newWidget.WidgetZone.ID);
+        //this.ReloadCurrentPage();
+        //this.WidgetTabHost.RefreshZone(newWidget.WidgetZone.ID);
+        this.WidgetTabHost.AddNewWidget(newWidget);
     }
     
     #endregion Methods
