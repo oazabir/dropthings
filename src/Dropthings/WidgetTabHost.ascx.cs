@@ -120,7 +120,7 @@ public partial class WidgetTabHost : System.Web.UI.UserControl
             
             if (widgetZone != null)
             {
-                widgetZone.ID = WidgetInstanceZone.WIDGET_ZONE_ID_PREFIX + column.WidgetZone.ID;
+                widgetZone.ID = GetWidgetZoneControlId(column.WidgetZone.ID);
                 widgetZone.WidgetZoneId = column.WidgetZone.ID;
                 widgetZone.WidgetContainerPath = widgetContainerPath;
                 widgetZone.WidgetZoneClass = "widget_zone";
@@ -147,6 +147,17 @@ public partial class WidgetTabHost : System.Web.UI.UserControl
                 }
             }
         });
+    }
+
+    private string GetWidgetZoneControlId(int widgetZoneId)
+    {
+        return WidgetInstanceZone.WIDGET_ZONE_ID_PREFIX + widgetZoneId;
+    }
+
+    public void AddNewWidget(WidgetInstance wi)
+    {
+        var widgetZoneControl = this.FindControl(GetWidgetZoneControlId(wi.WidgetZone.ID)) as WidgetInstanceZone;
+        widgetZoneControl.AddNewWidget(_EventBroker, wi);       
     }
 
     #endregion Methods

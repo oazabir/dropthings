@@ -92,30 +92,68 @@ public partial class WidgetInstanceZone : System.Web.UI.UserControl
         }
 
         var controlsToDelete = new List<Control>();
-        foreach (Control control in this.WidgetZoneUpdatePanel.ContentTemplateContainer.Controls)
+        foreach (Control control in this.WidgetHolderPanel.Controls)
             if (control is IWidgetHost)
                 controlsToDelete.Add(control);
-        controlsToDelete.ForEach((c) => this.WidgetZoneUpdatePanel.ContentTemplateContainer.Controls.Remove(c));
+        controlsToDelete.ForEach((c) => this.WidgetHolderPanel.Controls.Remove(c));
 
         List<IWidgetHost> widgetHosts = new List<IWidgetHost>();
         this.WidgetInstances.Each(instance =>
         {
-            var widget = LoadControl(this.WidgetContainerPath) as Control;
-            widget.ID = "WidgetContainer" + instance.Id.ToString();
-
-            var widgetHost = widget as IWidgetHost;
-            widgetHost.WidgetInstance = instance;
-            widgetHost.IsLocked = this.IsLocked;
-            widgetHost.EventBroker = eventBroker;
-
-            widgetHost.Deleted += new Action<WidgetInstance, IWidgetHost>(Widget_Deleted);
-
-            this.WidgetHolderPanel.Controls.Add(widget);
-
+            var widgetHost = CreateWidgetContainerFromWidgetInstance(eventBroker, instance);
             widgetHosts.Add(widgetHost);
+
+            this.WidgetHolderPanel.Controls.Add(widgetHost as Control);        
         });
 
         return widgetHosts;
+    }
+
+    private IWidgetHost CreateWidgetContainerFromWidgetInstance(EventBrokerService eventBroker, WidgetInstance instance)
+    {
+        var widget = LoadControl(this.WidgetContainerPath) as Control;
+        widget.ID = "WidgetContainer" + instance.Id.ToString();
+
+        var widgetHost = widget as IWidgetHost;
+        widgetHost.WidgetInstance = instance;
+        widgetHost.IsLocked = this.IsLocked;
+        widgetHost.EventBroker = eventBroker;
+
+        widgetHost.Deleted += new Action<WidgetInstance, IWidgetHost>(Widget_Deleted);
+
+        return widgetHost;
+    }
+
+    public void AddNewWidget(EventBrokerService eventBroker, WidgetInstance instance)
+    {
+        var widgetHost = CreateWidgetContainerFromWidgetInstance(eventBroker, instance);
+        var widgetContainer = widgetHost as Control;
+
+        var existingControls = this.WidgetHolderPanel.Controls;
+        if (existingControls == null || existingControls.Count == 0)
+        {
+            this.WidgetHolderPanel.Controls.Add(widgetContainer);
+        }
+        else
+        {
+            var position = 0;
+            foreach (Control existingControl in existingControls)
+            {
+                if (existingControl is IWidgetHost)
+                {
+                    var existingHost = existingControl as IWidgetHost;
+                    if (existingHost.WidgetInstance.OrderNo >= instance.OrderNo)
+                    {
+                        break;
+                    }
+                }
+
+                
+            }
+            existingControls.AddAt(position, widgetContainer);
+        }
+
+        this.Refresh();
     }
 
     public void Refresh()

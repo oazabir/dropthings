@@ -311,7 +311,7 @@
 
             var widget = this.widgetRepository.GetWidgetById(widgetId);
 
-            return this.widgetInstanceRepository.Insert(new WidgetInstance
+            var insertedWidget = this.widgetInstanceRepository.Insert(new WidgetInstance
             {
                 Title = widget.Name,
                 WidgetZone = new WidgetZone { ID = widgetZone.ID },
@@ -321,6 +321,8 @@
                 CreatedDate = DateTime.Now,
                 Expanded = true
             });
+
+            return this.widgetInstanceRepository.GetWidgetInstanceById(insertedWidget.Id);
         }
 
         public Widget AddWidget(

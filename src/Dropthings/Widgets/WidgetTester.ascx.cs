@@ -29,6 +29,12 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
 
     #region Properties
 
+    public string StuffInViewState
+    {
+        get { return ViewState["s"] as string; }
+        set { ViewState["s"] = value; }
+    }
+
     public IWidgetHost Host
     {
         get { return _Host; }
@@ -41,7 +47,7 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
 
     void IEventListener.AcceptEvent(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+     
     }
 
     void IWidget.Closed()
@@ -114,6 +120,7 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
         {
             Message.Text += "First Load. ";
             Data.Text = this.Host.GetState();
+            ViewStateStuffTextBox.Text = StuffInViewState;
         }
     }
 
@@ -127,6 +134,11 @@ public partial class Widgets_WidgetTester : System.Web.UI.UserControl, IWidget
     protected void SettingsButton_Click( object sender, EventArgs e )
     {
         Message.Text += "Settings Button Clicked. ";
+    }
+
+    protected void SaveInViewState_Click(object sender, EventArgs e)
+    {
+        StuffInViewState = ViewStateStuffTextBox.Text;
     }
 
     #endregion Methods
