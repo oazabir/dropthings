@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>CacheBaseLibrary</name>
+	</assembly>
+	<members>
+		<member name="T:Microsoft.Data.Caching.DataCacheErrorCode">
+			<summary>A static class used to store global error codes.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.CacheItemVersionMismatch">
+			<summary>The object in the cache does not match with the specified version; integer value equals 1.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.CacheServerUnavailable">
+			<summary>One or more specified cache servers are unavailable; integer value equals 19.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.ClientServerVersionMismatch">
+			<summary>The cache client assemblies are a different version than the cache host assemblies; integer value equals 24.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.InvalidArgument">
+			<summary>The argument is not valid; integer value equals 5.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.InvalidCacheLockHandle">
+			<summary>The specified lock handle is not valid; integer value equals 15.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.InvalidEnumerator">
+			<summary>An invalid enumerator is specified; integer value equals 16.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.KeyAlreadyExists">
+			<summary>The key is already present in the cache or region; integer value equals 10.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.KeyDoesNotExist">
+			<summary>An object cached with the specified key does not exist in the cache or region; integer value equals 8.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.MaxNamedCacheCountExceeded">
+			<summary>The named cache count exceeded the maximum value; integer value equals 12.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.NamedCacheDoesNotExist">
+			<summary>The named cache does not exist; integer value equals 11.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.NotificationNotSupported">
+			<summary>Cache notifications are not supported because the cache client is a simple client or the named cache has been created without notifications enabled; integer value equals 20.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.NotPermittedForDefaultRegions">
+			<summary>The operation is only supported in regions that you explicitly create with the <see cref="M:Microsoft.Data.Caching.DataCache.CreateRegion(System.String,System.Boolean)" /> method; integer value equals 18.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.NullArgument">
+			<summary>A null has been specified as an argument; integer value equals 3.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.ObjectLocked">
+			<summary>The cached object has already been locked; integer value equals 13.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.ObjectNotLocked">
+			<summary>The object is not locked; integer value equals 14.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.RegionAlreadyExists">
+			<summary>The region already exists; integer value equals 9.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.RegionDoesNotExist">
+			<summary>The region does not exist; integer value equals 7.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.RetryLater">
+			<summary>Temporary failure, retry the operation later; integer value equals 22.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.SerializationException">
+			<summary>An exception was encountered during object serialization; integer value equals 25.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.ServerNull">
+			<summary>The servers parameter of the <see cref="Overload:Microsoft.Data.Caching.DataCacheFactory.#ctor" /> constructor or one of the items in the array is null; integer value equals 26.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.Timeout">
+			<summary>Communications with the cache cluster have experienced a delay past the timeout value; integer value equals 23.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheErrorCode.UndefinedError">
+			<summary>Unknown error; integer value equals 6. </summary>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheException">
+			<summary>Used for cache-related exceptions.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheException.#ctor">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.Data.Caching.DataCacheException" /> class.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheException.#ctor(System.String)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.Data.Caching.DataCacheException" /> class; allows you to provide a message with the exception.</summary>
+			<param name="message">The message describing the exception.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.Data.Caching.DataCacheException" /> class; allows you to provide serialization information with the exception.</summary>
+			<param name="info">Stores serialization information about an object.</param>
+			<param name="context">Describes the source, destination, and context of a serialized stream.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheException.#ctor(System.String,System.Exception)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.Data.Caching.DataCacheException" /> class; allows you to provide a message and another exception with the exception.</summary>
+			<param name="message">The message describing the exception.</param>
+			<param name="innerException">Another exception related to this exception.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+			<summary>The interface that is used for serialization.</summary>
+			<param name="info">The SerializationInfo class used to store all the data that you need to serialize the exception.</param>
+			<param name="context">The StreamingContext class used to describe the source and destination of the exception.</param>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheException.ErrorCode">
+			<summary>The integer used to identify the type of exception encountered.</summary>
+			<returns>An integer specifying the type of exception encountered.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheException.Message">
+			<summary>The description of the exception encountered.</summary>
+			<returns>A string that describes the type of exception encountered.</returns>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheItem">
+			<summary>Used to retrieve all information associated with the cached object in the cluster.</summary>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheItem.CacheName">
+			<summary>The name of the cache where the object is stored.</summary>
+			<returns>A string value that represents the name of the cache where the object is stored.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheItem.Key">
+			<summary>The identifier that is used to distinguish the cached object in the cache or region.</summary>
+			<returns>A string value that represents the identifier that is used to distinguish the cached object in the cache or region.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheItem.RegionName">
+			<summary>If applicable, the name of the region where the object is stored.</summary>
+			<returns>A string value that represents, if applicable, the name of the region where the object is stored.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheItem.Tags">
+			<summary>A generic list of tags associated with the cached object.</summary>
+			<returns>An generic list of <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> objects associated with the cached object.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheItem.Value">
+			<summary>The object stored in cache.</summary>
+			<returns>An object representing the deserialized form of the cached object.</returns>
+		</member>
+		<member name="P:Microsoft.Data.Caching.DataCacheItem.Version">
+			<summary>The version of the cached object.</summary>
+			<returns>The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> is updated every time the object is updated. Only the latest version of the object is stored on the cache cluster. Due to the distributed nature of the cluster, the cache client may not have the latest copy of the object. For this reason, the <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> class is essential for concurrency operations. For more information, see Concurrency Models (Velocity) and Concurrency Methods (Velocity).When using cache notifications, the <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object corresponding to an item-related cache operation can be returned to your application with the version parameter of the <see cref="T:Microsoft.Data.Caching.DataCacheNotificationCallback" /> delegate method. For more information, see <see cref="Cache Notifications (Velocity)" />.Version comparisons are only meaningful when comparing versions of the same item specified with the same key. Comparison methods may return a result, but the result is only valid for versions of the same key. </returns>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheItemVersion">
+			<summary>Used to represent the version of a cached object.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheItemVersion.CompareTo(Microsoft.Data.Caching.DataCacheItemVersion)">
+			<summary>Used to compare two versions of the same item, specified with the same key.</summary>
+			<returns>An integer value: 0 if the versions are equal, greater than zero if the instance is greater than the version parameter value, or less than zero if the instance is less than the version parameter value.</returns>
+			<param name="version">The <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> to be compared.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheItemVersion.Equals(System.Object)">
+			<summary>Used to determine whether another object is the same.</summary>
+			<returns>A Boolean value: true, if the objects are the same; false, if they are different.</returns>
+			<param name="obj">Another object for comparison.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheItemVersion.GetHashCode">
+			<summary>Returns the hash code of the <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object.</summary>
+			<returns>An integer value that represents the hash code of the <see cref="T:Microsoft.Data.Caching.DataCacheItemVersion" /> object. </returns>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheLockHandle">
+			<summary>The structure used as a key to lock and unlock cached objects in a pessimistic concurency scenario.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheLockHandle.ToString">
+			<summary>Returns the string representation of the lock handle.</summary>
+			<returns>A string representing the lock handle.</returns>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheLogSink">
+			<summary>Used to specify an individual log sink.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheLogSink.#ctor(Microsoft.Data.Caching.DataCacheSinkType)">
+			<summary>Defines the type of log sink and assigns a TraceLevel of Warning.</summary>
+			<param name="sinkType">The type of log sink, represented by the <see cref="T:Microsoft.Data.Caching.DataCacheSinkType" /> enumeration.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheLogSink.#ctor(Microsoft.Data.Caching.DataCacheSinkType,System.Diagnostics.TraceLevel)">
+			<summary>Defines the type of log sink and assigns the specified TraceLevel.</summary>
+			<param name="sinkType">The type of log sink, represented by the <see cref="T:Microsoft.Data.Caching.DataCacheSinkType" /> enumeration.</param>
+			<param name="logLevel">The TraceLevel of the log sink, represented by the <see cref="T:System.Diagnostics.TraceLevel" /> enumeration. Available options include: No tracing, Error, Warning, Information, and Verbose.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheLogSink.#ctor(Microsoft.Data.Caching.DataCacheSinkType,System.Diagnostics.TraceLevel,System.String)">
+			<summary>Defines the type of log sink and assigns the specified TraceLevel. This overload also enables setting additional log sink parameters.</summary>
+			<param name="sinkType">The type of log sink, represented by the <see cref="T:Microsoft.Data.Caching.DataCacheSinkType" /> enumeration.</param>
+			<param name="logLevel">The TraceLevel of the log sink, represented by the <see cref="T:System.Diagnostics.TraceLevel" /> enumeration. Available options include: No tracing, Error, Warning, Information, and Verbose.</param>
+			<param name="sinkParam">Only used for file-based logging to specify the file naming convention of the log file.</param>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheSinkType">
+			<summary>Used to specify the type of log sink used to trace events on the cache client.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheSinkType.CONSOLE">
+			<summary>Used to specify console-based log sinks. </summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheSinkType.ETW">
+			<summary>Used to specify Event Tracing for Windows (ETW)-based log sinks.</summary>
+		</member>
+		<member name="F:Microsoft.Data.Caching.DataCacheSinkType.FILE">
+			<summary>Used to specify file-based log sinks.</summary>
+		</member>
+		<member name="T:Microsoft.Data.Caching.DataCacheTag">
+			<summary>Represents an optional string-based identifier that you can associate with a cached object.</summary>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheTag.#ctor(System.String)">
+			<summary>Initializes a new instance of the <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> class.</summary>
+			<param name="tag">The string-based identifier to associate with a cached object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheTag.Equals(System.Object)">
+			<summary>Compares the current <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> object for equality with the specified <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> object.</summary>
+			<returns>True if the object implements the ToString method and its value is the same as the string representation of the current <see cref="T:Microsoft.Data.Caching.DataCacheTag" />; otherwise, false.</returns>
+			<param name="obj">The object whose string representation is compared for equality to the current <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> object.</param>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheTag.GetHashCode">
+			<summary>Returns the hash code for the current <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> object.</summary>
+			<returns>An integer representing the hash code for the current <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> object.</returns>
+		</member>
+		<member name="M:Microsoft.Data.Caching.DataCacheTag.ToString">
+			<summary>Returns the string representation of the current <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> object.</summary>
+			<returns>A string representing the current value of the <see cref="T:Microsoft.Data.Caching.DataCacheTag" /> object. </returns>
+		</member>
+	</members>
+</doc>

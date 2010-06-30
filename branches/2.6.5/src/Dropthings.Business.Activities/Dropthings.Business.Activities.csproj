@@ -1,0 +1,441 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7B53FEE9-BD5B-4956-90C6-F2E8C23F4534}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Dropthings.Business.Activities</RootNamespace>
+    <AssemblyName>Dropthings.Business.Activities</AssemblyName>
+    <ProjectTypeGuids>{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.Activities">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.ComponentModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.Runtime">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.WorkflowServices">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CallWorkflowActivity\CallWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CallWorkflowActivity\CallWorkflow.designer.cs">
+      <DependentUpon>CallWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ForEachActivity\ForEach.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ForEachActivity\ForEach.designer.cs">
+      <DependentUpon>ForEach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ForEachActivity\ForEachDesigner.cs" />
+    <Compile Include="ForEachActivity\ForEachValidator.cs" />
+    <Compile Include="PageActivities\AddColumnActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\AddColumnActivity.Designer.cs">
+      <DependentUpon>AddColumnActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\ApplyColumnWidthsActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\ApplyColumnWidthsActivity.Designer.cs">
+      <DependentUpon>ApplyColumnWidthsActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\ChangePageLayoutActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\ChangePageLayoutActivity.Designer.cs">
+      <DependentUpon>ChangePageLayoutActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\ChangePageNameActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\ChangePageNameActivity.Designer.cs">
+      <DependentUpon>ChangePageNameActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\CloneColumnActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\CloneColumnActivity.Designer.cs">
+      <DependentUpon>CloneColumnActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\ClonePageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\ClonePageActivity.Designer.cs">
+      <DependentUpon>ClonePageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\CreateNewPageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\CreateNewPageActivity.Designer.cs">
+      <DependentUpon>CreateNewPageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\DecideColumnsFromLayoutTypeActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\DecideColumnsFromLayoutTypeActivity.Designer.cs">
+      <DependentUpon>DecideColumnsFromLayoutTypeActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\DecideCurrentPageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\DecideCurrentPageActivity.Designer.cs">
+      <DependentUpon>DecideCurrentPageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\DecideUniquePageNameActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\DecideUniquePageNameActivity.Designer.cs">
+      <DependentUpon>DecideUniquePageNameActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\DeleteColumnActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\DeleteColumnActivity.Designer.cs">
+      <DependentUpon>DeleteColumnActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\DeletePageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\DeletePageActivity.Designer.cs">
+      <DependentUpon>DeletePageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\GetColumnsOfPageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\GetColumnsOfPageActivity.Designer.cs">
+      <DependentUpon>GetColumnsOfPageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\GetWidgetInstancesOnPageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\GetWidgetInstancesOnPageActivity.Designer.cs">
+      <DependentUpon>GetWidgetInstancesOnPageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\MoveWidgetFromOnColumnToAnother.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\MoveWidgetFromOnColumnToAnother.Designer.cs">
+      <DependentUpon>MoveWidgetFromOnColumnToAnother.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageActivities\SetCurrentPageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PageActivities\SetCurrentPageActivity.Designer.cs">
+      <DependentUpon>SetCurrentPageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SecurityActivity\AuthorizeActionActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurityActivity\AuthorizeActionActivity.Designer.cs">
+      <DependentUpon>AuthorizeActionActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SecurityActivity\EnsureOwnerActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SecurityActivity\EnsureOwnerActivity.Designer.cs">
+      <DependentUpon>EnsureOwnerActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemActivity\GetUserSettingTemplateActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SystemActivity\GetUserSettingTemplateActivity.Designer.cs">
+      <DependentUpon>GetUserSettingTemplateActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemActivity\SetupDefaultRoleActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SystemActivity\SetupDefaultRoleActivity.Designer.cs">
+      <DependentUpon>SetupDefaultRoleActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\ActivateUserAccountActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\ActivateUserAccountActivity.Designer.cs">
+      <DependentUpon>ActivateUserAccountActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\AddUserToRoleTemplateActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\AddUserToRoleTemplateActivity.Designer.cs">
+      <DependentUpon>AddUserToRoleTemplateActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\CreateUserActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\CreateUserActivity.Designer.cs">
+      <DependentUpon>CreateUserActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\CreateUserTokenActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\CreateUserTokenActivity.Designer.cs">
+      <DependentUpon>CreateUserTokenActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\GetAspnetUserActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\GetAspnetUserActivity.Designer.cs">
+      <DependentUpon>GetAspnetUserActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\GetRoleTemplateActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\GetRoleTemplateActivity.Designer.cs">
+      <DependentUpon>GetRoleTemplateActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\ResetPasswordActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\ResetPasswordActivity.Designer.cs">
+      <DependentUpon>ResetPasswordActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\TransferOwnershipActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\TransferOwnershipActivity.Designer.cs">
+      <DependentUpon>TransferOwnershipActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountActivities\UpdateAccountActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountActivities\UpdateAccountActivity.Designer.cs">
+      <DependentUpon>UpdateAccountActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserActivities\GetUserGuidActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserActivities\GetUserGuidActivity.Designer.cs">
+      <DependentUpon>GetUserGuidActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserActivities\GetUserPagesActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserActivities\GetUserPagesActivity.Designer.cs">
+      <DependentUpon>GetUserPagesActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserActivities\GetUserSettingActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserActivities\GetUserSettingActivity.Designer.cs">
+      <DependentUpon>GetUserSettingActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserActivities\SetUserRolesActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserActivities\SetUserRolesActivity.designer.cs">
+      <DependentUpon>SetUserRolesActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\AddWidgetOnWidgetZone.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\AddWidgetOnWidgetZone.Designer.cs">
+      <DependentUpon>AddWidgetOnWidgetZone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\AddWidgetZoneActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\AddWidgetZoneActivity.Designer.cs">
+      <DependentUpon>AddWidgetZoneActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\AssignWidgetPermissionActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\AssignWidgetPermissionActivity.Designer.cs">
+      <DependentUpon>AssignWidgetPermissionActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\ChangeWidgetInstancePositionActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\ChangeWidgetInstancePositionActivity.Designer.cs">
+      <DependentUpon>ChangeWidgetInstancePositionActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\ChangeWidgetInstanceTitle.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\ChangeWidgetInstanceTitle.Designer.cs">
+      <DependentUpon>ChangeWidgetInstanceTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\CloneWidgetInstanceActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\CloneWidgetInstanceActivity.Designer.cs">
+      <DependentUpon>CloneWidgetInstanceActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\CreateDeafultWidgetsOnPageActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\CreateDeafultWidgetsOnPageActivity.Designer.cs">
+      <DependentUpon>CreateDeafultWidgetsOnPageActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\DeleteWidgetInstanceActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\DeleteWidgetInstanceActivity.Designer.cs">
+      <DependentUpon>DeleteWidgetInstanceActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\DeleteWidgetZoneActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\DeleteWidgetZoneActivity.Designer.cs">
+      <DependentUpon>DeleteWidgetZoneActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\ExpandWidgetActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\ExpandWidgetActivity.Designer.cs">
+      <DependentUpon>ExpandWidgetActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetActivity.Designer.cs">
+      <DependentUpon>GetWidgetActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetInstanceActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetInstanceActivity.Designer.cs">
+      <DependentUpon>GetWidgetInstanceActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetInstancesInZoneActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetInstancesInZoneActivity.Designer.cs">
+      <DependentUpon>GetWidgetInstancesInZoneActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetStateActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetStateActivity.Designer.cs">
+      <DependentUpon>GetWidgetStateActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetZoneActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetZoneActivity.Designer.cs">
+      <DependentUpon>GetWidgetZoneActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetZoneOnPageColumn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\GetWidgetZoneOnPageColumn.Designer.cs">
+      <DependentUpon>GetWidgetZoneOnPageColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\LoadWidgetActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\LoadWidgetActivity.Designer.cs">
+      <DependentUpon>LoadWidgetActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\MaximizeWidgetActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\MaximizeWidgetActivity.Designer.cs">
+      <DependentUpon>MaximizeWidgetActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\PushDownWidgetInstancesOnWidgetZoneActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\PushDownWidgetInstancesOnWidgetZoneActivity.Designer.cs">
+      <DependentUpon>PushDownWidgetInstancesOnWidgetZoneActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\ReorderWidgetInstancesOnWidgetZoneActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\ReorderWidgetInstancesOnWidgetZoneActivity.Designer.cs">
+      <DependentUpon>ReorderWidgetInstancesOnWidgetZoneActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\ResizeWidgetActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\ResizeWidgetActivity.Designer.cs">
+      <DependentUpon>ResizeWidgetActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetActivities\SaveWidgetStateActivity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetActivities\SaveWidgetStateActivity.Designer.cs">
+      <DependentUpon>SaveWidgetStateActivity.cs</DependentUpon>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ForEachActivity\ForEachActivity.csproj" />
+    <EmbeddedResource Include="Resources\ForEach.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">
+      <Project>{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}</Project>
+      <Name>Dropthings.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DashboardDataAccess\Dropthings.DataAccess.csproj">
+      <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
+      <Name>Dropthings.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
+      <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
+      <Name>Dropthings.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows Workflow Foundation\v3.5\Workflow.Targets" />
+</Project>

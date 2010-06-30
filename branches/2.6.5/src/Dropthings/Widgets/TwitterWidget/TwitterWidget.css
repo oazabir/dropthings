@@ -1,0 +1,29 @@
+﻿.twitterTabs { overflow:auto; padding: 0 8px; }
+.twitterTabs ul { list-style-type:none; padding:0; margin:0; }
+.twitterTabs li { float:left; padding: 2px 8px; margin-top:3px; }
+.twitterTabs a { font-weight: bold; color:#646464; }
+.twitterTabs a:hover { text-decoration:none; }
+.twitterTabs .selected { background-color:#E7F2FC; }
+.twitterTabs .selected a { /*color:#fff;*/ }
+.twitterView .odd { background-color:#E7F2FC; padding:5px 10px; clear:left; overflow:auto; }
+.twitterView .even { background-color:#FFF; padding:5px 10px; clear:left; overflow:auto; }
+.twitterView img { margin-right:10px; float:left; height:50px; }
+.twitterView a {font-weight:bold;}
+.twitterView .prevLink {float:left;}
+.twitterView .nextLink {float:right;}
+.twitterView, .twitterUpdate { border:1px solid #E7F2FC; }
+.twitterHeading { font-size:12px; }
+.twitterError {color:Red;padding:3px 0;}
+.twitterLogin {padding:5px;}
+.twitterLogin a {display:inline;}
+.twitterUpdate {padding:5px;background-color:#E7F2FC;height:120px;}
+.twitterUpdate textarea {margin-bottom:5px;height:85px;}
+.twitterUpdate input {float:left;}
+.twSettings .twCredentialInput {width:140px;}
+.twitterProgress {padding:3px 5px;}
+.twitterCCount {float:right;position:relative;right:10px;}
+.twitterClose {float:right;cursor:pointer;font-weight:bold;margin:5px;font-size:smaller;color:Gray;}
+.twFeature {padding:15px 5px;font-weight:bold;_padding:5px 5px 15px;}
+.twFeature a {display:inline;}
+.twTime {color:Gray;font-style:italic;}
+.twitterSName {font-size:1.1em;}

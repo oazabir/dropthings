@@ -1,0 +1,18 @@
+.resizer_line { text-align: center; background-color: red; }
+.resizer_icon { }
+.widget_holder_panel_post_link {display:none}
+a { text-decoration: none }
+a:link, a:visited, a:active { color: green; }
+a:hover { color:Red; text-decoration: underline }
+.hidden{display:none;}
+.clear{clear:both;height:0;overflow:hidden;line-height:0;font-size:0;}
+.table_fixed {table-layout:fixed; clear:both; margin-top:10px;}
+.nodisplay {display:none}
+.display_block {display:block}
+.display_inline {display:inline}
+.hidden {visibility:hidden}
+.align_right { text-align: right }
+.align_bottom { vertical-align: middle }
+
+
+td { text-align: left; vertical-align: top; padding: 5px 5px 5px 5px; }

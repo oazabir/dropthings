@@ -1,0 +1,338 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{63C65FF9-E003-4074-9451-70D4EC3D7906}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Dropthings.Business.Workflows</RootNamespace>
+    <AssemblyName>Dropthings.Business.Workflows</AssemblyName>
+    <ProjectTypeGuids>{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Workflow.Activities">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.ComponentModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Workflow.Runtime">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.WorkflowServices">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EntryPointWorkflows\FirstVisitWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EntryPointWorkflows\FirstVisitWorkflow.Designer.cs">
+      <DependentUpon>FirstVisitWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntryPointWorkflows\IFirstVisitWorkflow.cs" />
+    <Compile Include="EntryPointWorkflows\IUserVisitWorkflow.cs" />
+    <Compile Include="EntryPointWorkflows\IUserVisitWorkflowRequest.cs" />
+    <Compile Include="EntryPointWorkflows\IUserVisitWorkflowResponse.cs" />
+    <Compile Include="EntryPointWorkflows\UserVisitWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EntryPointWorkflows\UserVisitWorkflow.Designer.cs">
+      <DependentUpon>UserVisitWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntryPointWorkflows\UserVisitWorkflowRequest.cs" />
+    <Compile Include="EntryPointWorkflows\UserVisitWorkflowResponse.cs" />
+    <Compile Include="GenericWorkflowResponeBase.cs" />
+    <Compile Include="IUserWorkflowRequest.cs" />
+    <Compile Include="IUserWorkflowResponse.cs" />
+    <Compile Include="IWorkflowHelper.cs" />
+    <Compile Include="IWorkflowRequest.cs" />
+    <Compile Include="IWorkflowResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SystemWorkflows\SetupDefaultRolesWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SystemWorkflows\SetupDefaultRolesWorkflow.Designer.cs">
+      <DependentUpon>SetupDefaultRolesWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemWorkflows\SetupDefaultRolesWorkflowRequest.cs" />
+    <Compile Include="SystemWorkflows\SetupDefaultRolesWorkflowResponse.cs" />
+    <Compile Include="TabWorkflows\AddNewTabWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabWorkflows\AddNewTabWorkflow.Designer.cs">
+      <DependentUpon>AddNewTabWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TabWorkflows\AddNewTabWorkflowRequest.cs" />
+    <Compile Include="TabWorkflows\AddNewTabWorkflowResponse.cs" />
+    <Compile Include="TabWorkflows\ChangePageNameWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabWorkflows\ChangePageNameWorkflow.Designer.cs">
+      <DependentUpon>ChangePageNameWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TabWorkflows\ChangeTabNameWorkflowRequest.cs" />
+    <Compile Include="TabWorkflows\ChangeTabNameWorkflowResponse.cs" />
+    <Compile Include="TabWorkflows\ChangeTabWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabWorkflows\ChangeTabWorkflow.Designer.cs">
+      <DependentUpon>ChangeTabWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TabWorkflows\ChangeTabWorkflowRequest.cs" />
+    <Compile Include="TabWorkflows\ChangeTabWorkflowResponse.cs" />
+    <Compile Include="TabWorkflows\DeletePageWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabWorkflows\DeletePageWorkflow.Designer.cs">
+      <DependentUpon>DeletePageWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TabWorkflows\DeleteTabWorkflowRequest.cs" />
+    <Compile Include="TabWorkflows\DeleteTabWorkflowResponse.cs" />
+    <Compile Include="TabWorkflows\GetColumnsInPageWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabWorkflows\GetColumnsInPageWorkflow.Designer.cs">
+      <DependentUpon>GetColumnsInPageWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TabWorkflows\GetColumnsInPageWorkflowRequest.cs" />
+    <Compile Include="TabWorkflows\GetColumnsInPageWorkflowResponse.cs" />
+    <Compile Include="TabWorkflows\ModifyPageLayoutWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TabWorkflows\ModifyPageLayoutWorkflow.Designer.cs">
+      <DependentUpon>ModifyPageLayoutWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TabWorkflows\ModifyTabLayoutWorkflowRequest.cs" />
+    <Compile Include="TabWorkflows\ModifyTabLayoutWorkflowResponse.cs" />
+    <Compile Include="UserAccountWorkflow\ActivateAccountWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\ActivateAccountWorkflow.Designer.cs">
+      <DependentUpon>ActivateAccountWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\ActivateAccountWorkflowRequest.cs" />
+    <Compile Include="UserAccountWorkflow\ActivateAccountWorkflowResponse.cs" />
+    <Compile Include="UserAccountWorkflow\CreateTemplateUserWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\CreateTemplateUserWorkflow.Designer.cs">
+      <DependentUpon>CreateTemplateUserWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\CreateTemplateUserWorkflowRequest.cs" />
+    <Compile Include="UserAccountWorkflow\CreateTemplateUserWorkflowResponse.cs" />
+    <Compile Include="UserAccountWorkflow\ResetPasswordWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\ResetPasswordWorkflow.Designer.cs">
+      <DependentUpon>ResetPasswordWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\ResetPasswordWorkflowRequest.cs" />
+    <Compile Include="UserAccountWorkflow\ResetPasswordWorkflowResponse.cs" />
+    <Compile Include="UserAccountWorkflow\SetupUserWithTemplateWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\SetupUserWithTemplateWorkflow.Designer.cs">
+      <DependentUpon>SetupUserWithTemplateWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\SetupUserWithTemplateWorkflowRequest.cs" />
+    <Compile Include="UserAccountWorkflow\SetupUserWithTemplateWorkflowResponse.cs" />
+    <Compile Include="UserAccountWorkflow\UpdateAccountWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\UpdateAccountWorkflow.Designer.cs">
+      <DependentUpon>UpdateAccountWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\UpdateAccountWorkflowRequest.cs" />
+    <Compile Include="UserAccountWorkflow\UpdateAccountWorkflowResponse.cs" />
+    <Compile Include="UserAccountWorkflow\UserRegistrationWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\UserRegistrationWorkflow.Designer.cs">
+      <DependentUpon>UserRegistrationWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserAccountWorkflow\UserRegistrationWorkflowRequest.cs" />
+    <Compile Include="UserAccountWorkflow\UserRegistrationWorkflowResponse.cs" />
+    <Compile Include="UserWorkflowRequestBase.cs" />
+    <Compile Include="UserWorkflowResponseBase.cs" />
+    <Compile Include="WidgetInstanceResponseBase.cs" />
+    <Compile Include="WidgetWorkflows\AddWidgetWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\AddWidgetWorkflow.Designer.cs">
+      <DependentUpon>AddWidgetWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\AssignWidgetPermissionWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\AssignWidgetPermissionWorkflow.Designer.cs">
+      <DependentUpon>AssignWidgetPermissionWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\ChangeWidgetInstanceTitleWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\ChangeWidgetInstanceTitleWorkflow.Designer.cs">
+      <DependentUpon>ChangeWidgetInstanceTitleWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\DeleteWidgetInstanceWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\DeleteWidgetInstanceWorkflow.Designer.cs">
+      <DependentUpon>DeleteWidgetInstanceWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\ExpandWidgetInstanceWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\ExpandWidgetInstanceWorkflow.Designer.cs">
+      <DependentUpon>ExpandWidgetInstanceWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\GetWidgetInstanceStateWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\GetWidgetInstanceStateWorkflow.Designer.cs">
+      <DependentUpon>GetWidgetInstanceStateWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\LoadWidgetInstancesInZoneRequest.cs" />
+    <Compile Include="WidgetWorkflows\LoadWidgetInstancesInZoneResponse.cs" />
+    <Compile Include="WidgetWorkflows\LoadWidgetInstancesInZoneWorkflow.xoml.cs">
+      <DependentUpon>LoadWidgetInstancesInZoneWorkflow.xoml</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\MaximizeWidgetInstanceWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\MaximizeWidgetInstanceWorkflow.Designer.cs">
+      <DependentUpon>MaximizeWidgetInstanceWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\MoveWidgetInstanceWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\MoveWidgetInstanceWorkflow.Designer.cs">
+      <DependentUpon>MoveWidgetInstanceWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\ResizeWidgetInstanceWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\ResizeWidgetInstanceWorkflow.Designer.cs">
+      <DependentUpon>ResizeWidgetInstanceWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\SaveWidgetInstanceStateWorkflow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WidgetWorkflows\SaveWidgetInstanceStateWorkflow.Designer.cs">
+      <DependentUpon>SaveWidgetInstanceStateWorkflow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WidgetWorkflows\WorkflowArgs\AddWidgetRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\AddWidgetResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\AssignWidgetPermissionWorkflowRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\AssignWidgetPermissionWorkflowResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\ChangeWidgetInstanceTitleWorkflowRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\ChangeWidgetInstanceTitleWorkflowResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\DeleteWidgetInstanceWorkflowRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\DeleteWidgetInstanceWorkflowResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\ExpandWidgetInstanceRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\ExpandWidgetInstanceResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\GetWidgetInstanceStateRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\GetWidgetInstanceStateResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\GetWidgetWorkflowRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\GetWidgetWorkflowResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\MaximizeWidgetInstanceRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\MaximizeWidgetInstanceResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\MoveWidgetInstanceWorkflowRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\MoveWidgetInstanceWorkflowResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\ResizeWidgetInstanceRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\ResizeWidgetInstanceResponse.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\SaveWidgetInstanceStateRequest.cs" />
+    <Compile Include="WidgetWorkflows\WorkflowArgs\SaveWidgetInstanceStateResponse.cs" />
+    <Compile Include="WorkflowConstants.cs" />
+    <Compile Include="WorkflowHelper.cs" />
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EntryPointWorkflows\FirstVisitWorkflow.rules">
+      <DependentUpon>FirstVisitWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntryPointWorkflows\UserVisitWorkflow.rules">
+      <DependentUpon>UserVisitWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TabWorkflows\ModifyPageLayoutWorkflow.rules">
+      <DependentUpon>ModifyPageLayoutWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserAccountWorkflow\CreateTemplateUserWorkflow.rules">
+      <DependentUpon>CreateTemplateUserWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserAccountWorkflow\SetupUserWithTemplateWorkflow.rules">
+      <DependentUpon>SetupUserWithTemplateWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserAccountWorkflow\UserRegistrationWorkflow.rules">
+      <DependentUpon>UserRegistrationWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WidgetWorkflows\AddWidgetWorkflow.rules">
+      <DependentUpon>AddWidgetWorkflow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WidgetWorkflows\LoadWidgetInstancesInZoneWorkflow.xoml">
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DashboardBusiness\Dropthings.Business.csproj">
+      <Project>{2FFE89D9-9C56-4CC4-9596-EDE26AAB6490}</Project>
+      <Name>Dropthings.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DashboardDataAccess\Dropthings.DataAccess.csproj">
+      <Project>{7464A2DC-FE3D-4798-9D26-4054DE8AF9B3}</Project>
+      <Name>Dropthings.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dropthings.Util\Dropthings.Util.csproj">
+      <Project>{739B0A68-33F2-4EC3-8087-C3177AE80E41}</Project>
+      <Name>Dropthings.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Windows Workflow Foundation\v3.5\Workflow.Targets" />
+</Project>

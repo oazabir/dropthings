@@ -1,0 +1,84 @@
+Notes:
+Test all UI behaviors to make sure the refactoring did not break anything
+Regenerate the CreateNewDatabase-SQL2005 script.
+Refactor firstvisit and repeatvisit functions parameters
+
+Next version target:
+====================
+* ADD: WatiN test suite to test the UI behaviors
+* ADD: Make the widget gallery a jQuery slider.
+* ADD: Code and production site installer using Microsoft Web Platform installer
+* CHANGE: Convert Javascripts to Script#
+* ADD: Comment all Facade methods and mention the "why" and "how"
+* CHANGE: Update Velocity reference to latest release
+
+Version 2.6.5
+=============
+FIX: Issue 118: Fixed role template issues where it was not correctly returning the registered user's template.
+FIX: Issue 117:	Facade.Page thrown InvalidOperationException when chaning column layout on a tab without any widgets
+
+Version 2.6.2
+=============
+FIX: Issue-100: UserSetting.CurrentPageID now has foreign key to Page object
+FIX: Issue 99:	Unique page titles create UI issues
+FIX: Issue 98:	Lock widget instance > widget header is not fully disabled
+FIX: Issue 97:	Add tab, add widget: error 'sequence contains no elements'
+FIX: Issue 96:	Update widget: not all properties are updated
+FIX: Issue 95:	Delete widget: Reference constraint errors when widget is used in roles, or added to portal
+FIX: Issue 94:	Delete widget: cache is not emptied
+FIX: Issue 90:	changing page layout - loss of widgets
+FIX: Issue 88:	Maximized widget has 'Move' cursor in widgetheader
+FIX: Issue 85:	Problem with the editing Widgets
+CHANGE: Refactor Page settings panel to a user control.
+CHANGE: Refactor tab bar to a user control.
+CHANGE: Refactor default.aspx and move all page specific behavior to WidgetPage.ascx
+CHANGE: Change all AspNetUsers, AspNetRoles to proper names like User, Role
+CHANGE: Change Page to Tab to prevent conflict with Page
+
+Version 2.6.1
+==============
+FIX: Fixed the logic where widgets on a column is pushed down when an widget is dropped on a column.
+FIX: Performance problem on DropthingsDataContext2 where in the constructor it tries to initialize all the Entity sets with MergeOption = NoTracking. It makes the ObjectContext to initialize all the entity sets and thus causing high CPU. Solved it by making Query<> function to execute the compiled queries using NoTracking. 
+CHANGE: Create Facade and register in Container only once per request and reuse that same instance within the request. This reuses ObjectContext and all repository instances.
+
+Version 2.6
+===========
+ADD: Both VS 2008 and VS 2010 Solution files.
+CHANGE: Linq to SQL to Entity Framework and Linq to Entities. New project: Dropthings.Data
+CHANGE: Data Access unit tests changed to test new.
+CHANGE: Remove all Subsystem stuff. Make the repository calls simpler.
+ADD: Dropthings.Facade.Test which now has complete integration test to test facade operations. 
+REMOVE: Linq to SQL based entities, Data Access Layer.
+
+Version 2.5.6
+=============
+FIX: Fast RSS Widget was not saving the settings properly
+FIX: Poor performance due to missing indexes and complex Linq to SQL queries resulting in no caching of critical data
+ADD: DeveloperMode implementation. It will prevent script combining and CSS combining. But script defer still defers script loading.
+CHANGE: Replace Unity container with Munq. Unity turned out to be CPU hoq.
+CHANGE: All repositories now produce detached object in CRUD operations. All entities now have .Detach()
+
+Version 2.5.5
+=============
+FIX: Twitter, Flickr widget was not loading Javascript from proper url when Dropthings runs on a virtual directory.
+
+Version 2.5.3
+=============
+* FIX: Silverlight Control was not working since Silverlight 3 SDK is used. Corrected the <object> tag and recreated the Silverlight Project which fixed the loading and debugging problem.
+
+Version 2.5.2
+=============
+* FIX: JQuery loading problem.
+
+
+Version 2.5.1
+=============
+* FIX: When new widget is added, no widget can be dragged out of that column and put back. Issue #12.
+* FIX: Drag & drop new widget from widget list stops working after second widget is added.
+* FIX: Running under virtual directory.
+* FIX: Clicking on "Edit" load the state to initial state and does not allow changing anything on edit area.
+* FIX: Resize problem fixed. You can now resize and widgets will persist their resized height.
+* CHANGE: Disabled the widget resize functionality. It's not fully working now and not a feature that's widely in use. Hardly anyone (Google, Yahoo, Pageflakes, Netvibes) offers this.
+* FIX: Maximize and minimize was buggy. Make some fixes. It's still buggy. 
+* FIX: Manage Account page
+* FIX: ManageWidgetPermission page.
