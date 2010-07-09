@@ -5,7 +5,6 @@ Refactor firstvisit and repeatvisit functions parameters
 
 Next version target:
 ====================
-* ADD: WatiN test suite to test the UI behaviors
 * ADD: Make the widget gallery a jQuery slider.
 * ADD: Code and production site installer using Microsoft Web Platform installer
 * CHANGE: Convert Javascripts to Script#
@@ -16,6 +15,7 @@ Version 2.6.5
 =============
 FIX: Issue 118: Fixed role template issues where it was not correctly returning the registered user's template.
 FIX: Issue 117:	Facade.Page thrown InvalidOperationException when chaning column layout on a tab without any widgets
+
 
 Version 2.6.2
 =============

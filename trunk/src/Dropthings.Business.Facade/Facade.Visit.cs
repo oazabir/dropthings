@@ -15,7 +15,7 @@ namespace Dropthings.Business.Facade
     partial class Facade
     {
         #region Constants
-        private const string DEFAULT_FIRST_PAGE_NAME = "First Tab";
+        private const string DEFAULT_FIRST_PAGE_NAME = "New Tab";
         #endregion
 
         #region Methods
