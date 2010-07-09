@@ -63,7 +63,7 @@
         {
             PushDownTabs(0, toOrder);
             
-            title = string.IsNullOrEmpty(title) ? DecideUniqueTabName() : title;
+            title = string.IsNullOrEmpty(title) ? DecideUniqueTabName(title) : title;
 
             var insertedTab = this.pageRepository.Insert(new Tab
             {
@@ -226,12 +226,12 @@
             return this.GetTab(this.GetUserSetting(userGuid).CurrentTab.ID);
         }
 
-        public string DecideUniqueTabName()
+        public string DecideUniqueTabName(string title)
         {
             var userGuid = this.GetUserGuidFromUserName(Context.CurrentUserName);
             List<Tab> pages = this.pageRepository.GetTabsOfUser(userGuid);
             
-            string uniqueNamePrefix = DEFAULT_FIRST_PAGE_NAME;
+            string uniqueNamePrefix = title;
             string pageUniqueName = uniqueNamePrefix;
             for (int counter = 0; counter < 100; counter++)
             {
