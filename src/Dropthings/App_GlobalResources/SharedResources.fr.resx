@@ -528,4 +528,7 @@
   <data name="Back" xml:space="preserve">
     <value>Revenir</value>
   </data>
+  <data name="NewTab" xml:space="preserve">
+    <value>Nouvel onglet</value>
+  </data>
 </root>

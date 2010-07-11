@@ -529,4 +529,7 @@ Para el uso commercial, enviame una e-mail a ….para obtener una licencia que n
   <data name="Back" xml:space="preserve">
     <value>Volver</value>
   </data>
+  <data name="NewTabTitle" xml:space="preserve">
+    <value>Neue Registerkarte</value>
+  </data>
 </root>

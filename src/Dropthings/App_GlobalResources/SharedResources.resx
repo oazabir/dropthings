@@ -528,4 +528,7 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="NewTabTitle" xml:space="preserve">
+    <value>New Tab </value>
+  </data>
 </root>

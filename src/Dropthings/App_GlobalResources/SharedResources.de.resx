@@ -528,4 +528,7 @@
   <data name="Back" xml:space="preserve">
     <value>Zurückgehen</value>
   </data>
+  <data name="NewTabTitle" xml:space="preserve">
+    <value>Neue Registerkarte</value>
+  </data>
 </root>
