@@ -112,7 +112,7 @@ public partial class TabBar : System.Web.UI.UserControl
 
         var facade = Services.Get<Facade>();
         {
-            var page = facade.CreateTab(string.Empty, 0);
+            var page = facade.CreateTab(Resources.SharedResources.NewTabTitle, 0);
             RedirectToTab(page);
         }
     }
