@@ -13,9 +13,33 @@ namespace Dropthings.Test.WatiN.Pages
         [FindBy(Id = "TabControlPanel_ShowAddContentPanel")]
         public Link AddStuffLink;
 
+        [FindBy(ClassRegex = "newtab_add*")]
+        public Link AddNewTabLink;
+
         public void ShowAddStuff()
         {
             AddStuffLink.Click();
+        }
+
+        public void AddNewTab()
+        {
+            AddNewTabLink.Click();
+        }
+
+        public LinkCollection TabLinks
+        {
+            get
+            {
+                return base.Document.Links.Filter(Find.ByClass("tab_link"));
+            }
+        }
+
+        public Span CurrentTab
+        {
+            get
+            {
+                return this.Document.Span(Find.ByClass("current_tab"));
+            }
         }
 
         public Table WidgetDataList

@@ -14,7 +14,7 @@ using System.Collections.Specialized;
 
 namespace Dropthings.Test.WatiN
 {    
-    class TestHomePage
+    public class TestHomePage
     {
         [Specification]
         public void Visit_Homepage_as_new_user_and_verify_default_widgets()
@@ -195,27 +195,46 @@ namespace Dropthings.Test.WatiN
 
         }
 
+        [Specification]
         public void User_can_delete_widget()
         {
             var browser = default(Browser);
             var page = default(HomePage);
-            var deletedWidgetId = default(int);
+            var deletedWidgetId = default(string);
 
             "Given a user having some widgets on his page".Context(() =>
                 {
-
+                    BrowserHelper.ClearCookies();
+                    browser = BrowserHelper.OpenNewBrowser(Urls.Homepage);
+                    browser.WaitForAsyncPostbackComplete(10000);                    
                 });
 
             "When user deletes one of the widget".Do(() =>
                 {
+                    page = browser.Page<HomePage>();
+                    var rssWidget = RssWidgetControl.GetTheFirstRssWidget(page);
+                    deletedWidgetId = rssWidget.Element.Id;
+                    rssWidget.Close();
+                    browser.WaitForAsyncPostbackComplete(10000);                    
                 });
 
             "It should remove the widget from the page".Assert(() =>
                 {
+                    using (browser)
+                    {
+                        Assert.False(browser.Element(deletedWidgetId).Exists);
+                    }
                 });
 
             "It should not come on revisit".Assert(() =>
                 {
+                    using (browser)
+                    {
+                        browser.Refresh();
+                        browser.WaitForAsyncPostbackComplete(10000);
+
+                        Assert.False(browser.Element(deletedWidgetId).Exists);
+                    }
                 });
         }
 
@@ -229,9 +248,36 @@ namespace Dropthings.Test.WatiN
 
         }
 
+        [Specification]
         public void User_can_add_new_page()
         {
+            var browser = default(Browser);
+            var page = default(HomePage);
+            var existingTabNames = default(List<string>);
+            "Given a new user".Context(() =>
+                {
+                    BrowserHelper.ClearCookies();
+                    browser = BrowserHelper.OpenNewBrowser(Urls.Homepage);
+                    browser.WaitForAsyncPostbackComplete(10000);                    
+                });
 
+            "When user clicks on the add new page link".Do(() =>
+                {
+                    page = browser.Page<HomePage>();
+                    existingTabNames = page.TabLinks.Select(t => t.Text).ToList();
+                    existingTabNames.Add(page.CurrentTab.Text);
+                    page.AddNewTab();
+                    browser.WaitForAsyncPostbackComplete(10000);
+                });
+
+            "It adds a new empty page and makes the page current page".Assert(() =>
+                {
+                    using (browser)
+                    {
+                        page = browser.Page<HomePage>();
+                        Assert.DoesNotContain(page.CurrentTab.Text, existingTabNames);
+                    }
+                });
         }
 
         public void User_can_delete_a_page()

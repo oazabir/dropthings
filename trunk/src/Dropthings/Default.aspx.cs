@@ -127,7 +127,7 @@ public partial class _Default : BasePage
     private void LoadUserPageSetup(bool noCache)
     {
         // If URL has the page title, load that page by default
-        string pageTitle = (Request.Url.Query ?? string.Empty).TrimStart('?');
+        string pageTitle = (Request.Url.Query ?? Resources.SharedResources.NewTabTitle).TrimStart('?');
 
         AspectF.Define
             .Retry(Services.Get<ILogger>())

@@ -151,6 +151,7 @@ public partial class TabBar : System.Web.UI.UserControl
             if (page.ID == CurrentTab.ID)
             {
                 var tabTextDiv = new HtmlGenericControl("span");
+                tabTextDiv.Attributes["class"] = "current_tab";
                 tabTextDiv.InnerText = page.Title;
                 liWrapper.Controls.Add(tabTextDiv);
             }
@@ -167,7 +168,7 @@ public partial class TabBar : System.Web.UI.UserControl
                     url += page.LockedTabName;
                 }
 
-                var tabLink = new HyperLink { Text = page.Title, NavigateUrl = url };
+                var tabLink = new HyperLink { Text = page.Title, NavigateUrl = url, CssClass = "tab_link" };
                 liWrapper.Controls.Add(tabLink);
             }
             tabList.Controls.Add(li);
