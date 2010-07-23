@@ -67,7 +67,7 @@ namespace Dropthings.Business.Facade
                 else
                 {
                     // Setup some default pages
-                    var page = CreateTab(userGuid, string.Empty, 0, 0);
+                    var page = CreateTab(userGuid, pageTitle, 0, 0);
 
                     if (page != null && page.ID > 0)
                     {
