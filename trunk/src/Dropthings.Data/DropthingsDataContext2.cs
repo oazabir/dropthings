@@ -146,6 +146,13 @@ namespace Dropthings.Data
             }
         }
 
+        public void Test()
+        {
+            var testObject = this.AspNetRoles.First();
+            if (testObject == null)
+                throw new ApplicationException("There's no role in database or it cannot be read. Check database connection string.");
+        }
+
         private IQueryable<TReturnType> RunQuery<TReturnType>(IQueryable<TReturnType> query)
         {
             var objectQuery = query as ObjectQuery<TReturnType>;

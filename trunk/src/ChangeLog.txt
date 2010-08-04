@@ -11,10 +11,17 @@ Next version target:
 * ADD: Comment all Facade methods and mention the "why" and "how"
 * CHANGE: Update Velocity reference to latest release
 
+Version 2.6.6
+=============
+ADD: /Setup/Default.aspx which validates web.config setup is done correctly.
+ADD: Create a Web Platform Installer distribution to distribute dropthings through microsoft.com/web
+
 Version 2.6.5
 =============
 FIX: Issue 118: Fixed role template issues where it was not correctly returning the registered user's template.
 FIX: Issue 117:	Facade.Page thrown InvalidOperationException when chaning column layout on a tab without any widgets
+FIX: Use the default title of newly added tab from resource keys so that it can be internationalized.
+ADD: Some more watin tests
 
 
 Version 2.6.2

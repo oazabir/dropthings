@@ -7,10 +7,6 @@
         <p class="license">
         <asp:Literal ID="ltlPersonalMessage" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, PersonalMessage%>" />
         </p>
-
-        <p class="invitation"><asp:Literal ID="ltlHiringNotice" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, HiringNotice%>" />
-        </p>
-        
         <!-- Begin Shinystat Free code -->
         <div id="counter">
         <a href="http://www.shinystat.com" target="_top">
