@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dropthings.Test.WatiN
 {
-    class Urls
+    public class Urls
     {
         public const string Host = "http://localhost:8000/Dropthings";
 

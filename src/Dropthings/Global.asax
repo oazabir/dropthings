@@ -6,9 +6,12 @@
     // For continued development and updates, visit http://msmvps.com/omar
 
     const string APPLICATION_WORKFLOW_RUNTIME_KEY = "GlobalSynchronousWorkflowRuntime";
+    
     void Application_Start(object sender, EventArgs e)
     {
         Dropthings.Business.Facade.Facade.BootStrap();
+
+        Dropthings.Util.ConstantHelper.SetupCompleted = System.IO.File.Exists(Server.MapPath(Dropthings.Util.ConstantHelper.SETUP_COMPLETE_FILE));
     }
 
     void Application_End(object sender, EventArgs e)
@@ -44,19 +47,31 @@
         if (Request.IsLocal)
             System.Threading.Thread.Sleep(100);
 
+        string fullurl = Request.Url.ToString();
+        string baseUrl = fullurl.Substring(0, fullurl.IndexOf(HttpUtility.UrlDecode(Request.Url.PathAndQuery)));
+                
         if (Request.HttpMethod == "GET")
         {
             if (Request.AppRelativeCurrentExecutionFilePath.EndsWith(".aspx"))
             {
-                string fullurl = Request.Url.ToString();                
-                string baseUrl = fullurl.Substring(0, fullurl.IndexOf(HttpUtility.UrlDecode(Request.Url.PathAndQuery)));
+                // Make sure the setup was run before any .aspx page is hit. Without
+                // the setup, the site might not work properly
+                if (!Dropthings.Util.ConstantHelper.SetupCompleted)
+                {
+                    if (!fullurl.ToLower().Contains("/setup/"))
+                    {
+                        Response.Redirect("~/setup/default.aspx");
+                    }
+                }
+                else
+                {
+                    Response.Filter = new Dropthings.Web.Util.ScriptDeferFilter(baseUrl, Response);
 
-                Response.Filter = new Dropthings.Web.Util.ScriptDeferFilter(baseUrl, Response);
-                
-                Response.Filter = new Dropthings.Web.Util.StaticContentFilter(Response,
-                    Dropthings.Util.ConstantHelper.ImagePrefix,
-                    Dropthings.Util.ConstantHelper.ScriptPrefix,
-                    Dropthings.Util.ConstantHelper.CssPrefix);            
+                    Response.Filter = new Dropthings.Web.Util.StaticContentFilter(Response,
+                        Dropthings.Util.ConstantHelper.ImagePrefix,
+                        Dropthings.Util.ConstantHelper.ScriptPrefix,
+                        Dropthings.Util.ConstantHelper.CssPrefix);
+                }
             }
         }
     }

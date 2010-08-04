@@ -15,9 +15,6 @@ http://www.microsoft.com/downloads/details.aspx?familyid=C22D6A7B-546F-4407-8EF6
 4) Hit run.
 
 ======================================
-
-
-======================================
 Running on SQL Server 2008
 ======================================
 If you already have SQL Server 2008 then you need to do the following:
@@ -78,3 +75,13 @@ Hosting Dropthings on IIS
 * Open Dropthings.Silverlight project and change the path of the webservice in: ServiceReferences.ClientConfig to match your IIS host location. Currently it is set to "http://localhost:8000/WidgetService.asmx"
 * Copy the Website to IIS root website or a virtual directory.
 * Update the web.config and change all http://localhost:8000/ to your IIS host.
+
+
+=================================================
+Upgrading code and database from earlier version
+=================================================
+
+
+* First deploy the latest codebase.
+* Make sure you haven't forgotten any of the web.config setting. Best is to take the latest version's web.config as is and then make your specific changes on top of it. Otherwise you will forget copying important blocks or having all the appsetting entries.
+* Run the delta database scripts to upgrade the database schema from App_data\DatabaseUpgrades folder. If your current version is 2.5, then run all the scripts on 2.6 and onwards folders. 

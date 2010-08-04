@@ -65,6 +65,7 @@ public partial class _Default : BasePage
             .Log(Services.Get<ILogger>(), "OnInit: " + Profile.UserName)
             .Do(() =>
             {
+
                 // Check if revisit is valid or not
                 if (!base.IsPostBack)
                 {

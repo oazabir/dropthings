@@ -8,6 +8,12 @@ namespace Dropthings.Util
 {
     public class ConstantHelper
     {
+        public static bool SetupCompleted = false;
+
+        public const string DEFAULT_CONNECTION_STRING = "DropthingsConnectionString";
+        public const string ENTITY_FRAMEWORK_CONNECTION_STRING = "DropthingsDataContext";
+        public const string SETUP_COMPLETE_FILE = "~/App_Data/SetupComplete.txt";
+
         public static readonly bool DeveloperMode = Convert.ToBoolean(ConfigurationManager.AppSettings["DeveloperMode"] ?? "false");
         public static readonly string ScriptVersionNo = ConfigurationManager.AppSettings["ScriptVersionNo"] ?? string.Empty;
         public static readonly string CssVersionNo = ConfigurationManager.AppSettings["CssVersionNo"] ?? string.Empty;

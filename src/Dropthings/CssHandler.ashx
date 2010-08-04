@@ -23,6 +23,10 @@ public class CssHandler : IHttpHandler {
         string themeFileNames = context.Request["f"];
         string version = context.Request["v"];
 
+        if (string.IsNullOrEmpty(themeName) ||
+            string.IsNullOrEmpty(version))
+            return;
+        
         bool isCompressed = DO_GZIP && this.CanGZip(context.Request);
 
         UTF8Encoding encoding = new UTF8Encoding(false);
