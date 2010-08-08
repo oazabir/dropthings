@@ -29,7 +29,7 @@ namespace Dropthings.Test.WatiN
                 {
                     browser = BrowserHelper.OpenNewBrowser(Urls.Homepage);
                 });
-            "It should show the default widgets".Assert(() =>
+            "Then it should show the default widgets".Assert(() =>
                 {
                     using (browser)
                     {
@@ -88,7 +88,7 @@ namespace Dropthings.Test.WatiN
                     Thread.Sleep(1000);
                 }
             });
-            "It should persist the new title on next visit".Assert(() =>
+            "Then it should persist the new title on next visit".Assert(() =>
             {
                 using (browser = BrowserHelper.OpenNewBrowser(Urls.Homepage))
                 {
@@ -115,7 +115,7 @@ namespace Dropthings.Test.WatiN
                 browser.WaitForAsyncPostbackComplete(10000);
             });
 
-            "It should show the widget gallery".Assert(() =>
+            "Then it should show the widget gallery".Assert(() =>
             {
                 using (browser)
                 {
@@ -148,7 +148,7 @@ namespace Dropthings.Test.WatiN
                 browser.WaitForAsyncPostbackComplete(10000);
             });
 
-            "It should show the settings area of the widget".Assert(() =>
+            "Then it should show the settings area of the widget".Assert(() =>
             {
                 using (browser)
                 {
@@ -158,7 +158,7 @@ namespace Dropthings.Test.WatiN
                 }
             });
 
-            "It should allow user to change the number of feeds to show".Assert(() =>
+            "Then it should allow user to change the number of feeds to show".Assert(() =>
             {
                 using (browser)
                 {
@@ -170,7 +170,7 @@ namespace Dropthings.Test.WatiN
                 }
             });
 
-            "It should persist the changes on next page load".Assert(() =>
+            "Then it should persist the changes on next page load".Assert(() =>
             {
                 using (browser)
                 {
@@ -218,7 +218,7 @@ namespace Dropthings.Test.WatiN
                     browser.WaitForAsyncPostbackComplete(10000);                    
                 });
 
-            "It should remove the widget from the page".Assert(() =>
+            "Then it should remove the widget from the page".Assert(() =>
                 {
                     using (browser)
                     {
@@ -226,7 +226,7 @@ namespace Dropthings.Test.WatiN
                     }
                 });
 
-            "It should not come on revisit".Assert(() =>
+            "Then it should not come on revisit".Assert(() =>
                 {
                     using (browser)
                     {
@@ -270,7 +270,7 @@ namespace Dropthings.Test.WatiN
                     browser.WaitForAsyncPostbackComplete(10000);
                 });
 
-            "It adds a new empty page and makes the page current page".Assert(() =>
+            "Then it adds a new empty page and makes the page current page".Assert(() =>
                 {
                     using (browser)
                     {
@@ -337,7 +337,7 @@ namespace Dropthings.Test.WatiN
                         Thread.Sleep(500);
                     }
                 });
-            "It should move out of the column and be floating".Assert(() =>
+            "Then it should move out of the column and be floating".Assert(() =>
                 {
                     using (browser)
                     {
@@ -419,7 +419,7 @@ namespace Dropthings.Test.WatiN
         //            widget.Header.FireEventNoWait("onmouseup");
         //            Thread.Sleep(500);
         //        });
-        //    "It should move the widget to the second column".Assert(() =>
+        //    "Then it should move the widget to the second column".Assert(() =>
         //        {
         //            using (browser)
         //            {
@@ -427,7 +427,7 @@ namespace Dropthings.Test.WatiN
         //                Assert.NotEqual(newColumn.Id, originalColumn.Id);
         //            }
         //        });
-        //    //"It should remain the widget on second column after page reload".Assert(() =>
+        //    //"Then it should remain the widget on second column after page reload".Assert(() =>
         //    //    {
         //    //    });
 
