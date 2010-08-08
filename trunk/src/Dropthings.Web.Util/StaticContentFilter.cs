@@ -30,6 +30,8 @@
         private byte[] _ImagePrefix;
         private byte[] _JavascriptPrefix;
         private char[] _ApplicationPath;
+        private byte[] _BaseUrl;
+        private byte[] _CurrentFolder;
 
         /// <summary>
         /// Holds characters from last Write(...) call where the start tag did not
@@ -45,7 +47,13 @@
 
         #region Constructors
 
-        public StaticContentFilter(HttpResponse response, string imagePrefix, string javascriptPrefix, string cssPrefix)
+        public StaticContentFilter(HttpResponse response, 
+            string imagePrefix, 
+            string javascriptPrefix, 
+            string cssPrefix, 
+            string baseUrl,
+            string applicationPath,
+            string currentRelativePath)
         {
             this._Encoding = response.Output.Encoding;
             this._ResponseStream = response.Filter;
@@ -54,7 +62,9 @@
             this._JavascriptPrefix = _Encoding.GetBytes(javascriptPrefix);
             this._CssPrefix = _Encoding.GetBytes(cssPrefix);
 
-            this._ApplicationPath = HttpContext.Current.Request.ApplicationPath.ToCharArray();
+            this._ApplicationPath = applicationPath.ToCharArray();
+            this._BaseUrl = _Encoding.GetBytes(baseUrl);
+            this._CurrentFolder = _Encoding.GetBytes(currentRelativePath);
         }
 
         #endregion Constructors
@@ -309,13 +319,24 @@
                     this.WriteOutput(content, lastWritePos, attributeValuePos - lastWritePos);
 
                     // Now write the prefix
-                    this.WriteBytes(prefix, 0, prefix.Length);
+                    if (prefix.Length > 0)
+                        this.WriteBytes(prefix, 0, prefix.Length);
+                    else
+                        this.WriteBytes(this._BaseUrl, 0, this._BaseUrl.Length);
 
                     // If the attribute value starts with the application path it needs to be skipped as 
                     // that value should be in the prefix. Doubling it will cause problems. This occurs
                     // with some of the scripts.
                     if (HasMatch(content, attributeValuePos, _ApplicationPath))
+                    {
+                        // Aboslute path starting with / or /Vdir. So, we need to keep the /Vdir/ part.
                         attributeValuePos = attributeValuePos + _ApplicationPath.Length;
+                    }
+                    else
+                    {
+                        // Relative path. So, we need to emit the current folder path. eg folder/
+                        this.WriteBytes(this._CurrentFolder, 0, this._CurrentFolder.Length);
+                    }
 
                     // Ensure the attribute value does not start with a leading slash because the prefix
                     // is supposed to have a trailing slash. If value does start with a leading slash,

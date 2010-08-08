@@ -13,6 +13,7 @@ namespace Dropthings.Test.WatiN
         internal static Browser OpenNewBrowser(string url)
         {
             Browser browser = new IE();
+            browser.ShowWindow(global::WatiN.Core.Native.Windows.NativeMethods.WindowShowStyle.ShowNormal);
             browser.GoTo(url);
             browser.WaitForComplete();
             return browser;
@@ -56,7 +57,7 @@ namespace Dropthings.Test.WatiN
             int timeWaitedInMilliseconds = 0;
             var maxWaitTimeInMilliseconds = Settings.WaitForCompleteTimeOut * 1000;
 
-            while (browser.IsJQureyAjaxRequestInProgress()
+            while (browser.IsJQueryAjaxRequestInProgress()
                     && timeWaitedInMilliseconds < maxWaitTimeInMilliseconds)
             {
                 Thread.Sleep(Settings.SleepTime);
@@ -64,7 +65,7 @@ namespace Dropthings.Test.WatiN
             }
         }
 
-        internal static bool IsJQureyAjaxRequestInProgress(this Browser browser)
+        internal static bool IsJQueryAjaxRequestInProgress(this Browser browser)
         {
             var evalResult = browser.Eval("watinAjaxMonitor.isRequestInProgress()");
             return evalResult == "true";

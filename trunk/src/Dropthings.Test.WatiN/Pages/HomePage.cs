@@ -26,22 +26,6 @@ namespace Dropthings.Test.WatiN.Pages
             AddNewTabLink.Click();
         }
 
-        public LinkCollection TabLinks
-        {
-            get
-            {
-                return base.Document.Links.Filter(Find.ByClass("tab_link"));
-            }
-        }
-
-        public Span CurrentTab
-        {
-            get
-            {
-                return this.Document.Span(Find.ByClass("current_tab"));
-            }
-        }
-
         public Table WidgetDataList
         {
             get
@@ -55,6 +39,22 @@ namespace Dropthings.Test.WatiN.Pages
             get
             {
                 return base.Document.Links.Where(link => link.ClassName == "widgetitem").ToList();
+            }
+        }        
+
+        public LinkCollection TabLinks
+        {
+            get
+            {
+                return base.Document.Links.Filter(Find.ByClass("tab_link"));
+            }
+        }
+
+        public Span CurrentTab
+        {
+            get
+            {
+                return this.Document.Span(Find.ByClass("current_tab"));
             }
         }
 
