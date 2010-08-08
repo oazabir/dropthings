@@ -110,10 +110,10 @@
                 User templates exist</h2>
             <ul>
                 <li>
-                    <asp:Label CssClass="inprogress" Text="Template user for anonymous visit: {0}, exists and has pages."
+                    <asp:Label CssClass="inprogress" Text="Template user for anonymous visit exists and has pages."
                         ID="AnonUserLabel" runat="server" /></li>
                 <li>
-                    <asp:Label CssClass="inprogress" Text="Template user for registered users: {0}, exists and has pages."
+                    <asp:Label CssClass="inprogress" Text="Template user for registered users exists and has pages."
                         ID="RegisteredUserLabel" runat="server" /></li>
             </ul>
             <h2>
@@ -128,7 +128,7 @@
     <h1>
         Conclusion</h1>
     <h2>
-        Is everything alright?</h2>
+        Is everything alright?right?</h2>
     <asp:Button Text="Yes, complete setup" ID="YesButton" runat="server" OnClick="YesButton_Clicked" />
     <asp:Button Text="No, let me fix" ID="NoButton" runat="server" OnClick="NoButton_Clicked" />
     </form>

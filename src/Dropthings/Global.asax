@@ -47,12 +47,18 @@
         if (Request.IsLocal)
             System.Threading.Thread.Sleep(100);
 
-        string fullurl = Request.Url.ToString();
-        string baseUrl = fullurl.Substring(0, fullurl.IndexOf(HttpUtility.UrlDecode(Request.Url.PathAndQuery)));
+        var request = Request;
+        var url = request.Url;
+        var applicationPath = request.ApplicationPath;
+        
+        string fullurl = url.ToString();
+        string baseUrl = url.Scheme + "://" + url.Authority + applicationPath.TrimEnd('/') +'/';
+
+        string currentRelativePath = request.AppRelativeCurrentExecutionFilePath;
                 
-        if (Request.HttpMethod == "GET")
+        if (request.HttpMethod == "GET")
         {
-            if (Request.AppRelativeCurrentExecutionFilePath.EndsWith(".aspx"))
+            if (currentRelativePath.EndsWith(".aspx"))
             {
                 // Make sure the setup was run before any .aspx page is hit. Without
                 // the setup, the site might not work properly
@@ -67,10 +73,16 @@
                 {
                     Response.Filter = new Dropthings.Web.Util.ScriptDeferFilter(baseUrl, Response);
 
+                    // get the folder path from relative path. Eg ~/page.aspx returns empty. ~/folder/page.aspx returns folder/                    
+                    var folderPath = currentRelativePath.Substring(2, currentRelativePath.LastIndexOf('/') - 1);
+                    
                     Response.Filter = new Dropthings.Web.Util.StaticContentFilter(Response,
                         Dropthings.Util.ConstantHelper.ImagePrefix,
                         Dropthings.Util.ConstantHelper.ScriptPrefix,
-                        Dropthings.Util.ConstantHelper.CssPrefix);
+                        Dropthings.Util.ConstantHelper.CssPrefix, 
+                        baseUrl,
+                        applicationPath,
+                        folderPath);
                 }
             }
         }
@@ -87,7 +99,7 @@
         var localPath = Request.Url.LocalPath;
         if (localPath.Contains(".ashx") 
             || localPath.Contains(".aspx") 
-            || localPath.Contains(".axd")
+            //|| localPath.Contains(".axd")
             || localPath.Contains(".asmx")
             || localPath.Contains(".svc"))
         {

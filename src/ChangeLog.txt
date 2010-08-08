@@ -15,6 +15,7 @@ Version 2.6.6
 =============
 ADD: /Setup/Default.aspx which validates web.config setup is done correctly.
 ADD: Create a Web Platform Installer distribution to distribute dropthings through microsoft.com/web
+FIX: StaticContentFilter was not generating the paths of javascript, images and CSS properly when the page is inside a folder. It only worked for a root folder. 
 
 Version 2.6.5
 =============
