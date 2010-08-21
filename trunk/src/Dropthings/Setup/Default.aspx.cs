@@ -43,10 +43,12 @@ public partial class Setup_Default : System.Web.UI.Page
             () => TestConnectionString(),
             () => TestMembershipAPI(),
             () => TestWrite(),
+            () => TestPaths(),
+            () => TestUrls(),
+            () => TestSMTP(),
             () => TestAppSettings(),
             () => TestAnonTemplateUser(),
-            () => TestRegTemplateUser(),
-            () => TestSMTP()
+            () => TestRegTemplateUser()
         };
     }
 
@@ -176,6 +178,58 @@ public partial class Setup_Default : System.Web.UI.Page
         }        
     }
 
+    private void TestPaths()
+    {
+        bool allPathOK = true;
+        foreach (string key in ConfigurationManager.AppSettings.AllKeys)
+        {
+            string value = ConfigurationManager.AppSettings[key];
+
+            if (value.StartsWith("~/"))
+            {
+                string fullPath = Server.MapPath(value);
+                if (!Directory.Exists(fullPath) && !File.Exists(fullPath))
+                {
+                    MarkAsFail(FilePathLabel, "Invalid path: " + key + "=" + fullPath, string.Empty);
+                    allPathOK = false;
+                }
+            }
+        }
+
+        if (allPathOK)
+            MarkAsPass(FilePathLabel);
+        
+    }
+
+    private void TestUrls()
+    {
+        bool allUrlOK = true;
+
+        foreach (string key in ConfigurationManager.AppSettings.AllKeys)
+        {
+            string value = ConfigurationManager.AppSettings[key];
+            Uri uri;
+            if (Uri.TryCreate(value, UriKind.Absolute, out uri))
+            {
+                // Got an URI, try hitting
+                using (WebClient client = new WebClient())
+                {
+                    try
+                    {
+                        client.DownloadString(uri);
+                    }
+                    catch (Exception x)
+                    {
+                        MarkAsFail(URLReachableLabel, x.Message, "Unreachable URL: " + key + "=" + uri.ToString());
+                        allUrlOK = false;
+                    }
+                }
+            }            
+        }
+
+        if (allUrlOK)
+            MarkAsPass(URLReachableLabel);
+    }
 
     private void TestAppSettings()
     {
@@ -283,7 +337,7 @@ public partial class Setup_Default : System.Web.UI.Page
         catch (Exception x)
         {
             MarkAsFail(SMTPLabel, x.Message, 
-                "Maybe you haven't turned on SMTP service or have configured Relay settings properly.");
+                "Maybe you haven't turned on SMTP service or haven't configured Relay settings properly. You can still run Dropthings without it. But it won't be able to send emails.");
         }
     }
 
