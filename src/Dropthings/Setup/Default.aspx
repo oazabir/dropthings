@@ -63,7 +63,7 @@
         <ContentTemplate>
             <asp:Timer runat="server" ID="RefreshTimer" Interval="500" Enabled="true" OnTick="RefreshTimer_Tick" />
             <h1>
-                Setup</h1>
+                Self Diagnostics</h1>
             <h2>
                 Database Configuration</h2>
             <ul>
@@ -82,7 +82,25 @@
                         runat="server" /></li>
             </ul>
             <h2>
-                Web.config appSettings</h2>
+                Web.config appSettings paths and urls</h2>
+            <ul>
+                <li>
+                    <asp:Label CssClass="inprogress" Text="All File paths readable"
+                        ID="FilePathLabel" runat="server" /></li>
+                <li>
+                    <asp:Label CssClass="inprogress" Text="All URLs reachable"
+                        ID="URLReachableLabel" runat="server" /></li>
+
+            </ul>
+            <h2>
+                Mail Delivery</h2>
+            <ul>
+                <li>
+                    <asp:Label CssClass="inprogress" Text="SMTP server responded to EHLO" runat="server"
+                        ID="SMTPLabel" /></li>
+            </ul>
+            <h2>
+                Dropthings appSettings</h2>
             <ul>
                 <li>
                     <asp:Label CssClass="inprogress" Text="Developer Mode should be turned off in production."
@@ -115,20 +133,13 @@
                 <li>
                     <asp:Label CssClass="inprogress" Text="Template user for registered users exists and has pages."
                         ID="RegisteredUserLabel" runat="server" /></li>
-            </ul>
-            <h2>
-                Mail Delivery</h2>
-            <ul>
-                <li>
-                    <asp:Label CssClass="inprogress" Text="SMTP server responded to EHLO" runat="server"
-                        ID="SMTPLabel" /></li>
-            </ul>
+            </ul>            
         </ContentTemplate>
     </asp:UpdatePanel>
     <h1>
         Conclusion</h1>
     <h2>
-        Is everything alright?right?</h2>
+        Is everything alright?</h2>
     <asp:Button Text="Yes, complete setup" ID="YesButton" runat="server" OnClick="YesButton_Clicked" />
     <asp:Button Text="No, let me fix" ID="NoButton" runat="server" OnClick="NoButton_Clicked" />
     </form>
