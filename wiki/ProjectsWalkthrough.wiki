@@ -1,0 +1,9 @@
+#summary Understanding the projects in the solution
+#labels Featured,Phase-Implementation
+
+= Introduction =
+
+Dropthings has a lot of project that might be overwhelming for someone to get started with. This screencast shows what each project does. 
+
+
+<wiki:video url="http://www.youtube.com/watch?v=PXpCu7WHZj4"/>
