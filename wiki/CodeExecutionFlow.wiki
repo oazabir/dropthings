@@ -1,0 +1,8 @@
+#summary Code execution flow through the pages, controls and business layer
+
+= Introduction =
+
+Shows you how the default.aspx gets hit and then it loads the child controls. How the child controls renders the UI. How the business layer creates the widgets on the page.
+
+
+<wiki:video url="http://www.youtube.com/watch?v=wMh4lBXqadM"/>
