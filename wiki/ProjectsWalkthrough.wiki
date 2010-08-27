@@ -6,4 +6,4 @@
 Dropthings has a lot of project that might be overwhelming for someone to get started with. This screencast shows what each project does. 
 
 
-<wiki:video url="http://www.youtube.com/watch?v=PXpCu7WHZj4"/>
+<wiki:video url="http://www.youtube.com/watch?v=W6OxSaAKH_c"/>
