@@ -7,3 +7,5 @@ Shows you how the default.aspx gets hit and then it loads the child controls. Ho
 
 
 <wiki:video url="http://www.youtube.com/watch?v=wMh4lBXqadM"/>
+
+*Click on the video to go to YouTube and watch in Full screen*
