@@ -7,3 +7,5 @@ Dropthings has a lot of project that might be overwhelming for someone to get st
 
 
 <wiki:video url="http://www.youtube.com/watch?v=W6OxSaAKH_c"/>
+
+Click on the video to go to YouTube and watch in full screen.
