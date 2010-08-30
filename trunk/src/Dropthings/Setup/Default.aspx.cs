@@ -336,7 +336,8 @@ public partial class Setup_Default : System.Web.UI.Page
         }
         catch (Exception x)
         {
-            MarkAsFail(SMTPLabel, x.Message, 
+            MarkAsWarning(SMTPLabel, x.Message + 
+                Environment.NewLine + 
                 "Maybe you haven't turned on SMTP service or haven't configured Relay settings properly. You can still run Dropthings without it. But it won't be able to send emails.");
         }
     }
