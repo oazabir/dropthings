@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="TabBar.ascx.cs" Inherits="TabBar" %>
 <%@ Register Src="WidgetContainer.ascx" TagName="WidgetContainer" TagPrefix="widget" %>
-<%@ Register src="WidgetPanels.ascx" tagname="WidgetPanels" tagprefix="uc3" %>
 <asp:UpdatePanel ID="TabUpdatePanel" runat="server" UpdateMode="conditional">
     <ContentTemplate>
        <div id="tab_container" class="tab_container">
