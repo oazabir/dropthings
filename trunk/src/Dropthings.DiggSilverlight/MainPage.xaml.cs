@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 using System.Windows.Browser;
+using System.ServiceModel;
 
 namespace Dropthings.DiggSilverlight
 {
@@ -61,17 +62,17 @@ namespace Dropthings.DiggSilverlight
 
         #region Methods
 
-        void DiggService_DownloadStoriesCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error == null)
-            {
-                DisplayStories(e.Result);
-            }
-            else
-            {
-                NoStories();
-            }
-        }
+        //void DiggService_DownloadStoriesCompleted(object sender, DownloadStringCompletedEventArgs e)
+        //{
+        //    if (e.Error == null)
+        //    {
+        //        DisplayStories(e.Result);
+        //    }
+        //    else
+        //    {
+        //        NoStories((e.Error.InnerException ?? e.Error).Message);
+        //    }
+        //}
 
         void DisplayStories(string xmlContent)
         {
@@ -82,7 +83,7 @@ namespace Dropthings.DiggSilverlight
                                 !story.Element("thumbnail").Attribute("src").Value.EndsWith(".gif")
                           select new DiggStory
                           {
-                              Id = (int)story.Attribute("id"),
+                              Id = (string)story.Attribute("id"),
                               Title = ((string)story.Element("title")).Trim(),
                               Description = ((string)story.Element("description")).Trim(),
                               ThumbNail = (string)story.Element("thumbnail").Attribute("src").Value,
@@ -92,9 +93,12 @@ namespace Dropthings.DiggSilverlight
                           };
 
             StoriesList.SelectedIndex = -1;
-            StoriesList.ItemsSource = stories.Take(5);
+            StoriesList.ItemsSource = stories;
 
-            StoriesFound();
+            if (stories.Count() > 0)
+                StoriesFound();
+            else
+                NoStories(string.Empty);
         }
 
         private void DoSearch()
@@ -102,12 +106,24 @@ namespace Dropthings.DiggSilverlight
             ShowLoadingProgress();
 
             string topic = txtSearchTopic.Text;
-            string diggUrl = String.Format("http://services.digg.com/stories/topic/{0}?count=20&sort=digg_count-desc&appkey=http%3A%2F%2Fscottgu.com", topic);
+            string diggUrl = String.Format("http://services.digg.com/2.0/search.search?query={0}&count=10&type=xml", HttpUtility.UrlEncode(topic));
 
             // Initiate Async Network call to Digg
-            WebClient diggService = new WebClient();
-            diggService.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DiggService_DownloadStoriesCompleted);
-            diggService.DownloadStringAsync(new Uri(diggUrl));
+            //WebClient diggService = new WebClient();
+            //diggService.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DiggService_DownloadStoriesCompleted);
+            //diggService.DownloadStringAsync(new Uri(diggUrl));
+            var service = GetProxyService();
+            service.GetXmlCompleted += new EventHandler<DropthingsProxyService.GetXmlCompletedEventArgs>(service_GetXmlCompleted);
+            service.GetXmlAsync(diggUrl, 10);
+            
+        }
+
+        void service_GetXmlCompleted(object sender, DropthingsProxyService.GetXmlCompletedEventArgs e)
+        {
+            if (e.Error != null)
+                NoStories((e.Error.InnerException ?? e.Error).Message);
+            else
+                DisplayStories(e.Result);
         }
 
         private void GetState()
@@ -155,9 +171,10 @@ namespace Dropthings.DiggSilverlight
             timer.Tick += new EventHandler(timer_Tick);
         }
 
-        private void NoStories()
+        private void NoStories(string reason)
         {
             NoResultFoundTextBlock.Visibility = Visibility.Visible;
+            NoResultFoundTextBlock.Text = string.Format(NoResultFoundTextBlock.Tag as string, reason);
             StoriesList.Visibility = Visibility.Collapsed;
             LoadingTextBlock.Visibility = Visibility.Collapsed;
         }
@@ -174,9 +191,45 @@ namespace Dropthings.DiggSilverlight
             if (myApp.InitParams.ContainsKey("WidgetId"))
             {
                 int WidgetId = Convert.ToInt32(myApp.InitParams["WidgetId"]);
-                DropthingsWebService.WidgetServiceSoapClient service = new DropthingsWebService.WidgetServiceSoapClient();
+
+                var service = GetDropthingsService();
                 service.SaveWidgetStateAsync(WidgetId, State.ToString());
             }
+        }
+
+        private DropthingsWebService.WidgetServiceSoapClient GetDropthingsService()
+        {
+            DropthingsWebService.WidgetServiceSoapClient service = new DropthingsWebService.WidgetServiceSoapClient();
+
+            string relativePath = service.Endpoint.Address.ToString();
+            //string completePath = App.Current.Host.Source.Scheme
+            //       + "://" + App.Current.Host.Source.Host
+            //       + ":" + App.Current.Host.Source.Port + relativePath;
+            
+            ////service = new ChannelFactory<WCFServiceClassName>
+            ////         (basicHttpBinding, endpointAddress).CreateChannel();
+            service.Endpoint.Address = new EndpointAddress(GetAbsolutePath(relativePath));
+            return service;
+        }
+
+        private string GetAbsolutePath(string relativePath)
+        {
+            return relativePath.Replace("ClientBin/", "");
+        }
+
+        private DropthingsProxyService.ProxyAsyncSoapClient GetProxyService()
+        {
+            DropthingsProxyService.ProxyAsyncSoapClient service = new DropthingsProxyService.ProxyAsyncSoapClient();
+
+            string relativePath = service.Endpoint.Address.ToString();
+            //string completePath = App.Current.Host.Source.Scheme
+            //       + "://" + App.Current.Host.Source.Host
+            //       + ":" + App.Current.Host.Source.Port + relativePath;
+
+            ////service = new ChannelFactory<WCFServiceClassName>
+            ////         (basicHttpBinding, endpointAddress).CreateChannel();
+            service.Endpoint.Address = new EndpointAddress(GetAbsolutePath(relativePath));
+            return service;
         }
 
         void SearchBtn_Click(object sender, RoutedEventArgs e)

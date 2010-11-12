@@ -5,17 +5,21 @@
                 <binding name="WidgetServiceSoap" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
                     <security mode="None">
-                        <transport>
-                            <extendedProtectionPolicy policyEnforcement="Never" />
-                        </transport>
+                        
                     </security>
+                </binding>
+                <binding name="ProxyAsyncSoap" maxBufferSize="2147483647" maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
                 </binding>
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://dropthings.omaralzabir.com/WidgetService.asmx"
+            <endpoint address="WidgetService.asmx"
                 binding="basicHttpBinding" bindingConfiguration="WidgetServiceSoap"
                 contract="DropthingsWebService.WidgetServiceSoap" name="WidgetServiceSoap" />
+            <endpoint address="ProxyAsync.asmx"
+                binding="basicHttpBinding" bindingConfiguration="ProxyAsyncSoap"
+                contract="DropthingsProxyService.ProxyAsyncSoap" name="ProxyAsyncSoap" />
         </client>
     </system.serviceModel>
 </configuration>

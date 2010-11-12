@@ -29,7 +29,7 @@
                     Style="{StaticResource SearchButton}" />
 
         </Grid>
-        <TextBlock Grid.Row="1" x:Name="NoResultFoundTextBlock" Visibility="Collapsed" HorizontalAlignment="Center" FontWeight="bold" FontSize="16">No result found. Try another query.</TextBlock>
+        <TextBlock Grid.Row="1" x:Name="NoResultFoundTextBlock" Visibility="Collapsed" HorizontalAlignment="Center" FontWeight="bold" FontSize="16" Tag="No result found. {0}">No result found.</TextBlock>
         <ListBox Grid.Row="1" x:Name="StoriesList" SelectionChanged="StoriesList_SelectionChanged"   Style="{StaticResource StoriesList}">
 
             <ListBox.ItemTemplate>

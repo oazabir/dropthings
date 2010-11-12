@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
       <s:element name="AddWidgetInstance">
@@ -12,26 +12,6 @@
         </s:complexType>
       </s:element>
       <s:element name="AddWidgetInstanceResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="AssignPermission">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="widgetPermissions" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="AssignPermissionResponse">
-        <s:complexType />
-      </s:element>
-      <s:element name="ChangePageLayout">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="newLayout" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ChangePageLayoutResponse">
         <s:complexType />
       </s:element>
       <s:element name="ChangeWidgetTitle">
@@ -162,18 +142,6 @@
   <wsdl:message name="AddWidgetInstanceSoapOut">
     <wsdl:part name="parameters" element="tns:AddWidgetInstanceResponse" />
   </wsdl:message>
-  <wsdl:message name="AssignPermissionSoapIn">
-    <wsdl:part name="parameters" element="tns:AssignPermission" />
-  </wsdl:message>
-  <wsdl:message name="AssignPermissionSoapOut">
-    <wsdl:part name="parameters" element="tns:AssignPermissionResponse" />
-  </wsdl:message>
-  <wsdl:message name="ChangePageLayoutSoapIn">
-    <wsdl:part name="parameters" element="tns:ChangePageLayout" />
-  </wsdl:message>
-  <wsdl:message name="ChangePageLayoutSoapOut">
-    <wsdl:part name="parameters" element="tns:ChangePageLayoutResponse" />
-  </wsdl:message>
   <wsdl:message name="ChangeWidgetTitleSoapIn">
     <wsdl:part name="parameters" element="tns:ChangeWidgetTitle" />
   </wsdl:message>
@@ -239,14 +207,6 @@
       <wsdl:input message="tns:AddWidgetInstanceSoapIn" />
       <wsdl:output message="tns:AddWidgetInstanceSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="AssignPermission">
-      <wsdl:input message="tns:AssignPermissionSoapIn" />
-      <wsdl:output message="tns:AssignPermissionSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="ChangePageLayout">
-      <wsdl:input message="tns:ChangePageLayoutSoapIn" />
-      <wsdl:output message="tns:ChangePageLayoutSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="ChangeWidgetTitle">
       <wsdl:input message="tns:ChangeWidgetTitleSoapIn" />
       <wsdl:output message="tns:ChangeWidgetTitleSoapOut" />
@@ -292,24 +252,6 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="AddWidgetInstance">
       <soap:operation soapAction="http://tempuri.org/AddWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AssignPermission">
-      <soap:operation soapAction="http://tempuri.org/AssignPermission" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ChangePageLayout">
-      <soap:operation soapAction="http://tempuri.org/ChangePageLayout" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -412,24 +354,6 @@
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="AddWidgetInstance">
       <soap12:operation soapAction="http://tempuri.org/AddWidgetInstance" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="AssignPermission">
-      <soap12:operation soapAction="http://tempuri.org/AssignPermission" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ChangePageLayout">
-      <soap12:operation soapAction="http://tempuri.org/ChangePageLayout" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

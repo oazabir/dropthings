@@ -23,16 +23,6 @@ namespace Dropthings.DiggSilverlight.DropthingsWebService {
         
         void EndAddWidgetInstance(System.IAsyncResult result);
         
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/AssignPermission", ReplyAction="*")]
-        System.IAsyncResult BeginAssignPermission(Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequest request, System.AsyncCallback callback, object asyncState);
-        
-        Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponse EndAssignPermission(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/ChangePageLayout", ReplyAction="*")]
-        System.IAsyncResult BeginChangePageLayout(int newLayout, System.AsyncCallback callback, object asyncState);
-        
-        void EndChangePageLayout(System.IAsyncResult result);
-        
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/ChangeWidgetTitle", ReplyAction="*")]
         System.IAsyncResult BeginChangeWidgetTitle(Dropthings.DiggSilverlight.DropthingsWebService.ChangeWidgetTitleRequest request, System.AsyncCallback callback, object asyncState);
         
@@ -82,67 +72,6 @@ namespace Dropthings.DiggSilverlight.DropthingsWebService {
         System.IAsyncResult BeginSaveWidgetState(Dropthings.DiggSilverlight.DropthingsWebService.SaveWidgetStateRequest request, System.AsyncCallback callback, object asyncState);
         
         Dropthings.DiggSilverlight.DropthingsWebService.SaveWidgetStateResponse EndSaveWidgetState(System.IAsyncResult result);
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AssignPermissionRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="AssignPermission", Namespace="http://tempuri.org/", Order=0)]
-        public Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequestBody Body;
-        
-        public AssignPermissionRequest() {
-        }
-        
-        public AssignPermissionRequest(Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
-    public partial class AssignPermissionRequestBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string widgetPermissions;
-        
-        public AssignPermissionRequestBody() {
-        }
-        
-        public AssignPermissionRequestBody(string widgetPermissions) {
-            this.widgetPermissions = widgetPermissions;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class AssignPermissionResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="AssignPermissionResponse", Namespace="http://tempuri.org/", Order=0)]
-        public Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponseBody Body;
-        
-        public AssignPermissionResponse() {
-        }
-        
-        public AssignPermissionResponse(Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponseBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
-    public partial class AssignPermissionResponseBody {
-        
-        public AssignPermissionResponseBody() {
-        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -558,18 +487,6 @@ namespace Dropthings.DiggSilverlight.DropthingsWebService {
         
         private System.Threading.SendOrPostCallback onAddWidgetInstanceCompletedDelegate;
         
-        private BeginOperationDelegate onBeginAssignPermissionDelegate;
-        
-        private EndOperationDelegate onEndAssignPermissionDelegate;
-        
-        private System.Threading.SendOrPostCallback onAssignPermissionCompletedDelegate;
-        
-        private BeginOperationDelegate onBeginChangePageLayoutDelegate;
-        
-        private EndOperationDelegate onEndChangePageLayoutDelegate;
-        
-        private System.Threading.SendOrPostCallback onChangePageLayoutCompletedDelegate;
-        
         private BeginOperationDelegate onBeginChangeWidgetTitleDelegate;
         
         private EndOperationDelegate onEndChangeWidgetTitleDelegate;
@@ -685,10 +602,6 @@ namespace Dropthings.DiggSilverlight.DropthingsWebService {
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> AddWidgetInstanceCompleted;
         
-        public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> AssignPermissionCompleted;
-        
-        public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> ChangePageLayoutCompleted;
-        
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> ChangeWidgetTitleCompleted;
         
         public event System.EventHandler<CollaspeWidgetInstanceCompletedEventArgs> CollaspeWidgetInstanceCompleted;
@@ -760,109 +673,6 @@ namespace Dropthings.DiggSilverlight.DropthingsWebService {
                         widgetId,
                         toZone,
                         toRow}, this.onEndAddWidgetInstanceDelegate, this.onAddWidgetInstanceCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap.BeginAssignPermission(Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequest request, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginAssignPermission(request, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private System.IAsyncResult BeginAssignPermission(string widgetPermissions, System.AsyncCallback callback, object asyncState) {
-            Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequest inValue = new Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequest();
-            inValue.Body = new Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequestBody();
-            inValue.Body.widgetPermissions = widgetPermissions;
-            return ((Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap)(this)).BeginAssignPermission(inValue, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponse Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap.EndAssignPermission(System.IAsyncResult result) {
-            return base.Channel.EndAssignPermission(result);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        private void EndAssignPermission(System.IAsyncResult result) {
-            Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponse retVal = ((Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap)(this)).EndAssignPermission(result);
-        }
-        
-        private System.IAsyncResult OnBeginAssignPermission(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            string widgetPermissions = ((string)(inValues[0]));
-            return this.BeginAssignPermission(widgetPermissions, callback, asyncState);
-        }
-        
-        private object[] OnEndAssignPermission(System.IAsyncResult result) {
-            this.EndAssignPermission(result);
-            return null;
-        }
-        
-        private void OnAssignPermissionCompleted(object state) {
-            if ((this.AssignPermissionCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.AssignPermissionCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void AssignPermissionAsync(string widgetPermissions) {
-            this.AssignPermissionAsync(widgetPermissions, null);
-        }
-        
-        public void AssignPermissionAsync(string widgetPermissions, object userState) {
-            if ((this.onBeginAssignPermissionDelegate == null)) {
-                this.onBeginAssignPermissionDelegate = new BeginOperationDelegate(this.OnBeginAssignPermission);
-            }
-            if ((this.onEndAssignPermissionDelegate == null)) {
-                this.onEndAssignPermissionDelegate = new EndOperationDelegate(this.OnEndAssignPermission);
-            }
-            if ((this.onAssignPermissionCompletedDelegate == null)) {
-                this.onAssignPermissionCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnAssignPermissionCompleted);
-            }
-            base.InvokeAsync(this.onBeginAssignPermissionDelegate, new object[] {
-                        widgetPermissions}, this.onEndAssignPermissionDelegate, this.onAssignPermissionCompletedDelegate, userState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap.BeginChangePageLayout(int newLayout, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginChangePageLayout(newLayout, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        void Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap.EndChangePageLayout(System.IAsyncResult result) {
-            base.Channel.EndChangePageLayout(result);
-        }
-        
-        private System.IAsyncResult OnBeginChangePageLayout(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            int newLayout = ((int)(inValues[0]));
-            return ((Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap)(this)).BeginChangePageLayout(newLayout, callback, asyncState);
-        }
-        
-        private object[] OnEndChangePageLayout(System.IAsyncResult result) {
-            ((Dropthings.DiggSilverlight.DropthingsWebService.WidgetServiceSoap)(this)).EndChangePageLayout(result);
-            return null;
-        }
-        
-        private void OnChangePageLayoutCompleted(object state) {
-            if ((this.ChangePageLayoutCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.ChangePageLayoutCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void ChangePageLayoutAsync(int newLayout) {
-            this.ChangePageLayoutAsync(newLayout, null);
-        }
-        
-        public void ChangePageLayoutAsync(int newLayout, object userState) {
-            if ((this.onBeginChangePageLayoutDelegate == null)) {
-                this.onBeginChangePageLayoutDelegate = new BeginOperationDelegate(this.OnBeginChangePageLayout);
-            }
-            if ((this.onEndChangePageLayoutDelegate == null)) {
-                this.onEndChangePageLayoutDelegate = new EndOperationDelegate(this.OnEndChangePageLayout);
-            }
-            if ((this.onChangePageLayoutCompletedDelegate == null)) {
-                this.onChangePageLayoutCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnChangePageLayoutCompleted);
-            }
-            base.InvokeAsync(this.onBeginChangePageLayoutDelegate, new object[] {
-                        newLayout}, this.onEndChangePageLayoutDelegate, this.onChangePageLayoutCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1494,31 +1304,6 @@ namespace Dropthings.DiggSilverlight.DropthingsWebService {
             public void EndAddWidgetInstance(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 base.EndInvoke("AddWidgetInstance", _args, result);
-            }
-            
-            public System.IAsyncResult BeginAssignPermission(Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionRequest request, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = request;
-                System.IAsyncResult _result = base.BeginInvoke("AssignPermission", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponse EndAssignPermission(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponse _result = ((Dropthings.DiggSilverlight.DropthingsWebService.AssignPermissionResponse)(base.EndInvoke("AssignPermission", _args, result)));
-                return _result;
-            }
-            
-            public System.IAsyncResult BeginChangePageLayout(int newLayout, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[1];
-                _args[0] = newLayout;
-                System.IAsyncResult _result = base.BeginInvoke("ChangePageLayout", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public void EndChangePageLayout(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                base.EndInvoke("ChangePageLayout", _args, result);
             }
             
             public System.IAsyncResult BeginChangeWidgetTitle(Dropthings.DiggSilverlight.DropthingsWebService.ChangeWidgetTitleRequest request, System.AsyncCallback callback, object asyncState) {

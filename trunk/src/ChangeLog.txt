@@ -5,11 +5,18 @@ Refactor firstvisit and repeatvisit functions parameters
 
 Next version target:
 ====================
+* FIX: My blog feed sometimes fails to load.
+* FIX: ASMXAjaxHandler rejects request if the expected content type is xml. It needs to support xml.
 * ADD: Make the widget gallery a jQuery slider.
-* ADD: Code and production site installer using Microsoft Web Platform installer
 * CHANGE: Convert Javascripts to Script#
 * ADD: Comment all Facade methods and mention the "why" and "how"
 * CHANGE: Update Velocity reference to latest release
+
+Version 2.6.7
+=============
+* FIX: Flickr widget doesn not allow setting "Most Interesting" picture as an option.
+* FIX: Digg widget no longer working. It can't read Digg stories directly from Digg.
+* ADD: Code and production site installer using Microsoft Web Platform installer
 
 Version 2.6.6
 =============

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="cb919878-8320-4fd2-b4fb-7507b15fb0c8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="64143823-1763-4d53-88a5-bed5099e8fa5" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -20,11 +20,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://dropthings.omaralzabir.com/WidgetService.asmx" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:8000/Dropthings/ProxyAsync.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="WidgetService.wsdl" MetadataType="Wsdl" ID="81499677-2a20-4990-9af3-1760af504aff" SourceId="1" SourceUrl="http://dropthings.omaralzabir.com/WidgetService.asmx?wsdl" />
-    <MetadataFile FileName="WidgetService.disco" MetadataType="Disco" ID="7be75619-7332-4ae8-b247-872cd75ac419" SourceId="1" SourceUrl="http://dropthings.omaralzabir.com/WidgetService.asmx?disco" />
+    <MetadataFile FileName="ProxyAsync.wsdl" MetadataType="Wsdl" ID="de285a8e-4fb9-487b-bd60-cf827dfd3949" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/ProxyAsync.asmx?wsdl" />
+    <MetadataFile FileName="ProxyAsync.disco" MetadataType="Disco" ID="10a94258-4f48-483f-8fa4-28e5ef9c2cb8" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/ProxyAsync.asmx?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
