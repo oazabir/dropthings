@@ -16,7 +16,7 @@
             get; set;
         }
 
-        public int Id
+        public string Id
         {
             get; set;
         }

@@ -35,10 +35,7 @@ namespace Dropthings.Web.Framework
     /// <summary>
     /// Summary description for Proxy
     /// </summary>
-    [WebService(Namespace = "http://www.dropthings.com/")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [ScriptService]
-    public class ProxyAsync : System.Web.Services.WebService
+    public class ProxyAsync : WebServiceBase
     {
         #region Fields
 

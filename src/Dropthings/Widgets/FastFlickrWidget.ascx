@@ -1,8 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="FastFlickrWidget.ascx.cs" Inherits="Widgets_FastFlickrWidget" EnableViewState="false" %>
 <asp:Panel ID="settingsPanel" runat="server" Visible="False">
-    <asp:RadioButton ID="mostInterestingRadioButton" runat="server" AutoPostBack="True"
-        Checked="True" GroupName="FlickrPhoto" OnCheckedChanged="photoTypeRadio_CheckedChanged"
-        Text="<%$Resources:SharedResources, MostInteresting%>" />
+    <asp:RadioButton ID="mostInterestingRadioButton" runat="server" AutoPostBack="True" GroupName="FlickrPhoto"
+        OnCheckedChanged="photoTypeRadio_CheckedChanged" Text="<%$Resources:SharedResources, MostInteresting%>" />
         <br />
     <asp:RadioButton ID="mostRecentRadioButton" runat="server" AutoPostBack="True" GroupName="FlickrPhoto"
         OnCheckedChanged="photoTypeRadio_CheckedChanged" Text="<%$Resources:SharedResources, MostRecent%>" />

@@ -23,7 +23,7 @@ namespace Dropthings.Web.Framework
     /// <summary>
     /// Summary description for WebServiceBase
     /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
+    [WebService(Namespace = "http://dropthings.omaralzabir.com/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
     public class WebServiceBase : System.Web.Services.WebService
