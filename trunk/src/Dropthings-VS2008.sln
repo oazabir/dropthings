@@ -17,7 +17,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Dropthings", "Dropthings\",
 		SccLocalPath = ""
 		SccProvider = ""
 		TargetFramework = "3.5"
-		ProjectReferences = "{514B9055-2EEF-4111-9CAC-F763120BB35D}|Dropthings.Business.Facade.dll;{A5F19582-1F00-406F-A130-5BB7AC598FF7}|Dropthings.Widget.Framework.dll;{3A35E4B6-4CCB-4159-9E39-24438490F757}|Dropthings.Web.Util.dll;{91B72026-1980-46AD-89D0-C33DD411D66A}|Dropthings.Web.Framework.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}|Dropthings.Model.dll;{A426C626-767E-454B-8D48-7D0289BADBAC}|Dropthings.Configuration.dll;{739B0A68-33F2-4EC3-8087-C3177AE80E41}|Dropthings.Util.dll;{4871E7E4-8F42-4BE3-B9C4-F96D2A9BCBD4}|Dropthings.Data.dll;"
+		ProjectReferences = "{514B9055-2EEF-4111-9CAC-F763120BB35D}|Dropthings.Business.Facade.dll;{A5F19582-1F00-406F-A130-5BB7AC598FF7}|Dropthings.Widget.Framework.dll;{3A35E4B6-4CCB-4159-9E39-24438490F757}|Dropthings.Web.Util.dll;{91B72026-1980-46AD-89D0-C33DD411D66A}|Dropthings.Web.Framework.dll;{42190D98-86BA-44B5-8CFF-F62754029C61}|AJAXASMXHandler.dll;{DD2A2DE9-48CC-4E40-B81A-8780BFAB6995}|Dropthings.Model.dll;{A426C626-767E-454B-8D48-7D0289BADBAC}|Dropthings.Configuration.dll;{739B0A68-33F2-4EC3-8087-C3177AE80E41}|Dropthings.Util.dll;{4871E7E4-8F42-4BE3-B9C4-F96D2A9BCBD4}|Dropthings.Data.dll;{582BE924-28BF-4980-BF35-7B946AA739E3}|Dropthings.RestApi.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Dropthings"
 		Debug.AspNetCompiler.PhysicalPath = "Dropthings\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Dropthings\"
@@ -71,6 +71,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmarALZabir.AspectF", "..\..\..\..\RND\AspectF\AspectF_Src\AspectF\OmarALZabir.AspectF.csproj", "{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test.WatiN", "Dropthings.Test.WatiN\Dropthings.Test.WatiN.csproj", "{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.RestApi", "Dropthings.RestApi\Dropthings.RestApi.csproj", "{582BE924-28BF-4980-BF35-7B946AA739E3}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -263,6 +265,16 @@ Global
 		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Release|.NET.ActiveCfg = Release|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{582BE924-28BF-4980-BF35-7B946AA739E3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

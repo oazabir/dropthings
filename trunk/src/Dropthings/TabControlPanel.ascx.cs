@@ -31,7 +31,7 @@ public partial class TabControlPanel : System.Web.UI.UserControl
 
     }
 
-    public void Init(Tab currentTab, bool isTemplateUser, bool isOnlyTab, bool isOwner, NewWidgetAddedDelegate onNewWidget)
+    public void InitTabs(Tab currentTab, bool isTemplateUser, bool isOnlyTab, bool isOwner, NewWidgetAddedDelegate onNewWidget)
     {
         this.IsTemplateUser = isTemplateUser;
         this.IsOnlyTab = isOnlyTab;

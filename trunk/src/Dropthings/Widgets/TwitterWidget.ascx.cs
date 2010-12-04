@@ -110,7 +110,7 @@ public partial class TwitterWidget : System.Web.UI.UserControl, IWidget
         base.OnPreRender(e);
 
         var scriptToLoad = ResolveClientUrl("~/Widgets/TwitterWidget/TwitterService.js?v=" + ConstantHelper.ScriptVersionNo);
-        var startUpCode = string.Format("var tw = new Twitter(); tw.load('{0}');", WidgetHostID);
+        var startUpCode = string.Format("var tw = new Twitter(); tw.load({0});", WidgetHostID);
 
         WidgetHelper.RegisterWidgetScript(this, scriptToLoad, startUpCode);
     }

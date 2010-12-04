@@ -22,6 +22,9 @@ using System.Xml.Linq;
 using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets.Flickr;
+using Dropthings.Util;
+using OmarALZabir.AspectF;
+using System.Net;
 
 public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
 {
@@ -163,7 +166,7 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(this.GetPhotoUrl()))
+        if (Page.IsPostBack || Services.Get<ICache>().Contains(this.GetPhotoUrl()))
             this.LoadPhotoView(this, e);
     }
 
@@ -207,8 +210,17 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
 
     private string LoadPictures()
     {
-        string cachedXml = new ProxyAsync().GetXml(GetPhotoUrl(), 10);
-        return cachedXml;
+        if (Services.Get<ICache>().Contains(GetPhotoUrl()))
+            return Services.Get<ICache>().Get(GetPhotoUrl()) as string;
+        else
+        {
+            using (WebClient client = new WebClient())
+            {
+                var content = client.DownloadString(GetPhotoUrl());
+                Services.Get<ICache>().Add(GetPhotoUrl(), content);
+                return content;
+            }
+        }
     }
 
     private void LoadState()

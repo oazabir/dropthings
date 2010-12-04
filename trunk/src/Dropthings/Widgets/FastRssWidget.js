@@ -11,22 +11,21 @@ var FastRssWidget = function(url, container, count, cachedJson)
 
 FastRssWidget.prototype = {
 
-    load: function() {
+    load: function () {
         if (this.cachedJson == null) {
             var div = $get(this.container);
             div.innerHTML = "Loading...";
 
-            Proxy.GetRss(this.url, this.count, 10, Function.createDelegate(this, this.onContentLoad));
+            Proxy.getRss(this.url, this.count, 10, Function.createDelegate(this, this.onContentLoad));
         }
         else {
             this.onContentLoad(this.cachedJson);
         }
     },
 
-    onContentLoad: function(rss) {
+    onContentLoad: function (rss) {
         var div = $get(this.container);
         div.innerHTML = "";
-
         if (rss == null) {
             div.innerHTML = "There was a problem loading the feed.";
         }

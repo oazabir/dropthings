@@ -2,24 +2,27 @@
     <system.serviceModel>
         <bindings>
             <basicHttpBinding>
-                <binding name="WidgetServiceSoap" maxBufferSize="2147483647"
+                <binding name="BasicHttpBinding_ProxyService" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
                     <security mode="None">
-                        
+                        <transport>
+                            <extendedProtectionPolicy policyEnforcement="Never" />
+                        </transport>
                     </security>
                 </binding>
-                <binding name="ProxyAsyncSoap" maxBufferSize="2147483647" maxReceivedMessageSize="2147483647">
+                <binding name="BasicHttpBinding_WidgetService" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
                     <security mode="None" />
                 </binding>
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="WidgetService.asmx"
-                binding="basicHttpBinding" bindingConfiguration="WidgetServiceSoap"
-                contract="DropthingsWebService.WidgetServiceSoap" name="WidgetServiceSoap" />
-            <endpoint address="ProxyAsync.asmx"
-                binding="basicHttpBinding" bindingConfiguration="ProxyAsyncSoap"
-                contract="DropthingsProxyService.ProxyAsyncSoap" name="ProxyAsyncSoap" />
+            <endpoint address="http://localhost:8000/Dropthings/API/Proxy.svc/pox"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_ProxyService"
+                contract="DropthingsProxy.ProxyService" name="BasicHttpBinding_ProxyService" />
+            <endpoint address="http://localhost:8000/Dropthings/API/Widget.svc/pox"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_WidgetService"
+                contract="DropthingsWidgetService.WidgetService" name="BasicHttpBinding_WidgetService" />
         </client>
     </system.serviceModel>
 </configuration>

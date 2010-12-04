@@ -30,7 +30,9 @@ namespace AJAXASMXHandler
     {
         #region Fields
 
-        private static readonly Type DictionaryPairType = typeof(Dictionary<string,object>);
+        private readonly static string[] AllowedTypes = new string[] { "application/json", "text/xml" };
+
+        private static readonly Type DictionaryPairType = typeof(Dictionary<string, object>);
 
         #endregion Fields
 
@@ -48,7 +50,10 @@ namespace AJAXASMXHandler
         IAsyncResult IHttpAsyncHandler.BeginProcessRequest(HttpContext context, AsyncCallback cb, object extraData)
         {
             // Proper Content-Type header must be present in order to make a REST call
-            if (!IsRestMethodCall(context.Request)) return GenerateErrorResponse(context, "Not a valid REST call", extraData);
+            if (!IsRestMethodCall(context.Request))
+            {
+                return GenerateErrorResponse(context, "Not a valid REST call", extraData);
+            }
 
             string methodName = context.Request.PathInfo.Substring(1);
 
@@ -172,10 +177,8 @@ namespace AJAXASMXHandler
 
         internal static bool IsRestMethodCall(HttpRequest request)
         {
-            return
-                !String.IsNullOrEmpty(request.PathInfo) &&
-                (request.ContentType.StartsWith("application/json;", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(request.ContentType, "application/json", StringComparison.OrdinalIgnoreCase));
+            return !String.IsNullOrEmpty(request.PathInfo) &&
+                Array.Exists(AllowedTypes, type => request.ContentType.Contains(type));
         }
 
         // Hash an input string and return the hash as

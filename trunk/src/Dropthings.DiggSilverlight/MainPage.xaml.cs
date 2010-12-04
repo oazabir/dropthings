@@ -12,6 +12,8 @@ using System.Windows.Shapes;
 using System.Xml.Linq;
 using System.Windows.Browser;
 using System.ServiceModel;
+using System.Text;
+using Dropthings.DiggSilverlight.DropthingsWidgetService;
 
 namespace Dropthings.DiggSilverlight
 {
@@ -113,17 +115,15 @@ namespace Dropthings.DiggSilverlight
             //diggService.DownloadStringCompleted += new DownloadStringCompletedEventHandler(DiggService_DownloadStoriesCompleted);
             //diggService.DownloadStringAsync(new Uri(diggUrl));
             var service = GetProxyService();
-            service.GetXmlCompleted += new EventHandler<DropthingsProxyService.GetXmlCompletedEventArgs>(service_GetXmlCompleted);
-            service.GetXmlAsync(diggUrl, 10);
+            service.GetUrlCompleted += (sender, e) =>
+                {
+                    if (e.Error != null)
+                        NoStories(e.Error.Message);
+                    else
+                        DisplayStories(Encoding.UTF8.GetString(e.Result, 0, e.Result.Length));
+                };
+            service.GetUrlAsync(diggUrl, 10);
             
-        }
-
-        void service_GetXmlCompleted(object sender, DropthingsProxyService.GetXmlCompletedEventArgs e)
-        {
-            if (e.Error != null)
-                NoStories((e.Error.InnerException ?? e.Error).Message);
-            else
-                DisplayStories(e.Result);
         }
 
         private void GetState()
@@ -133,15 +133,16 @@ namespace Dropthings.DiggSilverlight
             if (myApp.InitParams.ContainsKey("WidgetId"))
             {
                 // OMAR: State is passed as InitParameters. Use that to prevent a costly roundtrip
-                //int WidgetId = Convert.ToInt32(myApp.InitParams["WidgetId"]);
-                //DropthingsWebService.WidgetServiceSoapClient service = new DropthingsWebService.WidgetServiceSoapClient();
-                //service.GetWidgetStateCompleted += new EventHandler<DropthingsWebService.GetWidgetStateCompletedEventArgs>(service_GetWidgetStateCompleted);
-                //service.GetWidgetStateAsync(WidgetId);
+                int widgetInstanceId = Convert.ToInt32(myApp.InitParams["WidgetId"]);
+                var service = GetWidgetService();
+                service.GetWidgetStateCompleted += new EventHandler<GetWidgetStateCompletedEventArgs>((sender, e) =>
+                {
+                    this._State = XElement.Parse(e.Result); //XElement.Parse(myApp.InitParams["State"]);
 
-                this._State = XElement.Parse(myApp.InitParams["State"]);
-
-                txtSearchTopic.Text = this.Topic;
-                DoSearch();
+                    txtSearchTopic.Text = this.Topic;
+                    DoSearch();                    
+                });
+                service.GetWidgetStateAsync(widgetInstanceId);               
             }
         }
 
@@ -190,45 +191,33 @@ namespace Dropthings.DiggSilverlight
 
             if (myApp.InitParams.ContainsKey("WidgetId"))
             {
-                int WidgetId = Convert.ToInt32(myApp.InitParams["WidgetId"]);
+                int widgetInstanceId = Convert.ToInt32(myApp.InitParams["WidgetId"]);
 
-                var service = GetDropthingsService();
-                service.SaveWidgetStateAsync(WidgetId, State.ToString());
+                var service = GetWidgetService();
+                service.SaveWidgetStateAsync(widgetInstanceId, this.State.ToString());
             }
         }
 
-        private DropthingsWebService.WidgetServiceSoapClient GetDropthingsService()
-        {
-            DropthingsWebService.WidgetServiceSoapClient service = new DropthingsWebService.WidgetServiceSoapClient();
-
-            string relativePath = service.Endpoint.Address.ToString();
-            //string completePath = App.Current.Host.Source.Scheme
-            //       + "://" + App.Current.Host.Source.Host
-            //       + ":" + App.Current.Host.Source.Port + relativePath;
-            
-            ////service = new ChannelFactory<WCFServiceClassName>
-            ////         (basicHttpBinding, endpointAddress).CreateChannel();
-            service.Endpoint.Address = new EndpointAddress(GetAbsolutePath(relativePath));
-            return service;
-        }
+        //private DropthingsWebService.WidgetServiceSoapClient GetDropthingsService()
+        //{
+        //    DropthingsWebService.WidgetServiceSoapClient service = new DropthingsWebService.WidgetServiceSoapClient();
+        //    return service;
+        //}
 
         private string GetAbsolutePath(string relativePath)
         {
             return relativePath.Replace("ClientBin/", "");
         }
 
-        private DropthingsProxyService.ProxyAsyncSoapClient GetProxyService()
+        private DropthingsProxy.ProxyServiceClient GetProxyService()
         {
-            DropthingsProxyService.ProxyAsyncSoapClient service = new DropthingsProxyService.ProxyAsyncSoapClient();
+            DropthingsProxy.ProxyServiceClient service = new DropthingsProxy.ProxyServiceClient();
+            return service;
+        }
 
-            string relativePath = service.Endpoint.Address.ToString();
-            //string completePath = App.Current.Host.Source.Scheme
-            //       + "://" + App.Current.Host.Source.Host
-            //       + ":" + App.Current.Host.Source.Port + relativePath;
-
-            ////service = new ChannelFactory<WCFServiceClassName>
-            ////         (basicHttpBinding, endpointAddress).CreateChannel();
-            service.Endpoint.Address = new EndpointAddress(GetAbsolutePath(relativePath));
+        private WidgetServiceClient GetWidgetService()
+        {
+            var service = new WidgetServiceClient();
             return service;
         }
 

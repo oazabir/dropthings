@@ -3,10 +3,34 @@ Test all UI behaviors to make sure the refactoring did not break anything
 Regenerate the CreateNewDatabase-SQL2005 script.
 Refactor firstvisit and repeatvisit functions parameters
 
+Pending fixes before commit
+===========================
+GetWidetState failing due to int to string conversion problem
+Proxy needs to cache the data while streaming
+Check Fast Rss
+Check slow Flickr
+Write test code to ensure Rss, Flickr and Twitter widget showing content
+
+Steps to deploy new release:
+===========================
+* Update production site code, build and run setup page.
+* Run automated UI test against production site.
+* Ensure Digg widget works.
+* Create a new source code release using MakeRelease.bat
+* Create a new source code version and upload in googlecode.
+* Cleanup database running Resurrection SP.
+* Generate database script with data.
+* Update the web installer package install.sql.
+* Test installing web installer package in local IIS.
+* Run automated test against IIS.
+* Ensure Digg widget works.
+* Upload a new version of web installer package.
+* Inform MS to update the installer URL and the hash.
+
+
 Next version target:
 ====================
-* FIX: My blog feed sometimes fails to load.
-* FIX: ASMXAjaxHandler rejects request if the expected content type is xml. It needs to support xml.
+* ADD: StaticContentFilter to read file last modified date and use that as version suffix
 * ADD: Make the widget gallery a jQuery slider.
 * CHANGE: Convert Javascripts to Script#
 * ADD: Comment all Facade methods and mention the "why" and "how"
@@ -14,7 +38,10 @@ Next version target:
 
 Version 2.6.7
 =============
-* FIX: Flickr widget doesn not allow setting "Most Interesting" picture as an option.
+* CHANGE: Replace the ASMX webservices with WCF services with both REST and AJAX support
+* FIX: My blog feed sometimes fails to load.
+* FIX: ASMXAjaxHandler rejects request if the expected content type is xml. It needs to support xml.
+* FIX: Flickr widget does not allow setting "Most Interesting" picture as an option.
 * FIX: Digg widget no longer working. It can't read Digg stories directly from Digg.
 * ADD: Code and production site installer using Microsoft Web Platform installer
 

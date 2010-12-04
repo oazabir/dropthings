@@ -182,7 +182,7 @@ namespace Dropthings.Test.WatiN
 
                     // Reload the page
                     browser.GoTo(Urls.Homepage);
-                    Thread.Sleep(5000);
+                    //Thread.Sleep(5000);
                     browser.WaitForAsyncPostbackComplete(10000);
 
                     page = browser.Page<HomePage>();

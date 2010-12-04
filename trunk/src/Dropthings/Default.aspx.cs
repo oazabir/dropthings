@@ -171,7 +171,7 @@ public partial class _Default : BasePage
 
     private void SetupTabControlPanel()
     {
-        this.TabControlPanel.Init(_Setup.CurrentTab,
+        this.TabControlPanel.InitTabs(_Setup.CurrentTab,
             _Setup.IsTemplateUser,
             _Setup.UserTabs.Count == 1,
             _Setup.CurrentUserId == _Setup.CurrentTab.AspNetUser.UserId,

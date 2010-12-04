@@ -24,6 +24,7 @@ using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets;
 using Dropthings.Web.Util;
 using Dropthings.Util;
+using OmarALZabir.AspectF;
 
 public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidget
 {
@@ -193,9 +194,9 @@ public partial class Widgets_FastFlickrWidget : System.Web.UI.UserControl, IWidg
 
     private string GetCachedJSON()
     {
-        if (ProxyAsync.IsUrlInCache(this.GetPhotoUrl()))
+        if (Services.Get<ICache>().Contains(GetPhotoUrl()))
         {
-            var cachedString = new ProxyAsync().GetString(this.GetPhotoUrl(), 10);
+            var cachedString = Services.Get<ICache>().Get(GetPhotoUrl()) as string;
             string json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(cachedString);
             return json;
         }

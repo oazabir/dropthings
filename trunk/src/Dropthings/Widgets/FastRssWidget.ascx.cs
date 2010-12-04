@@ -23,6 +23,9 @@ using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets;
 using Dropthings.Web.Util;
 using Dropthings.Util;
+using OmarALZabir.AspectF;
+using Dropthings.RestApi;
+using System.IO;
 
 public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 {
@@ -151,14 +154,19 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
 
     private string GetCachedJSON()
     {
-        if (ProxyAsync.IsUrlInCache(this.Url))
+        if (Services.Get<ICache>().Contains(this.Url))
         {
-            var cachedRSS = new ProxyAsync().GetRss(this.Url, this.Count, 10);
+            var cachedRSS = XElement.Load(new StringReader(Services.Get<ICache>().Get(this.Url) as string));
             string json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(cachedRSS);
             return json;
         }
         else
             return null;
+    }
+
+    private object ICache(string p)
+    {
+        throw new NotImplementedException();
     }
 
     private void SaveState()

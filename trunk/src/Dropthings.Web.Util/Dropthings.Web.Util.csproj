@@ -58,6 +58,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -76,6 +77,8 @@
     <Compile Include="CombineScripts.cs" />
     <Compile Include="CookieHelper.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="RssHelper.cs" />
+    <Compile Include="RssItem.cs" />
     <Compile Include="WebUtil.cs" />
     <Compile Include="MailManage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +107,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

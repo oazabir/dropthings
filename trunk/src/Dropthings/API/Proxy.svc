@@ -1,0 +1,2 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Dropthings.RestApi.ProxyService" Factory="System.ServiceModel.Activation.WebServiceHostFactory"%>
+

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:i0="http://dropthings.omaralzabir.com/rest" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:i1="http://dropthings.omaralzabir.com" name="ProxyService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://dropthings.omaralzabir.com/rest" location="" />
+  <wsdl:import namespace="http://dropthings.omaralzabir.com" location="" />
+  <wsdl:types />
+  <wsdl:binding name="WebHttpBinding_ProxyServiceRest" type="i0:ProxyServiceRest">
+    <wsdl:operation name="GetUrl">
+      <wsdl:input />
+      <wsdl:output />
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebHttpBinding_ProxyService" type="i1:ProxyService">
+    <wsdl:operation name="GetUrl">
+      <wsdl:input />
+      <wsdl:output />
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpBinding_ProxyService" type="i1:ProxyService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetUrl">
+      <soap:operation soapAction="http://dropthings.omaralzabir.com/ProxyService/GetUrl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProxyService">
+    <wsdl:port name="WebHttpBinding_ProxyServiceRest" binding="tns:WebHttpBinding_ProxyServiceRest" />
+    <wsdl:port name="WebHttpBinding_ProxyService" binding="tns:WebHttpBinding_ProxyService" />
+    <wsdl:port name="BasicHttpBinding_ProxyService" binding="tns:BasicHttpBinding_ProxyService">
+      <soap:address location="http://localhost:8000/Dropthings/API/Proxy.svc/other" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
