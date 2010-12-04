@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://dropthings.omaralzabir.com" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://dropthings.omaralzabir.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://dropthings.omaralzabir.com/Imports">
+      <xsd:import schemaLocation="" namespace="http://dropthings.omaralzabir.com" />
+      <xsd:import schemaLocation="" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="WidgetService_AddWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_AddWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_ChangeWidgetTitle_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeWidgetTitle" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_ChangeWidgetTitle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeWidgetTitleResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_CollaspeWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:CollaspeWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_CollaspeWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CollaspeWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_DeleteWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_DeleteWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_ExpandWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:ExpandWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_ExpandWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExpandWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_GetWidgetState_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetWidgetState" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_GetWidgetState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetWidgetStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_MaximizeWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:MaximizeWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_MaximizeWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MaximizeWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_MoveWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:MoveWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_MoveWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MoveWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_ResizeWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResizeWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_ResizeWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResizeWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_RestoreWidgetInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:RestoreWidgetInstance" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_RestoreWidgetInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RestoreWidgetInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_SaveWidgetState_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveWidgetState" />
+  </wsdl:message>
+  <wsdl:message name="WidgetService_SaveWidgetState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveWidgetStateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WidgetService">
+    <wsdl:operation name="AddWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/AddWidgetInstance" message="tns:WidgetService_AddWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/AddWidgetInstanceResponse" message="tns:WidgetService_AddWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeWidgetTitle">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/ChangeWidgetTitle" message="tns:WidgetService_ChangeWidgetTitle_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/ChangeWidgetTitleResponse" message="tns:WidgetService_ChangeWidgetTitle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CollaspeWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/CollaspeWidgetInstance" message="tns:WidgetService_CollaspeWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/CollaspeWidgetInstanceResponse" message="tns:WidgetService_CollaspeWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/DeleteWidgetInstance" message="tns:WidgetService_DeleteWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/DeleteWidgetInstanceResponse" message="tns:WidgetService_DeleteWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ExpandWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/ExpandWidgetInstance" message="tns:WidgetService_ExpandWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/ExpandWidgetInstanceResponse" message="tns:WidgetService_ExpandWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWidgetState">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/GetWidgetState" message="tns:WidgetService_GetWidgetState_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/GetWidgetStateResponse" message="tns:WidgetService_GetWidgetState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MaximizeWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/MaximizeWidgetInstance" message="tns:WidgetService_MaximizeWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/MaximizeWidgetInstanceResponse" message="tns:WidgetService_MaximizeWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/MoveWidgetInstance" message="tns:WidgetService_MoveWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/MoveWidgetInstanceResponse" message="tns:WidgetService_MoveWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ResizeWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/ResizeWidgetInstance" message="tns:WidgetService_ResizeWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/ResizeWidgetInstanceResponse" message="tns:WidgetService_ResizeWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RestoreWidgetInstance">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/RestoreWidgetInstance" message="tns:WidgetService_RestoreWidgetInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/RestoreWidgetInstanceResponse" message="tns:WidgetService_RestoreWidgetInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveWidgetState">
+      <wsdl:input wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/SaveWidgetState" message="tns:WidgetService_SaveWidgetState_InputMessage" />
+      <wsdl:output wsaw:Action="http://dropthings.omaralzabir.com/WidgetService/SaveWidgetStateResponse" message="tns:WidgetService_SaveWidgetState_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

@@ -16,7 +16,7 @@
         <SilverlightProjectProperties>
           <StartPageUrl>
           </StartPageUrl>
-          <StartAction>DynamicPage</StartAction>
+          <StartAction>SpecificPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <NativeDebugging>False</NativeDebugging>
           <SQLDebugging>False</SQLDebugging>

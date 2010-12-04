@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="c7d2d4a5-15df-41d6-91cd-47a1afb5dc42" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8000/Dropthings/API/Proxy.svc/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="rest.wsdl" MetadataType="Wsdl" ID="27770976-79ca-45c5-9f34-0f9afa3d9b16" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Proxy.svc/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="cf099bee-a58d-449b-97ab-a964f1b5c56e" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Proxy.svc/mex" />
+    <MetadataFile FileName="dropthings.omaralzabir.com.wsdl" MetadataType="Wsdl" ID="47a9e3f7-ff36-4a3e-95f6-c71023c1a5cc" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Proxy.svc/mex" />
+    <MetadataFile FileName="dropthings.omaralzabir.com.xsd" MetadataType="Schema" ID="b00a9bc3-ea71-4bf6-810c-98bc68275957" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Proxy.svc/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="578722c1-dcf5-4090-a0ab-a64e1a26b18a" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Proxy.svc/mex" />
+    <MetadataFile FileName="Message.xsd" MetadataType="Schema" ID="a1408f2f-d71e-4c6a-85d7-7b21c28f4d74" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Proxy.svc/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -379,7 +379,7 @@ Twitter.prototype = {
                 wgt._loggedIn = true;
                 if (jQuery('#W' + wgtId + '_Content').css('display') == 'none') {
 
-                    Dropthings.Web.Framework.WidgetService.SaveWidgetState(wgt._widgetID, wgt.PrepareState(), function(msg) {
+                    dropthings.omaralzabir.com.widgetservice.SaveWidgetState(wgt._widgetID, wgt.PrepareState(), function(msg) {
                         wgt.SuccessStateSave(msg);
                     },
                     function(err) {
@@ -463,7 +463,7 @@ Twitter.prototype = {
                 jQuery('#W' + wgt._widgetID + '_TwSave').click();
         });
 
-        Dropthings.Web.Framework.WidgetService.GetWidgetState(this._widgetID, function(stateXml) {
+        dropthings.omaralzabir.com.widgetservice.GetWidgetState(this._widgetID, function (stateXml) {
             wgt._widgetState = Utility.getXMLDocument(stateXml);
             try {
                 if (wgt._widgetState.getElementsByTagName('state')[0].getElementsByTagName('username')[0].firstChild.nodeValue != '')

@@ -76,7 +76,6 @@
     <Compile Include="IWidget.cs" />
     <Compile Include="IWidgetHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RssItem.cs" />
     <Compile Include="WidgetHelper.cs" />
   </ItemGroup>
   <ItemGroup>

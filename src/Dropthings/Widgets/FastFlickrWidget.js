@@ -17,14 +17,14 @@ FastFlickrWidget.FLICKR_PHOTO_URL="http://www.flickr.com/photos/";
 
 FastFlickrWidget.prototype = {
 
-    load: function() {
+    load: function () {
         if (null == this.cachedJson) {
             this.pageIndex = 0;
 
             var div = $get(this.container);
             div.innerHTML = "Loading...";
 
-            Proxy.GetXml(this.url, 10, Function.createDelegate(this, this.onContentLoad));
+            Proxy.getUrl(this.url, 10, Function.createDelegate(this, this.onContentLoad));
         }
         else {
             var xml = new Sys.Net.XMLDOM(this.cachedJson);
@@ -32,27 +32,27 @@ FastFlickrWidget.prototype = {
         }
     },
 
-    onContentLoad: function(xml) {
+    onContentLoad: function (xml) {
         this.xml = xml;
         this.showPhotos();
     },
 
-    getPhotoUrl: function(photoNode, small) {
+    getPhotoUrl: function (photoNode, small) {
         return FastFlickrWidget.FLICKR_SERVER_URL + photoNode.getAttribute("server") + '/' + photoNode.getAttribute("id") + '_' + photoNode.getAttribute("secret") + (small ? "_s.jpg" : "_m.jpg");
     },
 
-    getPhotoTitle: function(photoNode) {
+    getPhotoTitle: function (photoNode) {
         return photoNode.getAttribute("title");
     },
 
-    getPhotoPageUrl: function(photoNode) {
+    getPhotoPageUrl: function (photoNode) {
         return FastFlickrWidget.FLICKR_PHOTO_URL + photoNode.getAttribute('owner') + '/' + photoNode.getAttribute('id');
     },
 
-    showPhotos: function() {
+    showPhotos: function () {
         var div = $get(this.container);
         div.innerHTML = "";
-
+        
         if (null == this.xml)
             return (div.innerHTML = "Error occured while loading Flickr feed");
 
@@ -104,7 +104,7 @@ FastFlickrWidget.prototype = {
         if (this.pageIndex == 0) Utility.nodisplay(this.previousId);
     },
 
-    previous: function() {
+    previous: function () {
         this.pageIndex--;
         this.showPhotos();
 
@@ -114,7 +114,7 @@ FastFlickrWidget.prototype = {
 
     },
 
-    next: function() {
+    next: function () {
         this.pageIndex++;
         this.showPhotos();
         Utility.display(this.previousId, true);

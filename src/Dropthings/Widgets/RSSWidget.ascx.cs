@@ -24,6 +24,9 @@ using System.Xml.Linq;
 
 using Dropthings.Web.Framework;
 using Dropthings.Widget.Framework;
+using Dropthings.Util;
+using OmarALZabir.AspectF;
+using Dropthings.Web.Util;
 
 public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
 {
@@ -124,16 +127,17 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
 
     protected void LoadRSSView(object sender, EventArgs e)
     {
-        this.ShowFeeds();
         this.RSSMultiview.ActiveViewIndex = 1;
         this.RSSWidgetTimer.Enabled = false;
+
+        this.ShowFeeds();
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         // If we already have the URL in cache, then we can directly render it instead of fetching the content
         // after a async postback
-        if (Page.IsPostBack || ProxyAsync.IsUrlInCache(this.Url) )
+        if (Page.IsPostBack || Services.Get<ICache>().Contains(this.Url) )
             this.LoadRSSView(sender, e);
     }
 
@@ -153,20 +157,28 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
         string url = State.Element("url").Value;
         int count = State.Element("count") == null ? 3 : int.Parse( State.Element("count").Value );
 
-        using (var proxy = new Dropthings.Web.Framework.ProxyAsync())
+        var rss = default(XElement);
+        if (Services.Get<ICache>().Contains(this.Url))
         {
-            var items = proxy.GetRss(url, count, 10);
-			if (null == items)
-			{
-				Message.Text = "There was a problem loading the feed";
-				Message.Visible = true;
-			}
-			else
-			{
-				FeedList.DataSource = items;
-			}
+            string cachedXml = Services.Get<ICache>().Get(this.Url) as string;
+            rss = XElement.Parse(cachedXml);
+        }
+        else
+        {
+            rss = XElement.Load(this.Url);
+            Services.Get<ICache>().Add(this.Url, rss.Xml());
         }
 
+        if (null == rss)
+		{
+			Message.Text = "There was a problem loading the feed";
+			Message.Visible = true;
+		}
+		else
+		{
+            FeedList.DataSource = RssHelper.ConvertXmlToRss(rss, count);
+		}
+        
         FeedList.DataBind();
 
         //Cache[url] = feed;

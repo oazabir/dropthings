@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://dropthings.omaralzabir.com" elementFormDefault="qualified" targetNamespace="http://dropthings.omaralzabir.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AddWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetId" type="xs:int" />
+        <xs:element minOccurs="0" name="toZone" type="xs:int" />
+        <xs:element minOccurs="0" name="toRow" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeWidgetTitle">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+        <xs:element minOccurs="0" name="newTitle" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeWidgetTitleResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CollaspeWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CollaspeWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpandWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpandWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetWidgetState">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetWidgetStateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetWidgetStateResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MaximizeWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MaximizeWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MoveWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="instanceId" type="xs:int" />
+        <xs:element minOccurs="0" name="toZoneId" type="xs:int" />
+        <xs:element minOccurs="0" name="toRow" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MoveWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResizeWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+        <xs:element minOccurs="0" name="width" type="xs:int" />
+        <xs:element minOccurs="0" name="height" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResizeWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RestoreWidgetInstance">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RestoreWidgetInstanceResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveWidgetState">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="widgetInstanceId" type="xs:int" />
+        <xs:element minOccurs="0" name="state" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveWidgetStateResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

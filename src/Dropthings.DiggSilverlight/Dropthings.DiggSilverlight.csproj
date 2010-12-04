@@ -98,12 +98,12 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\DropthingsProxyService\Reference.cs">
+    <Compile Include="Service References\DropthingsProxy\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service References\DropthingsWebService\Reference.cs">
+    <Compile Include="Service References\DropthingsWidgetService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -129,62 +129,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
-    <None Include="Service References\DropthingsProxyService\Dropthings.DiggSilverlight.DropthingsProxyService.GetRssResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Service References\DropthingsProxy\configuration91.svcinfo" />
+    <None Include="Service References\DropthingsProxy\configuration.svcinfo" />
+    <None Include="Service References\DropthingsProxy\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\DropthingsProxyService\Dropthings.DiggSilverlight.DropthingsProxyService.GetStringResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DropthingsProxyService\Dropthings.DiggSilverlight.DropthingsProxyService.GetXmlResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DropthingsProxyService\ProxyAsync.wsdl" />
-    <None Include="Service References\DropthingsWebService\WidgetService.wsdl" />
-    <None Include="Service References\DropthingsProxyService\ProxyAsync.disco" />
-    <None Include="Service References\DropthingsProxyService\configuration91.svcinfo" />
-    <None Include="Service References\DropthingsProxyService\configuration.svcinfo" />
-    <None Include="Service References\DropthingsProxyService\Reference.svcmap">
+    <None Include="Service References\DropthingsWidgetService\configuration91.svcinfo" />
+    <None Include="Service References\DropthingsWidgetService\configuration.svcinfo" />
+    <None Include="Service References\DropthingsWidgetService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="ServiceReferences.ClientConfig" />
+    <None Include="Service References\DropthingsWidgetService\dropthings.omaralzabir.com.wsdl" />
+    <None Include="Service References\DropthingsWidgetService\dropthings.omaralzabir.com.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DropthingsWidgetService\service.wsdl" />
+    <None Include="Service References\DropthingsWidgetService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\DropthingsProxyService\" />
-    <WCFMetadataStorage Include="Service References\DropthingsWebService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DropthingsWebService\WidgetService.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DropthingsWebService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DropthingsWebService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DropthingsWebService\Dropthings.DiggSilverlight.DropthingsWebService.ChangeWidgetTitleResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DropthingsWebService\Dropthings.DiggSilverlight.DropthingsWebService.CollaspeWidgetInstanceResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DropthingsWebService\Dropthings.DiggSilverlight.DropthingsWebService.ExpandWidgetInstanceResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DropthingsWebService\Dropthings.DiggSilverlight.DropthingsWebService.GetWidgetStateResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DropthingsWebService\Dropthings.DiggSilverlight.DropthingsWebService.SaveWidgetStateResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DropthingsWebService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -202,6 +170,21 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\DropthingsProxy\" />
+    <WCFMetadataStorage Include="Service References\DropthingsWidgetService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DropthingsProxy\Dropthings.DiggSilverlight.DropthingsProxy.GetUrlResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\DropthingsProxy\dropthings.omaralzabir.com.wsdl" />
+    <None Include="Service References\DropthingsProxy\dropthings.omaralzabir.com.xsd" />
+    <None Include="Service References\DropthingsProxy\Message.xsd" />
+    <None Include="Service References\DropthingsProxy\rest.wsdl" />
+    <None Include="Service References\DropthingsProxy\service.wsdl" />
+    <None Include="Service References\DropthingsProxy\service.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

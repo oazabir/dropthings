@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="9cb82532-3bc4-44e7-a7b1-ea0cdf7bc669" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8000/Dropthings/API/Widget.svc/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="dropthings.omaralzabir.com.wsdl" MetadataType="Wsdl" ID="b40a299c-b022-4c64-8552-2dc3c97b4d3f" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Widget.svc/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e8ec1667-b574-49fd-a99c-b01795f5d152" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Widget.svc/mex" />
+    <MetadataFile FileName="dropthings.omaralzabir.com.xsd" MetadataType="Schema" ID="405089e3-30ba-46fc-bb5c-b6be39c1e79d" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Widget.svc/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="22f27ae6-c156-472b-94c9-c5945611340a" SourceId="1" SourceUrl="http://localhost:8000/Dropthings/API/Widget.svc/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

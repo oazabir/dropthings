@@ -111,7 +111,7 @@ var DropthingsUI = {
         widgetSubmit.hide();
 
         if (widgetDef.Widget.IsLocked) {
-            
+
         }
         else {
             widgetTitle
@@ -138,7 +138,7 @@ var DropthingsUI = {
                         widgetTitle.text(newTitle).show();
                         widgetInput.hide();
 
-                        Dropthings.Web.Framework.WidgetService.ChangeWidgetTitle(widgetInstanceId, newTitle);
+                        dropthings.omaralzabir.com.widgetservice.ChangeWidgetTitle(widgetInstanceId, newTitle);
                         return false;
                     });
 
@@ -332,7 +332,7 @@ var DropthingsUI = {
                         var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
                         widgetDef.Expanded = false;
                         if (!widgetDef.Maximized) {
-                            
+
                         }
                         else {
                             ui.element.css({ 'width': 'auto' });
@@ -367,10 +367,10 @@ var DropthingsUI = {
             connectToSortable: allZones,
             helper: 'clone',
             start: function () {
-                
+
             },
             stop: function () {
-                
+
             }
         });
     },
@@ -420,13 +420,13 @@ var DropthingsUI = {
     },
     Actions: {
         deleteWidget: function (instanceId) {
-            Dropthings.Web.Framework.WidgetService.DeleteWidgetInstance(instanceId);
+            dropthings.omaralzabir.com.widgetservice.DeleteWidgetInstance(instanceId);
             jQuery(DropthingsUI.getWidgetDivId('#' + instanceId)).remove();
         },
 
         maximizeWidget: function (widgetId) {
             var widget = jQuery('#' + widgetId);
-            
+
             //if collaspe then expand it
             var widgetDef = DropthingsUI.getWidgetDef(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             widgetDef.Maximized = true;
@@ -442,7 +442,7 @@ var DropthingsUI = {
             DropthingsUI._LastMaximizedWidget = new WidgetMaximizeBehavior(widgetId);
             DropthingsUI._LastMaximizedWidget.maximize();
 
-            Dropthings.Web.Framework.WidgetService.MaximizeWidgetInstance(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
+            dropthings.omaralzabir.com.widgetservice.MaximizeWidgetInstance(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
         },
 
         restoreWidget: function (widgetId) {
@@ -453,17 +453,17 @@ var DropthingsUI = {
 
             if (null !== DropthingsUI._LastMaximizedWidget) DropthingsUI._LastMaximizedWidget.dispose();
 
-            Dropthings.Web.Framework.WidgetService.RestoreWidgetInstance(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
+            dropthings.omaralzabir.com.widgetservice.RestoreWidgetInstance(widget.attr(DropthingsUI.Attributes.INSTANCE_ID));
             return false;
         },
 
         collaspeWidget: function (widgetId, postbackUrl) {
             var widget = jQuery('#' + widgetId);
-            
+
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
             widgetDef.Expanded = false;
-            Dropthings.Web.Framework.WidgetService.CollaspeWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onCollaspeWidgetComplete);
+            dropthings.omaralzabir.com.widgetservice.CollaspeWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onCollaspeWidgetComplete);
 
             if (widgetDef.Maximized) {
                 if (null !== DropthingsUI._LastMaximizedWidget) {
@@ -482,7 +482,7 @@ var DropthingsUI = {
             var instanceId = widget.attr(DropthingsUI.Attributes.INSTANCE_ID);
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
             widgetDef.Expanded = true;
-            Dropthings.Web.Framework.WidgetService.ExpandWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onExpandWidgetComplete);
+            dropthings.omaralzabir.com.widgetservice.ExpandWidgetInstance(instanceId, postbackUrl, DropthingsUI.Actions._onExpandWidgetComplete);
 
             if (widgetDef.Maximized) {
                 if (null !== DropthingsUI._LastMaximizedWidget) {
@@ -500,7 +500,7 @@ var DropthingsUI = {
             var widgetDef = DropthingsUI.getWidgetDef(instanceId);
 
             if (!widgetDef.Maximized) {
-                Dropthings.Web.Framework.WidgetService.ResizeWidgetInstance(instanceId, 0, resizeHeight);
+                dropthings.omaralzabir.com.widgetservice.ResizeWidgetInstance(instanceId, 0, resizeHeight);
                 widgetDef.Resized = true;
                 widgetDef.Height = resizeHeight;
             }
@@ -509,7 +509,7 @@ var DropthingsUI = {
         },
 
         deletePage: function (pageId) {
-            Dropthings.Web.Framework.PageService.DeletePage(pageId, DropthingsUI.Actions._onDeletePageComplete);
+            dropthings.omaralzabir.com.pageservice.DeletePage(pageId, DropthingsUI.Actions._onDeletePageComplete);
             jQuery('#Tab' + pageId).remove();
         },
 
@@ -518,7 +518,7 @@ var DropthingsUI = {
         },
 
         changePageLayout: function (newLayout) {
-            Dropthings.Web.Framework.PageService.ChangePageLayout(newLayout, DropthingsUI.Actions._onChangePageLayoutComplete);
+            dropthings.omaralzabir.com.pageservice.ChangePageLayout(newLayout, DropthingsUI.Actions._onChangePageLayoutComplete);
         },
 
         _onChangePageLayoutComplete: function (arg) {
@@ -526,7 +526,7 @@ var DropthingsUI = {
         },
 
         newPage: function (newLayout) {
-            Dropthings.Web.Framework.PageService.NewPage(newLayout, DropthingsUI.Actions._onNewPageComplete);
+            dropthings.omaralzabir.com.pageservice.NewPage(newLayout, DropthingsUI.Actions._onNewPageComplete);
         },
 
         _onNewPageComplete: function (newPageName) {
@@ -535,7 +535,7 @@ var DropthingsUI = {
 
         renamePage: function (newLabel) {
             var newPageName = document.getElementById(newLabel).value;
-            Dropthings.Web.Framework.PageService.RenamePage(newPageName, DropthingsUI.Actions._onRenamePageComplete);
+            dropthings.omaralzabir.com.pageservice.RenamePage(newPageName, DropthingsUI.Actions._onRenamePageComplete);
         },
 
         _onRenamePageComplete: function () {
@@ -551,17 +551,17 @@ var DropthingsUI = {
         },
 
         onDrop: function (columnNo, instanceId, row, callback) {
-            Dropthings.Web.Framework.WidgetService.MoveWidgetInstance(instanceId, columnNo, row, callback);
+            dropthings.omaralzabir.com.widgetservice.MoveWidgetInstance(instanceId, columnNo, row, callback);
         },
 
         onWidgetAdd: function (widgetId, columnNo, row, callback) {
-            Dropthings.Web.Framework.WidgetService.AddWidgetInstance(widgetId, columnNo, row, function () { callback(); });
+            dropthings.omaralzabir.com.widgetservice.AddWidgetInstance(widgetId, columnNo, row, function () { callback(); });
         },
         hide: function (id) {
             document.getElementById(id).style.display = "none";
         },
         onTabItemDrop: function (tabId, orderNo, callback) {
-            Dropthings.Web.Framework.PageService.MoveTab(tabId, orderNo, callback);
+            dropthings.omaralzabir.com.pageservice.MoveTab(tabId, orderNo, callback);
         },
 
         showHelp: function () {
@@ -586,7 +586,22 @@ var DropthingsUI = {
             var executor = new Sys.Net.XMLHttpExecutor();
             request.set_executor(executor);
             executor.executeRequest();
-        }
+        }        
+    }
+};
+
+
+var Proxy =
+{
+    getRss: function (url, count, cacheDuration, callback) {
+        dropthings.omaralzabir.com.proxyservice.GetRss(url, count, cacheDuration, function (rss) {
+            callback(rss);
+        });
+    },
+    getUrl: function (url, cacheDuration, callback) {
+        dropthings.omaralzabir.com.proxyservice.GetUrl(url, cacheDuration, function (content) {
+            callback(content);
+        });
     }
 };
 
@@ -1085,7 +1100,7 @@ var WidgetPermission =
             nameValuePair += ';';
         });
 
-        Dropthings.Web.Framework.WidgetService.AssignPermission(nameValuePair,
+        dropthings.omaralzabir.com.widgetservice.AssignPermission(nameValuePair,
             function(result) {
                 WidgetPermission.showProgress(true);
                 jQuery('#Message').html("Permission assigned successfully.");

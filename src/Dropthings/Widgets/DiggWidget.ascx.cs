@@ -13,6 +13,7 @@ using System.Xml.Linq;
 
 using Dropthings.Widget.Framework;
 using Dropthings.Widget.Widgets;
+using Dropthings.Util;
 
 public partial class Widgets_DiggWidget : System.Web.UI.UserControl, IWidget
 {
@@ -49,7 +50,7 @@ public partial class Widgets_DiggWidget : System.Web.UI.UserControl, IWidget
 
     public void BindDiggData()
     {
-        Source.Text = ResolveClientUrl("~/ClientBin/Dropthings.DiggSilverlight.xap");
+        Source.Text = ResolveClientUrl("~/ClientBin/Dropthings.DiggSilverlight.xap?v=" + ConstantHelper.ScriptVersionNo);
         InitParams.Text = "WidgetId={0}".FormatWith(this._Host.ID)
             + ",State={0}".FormatWith(this.State.Xml());
     }
