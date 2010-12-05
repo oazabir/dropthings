@@ -12,7 +12,7 @@
                 </binding>
                 <binding name="BasicHttpBinding_WidgetService" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
-                    <security mode="None" />
+                    <security mode="None" /> 
                 </binding>
             </basicHttpBinding>
         </bindings>

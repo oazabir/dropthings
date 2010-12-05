@@ -5,11 +5,6 @@ Refactor firstvisit and repeatvisit functions parameters
 
 Pending fixes before commit
 ===========================
-GetWidetState failing due to int to string conversion problem
-Proxy needs to cache the data while streaming
-Check Fast Rss
-Check slow Flickr
-Write test code to ensure Rss, Flickr and Twitter widget showing content
 
 Steps to deploy new release:
 ===========================
@@ -30,6 +25,8 @@ Steps to deploy new release:
 
 Next version target:
 ====================
+* FIX: Silverlight widget needs to resolve the webservice URL dynamically
+* ADD: Write test code to ensure Rss, Flickr and Twitter widget showing content
 * ADD: StaticContentFilter to read file last modified date and use that as version suffix
 * ADD: Make the widget gallery a jQuery slider.
 * CHANGE: Convert Javascripts to Script#
