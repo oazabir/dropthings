@@ -15,7 +15,7 @@
 			
 			You might have to update all url maps in the "post" set.
 	-->
-  <set name="initial">
+  <set name="msAjax">
     <url name="a">~/WebResource.axd?d=ok5g8oBzUr-xU2uMkpjbrQ2&amp;amp;t=633802380069218315</url>
     <url name="d">~/ScriptResource.axd?d=QMaoIHxswRcfF6OSqmxPJWsj15Hc7iMBl2HHZr3pXAH-btmDf1mQ9KjoIjCLoECJrwLpUUAeirDKXpQGpr91qltAtDoqN_bhL8dZDhb611g1&amp;amp;t=ffffffffec2d9970</url>
     <url name="e">~/ScriptResource.axd?d=QMaoIHxswRcfF6OSqmxPJWsj15Hc7iMBl2HHZr3pXAH-btmDf1mQ9KjoIjCLoECJRdyzNKaM8CcT8VRgSjN0a3YCQ83nsIEUfG4glAbC8IE1&amp;amp;t=ffffffffec2d9970</url>

@@ -23,11 +23,6 @@ namespace Dropthings.Business.Facade
             return Membership.ValidateUser(userName, password);
         }
 
-        public void UpdateAccount(string email, string userName)
-        {
-            
-        }
-
         public MembershipUser GetUser(string userName)
         {
             return AspectF.Define.Cache<MembershipUser>(Services.Get<ICache>(), CacheKeys.UserKeys.UserFromUserName(userName))

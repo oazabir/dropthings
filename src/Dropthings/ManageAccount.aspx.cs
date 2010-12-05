@@ -95,44 +95,39 @@ public partial class ManageAccountPage : BasePage
     {
         if (!IsPostBack)
         {
-            PrepareView();
+            //PrepareView();
         }
     }
 
-    protected void SaveButton_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            //new DashboardFacade(Profile.UserName).UpdateAccount(EmailTextbox.Text.Trim());
+    //protected void SaveButton_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        Facade facade = Services.Get<Facade>();
+    //        {
+    //            facade.UpdateAccount(EmailTextbox.Text.Trim(), Profile.UserName);
+    //        }
 
-            //WorkflowHelper.Run<UpdateAccountWorkflow,UpdateAccountWorkflowRequest,UpdateAccountWorkflowResponse>(
-            //                new UpdateAccountWorkflowRequest { Email = EmailTextbox.Text.Trim(), UserName = Profile.UserName }
-            //            );
-            Facade facade = Services.Get<Facade>();
-            {
-                facade.UpdateAccount(EmailTextbox.Text.Trim(), Profile.UserName);
-            }
+    //        FormsAuthentication.SignOut();
+    //        FormsAuthentication.SetAuthCookie(EmailTextbox.Text.Trim(), true);
+    //        ShowMessage(Message, SharedResources.AccountUpdatedMessage, false);
+    //    }
+    //    catch(Exception x )
+    //    {
+    //        Debug.WriteLine(x);
+    //        ShowMessage(Message, x.Message, true);
+    //    }
+    //}
 
-            FormsAuthentication.SignOut();
-            FormsAuthentication.SetAuthCookie(EmailTextbox.Text.Trim(), true);
-            ShowMessage(Message, SharedResources.AccountUpdatedMessage, false);
-        }
-        catch(Exception x )
-        {
-            Debug.WriteLine(x);
-            ShowMessage(Message, x.Message, true);
-        }
-    }
+    //private void PrepareView()
+    //{
+    //    MembershipUser user = Membership.GetUser(Profile.UserName);
 
-    private void PrepareView()
-    {
-        MembershipUser user = Membership.GetUser(Profile.UserName);
-
-        if (user != null)
-        {
-            EmailTextbox.Text = user.UserName;
-        }
-    }
+    //    if (user != null)
+    //    {
+    //        EmailTextbox.Text = user.UserName;
+    //    }
+    //}
 
     #endregion Methods
 }

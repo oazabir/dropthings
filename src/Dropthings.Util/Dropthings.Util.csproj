@@ -103,7 +103,8 @@
     <Reference Include="Munq.DI">
       <HintPath>..\..\Thirdparty\Munq\Munq.DI.dll</HintPath>
     </Reference>
-    <Reference Include="OmarALZabir.AspectF">
+    <Reference Include="OmarALZabir.AspectF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Thirdparty\AspectF\OmarALZabir.AspectF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
