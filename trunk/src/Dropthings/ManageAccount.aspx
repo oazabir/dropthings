@@ -43,6 +43,7 @@
                                 <asp:Label ID="Message" runat="server" EnableViewState="false" CssClass="altpageHeading1" />
                               </td>
                             </tr>
+                            <%-- 
                             <tr>
                               <td style="white-space:nowrap;" class="align_right">
                                 <asp:Label ID="lblEditPersonalInformation" EnableViewState="false" runat="server" 
@@ -66,6 +67,7 @@
                                     EnableViewState="false" OnClick="SaveButton_Click" />&nbsp;
                                 </td>                
                             </tr>
+                            --%>
                             <tr>
                               <td style="white-space:nowrap;" class="align_right">
                                 <asp:Label ID="ltlChangePassword" EnableViewState="false" runat="server" 

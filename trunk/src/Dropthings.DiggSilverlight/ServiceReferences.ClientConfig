@@ -4,11 +4,7 @@
             <basicHttpBinding>
                 <binding name="BasicHttpBinding_ProxyService" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">
-                    <security mode="None">
-                        <transport>
-                            <extendedProtectionPolicy policyEnforcement="Never" />
-                        </transport>
-                    </security>
+                    <security mode="None" />
                 </binding>
                 <binding name="BasicHttpBinding_WidgetService" maxBufferSize="2147483647"
                     maxReceivedMessageSize="2147483647">

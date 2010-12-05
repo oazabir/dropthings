@@ -5,6 +5,7 @@ Pending fixes before commit
 Steps to deploy new release:
 ===========================
 * Update production site code, build and run setup page.
+* Change anon user password on production incase database get updated.
 * Run automated UI test against production site.
 * Ensure Digg widget works.
 * Create a new source code release using MakeRelease.bat
@@ -20,15 +21,24 @@ Steps to deploy new release:
 
 Next version targets:
 ====================
-FIX: Anon user template changes not getting reflected.
+High Prio:
+----------
+
+Med Prio:
+---------
 ADD: Make a better weather widget.
 CHANGE: Make the Flickr widget show pictures as 3x3 slider
 ADD: Make the widget gallery a jQuery slider.
 ADD: Write test code to ensure Rss, Flickr and Twitter widget showing content
 ADD: StaticContentFilter to read file last modified date and use that as version suffix
-CHANGE: Convert Javascripts to Script#
-ADD: Comment all Facade methods and mention the "why" and "how"
+
+Low Prio:
+---------
 CHANGE: Update Velocity reference to latest release
+ADD: Comment all Facade methods and mention the "why" and "how"
+CHANGE: Convert Javascripts to Script#
+
+
 
 Version 2.6.8
 =============
