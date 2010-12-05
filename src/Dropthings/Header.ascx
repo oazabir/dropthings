@@ -100,7 +100,7 @@ function doSearch()
     <div id="header_message">
         <div id="header_message_wrapper">
             <asp:Literal ID="ltlSiteDescription" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, SiteDescription%>" />
-            <asp:Literal ID="ltlSourceCode" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, SourceCode%>" /> <a href="http://code.google.com/p/dropthings/">code.google.com/p/dropthings</a>
+            <a href="http://code.google.com/p/dropthings/">code.google.com/p/dropthings</a>
         </div>
     </div>
 

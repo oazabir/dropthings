@@ -433,7 +433,7 @@
     <value>Silverlight Plugin not installed.</value>
   </data>
   <data name="SiteDescription" xml:space="preserve">
-    <value>This is an open source Web 2.0 style AJAX Portal built using ASP.NET 3.5, Workflow Foundation and LINQ..</value>
+    <value>This is an open source Web 2.0 style AJAX Portal built using ASP.NET 3.5, WCF, jQuery, Silverlight and LINQ...</value>
   </data>
   <data name="SiteTitle" xml:space="preserve">
     <value>Dropthings</value>
@@ -530,5 +530,11 @@
   </data>
   <data name="NewTabTitle" xml:space="preserve">
     <value>New Tab </value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="PasswordDoesNotMatch" xml:space="preserve">
+    <value>Password does not match</value>
   </data>
 </root>

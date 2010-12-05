@@ -433,7 +433,7 @@
     <value>Silverlight Plugin n'est pas installé.</value>
   </data>
   <data name="SiteDescription" xml:space="preserve">
-    <value>C'est une open source Web 2.0 style AJAX Portal built using ASP.NET 3.5, Workflow Foundation and LINQ..</value>
+    <value>Il s'agit d'un open source Web 2.0 style AJAX portail construit en utilisant ASP.NET 3.5, WCF, jQuery, Silverlight et LINQ ...</value>
   </data>
   <data name="SiteTitle" xml:space="preserve">
     <value>TOTSA Portal</value>
@@ -530,5 +530,11 @@
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Nouvel onglet</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirmer mot de passe</value>
+  </data>
+  <data name="PasswordDoesNotMatch" xml:space="preserve">
+    <value>Mot de passe ne correspondent pas</value>
   </data>
 </root>
