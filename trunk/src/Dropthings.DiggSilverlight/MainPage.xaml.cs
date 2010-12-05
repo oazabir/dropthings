@@ -212,12 +212,16 @@ namespace Dropthings.DiggSilverlight
         private DropthingsProxy.ProxyServiceClient GetProxyService()
         {
             DropthingsProxy.ProxyServiceClient service = new DropthingsProxy.ProxyServiceClient();
+            service.Endpoint.Address = new EndpointAddress(DynamicEndpointHelper.ResolveEndpointUrl(service.Endpoint.Address.Uri.ToString(), 
+                App.Current.Host.Source.ToString()));
             return service;
         }
 
         private WidgetServiceClient GetWidgetService()
         {
             var service = new WidgetServiceClient();
+            service.Endpoint.Address = new EndpointAddress(DynamicEndpointHelper.ResolveEndpointUrl(service.Endpoint.Address.Uri.ToString(),
+                App.Current.Host.Source.ToString()));
             return service;
         }
 
