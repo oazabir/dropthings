@@ -1,7 +1,3 @@
-Notes:
-Test all UI behaviors to make sure the refactoring did not break anything
-Regenerate the CreateNewDatabase-SQL2005 script.
-Refactor firstvisit and repeatvisit functions parameters
 
 Pending fixes before commit
 ===========================
@@ -22,25 +18,32 @@ Steps to deploy new release:
 * Upload a new version of web installer package.
 * Inform MS to update the installer URL and the hash.
 
-
-Next version target:
+Next version targets:
 ====================
-* FIX: Silverlight widget needs to resolve the webservice URL dynamically
-* ADD: Write test code to ensure Rss, Flickr and Twitter widget showing content
-* ADD: StaticContentFilter to read file last modified date and use that as version suffix
-* ADD: Make the widget gallery a jQuery slider.
-* CHANGE: Convert Javascripts to Script#
-* ADD: Comment all Facade methods and mention the "why" and "how"
-* CHANGE: Update Velocity reference to latest release
+FIX: Anon user template changes not getting reflected.
+ADD: Make a better weather widget.
+CHANGE: Make the Flickr widget show pictures as 3x3 slider
+ADD: Make the widget gallery a jQuery slider.
+ADD: Write test code to ensure Rss, Flickr and Twitter widget showing content
+ADD: StaticContentFilter to read file last modified date and use that as version suffix
+CHANGE: Convert Javascripts to Script#
+ADD: Comment all Facade methods and mention the "why" and "how"
+CHANGE: Update Velocity reference to latest release
+
+Version 2.6.8
+=============
+ADD: Manage Account page needs to be restored.
+FIX: FastRss widget not showing less than 10 feeds.
 
 Version 2.6.7
 =============
-* CHANGE: Replace the ASMX webservices with WCF services with both REST and AJAX support
-* FIX: My blog feed sometimes fails to load.
-* FIX: ASMXAjaxHandler rejects request if the expected content type is xml. It needs to support xml.
-* FIX: Flickr widget does not allow setting "Most Interesting" picture as an option.
-* FIX: Digg widget no longer working. It can't read Digg stories directly from Digg.
-* ADD: Code and production site installer using Microsoft Web Platform installer
+FIX: Silverlight widget needs to resolve the webservice URL dynamically
+CHANGE: Replace the ASMX webservices with WCF services with both REST and AJAX support
+FIX: My blog feed sometimes fails to load.
+FIX: ASMXAjaxHandler rejects request if the expected content type is xml. It needs to support xml.
+FIX: Flickr widget does not allow setting "Most Interesting" picture as an option.
+FIX: Digg widget no longer working. It can't read Digg stories directly from Digg.
+ADD: Code and production site installer using Microsoft Web Platform installer
 
 Version 2.6.6
 =============
@@ -54,7 +57,6 @@ FIX: Issue 118: Fixed role template issues where it was not correctly returning 
 FIX: Issue 117:	Facade.Page thrown InvalidOperationException when chaning column layout on a tab without any widgets
 FIX: Use the default title of newly added tab from resource keys so that it can be internationalized.
 ADD: Some more watin tests
-
 
 Version 2.6.2
 =============

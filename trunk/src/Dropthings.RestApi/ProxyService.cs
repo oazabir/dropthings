@@ -32,19 +32,30 @@ namespace Dropthings.RestApi
         /// <returns></returns>
         public IAsyncResult BeginGetUrl(string url, int cacheDuration, AsyncCallback wcfCallback, object wcfState)
         {
+            return StartGetUrl(url, cacheDuration, 0, wcfCallback, wcfState);
+        }
+
+        private IAsyncResult StartGetUrl(string url, int cacheDuration, int count, AsyncCallback wcfCallback, object wcfState)
+        {
             HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
             request.Method = "GET";
-            WebRequestState myState = new WebRequestState(wcfCallback, wcfState) 
-            { 
+            WebRequestState myState = new WebRequestState(wcfCallback, wcfState)
+            {
                 Request = request,
                 CacheDuration = cacheDuration,
-                ContentType = WebOperationContext.Current.IncomingRequest.ContentType
+                ContentType = WebOperationContext.Current.IncomingRequest.ContentType,
+                Count = count
             };
             IAsyncResult asyncResult = request.BeginGetResponse(new AsyncCallback(HttpGetCallback), myState);
-            return new CustomAsyncResult<WebRequestState>(asyncResult, myState);                
+            return new CustomAsyncResult<WebRequestState>(asyncResult, myState);
         }
 
         public Stream EndGetUrl(IAsyncResult asyncResult)
+        {
+            return CompleteGetUrl(asyncResult);
+        }
+
+        private Stream CompleteGetUrl(IAsyncResult asyncResult)
         {
             CustomAsyncResult<WebRequestState> myAsyncResult = (CustomAsyncResult<WebRequestState>)asyncResult;
             WebRequestState myState = myAsyncResult.AdditionalData;
@@ -57,7 +68,7 @@ namespace Dropthings.RestApi
             outResponse.ContentLength = myState.Response.ContentLength;
             outResponse.ContentType = myState.Response.ContentType;
             SetCaching(WebOperationContext.Current, DateTime.Now, myState.CacheDuration);
-            
+
             return myState.Response.GetResponseStream();
         }
 
@@ -70,9 +81,10 @@ namespace Dropthings.RestApi
 
             // set cache validation 
             context.OutgoingResponse.LastModified = lastModifiedDate;
+
+            // No ETag, want this to be cached on browser for good.
             //String eTag = context.IncomingRequest.UriTemplateMatch.RequestUri.ToString() + lastModifiedDate.ToString();
             //context.OutgoingResponse.ETag = eTag;
-
         }
 
         void HttpGetCallback(IAsyncResult asyncResult)
@@ -92,13 +104,16 @@ namespace Dropthings.RestApi
 
         public IAsyncResult BeginGetRss(string url, int count, int cacheDuration, AsyncCallback wcfCallback, object wcfState)
         {
-            return BeginGetUrl(url, cacheDuration, wcfCallback, wcfState);
+            return StartGetUrl(url, cacheDuration, count, wcfCallback, wcfState);
         }
         public RssItem[] EndGetRss(IAsyncResult asyncResult)
-        {            
-            var result = RssHelper.ConvertXmlToRss(XElement.Load(new XmlTextReader(EndGetUrl(asyncResult))), 10).ToArray();
+        {
+            CustomAsyncResult<WebRequestState> myAsyncResult = (CustomAsyncResult<WebRequestState>)asyncResult;
+            WebRequestState myState = myAsyncResult.AdditionalData;
+
+            var result = RssHelper.ConvertXmlToRss(XElement.Load(new XmlTextReader(CompleteGetUrl(asyncResult))), myState.Count).ToArray();
             WebOperationContext.Current.OutgoingResponse.ContentType = "application/json; charset=utf-8";
-            return result;
+            return result;            
         }
 
         internal class WebRequestState : CustomStateBase
@@ -108,6 +123,7 @@ namespace Dropthings.RestApi
             public Exception Error;
             public int CacheDuration;
             public string ContentType;
+            public int Count;
 
             public WebRequestState(AsyncCallback originalCallback, object originalState) 
                 : base(originalCallback, originalState) 
