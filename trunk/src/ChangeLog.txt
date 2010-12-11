@@ -23,6 +23,7 @@ Next version targets:
 ====================
 High Prio:
 ----------
+ADD: Proxy Service needs to cache the content received from external URL in internal cache so that request for same data can be served from cache.
 
 Med Prio:
 ---------
