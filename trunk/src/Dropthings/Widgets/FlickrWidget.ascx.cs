@@ -269,7 +269,7 @@ public partial class FlickrWidget : System.Web.UI.UserControl, IWidget
         if( string.IsNullOrEmpty(xml) ) return;
         var xroot = XElement.Parse(xml);
         var photos = (from photo in xroot.Element("photos").Elements("photo")
-                    select new PhotoInfo
+                    select new FlickrPhotoInfo
                     {
                         Id = (string)photo.Attribute("id"),
                         Owner = (string)photo.Attribute("owner"),

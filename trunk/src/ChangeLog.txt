@@ -1,9 +1,14 @@
 
 Pending fixes before commit
 ===========================
+* Make the baseURL in web.config for WCF WebPI driven
+
 
 Steps to deploy new release:
 ===========================
+* Change web.config to have production configuration.
+* Cleanup the anon user template.
+* Enable the base URL configuration in web.config for WCF.
 * Update production site code, build and run setup page.
 * Change anon user password on production incase database get updated.
 * Run automated UI test against production site.

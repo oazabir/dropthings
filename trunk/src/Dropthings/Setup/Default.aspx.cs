@@ -247,13 +247,16 @@ public partial class Setup_Default : System.Web.UI.Page
         else
             MarkAsPass(WebRootLabel);
 
+        TestPrefix(ConstantHelper.WebRoot, ConstantHelper.WebRoot + "API/Proxy.svc/ajax/js", WebServiceProxyLabel,
+            "Make sure <baseAddressPrefixFilters> inside <system.serviceModel> has " + ConstantHelper.WebRoot);
+
         if (ConstantHelper.DisableDOSCheck)
-            MarkAsWarning(DisableDOSCheckLabel, "It should be true on production to prevent DOS attacks.");
+            MarkAsWarning(DisableDOSCheckLabel, "It should be false on production to prevent DOS attacks.");
         else
             MarkAsPass(DisableDOSCheckLabel);
 
         if (ConstantHelper.DisableCache)
-            MarkAsWarning(DisableCacheLabel, "It should be true on production for acceptable performance.");
+            MarkAsWarning(DisableCacheLabel, "It should be false on production for acceptable performance.");
         else
             MarkAsPass(DisableCacheLabel);
 
@@ -262,7 +265,6 @@ public partial class Setup_Default : System.Web.UI.Page
 
         TestPrefix(ConstantHelper.ScriptPrefix, ConstantHelper.ScriptPrefix + "Scripts.ashx", JSPrefixLabel,
             "Set JsPrefix to either empty or set to some host address from where Scripts.ashx will be hit. Tried hitting: {0}");
-
 
         TestPrefix(ConstantHelper.ImagePrefix, ConstantHelper.ImagePrefix + "App_Themes/" + Page.Theme + "/StyleSheet.css", ImgPrefixLabel,
             "Set ImagePrefix to either empty or set to some host address from where theme CSS and Images will be loaded. Tried hitting: {0}");

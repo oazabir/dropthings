@@ -121,7 +121,7 @@ namespace AJAXASMXHandler
                         else throw new InvalidAsynchronousStateException("The state passed in the " + beginMethod.MethodName + " must inherit from " + typeof(AsyncWebMethodState).FullName);
                     }
                 }
-                catch( Exception x )
+                catch (Exception x)
                 {
                     target.Dispose();
                     WebServiceHelper.WriteExceptionJsonString(context, x, wsDef.Serializer);
