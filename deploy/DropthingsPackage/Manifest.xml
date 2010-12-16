@@ -1,0 +1,10 @@
+<MSDeploy.iisApp> 
+  <iisApp path="dropthings">
+    <createApp path="dropthings" />
+  </iisApp>
+  <dbfullsql path="install.sql" /> 
+  <setAcl 
+    path="dropthings/App_Data" 
+    setAclResourceType="Directory" 
+    setAclAccess="Modify" />
+</MSDeploy.iisApp> 

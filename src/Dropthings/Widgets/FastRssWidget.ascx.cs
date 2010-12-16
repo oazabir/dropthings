@@ -157,7 +157,8 @@ public partial class Widgets_FastRssWidget : System.Web.UI.UserControl, IWidget
         if (Services.Get<ICache>().Contains(this.Url))
         {
             var cachedRSS = XElement.Load(new StringReader(Services.Get<ICache>().Get(this.Url) as string));
-            string json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(cachedRSS);
+            var rss = RssHelper.ConvertXmlToRss(cachedRSS, this.Count);
+            string json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(rss);
             return json;
         }
         else

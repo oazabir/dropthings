@@ -16,6 +16,10 @@ using System.Threading;
 using System.Xml.Linq;
 using System.Xml;
 using Dropthings.Web.Util;
+using Dropthings.Util;
+using OmarALZabir.AspectF;
+using System.Text;
+using System.Net.Sockets;
 
 [assembly: ContractNamespace("http://dropthings.omaralzabir.com", ClrNamespace = "Dropthings.RestApi")]
 
@@ -37,17 +41,40 @@ namespace Dropthings.RestApi
 
         private IAsyncResult StartGetUrl(string url, int cacheDuration, int count, AsyncCallback wcfCallback, object wcfState)
         {
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-            request.Method = "GET";
-            WebRequestState myState = new WebRequestState(wcfCallback, wcfState)
+            /// If the url already exists in cache then there's no need to fetch it from the source.
+            /// We can just return the response immediately from cache
+            if (!ConstantHelper.DisableCache && Services.Get<ICache>().Contains(url))
             {
-                Request = request,
-                CacheDuration = cacheDuration,
-                ContentType = WebOperationContext.Current.IncomingRequest.ContentType,
-                Count = count
-            };
-            IAsyncResult asyncResult = request.BeginGetResponse(new AsyncCallback(HttpGetCallback), myState);
-            return new CustomAsyncResult<WebRequestState>(asyncResult, myState);
+                WebRequestState myState = new WebRequestState(wcfCallback, wcfState)
+                {
+                    Url = url,
+                    CacheDuration = cacheDuration,
+                    ContentType = WebOperationContext.Current.IncomingRequest.ContentType,
+                    Count = count
+                };
+
+                // Trigger the completion of the request immediately 
+                var completedState = new CompletedAsyncResult<WebRequestState>(myState, wcfState);
+                wcfCallback(completedState);
+                return completedState;
+            }
+            else
+            {
+                /// The content does not exist in cache and we need to get it from the
+                /// original source 
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                request.Method = "GET";
+                WebRequestState myState = new WebRequestState(wcfCallback, wcfState)
+                {
+                    Request = request,
+                    ContentType = WebOperationContext.Current.IncomingRequest.ContentType,
+                    Url = url,
+                    CacheDuration = cacheDuration,
+                    Count = count
+                };
+                IAsyncResult asyncResult = request.BeginGetResponse(new AsyncCallback(HttpGetCallback), myState);
+                return new CustomAsyncResult<WebRequestState>(asyncResult, myState);
+            }
         }
 
         public Stream EndGetUrl(IAsyncResult asyncResult)
@@ -57,19 +84,53 @@ namespace Dropthings.RestApi
 
         private Stream CompleteGetUrl(IAsyncResult asyncResult)
         {
-            CustomAsyncResult<WebRequestState> myAsyncResult = (CustomAsyncResult<WebRequestState>)asyncResult;
-            WebRequestState myState = myAsyncResult.AdditionalData;
+            if (asyncResult is CompletedAsyncResult<WebRequestState>)
+            {
+                /// The content is already in cache. So, return the item from 
+                /// cache
+                WebRequestState myState = (asyncResult as CompletedAsyncResult<WebRequestState>).Data;
+                string content = Services.Get<ICache>().Get(myState.Url) as string;
+                return new MemoryStream(Encoding.UTF8.GetBytes(content));
+            }
+            else
+            {
+                CustomAsyncResult<WebRequestState> myAsyncResult = (CustomAsyncResult<WebRequestState>)asyncResult;
+                WebRequestState myState = myAsyncResult.AdditionalData;
 
-            if (myState.Error != null)
-                throw new WebProtocolException(HttpStatusCode.InternalServerError, myState.Error.Message,
-                    myState.Error);
+                if (myState.Error != null)
+                    throw new WebProtocolException(HttpStatusCode.InternalServerError, myState.Error.Message,
+                        myState.Error);
 
-            var outResponse = WebOperationContext.Current.OutgoingResponse;
-            outResponse.ContentLength = myState.Response.ContentLength;
-            outResponse.ContentType = myState.Response.ContentType;
-            SetCaching(WebOperationContext.Current, DateTime.Now, myState.CacheDuration);
+                var outResponse = WebOperationContext.Current.OutgoingResponse;
+                outResponse.ContentLength = myState.Response.ContentLength;
+                outResponse.ContentType = myState.Response.ContentType;
+                SetCaching(WebOperationContext.Current, DateTime.Now, myState.CacheDuration);
 
-            return myState.Response.GetResponseStream();
+                var contentEncoding = myState.Response.ContentEncoding;
+                if (myState.CacheDuration > 0)
+                    return new StreamWrapper(myState.Response.GetResponseStream(),
+                        (int)(outResponse.ContentLength > 0 ? outResponse.ContentLength : 8 * 1024),
+                        buffer =>
+                        {
+                            Encoding enc;
+                            try
+                            {
+                                if (string.IsNullOrEmpty(contentEncoding))
+                                    enc = Encoding.UTF8;
+                                else
+                                    enc = Encoding.GetEncoding(contentEncoding);
+                            }
+                            catch
+                            {
+                                enc = Encoding.GetEncoding(1252);
+                            }
+
+                            if (!ConstantHelper.DisableCache)
+                                Services.Get<ICache>().Add(myState.Url, enc.GetString(buffer));
+                        });
+                else
+                    return myState.Response.GetResponseStream();
+            }
         }
 
         private void SetCaching(WebOperationContext context, DateTime lastModifiedDate, Int32 maxCacheAge)
@@ -121,6 +182,7 @@ namespace Dropthings.RestApi
             public HttpWebRequest Request;
             public HttpWebResponse Response;
             public Exception Error;
+            public string Url;
             public int CacheDuration;
             public string ContentType;
             public int Count;

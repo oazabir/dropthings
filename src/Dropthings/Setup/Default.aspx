@@ -109,6 +109,9 @@
                     <asp:Label CssClass="inprogress" Text="WebRoot matches with the address of this site."
                         ID="WebRootLabel" runat="server" /></li>
                 <li>
+                    <asp:Label CssClass="inprogress" Text="Webservice proxies are working."
+                        ID="WebServiceProxyLabel" runat="server" /></li>
+                <li>
                     <asp:Label CssClass="inprogress" Text="CssPrefix is either empty or is reachable."
                         ID="CssPrefixLabel" runat="server" /></li>
                 <li>

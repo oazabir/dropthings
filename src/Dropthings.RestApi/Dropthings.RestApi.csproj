@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompletedAsyncResult.cs" />
     <Compile Include="CustomAsyncResult.cs" />
     <Compile Include="IPageService.cs" />
     <Compile Include="IProxyService.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="PageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyService.cs" />
+    <Compile Include="StreamWrapper.cs" />
     <Compile Include="WidgetService.cs">
       <SubType>Code</SubType>
     </Compile>
