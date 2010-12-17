@@ -266,6 +266,9 @@ public partial class Setup_Default : System.Web.UI.Page
         TestPrefix(ConstantHelper.ScriptPrefix, ConstantHelper.ScriptPrefix + "Scripts.ashx", JSPrefixLabel,
             "Set JsPrefix to either empty or set to some host address from where Scripts.ashx will be hit. Tried hitting: {0}");
 
+        TestPrefix(ConstantHelper.ScriptPrefix, ConstantHelper.ScriptPrefix + "Scripts/MyFramework.js", JSPrefixLabel,
+            "Set JsPrefix to either empty or set to some host address from where Scripts/MyFramework.js will be hit. Tried hitting: {0}");
+
         TestPrefix(ConstantHelper.ImagePrefix, ConstantHelper.ImagePrefix + "App_Themes/" + Page.Theme + "/StyleSheet.css", ImgPrefixLabel,
             "Set ImagePrefix to either empty or set to some host address from where theme CSS and Images will be loaded. Tried hitting: {0}");
     }
