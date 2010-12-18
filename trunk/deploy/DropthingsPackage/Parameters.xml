@@ -11,6 +11,11 @@
     />  
   </parameter> 
   
+	<parameter name="WebRoot" description="Set the Url for the app, example  http://localhost/dropthings" defaultValue="http://localhost/dropthings/" tags="AppUrl">
+		<parameterEntry type="XmlFile" scope="\\web.config" match="//appSettings/add[@key='WebRoot']/@value" />  
+		<parameterEntry type="XmlFile" scope="\\web.config" match="//baseAddresses/add/@baseAddress" />
+	</parameter>  
+	
   <!-- This is the parameter that is used to set ACLs, it's set to the application path filled in by the user --> 
   <parameter 
     name="SetAclOnAppData" 
@@ -164,8 +169,4 @@
 	 <parameterEntry type="XmlFile" scope="\\web.config" match="//connectionStrings/add[@name='DropthingsDataContext']/@connectionString" />	 
    </parameter>
    
-	<parameter name="WebRoot" description="Set the Url for the app, example  http://localhost/dropthings" defaultValue="http://localhost/dropthings/" tags="AppUrl">
-		<parameterEntry type="XmlFile" scope="\\web.config" match="//appSettings/add[@key='WebRoot']/@value" />  
-		<parameterEntry type="XmlFile" scope="\\web.config" match="//system.serviceModel/serviceHostingEnvironment/baseAddressPrefixFilters/add/@prefix" />
-	</parameter>  
  </parameters>

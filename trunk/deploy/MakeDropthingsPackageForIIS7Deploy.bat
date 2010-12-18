@@ -1,7 +1,7 @@
 SET ZIP="C:\Program Files\7-Zip\7z.exe"
 SET PACKAGE_FOLDER=DropthingsPackage
 SET WEBSITE_FOLDER=DropthingsPackage\Dropthings
-SET PACKAGE_FILE=DropthingsPackageV2.zip
+SET PACKAGE_FILE=DropthingsPackageV2-7.zip
 rd /s /q %WEBSITE_FOLDER%
 md %WEBSITE_FOLDER%
 xcopy ..\src\Dropthings\*.* %WEBSITE_FOLDER%\ /E /Q
@@ -17,5 +17,5 @@ cd %PACKAGE_FOLDER%
 move %PACKAGE_FILE% ..\%PACKAGE_FILE%
 cd ..
 fciv.exe -sha1 %PACKAGE_FILE% > sha1.txt
-
+rd /s /q %WEBSITE_FOLDER%
 REM "c:\Program Files (x86)\SIR\SIRCommandLine.exe" -s:d:\work\dropthings\GoogleCode\%PACKAGE_FILE%
