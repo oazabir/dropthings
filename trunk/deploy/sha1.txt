@@ -1,4 +1,4 @@
 //
 // File Checksum Integrity Verifier version 2.05.
 //
-cdc4b2a76b35ccefb5b8cd9370a1b8707f091e92 dropthingspackagev2.zip
+3a4233d6db00f43e574ea1eecf9a1a7ea1464a87 dropthingspackagev2-7.zip
