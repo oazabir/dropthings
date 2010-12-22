@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -35,6 +35,10 @@
     <Reference Include="Microsoft.ServiceModel.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft WCF REST\WCF REST Starter Kit Preview 2\Assemblies\Microsoft.ServiceModel.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="OmarALZabir.AspectF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Thirdparty\AspectF\OmarALZabir.AspectF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -79,10 +83,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\RND\AspectF\AspectF_Src\AspectF\OmarALZabir.AspectF.csproj">
-      <Project>{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}</Project>
-      <Name>OmarALZabir.AspectF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Dropthings.Business.Facade\Dropthings.Business.Facade.csproj">
       <Project>{514B9055-2EEF-4111-9CAC-F763120BB35D}</Project>
       <Name>Dropthings.Business.Facade</Name>
