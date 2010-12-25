@@ -10,31 +10,32 @@ input[type="password"] {width: 200px; border: 1px solid #CCC;}
 
 #container { margin: 0pt auto; text-align: left; max-width: 1200px }
 
-#header { background:#205020; color:#D2DCF3; margin-bottom:7px; width:100%; }
+#header { /*background:#205020; color:#D2DCF3; */ margin-bottom:7px; width:100%; }
 
 /* header text */
-#header h1 { font-size: 14pt; float: left; height: 30px; padding: 10px; line-height: 30px } 
-#header h1 a { color: #D2DCF3; } 
+#header h1 { /* font-size: 14pt; */ float: left; height: 80px; background: transparent url(Images/Header/DropthingsHeader.png) no-repeat 0px 10px; text-indent: -3333px; border: 0; margin: 0 } 
+#header h1 a { display: block; color: #D2DCF3; width: 300px; height: 70px; text-decoration: none; border: 0} 
 
 /* login/logout/signup panel */
 #login_panel { text-align:right; font-size: 10pt; float: right; margin: 10px 10px 0 0 ; padding: 5px;  }
-#login_panel a { color: #D2DCF3 }
+#login_panel a { color: black }
 
 /* The search bar that has google and live search boxes */
-#search_bar { background:#B2DD80; width:100%; padding: 5px 0px 5px 0px; clear:both; overflow: auto; width: 100% }
-	#search_bar_wrapper { margin: 5px }
-	#google_search { float: left; margin-right: 20px;  }
-	    #google_search img { float: left; margin-right: 5px; width: 64px; height: 26px; }
-		#google_search input { float: left; margin-right: 5px }
-		#google_search input#query { width: 500px }
+#search_bar { /*background:#B2DD80; */ width:100%; clear:both; height: 30px; /*padding: 5px 0px 5px 0px; overflow: auto; width: 100%; text-align: center*/ }
+	#search_bar_wrapper { }
+	#google_search { margin: 0pt auto; width: 300px; /*float: left; margin-right: 20px;*/  }
+	    /*#google_search img { float: left; margin-right: 5px; width: 64px; height: 26px; }*/
+		#google_search input { float: left; margin-right: 0px; }
+		#google_search input#query { width: 200px; }
 		
 	#live_search { float: left; margin-right: 20px; }
 		#live_search .livesearch_logo { float: left; margin-right: 5px }
 		#WLSearchBoxDiv { float: left; }
 
-#header_message { clear:both; height:30px; background:#90B566 url(Images/Header/message_corners.gif) no-repeat scroll bottom left; clear:both; overflow:hidden; width:100%; line-height: 20px; font-size: 8pt; text-align: center  }
-#header_message_wrapper { padding: 5px; background:url(Images/Header/message_corners.gif) no-repeat scroll bottom right; color: #115511 }
-#header_message a { color: #ddffdd }
+#header_message { position: absolute; right: 30px; top: 40px; /*background:#90B566 url(Images/Header/message_corners.gif) no-repeat scroll bottom left; */ 
+                  clear:both; overflow:hidden; width: 200px; font-size: 8pt; text-align: right; line-height: 1.5em }
+#header_message_wrapper { padding: 5px; /*background:url(Images/Header/message_corners.gif) no-repeat scroll bottom right; color: #115511*/ }
+#header_message a { color: navy;  }
 
 #contents { background:#FFFFFF /*url(content_corners.gif) no-repeat scroll top left*/; position: relative; }
 	#contents_wrapper { background:transparent /*url(content_corners.gif) no-repeat scroll top right*/;  min-height:400px; height:auto !important; height:400px; } 
