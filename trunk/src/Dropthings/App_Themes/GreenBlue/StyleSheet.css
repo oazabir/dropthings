@@ -21,19 +21,19 @@ input[type="password"] {width: 200px; border: 1px solid #CCC;}
 #login_panel a { color: black }
 
 /* The search bar that has google and live search boxes */
-#search_bar { /*background:#B2DD80; */ width:100%; clear:both; height: 30px; /*padding: 5px 0px 5px 0px; overflow: auto; width: 100%; text-align: center*/ }
+#search_bar { /*background:#B2DD80; */ width:100%; clear:both; height: 30px; position:relative; top:-50px;/*padding: 5px 0px 5px 0px; overflow: auto; width: 100%; text-align: center*/ }
 	#search_bar_wrapper { }
 	#google_search { margin: 0pt auto; width: 300px; /*float: left; margin-right: 20px;*/  }
 	    /*#google_search img { float: left; margin-right: 5px; width: 64px; height: 26px; }*/
 		#google_search input { float: left; margin-right: 0px; }
-		#google_search input#query { width: 200px; }
+		#google_search input#query { width: 200px; height: 1.5em; vertical-align: middle; }
 		
 	#live_search { float: left; margin-right: 20px; }
 		#live_search .livesearch_logo { float: left; margin-right: 5px }
 		#WLSearchBoxDiv { float: left; }
 
 #header_message { position: absolute; right: 30px; top: 40px; /*background:#90B566 url(Images/Header/message_corners.gif) no-repeat scroll bottom left; */ 
-                  clear:both; overflow:hidden; width: 200px; font-size: 8pt; text-align: right; line-height: 1.5em }
+                  clear:both; overflow:hidden; width: 30em; font-size: 8pt; text-align: right; line-height: 1.5em }
 #header_message_wrapper { padding: 5px; /*background:url(Images/Header/message_corners.gif) no-repeat scroll bottom right; color: #115511*/ }
 #header_message a { color: navy;  }
 

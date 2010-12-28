@@ -78,7 +78,10 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
 
     void IWidget.ShowSettings(bool userClicked)
     {
-        this.HtmltextBox.Text = this.State.Value;
+        if (userClicked)
+        {
+//            this.HtmltextBox.Text = this.State.Value;
+        }
         SettingsPanel.Visible = true;
     }
 
@@ -86,7 +89,54 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
     {
         base.OnPreRender(e);
 
-        this.Output.Text = (this.State.FirstNode as XCData ?? new XCData("")).Value;
+        SaveSettings.OnClientClick = string.Format(SaveSettings.OnClientClick, HtmltextBox.ClientID);
+
+        var html = (this.State.FirstNode as XCData ?? new XCData("")).Value;
+        this.Output.Text = html;
+
+        if (SettingsPanel.Visible)
+        {
+            HtmltextBox.Text = html;
+            var scriptsToLoad = new string[] {
+                ResolveClientUrl("~/Widgets/HtmlEditorWidget/jHtmlArea-0.7.0.min.js"),
+                ResolveClientUrl("~/Widgets/HtmlEditorWidget/jHtmlArea.ColorPickerMenu-0.7.0.min.js")
+            };
+            var cssToLoad = new string[] {
+                ResolveClientUrl("~/Widgets/HtmlEditorWidget/style/jqueryui/ui-lightness/jquery-ui-1.7.2.custom.css"),
+                ResolveClientUrl("~/Widgets/HtmlEditorWidget/style/jHtmlArea.css")
+            };
+
+            var currentPageCss = (from link in this.Page.Header.Controls.OfType<HtmlLink>()
+                                 where link.Href.Contains(".css")
+                                 select link.Href).ToArray();
+            // jHtmlArea is not supporting multiple CSS yet. So, need to use only one. Use the last theme CSS
+            // assuming that will give closest rendering inside the editor as the parent page
+            //var cssToUseInsideHtmlEditor = "['" + string.Join("','", currentPageCss) + "']";
+            var cssToUseInsideHtmlEditor = ResolveClientUrl((from css in currentPageCss
+                                            where css.Contains(this.Page.Theme)
+                                            select css).Last());
+
+            WidgetHelper.RegisterWidgetScript(this, scriptsToLoad, cssToLoad, null,
+                @"jQuery('#{0}').htmlarea({{ css: '{1}' }}); 
+                if (!window.__hijackedDoPostback) 
+                {{
+                    window.__hijackedDoPostback = window.__doPostBack;
+                    window.__doPostBack = function(a,b) 
+                    {{
+                        try
+                        {{
+                            jQuery('#{0}').htmlarea('dispose');
+                            jQuery('#{0}').remove();
+                        }} catch(e) 
+                        {{ 
+                        }}
+                        window.__doPostBack = window.__hijackedDoPostback;
+                        window.__hijackedDoPostback = null;
+                        window.__doPostBack(a,b);
+                    }};
+                }}
+                ".FormatWith(HtmltextBox.ClientID, cssToUseInsideHtmlEditor));
+        }
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -96,9 +146,17 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
     protected void SaveSettings_Clicked(object sender, EventArgs e)
     {
         this.State.RemoveAll();
-        this.State.Add(new XCData(this.HtmltextBox.Text));
+
+        var html = HttpUtility.UrlDecode(this.HtmltextBox.Text);
+        this.State.RemoveAll();
+        this.State.Add(new XCData(html));
 
         this.SaveState();
+    }
+
+    protected void CancelSettings_Clicked(object sender, EventArgs e)
+    {
+        this._Host.HideSettings(true);
     }
 
     private void SaveState()

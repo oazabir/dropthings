@@ -234,7 +234,7 @@ public partial class Setup_Default : System.Web.UI.Page
     private void TestAppSettings()
     {
         string fullurl = Request.Url.ToString().ToLower();                
-        string baseUrl = fullurl.Substring(0, fullurl.IndexOf("setup/default.aspx"));
+        string baseUrl = fullurl.Substring(0, fullurl.IndexOf("setup/default.aspx")).TrimEnd('/');
 
         if (ConstantHelper.DeveloperMode)
             MarkAsWarning(DeveloperModeLabel, 
@@ -242,13 +242,13 @@ public partial class Setup_Default : System.Web.UI.Page
         else
             MarkAsPass(DeveloperModeLabel);
 
-        if (baseUrl != ConstantHelper.WebRoot)
+        if (baseUrl != ConstantHelper.WebRoot.TrimEnd('/'))
             MarkAsWarning(WebRootLabel, "WebRoot does not match with the current URL. WebRoot should be: " + baseUrl);
         else
             MarkAsPass(WebRootLabel);
 
-        TestPrefix(ConstantHelper.WebRoot, ConstantHelper.WebRoot + "API/Proxy.svc/ajax/js", WebServiceProxyLabel,
-            "Make sure <baseAddressPrefixFilters> inside <system.serviceModel> has " + ConstantHelper.WebRoot);
+        TestPrefix(ConstantHelper.WebRoot, ConstantHelper.WebRoot.TrimEnd('/') + "/API/Proxy.svc/ajax/js", WebServiceProxyLabel,
+            "Make sure <baseAddresses> inside each <service> node under <system.serviceModel> has " + ConstantHelper.WebRoot);
 
         if (ConstantHelper.DisableDOSCheck)
             MarkAsWarning(DisableDOSCheckLabel, "It should be false on production to prevent DOS attacks.");
