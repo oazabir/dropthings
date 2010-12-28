@@ -45,7 +45,7 @@
     {
         // Simulate internet latency on local browsing
         if (Request.IsLocal)
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(50);
 
         var request = Request;
         var url = request.Url;
