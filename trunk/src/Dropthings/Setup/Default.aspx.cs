@@ -248,7 +248,7 @@ public partial class Setup_Default : System.Web.UI.Page
             MarkAsPass(WebRootLabel);
 
         TestPrefix(ConstantHelper.WebRoot, ConstantHelper.WebRoot.TrimEnd('/') + "/API/Proxy.svc/ajax/js", WebServiceProxyLabel,
-            "Make sure <baseAddresses> inside each <service> node under <system.serviceModel> has " + ConstantHelper.WebRoot);
+            "Make sure you have installed WCF REST Starter kit Preview 2 and inside web.config <baseAddresses> inside each <service> node under <system.serviceModel> has " + ConstantHelper.WebRoot);
 
         if (ConstantHelper.DisableDOSCheck)
             MarkAsWarning(DisableDOSCheckLabel, "It should be false on production to prevent DOS attacks.");
