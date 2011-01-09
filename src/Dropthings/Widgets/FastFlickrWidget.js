@@ -87,27 +87,32 @@ FastFlickrWidget.prototype = {
                                 title: this.getPhotoTitle(photo)
                             })
                             .append(jQuery('<img border="0" style="position:absolute; left: 0; top: 0; width: 75px; height: 75px; background: #f0f0f0; padding: 5px; border: 1px solid #ddd; -ms-interpolation-mode: bicubic; " />')
-                                        .attr({ src: this.getPhotoUrl(photo, false) })
+                                        .attr({ src: this.getPhotoUrl(photo, true) })
                             );
-                            
+
             tr.append(jQuery('<td style="width: 75px; height: 75px;"></td>').append(a));
 
-            $(a).hover(function() {
-                $(this).css({ 'z-index': '10' }); /*Add a higher z-index value so this image stays on top*/
-                $(this).find('img').addClass("hover").stop() /* Add class of "hover", then stop animation queue buildup*/
-		            .animate({
-		                marginTop: '-50px', /* The next 4 lines will vertically align this image */
-		                marginLeft: '-50px',
-		                top: '50%',
-		                left: '50%',
-		                width: '150px', /* Set new width */
-		                height: '150px', /* Set new height */
-		                padding: '5px'
-		            }, 200); /* this value of "200" is the speed of how fast/slow this hover animates */
+            jQuery(a).hover(function() {
+                jQuery(this).css({ 'z-index': '60000' }); /*Add a higher z-index value so this image stays on top*/
+                jQuery(this).find('img')
+                    .addClass("hover")
+                    .stop() /* Add class of "hover", then stop animation queue buildup*/
+                    .animate({
+                        marginTop: '-50px', /* The next 4 lines will vertically align this image */
+                        marginLeft: '-50px',
+                        top: '50%',
+                        left: '50%',
+                        width: '240px', /* Set new width */
+                        height: '174px', /* Set new height */
+                        padding: '5px'
+                    }, 200, function() {
+                        var src = "" + jQuery(this).attr("src");
+                        jQuery(this).attr("src", src.replace("_s", "_m"));
+                    }); /* this value of "200" is the speed of how fast/slow this hover animates */
 
             }, function() {
-                $(this).css({ 'z-index': '0' }); /* Set z-index back to 0 */
-                $(this).find('img').removeClass("hover").stop()  /* Remove the "hover" class , then stop animation queue buildup*/
+                jQuery(this).css({ 'z-index': '0' }); /* Set z-index back to 0 */
+                jQuery(this).find('img').removeClass("hover").stop()  /* Remove the "hover" class , then stop animation queue buildup*/
 		                .animate({
 		                    marginTop: '0', /* Set alignment back to default */
 		                    marginLeft: '0',

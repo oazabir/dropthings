@@ -1,2 +1,2 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Dropthings.RestApi.PageService" Factory="System.ServiceModel.Activation.WebServiceHostFactory"%>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Dropthings.RestApi.PageService" Factory="System.ServiceModel.Activation.ServiceHostFactory"%>
 

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.ServiceModel.Activation;
-using Microsoft.ServiceModel.Web;
+//using Microsoft.ServiceModel.Web;
 using System.Linq;
 using System.Net;
 using System.IO;
@@ -26,7 +26,7 @@ using System.Net.Sockets;
 namespace Dropthings.RestApi
 {
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Required)]
-    public partial class ProxyService : IProxyService, IProxyServiceRest
+    public partial class ProxyService : IProxyService
     {
         /// <summary>
         /// Returns the content from destination URL and caches the response in the browser for specified seconds.
@@ -98,8 +98,9 @@ namespace Dropthings.RestApi
                 WebRequestState myState = myAsyncResult.AdditionalData;
 
                 if (myState.Error != null)
-                    throw new WebProtocolException(HttpStatusCode.InternalServerError, myState.Error.Message,
-                        myState.Error);
+                    throw new ProtocolException(myState.Error.Message, myState.Error);
+                    //throw new WebProtocolException(HttpStatusCode.InternalServerError, myState.Error.Message,
+                        //myState.Error);
 
                 var outResponse = WebOperationContext.Current.OutgoingResponse;
                 outResponse.ContentLength = myState.Response.ContentLength;
@@ -192,5 +193,9 @@ namespace Dropthings.RestApi
             { 
             }            
         }
+    }
+
+    public class ProxyServiceRest : ProxyService, IProxyServiceRest
+    {
     }
  }

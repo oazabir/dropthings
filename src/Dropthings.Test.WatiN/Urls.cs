@@ -7,8 +7,8 @@ namespace Dropthings.Test.WatiN
 {
     public class Urls
     {
-        //public const string Host = "http://localhost:8000/Dropthings";
-        public const string Host = "http://dropthings.omaralzabir.com";
+        public const string Host = "http://localhost:8000/Dropthings";
+        //public const string Host = "http://dropthings.omaralzabir.com";
 
         public const string Homepage = Host + "/Default.aspx";
         public const string LoginPage = Host + "/LoginPage.aspx";
