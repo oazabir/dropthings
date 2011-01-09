@@ -1,6 +1,6 @@
+SET DEST=Dropthings-2.7.3-src
 SET ZIP="C:\Program Files\7-Zip\7z.exe"
 SET SRC=..
-SET DEST=Dropthings-2.7-src
 rd %DEST% /s /q
 
 md %DEST%

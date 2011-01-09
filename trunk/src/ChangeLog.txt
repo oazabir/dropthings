@@ -1,21 +1,18 @@
 
 Pending fixes before commit
 ===========================
-* Make the baseURL in web.config for WCF WebPI driven
-
 
 Steps to deploy new release:
 ===========================
 * Change web.config to have production configuration.
+* Cleanup database running Resurrection SP.
 * Cleanup the anon user template.
-* Enable the base URL configuration in web.config for WCF.
 * Update production site code, build and run setup page.
 * Change anon user password on production incase database get updated.
 * Run automated UI test against production site.
 * Ensure Digg widget works.
 * Create a new source code release using MakeRelease.bat
 * Create a new source code version and upload in googlecode.
-* Cleanup database running Resurrection SP.
 * Generate database script with data.
 * Update the web installer package install.sql.
 * Test installing web installer package in local IIS.
@@ -28,12 +25,10 @@ Next version targets:
 ====================
 High Prio:
 ----------
-ADD: Proxy Service needs to cache the content received from external URL in internal cache so that request for same data can be served from cache.
 
 Med Prio:
 ---------
 ADD: Make a better weather widget.
-CHANGE: Make the Flickr widget show pictures as 3x3 slider
 ADD: Make the widget gallery a jQuery slider.
 ADD: Write test code to ensure Rss, Flickr and Twitter widget showing content
 ADD: StaticContentFilter to read file last modified date and use that as version suffix
@@ -44,7 +39,20 @@ CHANGE: Update Velocity reference to latest release
 ADD: Comment all Facade methods and mention the "why" and "how"
 CHANGE: Convert Javascripts to Script#
 
+Version 2.7.3
+=============
+ADD: Flickr widget shows better quality image when user hovers on the image.
+FIX: Removing WCF REST Starter kit usage because it's causing trouble with WebPI and WebMatrix.
+CHANGE: Changed the setup message which will inform user to install WCF REST Starter Kit.
+CHANGE: Turn on Page Request Validation in Default.aspx because HTMLWidget has been changed to not submit raw html
+FIX: HtmlEditorWidget no longer submits raw html
+ADD: HtmlEditorWidget now has a WYSIWYG editor.
+FIX: RegisterWidgetScript is registering only one script. 
+CHANGE: In FastFlickr, Implement http://www.sohtanaka.com/web-design/fancy-thumbnail-hover-effect-w-jquery
 
+Version 2.7.2
+=============
+FIX: Dropthings made WebMatrix compatible. Dropthings now supports .NET 4 and thus WebMatrix works.
 
 Version 2.6.8
 =============

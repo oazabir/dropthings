@@ -1,7 +1,7 @@
+SET PACKAGE_FILE=DropthingsPackageV2-7-3.zip
 SET ZIP="C:\Program Files\7-Zip\7z.exe"
 SET PACKAGE_FOLDER=DropthingsPackage
 SET WEBSITE_FOLDER=DropthingsPackage\Dropthings
-SET PACKAGE_FILE=DropthingsPackageV2-7.zip
 rd /s /q %WEBSITE_FOLDER%
 md %WEBSITE_FOLDER%
 xcopy ..\src\Dropthings\*.* %WEBSITE_FOLDER%\ /E /Q

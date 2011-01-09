@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.ServiceModel.Web;
+//using Microsoft.ServiceModel.Web;
 using System.ServiceModel.Web;
 using System.ServiceModel;
 namespace Dropthings.RestApi
