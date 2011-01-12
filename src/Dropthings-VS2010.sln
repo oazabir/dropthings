@@ -68,8 +68,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DiggSilverlight"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Data", "Dropthings.Data\Dropthings.Data.csproj", "{4871E7E4-8F42-4BE3-B9C4-F96D2A9BCBD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmarALZabir.AspectF", "..\..\..\..\RND\AspectF\AspectF_Src\AspectF\OmarALZabir.AspectF.csproj", "{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test.WatiN", "Dropthings.Test.WatiN\Dropthings.Test.WatiN.csproj", "{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.RestApi", "Dropthings.RestApi\Dropthings.RestApi.csproj", "{582BE924-28BF-4980-BF35-7B946AA739E3}"
@@ -245,16 +243,6 @@ Global
 		{4871E7E4-8F42-4BE3-B9C4-F96D2A9BCBD4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4871E7E4-8F42-4BE3-B9C4-F96D2A9BCBD4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4871E7E4-8F42-4BE3-B9C4-F96D2A9BCBD4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|.NET.ActiveCfg = Release|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|Any CPU.Build.0 = Release|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -278,9 +266,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{515CA4A0-60D8-4200-A2D3-4FA23CBBA704} = {19DA7990-1A71-4E87-9FCF-5C2EC7C3EC26}
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1
