@@ -22,113 +22,103 @@ namespace Dropthings.Business.Facade
 
         public UserSetup FirstVisitHomeTab(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
-            return AspectF.Define
-                //.Transaction()
-                .Return<UserSetup>(() =>
+            // If user does not exist, then this is the very *FIRST VISIT* of the user and user
+            // Get template setting that so that we can create pages from templates
+            var response = new UserSetup();
+            var userGuid = this.GetUserGuidFromUserName(userName);
+
+            var userSettingTemplate = GetUserSettingTemplate();
+            SetUserRoles(userName, new string[] { userSettingTemplate.AnonUserSettingTemplate.RoleNames });
+
+            if (userSettingTemplate.CloneAnonProfileEnabled)
             {
-                // If user does not exist, then this is the very *FIRST VISIT* of the user and user
-                // Get template setting that so that we can create pages from templates
-                var response = new UserSetup();
-                var userGuid = this.GetUserGuidFromUserName(userName);
+                // Get the template user so that its page setup can be cloned for new user
+                //var templateUserGuid = this.GetUserGuidFromUserName(userSettingTemplate.AnonUserSettingTemplate.UserName);
+                var roleTemplate = GetRoleTemplate(userSettingTemplate.AnonUserSettingTemplate.UserName);
 
-                var userSettingTemplate = GetUserSettingTemplate();
-                SetUserRoles(userName, new string[] { userSettingTemplate.AnonUserSettingTemplate.RoleNames });
-
-                if (userSettingTemplate.CloneAnonProfileEnabled)
+                if (roleTemplate != default(RoleTemplate))
                 {
-                    // Get the template user so that its page setup can be cloned for new user
-                    //var templateUserGuid = this.GetUserGuidFromUserName(userSettingTemplate.AnonUserSettingTemplate.UserName);
-                    var roleTemplate = GetRoleTemplate(userSettingTemplate.AnonUserSettingTemplate.UserName);
+                    // Get template user pages so that it can be cloned for new user
+                    var templateUserTabs = this.pageRepository.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
 
-                    if (roleTemplate != default(RoleTemplate))
+                    foreach (Tab templateTab in templateUserTabs)
                     {
-                        // Get template user pages so that it can be cloned for new user
-                        var templateUserTabs = this.pageRepository.GetTabsOfUser(roleTemplate.AspNetUser.UserId);
-
-                        foreach (Tab templateTab in templateUserTabs)
+                        if (!templateTab.IsLocked)
                         {
-                            if (!templateTab.IsLocked)
-                            {
-                                CloneTab(userGuid, templateTab);
-                            }
+                            CloneTab(userGuid, templateTab);
                         }
-
-                        // If it's not the same user as the template user, then show the tabs 
-                        // from template user as read-only tabs.
-                        if (roleTemplate.AspNetUser.UserId != userGuid)
-                        {
-                            response.UserSharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
-                        }
-
-                        response.IsTemplateUser = (roleTemplate.AspNetUser.UserId == userGuid);
-                        //response.RoleTemplate = roleTemplate;
                     }
+
+                    // If it's not the same user as the template user, then show the tabs 
+                    // from template user as read-only tabs.
+                    if (roleTemplate.AspNetUser.UserId != userGuid)
+                    {
+                        response.UserSharedTabs = this.pageRepository.GetLockedTabsOfUser(roleTemplate.AspNetUser.UserId, false);
+                    }
+
+                    response.IsTemplateUser = (roleTemplate.AspNetUser.UserId == userGuid);
+                    //response.RoleTemplate = roleTemplate;
+                }
+            }
+            else
+            {
+                // Setup some default pages
+                var page = CreateTab(userGuid, pageTitle, 0, 0);
+
+                if (page != null && page.ID > 0)
+                {
+                    CreateDefaultWidgetsOnTab(userName, page.ID);
+                    RepeatVisitHomeTab(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);    // non-recursive. this will hit the outter most else block
                 }
                 else
                 {
-                    // Setup some default pages
-                    var page = CreateTab(userGuid, pageTitle, 0, 0);
-
-                    if (page != null && page.ID > 0)
-                    {
-                        CreateDefaultWidgetsOnTab(userName, page.ID);
-                        RepeatVisitHomeTab(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);    // non-recursive. this will hit the outter most else block
-                    }
-                    else
-                    {
-                        throw new ApplicationException("First page creation failed");
-                    }
+                    throw new ApplicationException("First page creation failed");
                 }
+            }
 
-                response.UserTabs = this.pageRepository.GetTabsOfUser(userGuid);
-                response.UserSetting = GetUserSetting(userGuid);
-                response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserTabs, response.UserSharedTabs);
-                response.CurrentUserId = userGuid;
-                return response;
-            });
+            response.UserTabs = this.pageRepository.GetTabsOfUser(userGuid);
+            response.UserSetting = GetUserSetting(userGuid);
+            response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserTabs, response.UserSharedTabs);
+            response.CurrentUserId = userGuid;
+            return response;
         }
 
         public UserSetup RepeatVisitHomeTab(string userName, string pageTitle, bool isAnonymous, bool isFirstVisitAfterLogin)
         {
-            return AspectF.Define
-                //.Transaction()
-                .Return<UserSetup>(() =>
+            // User is visiting again, so load user's existing page setup
+            var response = new UserSetup();
+            var userGuid = this.GetUserGuidFromUserName(userName);
+
+            var pages = this.pageRepository.GetTabsOfUser(userGuid);
+
+            if (!pages.IsEmpty())
             {
-                // User is visiting again, so load user's existing page setup
-                var response = new UserSetup();
-                var userGuid = this.GetUserGuidFromUserName(userName);
+                // User has pages
+                response.UserTabs = pages;
+                response.UserSharedTabs = this.GetSharedTabs(userName);
 
-                var pages = this.pageRepository.GetTabsOfUser(userGuid);
+                var userSetting = GetUserSetting(userGuid);
+                response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserTabs, response.UserSharedTabs);
 
-                if (!pages.IsEmpty())
+                if (userSetting.CurrentTab.ID != response.CurrentTab.ID)
                 {
-                    // User has pages
-                    response.UserTabs = pages;
-                    response.UserSharedTabs = this.GetSharedTabs(userName);
-
-                    var userSetting = GetUserSetting(userGuid);
-                    response.CurrentTab = DecideCurrentTab(userGuid, pageTitle, response.UserTabs, response.UserSharedTabs);
-
-                    if (userSetting.CurrentTab.ID != response.CurrentTab.ID)
-                    {
-                        SetCurrentTab(userGuid, response.CurrentTab.ID);
-                    }
-
-                    response.UserSetting = GetUserSetting(userGuid);
-                    response.CurrentUserId = userGuid;
-
-                    var templateSetup = this.GetUserSettingTemplate();
-                    response.IsTemplateUser = templateSetup.AnonUserSettingTemplate.UserName.IsSameAs(userName)
-                        || templateSetup.RegisteredUserSettingTemplate.UserName.IsSameAs(userName);
-                }
-                else
-                {
-                    // User has no pages
-                    response = FirstVisitHomeTab(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);
+                    SetCurrentTab(userGuid, response.CurrentTab.ID);
                 }
 
-                return response;
-            });
+                response.UserSetting = GetUserSetting(userGuid);
+                response.CurrentUserId = userGuid;
+
+                var templateSetup = this.GetUserSettingTemplate();
+                response.IsTemplateUser = templateSetup.AnonUserSettingTemplate.UserName.IsSameAs(userName)
+                    || templateSetup.RegisteredUserSettingTemplate.UserName.IsSameAs(userName);
+            }
+            else
+            {
+                // User has no pages
+                response = FirstVisitHomeTab(userName, pageTitle, isAnonymous, isFirstVisitAfterLogin);
+            }
+
+            return response;
         }
 
         #endregion Methods

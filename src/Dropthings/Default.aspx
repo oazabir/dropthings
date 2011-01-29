@@ -22,11 +22,12 @@
 <dropthings:ScriptManagerControl ID="TheScriptManager" runat="server" />
 
     <div id="container">
+        
         <!-- Render header first so that user can start typing search criteria while the huge runtime and other scripts download -->
         <dropthings:Header ID="Header1" runat="server" />
 
         <dropthings:TabBar ID="UserTabBar" runat="server" />
-        
+            
         <div id="onpage_menu">
             <div id="onpage_menu_wrapper">
                 <dropthings:TabControlPanel ID="TabControlPanel" runat="server" />
@@ -35,6 +36,8 @@
         <div class="clear"></div>
         <div id="contents">
             <div id="contents_wrapper">
+                <pre id="ErrorOnPage" enableviewstate="false" runat="server" visible="false"></pre>
+        
                 <div id="widget_area">
                     <div id="widget_area_wrapper">
                         <dropthings:WidgetTabHost runat="server" ID="WidgetTabHost" />                        
@@ -95,4 +98,13 @@
     </div>    
 </script>
 
+<script type="text/javascript">
+    // Ensure the framework javascripts have correctly loaded.
+    if (typeof jQuery === "undefined")
+        alert("jQuery is not loaded. You should check if jQuery is accessible from the internet");
+    if (typeof DropthingsUI === "undefined")
+        if (confirm("MyFramework.js is not loaded. Do you want to run a diagnostics?"))
+            document.location = "Setup/Default.aspx";
+    
+</script>
 </html>

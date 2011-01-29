@@ -278,8 +278,15 @@ public partial class Setup_Default : System.Web.UI.Page
         try
         {
             if (!string.IsNullOrEmpty(constantValue))
+            {
                 using (WebClient client = new WebClient())
                     client.DownloadData(urlToHit);
+            }
+            else
+            {
+                using (WebClient client = new WebClient())
+                    client.DownloadData(urlToHit);
+            }
 
             MarkAsPass(label);
         }
