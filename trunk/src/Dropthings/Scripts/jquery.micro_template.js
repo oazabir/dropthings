@@ -1,39 +1,36 @@
-/* Copyright (c) 2008 DIYism (email/msn/gtalk:kexianbin@diyism.com web:http://diyism.com)
- * Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php) license.
- *
- * Version: k88r
- * Requires jQuery 1.1.3+
- * Docs: http://ejohn.org/blog/javascript-micro-templating/
- */
-;(function($) {
+// Simple JavaScript Templating
+// John Resig - http://ejohn.org/ - MIT Licensed
+// OMAR: Changed <% %> to <! and !> in order to support templates embedded in .aspx .ascx files. 
+(function () {
+    var cache = {};
 
-$.fn.drink = function(json)
-             {if (!(arguments.callee.name_class = this[0].className))
-                 {this.each(function(){json[this.id] && (this.innerHTML=json[this.id]);});
-                  return;
-                 }
-              var name_tpl_fun_cache = 'tpl_fun_cache_'+arguments.callee.name_class;
-              if (!window[name_tpl_fun_cache])
-                 {var tpl=unescape(this.html())
-                          .replace(/<!--|&lt;!|\/\*/g, "<!")
-                          .replace(/-->|!&gt;|\*\//g, "!>")
-                          .replace(/\r|\*="/g, ' ')
-                          .split('<!').join("\r")
-                          .replace(/(?:^|!>)[^\r]*/g, function(){return arguments[0].replace(/'|\\/g, "\\$&").replace(/\n/g, "\\n");})
-                          .replace(/\r=(.*?)!>/g, "',$1,'")
-                          .split("\r").join("');")
-                          .split('!>').join("write.push('")
-                          .replace(/!\,/g, ',');
-                  window[name_tpl_fun_cache]
-                  =new Function('json',
-                                "var write=[];with (json){write.push('"+tpl+"');}return write.join('');"
-                               );
-                 }
-              if (!json)
-                 {return;
-                 }
-              this.html(window[name_tpl_fun_cache](json));
-              arguments[1] || this.show();
-             };
+    this.tmpl = function tmpl(str, data) {
+        // Figure out if we're getting a template, or if we need to
+        // load the template - and be sure to cache the result.
+        var fn = !/\W/.test(str) ?
+      cache[str] = cache[str] ||
+        tmpl(document.getElementById(str).innerHTML) :
 
-})(jQuery);
+        // Generate a reusable function that will serve as a template
+        // generator (and which will be cached).
+      new Function("obj",
+        "var p=[],print=function(){p.push.apply(p,arguments);};" +
+
+        // Introduce the data as local variables using with(){}
+        "with(obj){p.push('" +
+
+        // Convert the template into pure JavaScript
+        str
+          .replace(/[\r\t\n]/g, " ")
+          .split("<!").join("\t")
+          .replace(/((^|!>)[^\t]*)'/g, "$1\r")
+          .replace(/\t=(.*?)!>/g, "',$1,'")
+          .split("\t").join("');")
+          .split("!>").join("p.push('")
+          .split("\r").join("\\'")
+      + "');}return p.join('');");
+
+        // Provide some basic currying to the user
+        return data ? fn(data) : fn;
+    };
+})();

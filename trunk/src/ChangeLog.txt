@@ -1,25 +1,7 @@
 
 Pending fixes before commit
 ===========================
-
-Steps to deploy new release:
-===========================
-* Change web.config to have production configuration.
-* Cleanup database running Resurrection SP.
-* Cleanup the anon user template.
-* Update production site code, build and run setup page.
-* Change anon user password on production incase database get updated.
-* Run automated UI test against production site.
-* Ensure Digg widget works.
-* Create a new source code release using MakeRelease.bat
-* Create a new source code version and upload in googlecode.
-* Generate database script with data.
-* Update the web installer package install.sql.
-* Test installing web installer package in local IIS.
-* Run automated test against IIS.
-* Ensure Digg widget works.
-* Upload a new version of web installer package.
-* Inform MS to update the installer URL and the hash.
+None
 
 Next version targets:
 ====================
@@ -38,6 +20,15 @@ Low Prio:
 CHANGE: Update Velocity reference to latest release
 ADD: Comment all Facade methods and mention the "why" and "how"
 CHANGE: Convert Javascripts to Script#
+
+Version 2.7.5
+=============
+CHANGE: Changed the jQuery Microtemplate framework to John Resig's implementation.
+FIX: Project Reference to AspectF was incorrect. Fixed.
+
+Version 2.7.4
+=============
+FIX: Fix AspectF project reference in VS 2010 solution.
 
 Version 2.7.3
 =============
@@ -147,3 +138,24 @@ Version 2.5.1
 * FIX: Maximize and minimize was buggy. Make some fixes. It's still buggy. 
 * FIX: Manage Account page
 * FIX: ManageWidgetPermission page.
+
+
+
+Steps to deploy new release:
+===========================
+* Change web.config to have production configuration.
+* Cleanup database running Resurrection SP.
+* Cleanup the anon user template.
+* Update production site code, build and run setup page.
+* Change anon user password on production incase database get updated.
+* Run automated UI test against production site.
+* Ensure Digg widget works.
+* Create a new source code release using MakeRelease.bat
+* Create a new source code version and upload in googlecode.
+* Generate database script with data.
+* Update the web installer package install.sql.
+* Test installing web installer package in local IIS.
+* Run automated test against IIS.
+* Ensure Digg widget works.
+* Upload a new version of web installer package.
+* Inform MS to update the installer URL and the hash.
