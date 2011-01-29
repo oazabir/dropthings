@@ -283,8 +283,8 @@ var DropthingsUI = {
 
                     // OMAR: Create a dummy widget placeholder while the real widget loads
                     var templateData = { title: jQuery(ui.item).text() };
-                    var widgetTemplateNode = jQuery("#new_widget_template").clone();
-                    widgetTemplateNode.drink(templateData);
+                    var widgetTemplateHtml = tmpl("widget_template", templateData);
+                    var widgetTemplateNode = jQuery(widgetTemplateHtml);
                     widgetTemplateNode.insertAfter(ui.item);
 
                     ui.item.remove();
@@ -586,7 +586,7 @@ var DropthingsUI = {
             var executor = new Sys.Net.XMLHttpExecutor();
             request.set_executor(executor);
             executor.executeRequest();
-        }        
+        }
     }
 };
 

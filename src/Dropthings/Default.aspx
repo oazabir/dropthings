@@ -57,32 +57,7 @@
     
     <textarea id="TraceConsole" rows="10" cols="80" style="display:none"></textarea>    
 
-    <!-- Template for a new widget placeholder. It's used to create a fake widget
-    when you drag & drop a widget from the widget gallery, until the real widget
-    is loaded. -->
-    <!-- Begin template -->
-    <div class="nodisplay">
-        <div id="new_widget_template" class="widget">
-            <div class="widget_header draggable">
-                <table class="widget_header_table" cellspacing="0" cellpadding="0">
-                    <tbody>
-                        <tr>
-                            <td class="widget_title"><a class="widget_title_label"><!=json.title!></a></td>
-                            <td class="widget_button"><a class="widget_close widget_box"> </a></td>
-                        </tr>
-                    </tbody>
-                </table>            
-            </div>
-            <div id="WidgetResizeFrame" class="widget_resize_frame" >
-                <div class="widget_body">
-                    Loading widget...
-                </div>
-            </div>            
-        </div>
-    </div>
-    <!-- End template -->
-
-
+    
     <!-- HTML for the delete popup dialog box -->
     <textarea id="DeleteConfirmPopupPlaceholder" style="display:none">
     &lt;div id="DeleteConfirmPopup"&gt;
@@ -96,5 +71,28 @@
 
 </body>
 
+<!-- Template for a new widget placeholder. It's used to create a fake widget
+    when you drag & drop a widget from the widget gallery, until the real widget
+    is loaded. -->
+    <!-- Begin template -->
+<script type="text/html" id="widget_template">
+    <div class="widget">
+        <div class="widget_header draggable">
+            <table class="widget_header_table" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td class="widget_title"><a class="widget_title_label"><!=title!></a></td>
+                        <td class="widget_button"><a class="widget_close widget_box"> </a></td>
+                    </tr>
+                </tbody>
+            </table>            
+        </div>
+        <div class="widget_resize_frame" >
+            <div class="widget_body">
+                Loading widget...
+            </div>
+        </div>            
+    </div>    
+</script>
 
 </html>
