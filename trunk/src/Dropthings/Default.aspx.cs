@@ -58,10 +58,10 @@ public partial class _Default : BasePage
     protected override void OnInit(EventArgs e)
     {
         base.OnInit(e);
-
+        
         AspectF.Define
-            .Retry(errors => errors.ToArray().Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
             .Log(Services.Get<ILogger>(), "OnInit: " + Profile.UserName)
+            .Retry(errors => errors.ToArray().Each(x => ErrorOnPage.InnerText += x.ToString()), Services.Get<ILogger>())
             .Do(() =>
             {
 
@@ -111,8 +111,8 @@ public partial class _Default : BasePage
         var me = this;
         
         AspectF.Define
-            .Retry(errors => errors.Each(x => Response.Write(x.ToString())), Services.Get<ILogger>())
             .Log(Services.Get<ILogger>(), "User visit: " + Profile.UserName)
+            .Retry(2000, x => ErrorOnPage.InnerText += x.ToString() + Environment.NewLine, Services.Get<ILogger>())
             .Do(() => 
             {
                 me.CallBaseCreateChildControl();
@@ -129,43 +129,37 @@ public partial class _Default : BasePage
         // If URL has the page title, load that page by default
         string pageTitle = (Request.Url.Query ?? Resources.SharedResources.NewTabTitle).TrimStart('?');
 
-        AspectF.Define
-            .Retry(Services.Get<ILogger>())
-            .Do(() =>
+        var facade = Services.Get<Facade>();
+        if (Profile.IsAnonymous)
         {
-            var facade = Services.Get<Facade>();
-            if (Profile.IsAnonymous)
+            if (Profile.IsFirstVisit)
             {
-                if (Profile.IsFirstVisit)
-                {
-                    // First visit
-                    Profile.IsFirstVisit = false;
-                    Profile.Save();
-                    _Setup = facade.FirstVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
-                }
-                else
-                {
-                    _Setup = facade.RepeatVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
-                }
+                // First visit
+                Profile.IsFirstVisit = false;
+                Profile.Save();
+                _Setup = facade.FirstVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
             }
             else
             {
-                _Setup = facade.RepeatVisitHomeTab(Profile.UserName, pageTitle, false, Profile.IsFirstVisitAfterLogin);
-
-                // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
-                // to recrate the pages
-                if (_Setup == null || _Setup.UserTabs == null || _Setup.UserTabs.Count() == 0)
-                {
-                    _Setup = facade.FirstVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
-                }
+                _Setup = facade.RepeatVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
             }
+        }
+        else
+        {
+            _Setup = facade.RepeatVisitHomeTab(Profile.UserName, pageTitle, false, Profile.IsFirstVisitAfterLogin);
 
-            //save the profile to keep LastActivityAt updated
-            Profile.LastActivityAt = DateTime.Now;
-            Profile.IsFirstVisitAfterLogin = false;
-            Profile.Save();
-            
-        });
+            // OMAR: If user's cookie remained in browser but the database was changed, there will be no pages. So, we need
+            // to recrate the pages
+            if (_Setup == null || _Setup.UserTabs == null || _Setup.UserTabs.Count() == 0)
+            {
+                _Setup = facade.FirstVisitHomeTab(Profile.UserName, pageTitle, true, Profile.IsFirstVisitAfterLogin);
+            }
+        }
+
+        //save the profile to keep LastActivityAt updated
+        Profile.LastActivityAt = DateTime.Now;
+        Profile.IsFirstVisitAfterLogin = false;
+        Profile.Save();
     }
 
     private void SetupTabControlPanel()
@@ -191,6 +185,14 @@ public partial class _Default : BasePage
         this.ReloadCurrentPage();
     }
 
+    protected override void OnPreRender(EventArgs e)
+    {
+        base.OnPreRender(e);
+
+        if (ErrorOnPage.InnerText.Length > 0)
+            ErrorOnPage.Visible = true;
+    }
+
     private void ReloadCurrentPage()
     {
         this.LoadUserPageSetup(false);
@@ -200,8 +202,6 @@ public partial class _Default : BasePage
 
     public void NewWidgetAdded(WidgetInstance newWidget)
     {
-        //this.ReloadCurrentPage();
-        //this.WidgetTabHost.RefreshZone(newWidget.WidgetZone.ID);
         this.WidgetTabHost.AddNewWidget(newWidget);
     }
     

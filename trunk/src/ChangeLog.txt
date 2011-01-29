@@ -25,6 +25,8 @@ Version 2.7.5
 =============
 CHANGE: Changed the jQuery Microtemplate framework to John Resig's implementation.
 FIX: Project Reference to AspectF was incorrect. Fixed.
+ADD: Show error message on the homepage, if any, to help troubleshoot problems easily.
+ADD: Add self-check on default.aspx to ensure jQuery and necessary scripts loaded properly.
 
 Version 2.7.4
 =============
