@@ -282,12 +282,7 @@ public partial class Setup_Default : System.Web.UI.Page
                 using (WebClient client = new WebClient())
                     client.DownloadData(urlToHit);
             }
-            else
-            {
-                using (WebClient client = new WebClient())
-                    client.DownloadData(urlToHit);
-            }
-
+     
             MarkAsPass(label);
         }
         catch (Exception x)
