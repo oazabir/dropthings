@@ -17,7 +17,7 @@
 
 </asp:Panel>
 
-<div style="overflow: auto; width:100%; white-space:nowrap; font-weight: bold; margin-top: 10px">
+<div style="overflow: auto; width:100%; white-space:nowrap; font-weight: bold; margin-top: 20px">
 <asp:LinkButton ID="ShowPrevious" runat="server" style="float:left" Text="<%$Resources:SharedResources, PrevPhotos%>"></asp:LinkButton><asp:LinkButton ID="ShowNext" runat="server"  style="float:right" Text="<%$Resources:SharedResources, NextPhotos%>"></asp:LinkButton>
 </div>
 

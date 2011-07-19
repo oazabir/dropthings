@@ -1,4 +1,4 @@
-SET PACKAGE_FILE=DropthingsPackageV2-7-3.zip
+SET PACKAGE_FILE=DropthingsPackageV2-7-6.zip
 SET ZIP="C:\Program Files\7-Zip\7z.exe"
 SET PACKAGE_FOLDER=DropthingsPackage
 SET WEBSITE_FOLDER=DropthingsPackage\Dropthings

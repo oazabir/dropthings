@@ -21,6 +21,19 @@ CHANGE: Update Velocity reference to latest release
 ADD: Comment all Facade methods and mention the "why" and "how"
 CHANGE: Convert Javascripts to Script#
 
+Version 2.7.7
+=============
+FIX: Issue 144: "Microsoft JScript runtime error: 'FastRssWidget' is undefined"
+http://code.google.com/p/dropthings/issues/detail?id=144
+FIX: Issue 211: IE9 multiple fast RSS widget does not load content
+http://code.google.com/p/dropthings/issues/detail?id=211
+FIX: RSS Widget getting into loop when there's an error loading rss.
+
+Version 2.7.6
+=============
+FIX: Change the jQuery script reference to include the latest script always. IE 9 should work now.
+FIX: Fix the setup page. 
+
 Version 2.7.5
 =============
 CHANGE: Changed the jQuery Microtemplate framework to John Resig's implementation.
