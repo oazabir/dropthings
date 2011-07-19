@@ -165,8 +165,14 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
         }
         else
         {
-            rss = XElement.Load(this.Url);
-            Services.Get<ICache>().Add(this.Url, rss.Xml());
+            try
+            {
+                rss = XElement.Load(this.Url);
+                Services.Get<ICache>().Add(this.Url, rss.Xml());
+            }
+            catch
+            {
+            }
         }
 
         if (null == rss)

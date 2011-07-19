@@ -23,6 +23,8 @@
 <asp:ListItem>19</asp:ListItem>
 <asp:ListItem>20</asp:ListItem>
 </asp:DropDownList>
+<br />
+<br />
 <asp:Literal ID="Literal1" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Items%>" />
 <asp:Button ID="SaveSettings" runat="Server" OnClick="SaveSettings_Click" Text="<%$Resources:SharedResources, Save%>" />
 </asp:Panel>
