@@ -62,8 +62,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Business.Facade.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test", "Dropthings.Test\Dropthings.Test.csproj", "{6368DD2E-C2A0-45B6-8D08-3F1E67572322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Widgets.DataAccess", "Dropthings.Widgets.DataAccess\Dropthings.Widgets.DataAccess.csproj", "{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.DiggSilverlight", "Dropthings.DiggSilverlight\Dropthings.DiggSilverlight.csproj", "{99534521-62DE-48FE-8C16-4F82E9F11C73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Data", "Dropthings.Data\Dropthings.Data.csproj", "{4871E7E4-8F42-4BE3-B9C4-F96D2A9BCBD4}"
@@ -71,6 +69,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.Test.WatiN", "Dropthings.Test.WatiN\Dropthings.Test.WatiN.csproj", "{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dropthings.RestApi", "Dropthings.RestApi\Dropthings.RestApi.csproj", "{582BE924-28BF-4980-BF35-7B946AA739E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{12B85859-9DBA-4B8B-8C00-B8EC10411667}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -213,16 +213,6 @@ Global
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6368DD2E-C2A0-45B6-8D08-3F1E67572322}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|.NET.ActiveCfg = Release|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6A3F2342-A0AC-42DC-83FB-E14810CDBA7E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{99534521-62DE-48FE-8C16-4F82E9F11C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -266,6 +256,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9ACAEE63-08E8-41AE-B947-6ADF7DF0C81E} = {12B85859-9DBA-4B8B-8C00-B8EC10411667}
+		{F66DC261-EE76-4591-BAFF-04791C5DAE3E} = {12B85859-9DBA-4B8B-8C00-B8EC10411667}
+		{6368DD2E-C2A0-45B6-8D08-3F1E67572322} = {12B85859-9DBA-4B8B-8C00-B8EC10411667}
+		{1A9AA8E4-19B6-4CF0-8347-9244A4181D6A} = {12B85859-9DBA-4B8B-8C00-B8EC10411667}
+		{FBE087E3-A830-485B-BD8F-620B5BB83DB7} = {12B85859-9DBA-4B8B-8C00-B8EC10411667}
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1

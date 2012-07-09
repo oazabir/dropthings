@@ -28,7 +28,8 @@ namespace Dropthings.Business.Facade
             var userGuid = this.GetUserGuidFromUserName(userName);
 
             var userSettingTemplate = GetUserSettingTemplate();
-            SetUserRoles(userName, new string[] { userSettingTemplate.AnonUserSettingTemplate.RoleNames });
+            // OMAR: Disabling this because setting a role to a user created an entry in aspnet_Membership table            
+            //SetUserRoles(userName, new string[] { userSettingTemplate.AnonUserSettingTemplate.RoleNames });
 
             if (userSettingTemplate.CloneAnonProfileEnabled)
             {

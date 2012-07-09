@@ -47,6 +47,7 @@ public partial class Setup_Default : System.Web.UI.Page
             () => TestUrls(),
             () => TestSMTP(),
             () => TestAppSettings(),
+            () => TestAdminUser(),
             () => TestAnonTemplateUser(),
             () => TestRegTemplateUser()
         };
@@ -107,7 +108,7 @@ public partial class Setup_Default : System.Web.UI.Page
         catch (Exception x)
         {
             MarkAsFail(ConnectionStringStatusLabel, x.Message, 
-                "Most likely incorrect connection string or the connection string is not in the format Entity Framework expects. Remember EF has a special format.");
+                "Either database startup timed out or most likely incorrect connection string or the connection string is not in the format Entity Framework expects. Remember EF has a special format. Just rerun the test to make sure it is not database timeout issue.");
         }
     }
 
@@ -288,6 +289,42 @@ public partial class Setup_Default : System.Web.UI.Page
         catch (Exception x)
         {
             MarkAsFail(label, x.Message, suggestion.FormatWith(urlToHit));
+        }
+    }
+
+    private void TestAdminUser()
+    {
+        var adminRoleName = ConfigurationManager.AppSettings["AdministratorRoleName"] ?? "Administrators";
+        var adminUserName = ConfigurationManager.AppSettings["AdminUserName"] ?? "admin";
+        var adminUserPass = ConfigurationManager.AppSettings["DefaultAdminUserPass"] ?? "admin123";
+        try
+        {
+            var user = Membership.GetUser(adminUserName);
+            if (user == null)
+            {
+                // create an admin user
+                var newUser = Membership.CreateUser(adminUserName, adminUserPass);
+
+                if (!Roles.GetAllRoles().Contains(adminRoleName))
+                    Roles.CreateRole(adminRoleName);
+
+                Roles.AddUsersToRole(new string[] { adminUserName }, adminRoleName);
+                MarkAsPass(AdminUserExists);
+
+                AdminUserInfo.Text = "Username: " + adminUserName + " Password: " + adminUserPass;
+            }
+            else
+            {
+                if (!Roles.GetRolesForUser(adminUserName).Contains(adminRoleName))
+                    Roles.AddUsersToRole(new string[] { adminUserName }, adminRoleName);
+
+                AdminUserInfo.Text = "Username: " + adminUserName;
+                MarkAsPass(AdminUserExists);
+            }
+        }
+        catch (Exception x)
+        {
+            MarkAsFail(AdminUserExists, x.Message, "Unable to create admin user. Check if web.config has proper admin user permission.");
         }
     }
 

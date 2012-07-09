@@ -537,4 +537,7 @@
   <data name="PasswordDoesNotMatch" xml:space="preserve">
     <value>Passwort stimmt nicht überein</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
 </root>
