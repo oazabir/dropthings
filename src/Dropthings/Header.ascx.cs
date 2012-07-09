@@ -38,6 +38,9 @@ public partial class Header : System.Web.UI.UserControl
             AccountLinkButton.Visible = true;
             UserNameLabel.Text = Profile.UserName + " | ";
             UserNameLabel.Visible = true;
+
+            string[] roles = Roles.GetRolesForUser(Profile.UserName);
+            AdminLink.Visible = Array.Exists(roles, r => r == ConfigurationManager.AppSettings["AdministratorRoleName"]);
         }
     }
 

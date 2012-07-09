@@ -128,7 +128,15 @@
                         runat="server" /></li>
             </ul>
             <h2>
-                User templates exist</h2>
+                Admin user exists</h2>
+            <ul>
+                <li>
+                    <asp:Label CssClass="inprogress" Text="Admin user exists. Username: admin"
+                        ID="AdminUserExists" runat="server" /><br />
+                        <asp:Label ID="AdminUserInfo" runat="server" Font-Bold="true" Font-Size="Large" ForeColor="Green" /></li>                
+            </ul>            
+            <h2>
+                User templates exists</h2>
             <ul>
                 <li>
                     <asp:Label CssClass="inprogress" Text="Template user for anonymous visit exists and has pages."
@@ -144,7 +152,7 @@
     <h2>
         Is everything alright?</h2>
     <asp:Button Text="Yes, complete setup" ID="YesButton" runat="server" OnClick="YesButton_Clicked" />
-    <asp:Button Text="No, let me fix" ID="NoButton" runat="server" OnClick="NoButton_Clicked" />
+    <asp:Button Text="Run again" ID="NoButton" runat="server" OnClick="NoButton_Clicked" />
     </form>
 </body>
 </html>

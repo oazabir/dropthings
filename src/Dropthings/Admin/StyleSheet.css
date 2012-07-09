@@ -1,0 +1,85 @@
+﻿body {
+	font-family: arial;
+	
+}
+table {
+	border-collapse: collapse;
+}
+th {
+	background-color: #FFC;
+	text-align: left;
+}
+table.list, td.details table.list {
+	width: 100%;
+	border: 1px solid #000;
+}
+table.list tr th, td.details table.list tr th {
+	text-align: left;
+	background-color: #666;
+	color: #FFF;
+	border-style: none;
+	padding: 2px 20px 2px 2px;
+}
+table.list tr td, td.details table.list tr td {
+	border-bottom: 1px solid #999;
+	padding: 2px 20px 2px 2px;
+}
+table.list tr {
+	background-color: #FFC;
+}
+table.list tr.odd {
+	background-color: #CCC;
+}
+table.gnav tr td {
+	background-color: #FFC;
+	border: 1px solid #000;
+	padding: 2px 10px;
+	font-weight: bold;
+}
+table.gnav tr td a {
+	color: #009;
+	text-decoration: none;
+}
+table.gnav tr td a:hover {
+	color: #900;
+	text-decoration: underline;
+}
+table.webparts tr th {
+	background-color: #009;
+	padding: 5px;
+	color: #FFF;
+	font-size: 130%;
+	border: 1px solid #009;
+}
+
+td.details div table tr td, td.details div table tr td.detailheader
+{
+	border-style: none;
+}
+td.detailheader
+{
+	text-align: right;
+	font-weight: bold;
+	white-space: nowrap;
+	border-style: none;
+	padding: 3px 10px 3px 0px;
+}
+td.details div table 
+{
+	border-style: none;
+}
+td.details div table tr td.detailitem 
+{
+	width: 100%;
+	padding: 3px 10px 3px 0px;
+}
+td.details
+{
+	border: 2px solid #009;
+	padding: 10px;
+	background-color:#EEE;
+}
+.alert {
+	color: #C00;
+	font-weight: bold;
+}

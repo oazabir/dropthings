@@ -39,6 +39,9 @@ function doSearch()
                         <asp:HyperLink ID="StartOverButton" Text="<%$Resources:SharedResources, StartOver%>" runat="server" NavigateUrl="~/Logout.ashx" /> | 
                     </span>
                     <span class="login_panel_label">
+                        <asp:HyperLink ID="AdminLink" Text="<%$Resources:SharedResources, Admin%>" runat="server" NavigateUrl="~/Admin/Default.aspx" /> | 
+                    </span>
+                    <span class="login_panel_label">
                         <a id="HelpLink" href="javascript:void(0)" onclick="DropthingsUI.Actions.showHelp()"><asp:Literal ID="ltlHelp" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Help%>" /></a>       
                     </span>
                 </div>

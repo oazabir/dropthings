@@ -1,29 +1,21 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ManageWidgets.aspx.cs" Inherits="Admin_ManageWidgets" ValidateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ManageWidgets.aspx.cs" Inherits="Admin_ManageWidgets" ValidateRequest="false" MasterPageFile="Admin.master" %>
 <%@ OutputCache Location="None" NoStore="true" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>ManageWidget</title>
-</head>
+  
+<asp:Content ID="Content1" ContentPlaceHolderID="body" Runat="Server">
 
 <style>
     label { width: 200px }
     td { padding: 5px; }
 </style>
-    
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
+      
         <h1>Manage Widgets</h1>
         
         <asp:Button ID="CreateNew" runat="server" Text="Add New" OnClick="AddNew_Clicked"/>
         
         <h2>Edit Widget</h2>
-        <asp:Panel ID="EditForm" runat="server" Visible="false">
+        <asp:Panel ID="EditForm" runat="server" Visible="false" BorderWidth="4" >
         <asp:Label ID="Error" runat="server" EnableViewState="false" ForeColor="Red" Font-Size="20pt" />
-        <div>
+        <div style="padding: 10px">
             <label>ID: </label>
             <input id="Field_ID" runat="server" type="text" disabled="disabled"  />
             <br />
@@ -105,7 +97,4 @@
         </asp:DataGrid>
         
         
-    </div>
-    </form>
-</body>
-</html>
+    </asp:Content>
