@@ -158,21 +158,21 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
         int count = State.Element("count") == null ? 3 : int.Parse( State.Element("count").Value );
 
         var rss = default(XElement);
-        if (Services.Get<ICache>().Contains(this.Url))
+        try
         {
-            string cachedXml = Services.Get<ICache>().Get(this.Url) as string;
-            rss = XElement.Parse(cachedXml);
-        }
-        else
-        {
-            try
+            if (Services.Get<ICache>().Contains(this.Url))
+            {
+                string cachedXml = Services.Get<ICache>().Get(this.Url) as string;
+                rss = XElement.Parse(cachedXml);
+            }
+            else
             {
                 rss = XElement.Load(this.Url);
-                Services.Get<ICache>().Add(this.Url, rss.Xml());
+                Services.Get<ICache>().Add(this.Url, rss.Xml());                
             }
-            catch
-            {
-            }
+        }
+        catch
+        {
         }
 
         if (null == rss)
@@ -183,9 +183,9 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
 		else
 		{
             FeedList.DataSource = RssHelper.ConvertXmlToRss(rss, count);
-		}
+            FeedList.DataBind();
+		}      
         
-        FeedList.DataBind();
 
         //Cache[url] = feed;
     }
