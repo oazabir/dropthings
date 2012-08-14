@@ -64,7 +64,6 @@ public partial class _Default : BasePage
             .Retry(errors => errors.ToArray().Each(x => ErrorOnPage.InnerText += x.ToString()), Services.Get<ILogger>())
             .Do(() =>
             {
-
                 // Check if revisit is valid or not
                 if (!base.IsPostBack)
                 {
