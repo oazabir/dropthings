@@ -59,32 +59,39 @@ public partial class _Default : BasePage
     {
         base.OnInit(e);
         
-        AspectF.Define
-            .Log(Services.Get<ILogger>(), "OnInit: " + Profile.UserName)
-            .Retry(errors => errors.ToArray().Each(x => ErrorOnPage.InnerText += x.ToString()), Services.Get<ILogger>())
-            .Do(() =>
-            {
+        //AspectF.Define
+        //    .Log(Services.Get<ILogger>(), "OnInit: " + Profile.UserName)
+        //    .Retry(errors => errors.ToArray().Each(x => ErrorOnPage.InnerText += x.ToString()), Services.Get<ILogger>())
+        //    .Do(() =>
+        //    {
                 // Check if revisit is valid or not
                 if (!base.IsPostBack)
                 {
                     // Block cookie less visit attempts
                     if (Profile.IsFirstVisit)
                     {
-                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.FirstVisit)) Response.End();
+                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.FirstVisit))
+                            Stop();
                     }
                     else
                     {
-                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Revisit)) Response.End();
+                        if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Revisit))
+                            Stop();
                     }
                 }
                 else
                 {
                     // Limit number of postbacks
-                    if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Postback)) Response.End();
+                    if (!ActionValidator.IsValid(ActionValidator.ActionTypeEnum.Postback))
+                        Stop();
                 }
-            });
+            //});
     }
 
+    private void Stop()
+    {
+        Response.Redirect("StopHittingMe.htm", true);
+    }
 
     /// <summary>
     /// Each widget generates its own unique ClientID bypassing default ASP.NET ID generation scheme.

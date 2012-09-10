@@ -3,6 +3,11 @@ Pending fixes before commit
 ===========================
 None
 
+Version 2.8.1
+=============
+Fix: HTML Widget now saves content.
+Fix: Add Stuff was not loading widgets. Fixed now.
+
 Verion 2.7.8
 =============
 * Admin site introduced to manage Widgets, Users, Roles.
