@@ -82,8 +82,11 @@
             var userGuid = this.GetUserGuidFromUserName(username);
             var userRoles = this.userRepository.GetRolesOfUser(userGuid);
             var widgets = this.widgetRepository.GetAllWidgets(widgetType);
-            return widgets.Where(w => this.widgetsInRolesRepository.GetWidgetsInRolesByWidgetId(w.ID)
-                .Exists(wr => userRoles.Exists(role => role.RoleId == wr.AspNetRole.RoleId))).ToList();
+            if (userRoles.Count > 0)
+                return widgets.Where(w => this.widgetsInRolesRepository.GetWidgetsInRolesByWidgetId(w.ID)
+                    .Exists(wr => userRoles.Exists(role => role.RoleId == wr.AspNetRole.RoleId))).ToList();
+            else
+                return widgets;
         }
 
         public bool IsWidgetInRole(int widgetId, string roleName)

@@ -90,6 +90,8 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
         base.OnPreRender(e);
 
         SaveSettings.OnClientClick = string.Format(SaveSettings.OnClientClick, HtmltextBox.ClientID);
+        SaveButton.Attributes["onclick"] = string.Format(SaveButton.Attributes["onclick"], 
+            HtmltextBox.ClientID, SaveSettings.ClientID, HtmlContent.ClientID);
 
         var html = (this.State.FirstNode as XCData ?? new XCData("")).Value;
         this.Output.Text = html;
@@ -98,7 +100,7 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
         {
             HtmltextBox.Text = html;
             var scriptsToLoad = new string[] {
-                ResolveClientUrl("~/Widgets/HtmlEditorWidget/jHtmlArea-0.7.0.min.js"),
+                ResolveClientUrl("~/Widgets/HtmlEditorWidget/jHtmlArea-0.7.0.min.js?v=2"),
                 ResolveClientUrl("~/Widgets/HtmlEditorWidget/jHtmlArea.ColorPickerMenu-0.7.0.min.js")
             };
             var cssToLoad = new string[] {
@@ -116,26 +118,10 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
                                             where css.Contains(this.Page.Theme)
                                             select css).Last());
 
-            WidgetHelper.RegisterWidgetScript(this, scriptsToLoad, cssToLoad, null,
+            WidgetHelper.RegisterWidgetScript(this, scriptsToLoad, cssToLoad, null,                
                 @"jQuery('#{0}').htmlarea({{ css: '{1}' }}); 
-                if (!window.__hijackedDoPostback) 
-                {{
-                    window.__hijackedDoPostback = window.__doPostBack;
-                    window.__doPostBack = function(a,b) 
-                    {{
-                        try
-                        {{
-                            jQuery('#{0}').htmlarea('dispose');
-                            jQuery('#{0}').remove();
-                        }} catch(e) 
-                        {{ 
-                        }}
-                        window.__doPostBack = window.__hijackedDoPostback;
-                        window.__hijackedDoPostback = null;
-                        window.__doPostBack(a,b);
-                    }};
-                }}
-                ".FormatWith(HtmltextBox.ClientID, cssToUseInsideHtmlEditor));
+                ".FormatWith(HtmltextBox.ClientID, cssToUseInsideHtmlEditor) 
+                );
         }
     }
 
@@ -147,11 +133,14 @@ public partial class Widgets_HtmlWidget : System.Web.UI.UserControl, IWidget
     {
         this.State.RemoveAll();
 
-        var html = HttpUtility.UrlDecode(this.HtmltextBox.Text);
+        var html = HttpUtility.UrlDecode(this.HtmlContent.Text);
         this.State.RemoveAll();
         this.State.Add(new XCData(html));
 
         this.SaveState();
+
+        //SettingsPanel.Visible = false;
+        _Host.HideSettings(true);
     }
 
     protected void CancelSettings_Clicked(object sender, EventArgs e)
