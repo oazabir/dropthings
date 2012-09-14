@@ -3,6 +3,11 @@ Pending fixes before commit
 ===========================
 None
 
+Version 2.8.2
+=============
+Fix: Add Stuff - drag & drop widget was not working.
+Fix: On some IE browsers, UpdatePanel timers were firing all at once, continously and blowing up server.
+
 Version 2.8.1
 =============
 Fix: HTML Widget now saves content.

@@ -279,7 +279,7 @@ var DropthingsUI = {
 
                 if (ui.item.hasClass(newWidgetClass)) {
                     //new item has been dropped into the sortable list
-                    var widgetId = ui.item.attr('id').match(/\d+/);
+                    var widgetId = ui.item.attr('widgetid').match(/\d+/);
 
                     // OMAR: Create a dummy widget placeholder while the real widget loads
                     var templateData = { title: jQuery(ui.item).text() };

@@ -1,4 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="WeatherWidget.ascx.cs" Inherits="Widgets_WeatherWidget" %>
+<%@ Register Src="~/Widgets/OneTimePost.ascx" TagName="OneTimePost" TagPrefix="my" %>
+
 <asp:Panel ID="pnlSettings" runat="server" Visible="false">
 <table width="100%">
 <tr><td><asp:Literal ID="ltlEnterZip" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, EnterZip%>" /></td><td><asp:TextBox ID="txtZipCode" runat="server"></asp:TextBox></td></tr>
@@ -24,4 +26,4 @@
 
 </asp:MultiView>
 
-<asp:Timer ID="MultiviewTimer" Interval="100" OnTick="LoadContentView" runat="server" /> 
+<my:OneTimePost ID="WeatherOneTimePost" runat="server" />

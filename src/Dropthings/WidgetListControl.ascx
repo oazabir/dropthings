@@ -5,7 +5,7 @@
                                 
 <asp:DataList ID="WidgetDataList" CssClass="widget_list" runat="server" RepeatDirection="Vertical" RepeatColumns="5" RepeatLayout="Table" CellPadding="3" CellSpacing="3" EnableViewState="False" ShowFooter="False" ShowHeader="False" >
     <ItemTemplate>
-        <div class="new_widget" id="new_widget_<%# Eval("ID") %>">
+        <div class="new_widget" widgetid="new_widget_<%# Eval("ID") %>">
             <asp:Image ID="Icon" ImageUrl='<%# Eval("Icon") %>' ImageAlign="AbsMiddle" runat="server" />&nbsp;
             <asp:LinkButton CommandArgument='<%# Eval("ID") %>' CommandName="AddWidget" ID="AddWidget" runat="server" CssClass="widgetitem"><%# Eval("Name") %></asp:LinkButton>
         </div>    

@@ -128,7 +128,7 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
     protected void LoadRSSView(object sender, EventArgs e)
     {
         this.RSSMultiview.ActiveViewIndex = 1;
-        this.RSSWidgetTimer.Enabled = false;
+        //this.RSSWidgetTimer.Enabled = false;
 
         this.ShowFeeds();
     }
@@ -136,9 +136,17 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
     protected void Page_Load(object sender, EventArgs e)
     {
         // If we already have the URL in cache, then we can directly render it instead of fetching the content
-        // after a async postback
-        if (Page.IsPostBack || Services.Get<ICache>().Contains(this.Url) )
+        // after a async postback            
+        if (Services.Get<ICache>().Contains(this.Url))
+        {
+            //this.RssOneTimePost.Visible = false;
             this.LoadRSSView(sender, e);
+        }
+        else
+        {
+            if (Page.IsPostBack)
+                this.LoadRSSView(sender, e);
+        }
     }
 
     protected void SaveSettings_Click( object sender, EventArgs e )
@@ -154,12 +162,12 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
 
     private void ShowFeeds()
     {
-        string url = State.Element("url").Value;
-        int count = State.Element("count") == null ? 3 : int.Parse( State.Element("count").Value );
-
-        var rss = default(XElement);
         try
         {
+            string url = State.Element("url").Value;
+            int count = State.Element("count") == null ? 3 : int.Parse( State.Element("count").Value );
+
+            var rss = default(XElement);
             if (Services.Get<ICache>().Contains(this.Url))
             {
                 string cachedXml = Services.Get<ICache>().Get(this.Url) as string;
@@ -170,22 +178,22 @@ public partial class Widgets_RSSWidget : System.Web.UI.UserControl, IWidget
                 rss = XElement.Load(this.Url);
                 Services.Get<ICache>().Add(this.Url, rss.Xml());                
             }
+        
+            if (null == rss)
+		    {
+			    Message.Text = "There was a problem loading the feed";
+			    Message.Visible = true;
+		    }
+		    else
+		    {
+                FeedList.DataSource = RssHelper.ConvertXmlToRss(rss, count);
+                FeedList.DataBind();
+		    }
+
         }
         catch
         {
         }
-
-        if (null == rss)
-		{
-			Message.Text = "There was a problem loading the feed";
-			Message.Visible = true;
-		}
-		else
-		{
-            FeedList.DataSource = RssHelper.ConvertXmlToRss(rss, count);
-            FeedList.DataBind();
-		}      
-        
 
         //Cache[url] = feed;
     }
