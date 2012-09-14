@@ -39,33 +39,36 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
 
     public string GetWeatherData()
     {
-        string url = weatherLocation + zipCode;
-
-        XmlDocument doc = new XmlDocument();
-        string cachedXml = Services.Get<ICache>().Get(url) as string ?? string.Empty;
         try
         {
+            string url = weatherLocation + zipCode;
+
+            XmlDocument doc = new XmlDocument();
+            string cachedXml = Services.Get<ICache>().Get(url) as string ?? string.Empty;
+        
             if (string.IsNullOrEmpty(cachedXml))
                 doc.Load(url);
             else
                 doc.LoadXml(cachedXml);
+
+            if (null == Services.Get<ICache>().Get(url))
+                Services.Get<ICache>().Add(url, doc.ToXml());
+        
+            XmlElement root = doc.DocumentElement;
+            XmlNodeList nodes = root.SelectNodes("/rss/channel/item");
+            string data = "";
+            foreach (XmlNode node in nodes)
+            {
+                data  = data + node["title"].InnerText;
+                data  = data + node["description"].InnerText;
+            }
+            return data;
         }
         catch
         {
             return string.Empty;
         }
-        if (null == Services.Get<ICache>().Get(url))
-            Services.Get<ICache>().Add(url, doc.ToXml());
-        
-        XmlElement root = doc.DocumentElement;
-        XmlNodeList nodes = root.SelectNodes("/rss/channel/item");
-        string data = "";
-        foreach (XmlNode node in nodes)
-        {
-            data  = data + node["title"].InnerText;
-            data  = data + node["description"].InnerText;
-        }
-        return data;
+
     }
 
     void IEventListener.AcceptEvent(object sender, EventArgs e)
@@ -111,19 +114,26 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
     protected void LoadContentView(object sender, EventArgs e)
     {
         this.Multiview.ActiveViewIndex = 1;
-        this.MultiviewTimer.Enabled = false;
+        //this.MultiviewTimer.Enabled = false;
 
-        if (!Page.IsPostBack)
+        try
         {
-            if (this.Host.GetState().Trim().Length == 0)
+
+            if (!Page.IsPostBack)
             {
-                //lblWeather.Text = GetWeatherData();
+                if (this.Host.GetState().Trim().Length == 0)
+                {
+                    //lblWeather.Text = GetWeatherData();
+                }
+                else
+                {
+                    //lblWeather.Text = this.Host.GetState();
+                    zipCode = this.Host.GetState();
+                }
             }
-            else
-            {
-                //lblWeather.Text = this.Host.GetState();
-                zipCode = this.Host.GetState();
-            }
+        }
+        catch
+        {
         }
     }
 
@@ -136,7 +146,8 @@ public partial class Widgets_WeatherWidget : System.Web.UI.UserControl, IWidget
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Page.IsPostBack) this.LoadContentView(sender, e);
+        if (Page.IsPostBack || ScriptManager.GetCurrent(Page).IsInAsyncPostBack) 
+            this.LoadContentView(sender, e);
     }
 
     protected void btnSave_Click(object sender, EventArgs e)

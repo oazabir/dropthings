@@ -1,4 +1,6 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="RSSWidget.ascx.cs" Inherits="Widgets_RSSWidget" EnableViewState="false" %>
+<%@ Register Src="~/Widgets/OneTimePost.ascx" TagName="OneTimePost" TagPrefix="my" %>
+
 <asp:Panel ID="SettingsPanel" runat="Server" Visible="False" >
 <asp:Literal ID="ltlURL" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, URL%>" />: <asp:TextBox ID="FeedUrl" Text="" runat="server" MaxLength="2000" Columns="40" /><br />
 <asp:Literal ID="Literal1" EnableViewState="false" runat="server" Text="<%$Resources:SharedResources, Show%>" />
@@ -49,4 +51,4 @@
 
 </asp:MultiView>
 
-<asp:Timer ID="RSSWidgetTimer" Interval="100" OnTick="LoadRSSView" runat="server" /> 
+<my:OneTimePost runat="server" ID="RssOneTimePost" />

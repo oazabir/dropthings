@@ -197,6 +197,7 @@ public partial class _Default : BasePage
 
         if (ErrorOnPage.InnerText.Length > 0)
             ErrorOnPage.Visible = true;
+        
     }
 
     private void ReloadCurrentPage()
